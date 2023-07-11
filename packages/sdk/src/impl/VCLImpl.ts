@@ -37,6 +37,7 @@ export class VCLImpl implements VCL {
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
     verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
+    jwtServiceUseCase = VclBlocksProvider.provideJwtServiceUseCase();
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -158,11 +159,17 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
+
     generateDidJwk(
         successHandler: (jwk: VCLDidJwk) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.jwtServiceUseCase.generateDidJwk(null, (didJwkResult) => {
+            didJwkResult.handleResult(successHandler, (it) => {
+                logError("generateDidJwk", it);
+                errorHandler(it);
+            });
+        });
     }
     printVersion(): void {
         throw new Error("Method not implemented.");
