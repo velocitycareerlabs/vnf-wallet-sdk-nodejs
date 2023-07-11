@@ -27,17 +27,16 @@ import VCLSubmissionResult from "../api/entities/VCLSubmissionResult";
 import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
-import { ProfileServiceTypeVerifier } from "./utils/ProfileServiceTypeVerifier";
+import VclBlocksProvider from "./VclBlocksProvider";
 import VCLLog from "./utils/VCLLog";
 
 export class VCLImpl implements VCL {
-    TAG = VCLImpl.name;
+    static TAG = VCLImpl.name;
 
     countries: Nullish<VCLCountries>;
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
     verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
-    profileServiceTypeVerifier = new ProfileServiceTypeVerifier();
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -89,13 +88,11 @@ export class VCLImpl implements VCL {
             );
             errorHandler(e);
             VCLLog.e(
-                this.TAG,
+                VCLImpl.TAG,
                 "getCredentialManifest.verifiedProfile" +
                     JSON.stringify(e.toJsonObject())
             );
         }
-
-        prpf;
         throw new Error("Method not implemented.");
     }
     generateOffers(
@@ -133,7 +130,18 @@ export class VCLImpl implements VCL {
         successHandler: (p: VCLVerifiedProfile) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.verifiedProfileUseCase.getVerifiedProfile(
+            verifiedProfileDescriptor,
+            (verifiedProfileResult) => {
+                verifiedProfileResult.handleResult(
+                    (it) => successHandler(it),
+                    (error) => {
+                        logError("getVerifiedProfile", error);
+                        errorHandler(error);
+                    }
+                );
+            }
+        );
     }
     verifyJwt(
         jwt: VCLJwt,
@@ -160,3 +168,7 @@ export class VCLImpl implements VCL {
         throw new Error("Method not implemented.");
     }
 }
+
+const logError = (message: String = "", error: VCLError) => {
+    VCLLog.e(VCLImpl.TAG, `${message}: ${error.toJsonObject()}`);
+};
