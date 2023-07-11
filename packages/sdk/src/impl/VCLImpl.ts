@@ -150,7 +150,17 @@ export class VCLImpl implements VCL {
         successHandler: (b: boolean) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.jwtServiceUseCase.verifyJwt(jwt, jwkPublic, (isVerifiedResult) => {
+            isVerifiedResult.handleResult(
+                (it) => {
+                    successHandler(it);
+                },
+                (it) => {
+                    logError("verifyJwt", it);
+                    errorHandler(it);
+                }
+            );
+        });
     }
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
