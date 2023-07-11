@@ -1,9 +1,12 @@
+import { randomBytes } from "crypto";
+
 export {};
 declare global {
     interface String {
         getQueryParameters(): Map<string, string>;
         appendQueryParams(queryParams: string): string;
         getUrlSubPath(subPathPrefix: string): Nullish<string>;
+        randomString(length: number): string;
     }
 }
 
@@ -37,4 +40,8 @@ String.prototype.getUrlSubPath = function (
     return decodeURI(this.valueOf())
         .split("/")
         .find((item) => item.startsWith(subPathPrefix));
+};
+
+String.prototype.randomString = function (length: number): string {
+    return randomBytes(length).toString("hex");
 };

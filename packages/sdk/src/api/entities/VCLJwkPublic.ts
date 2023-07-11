@@ -9,13 +9,11 @@ export default class VCLJwkPublic {
     constructor(public valueStr: string, public valueJson: JSONObject) {}
     static readonly Format = Format;
 
-    fromString(valueStr: string) {
-        this.valueStr = valueStr;
-        this.valueJson = JSON.parse(valueStr);
+    public static fromString(valueStr: string) {
+        return new VCLJwkPublic(valueStr, JSON.parse(valueStr));
     }
 
-    fromJSON(valueJson: JSONObject) {
-        this.valueJson = valueJson;
-        this.valueStr = JSON.stringify(this.valueJson);
+    public static fromJSON(valueJson: JSONObject) {
+        return new VCLJwkPublic(JSON.stringify(valueJson), valueJson);
     }
 }

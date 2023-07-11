@@ -15,5 +15,8 @@
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "canonicalize": "^2.0.0"
+  }
 }
