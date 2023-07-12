@@ -23,11 +23,13 @@ import VCLOrganizationsSearchDescriptor from "../api/entities/VCLOrganizationsSe
 import VCLPresentationRequest from "../api/entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "../api/entities/VCLPresentationRequestDescriptor";
 import VCLPresentationSubmission from "../api/entities/VCLPresentationSubmission";
+import VCLServiceTypes from "../api/entities/VCLServiceTypes";
 import VCLSubmissionResult from "../api/entities/VCLSubmissionResult";
 import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
+import { ProfileServiceTypeVerifier } from "./utils/ProfileServiceTypeVerifier";
 import VCLLog from "./utils/VCLLog";
 
 export class VCLImpl implements VCL {
@@ -38,6 +40,12 @@ export class VCLImpl implements VCL {
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
     verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
     jwtServiceUseCase = VclBlocksProvider.provideJwtServiceUseCase();
+    profileServiceTypeVerifier = new ProfileServiceTypeVerifier(
+        this.verifiedProfileUseCase
+    );
+
+    credentialManifestUseCase =
+        VclBlocksProvider.provideCredentialManifestUseCase();
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -75,6 +83,7 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
+
     getCredentialManifest(
         credentialManifestDescriptor: VCLCredentialManifestDescriptor,
         successHandler: (m: VCLCredentialManifest) => any,
@@ -93,8 +102,32 @@ export class VCLImpl implements VCL {
                 "getCredentialManifest.verifiedProfile" +
                     JSON.stringify(e.toJsonObject())
             );
+            return;
         }
-        throw new Error("Method not implemented.");
+        this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+            new VCLVerifiedProfileDescriptor(did),
+            VCLServiceTypes.fromIssuingType(
+                credentialManifestDescriptor.issuingType
+            ),
+            () => {
+                this.credentialManifestUseCase.getCredentialManifest(
+                    credentialManifestDescriptor,
+                    (credentialManifest) => {
+                        credentialManifest.handleResult(
+                            (it) => successHandler(it),
+                            (it) => {
+                                logError("getCredentialManifest", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            },
+            (it) => {
+                logError("profile verification failed", it);
+                errorHandler(it);
+            }
+        );
     }
     generateOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,

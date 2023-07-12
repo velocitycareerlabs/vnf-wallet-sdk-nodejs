@@ -28,7 +28,9 @@ export class ProfileServiceTypeVerifier {
                             errorHandler
                         );
                     },
-                    () => {}
+                    (e) => {
+                        errorHandler(e);
+                    }
                 );
             }
         );
