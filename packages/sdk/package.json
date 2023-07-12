@@ -13,12 +13,13 @@
     "node": ">= 16.0.0"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "jose": "~4.13.1"
   },
   "devDependencies": {
     "@jest/globals": "~29.5.0",
-    "@rollup/plugin-typescript": "~11.0.0",
     "@rollup/plugin-node-resolve": "~15.0.1",
+    "@rollup/plugin-typescript": "~11.0.0",
     "@types/jest": "~29.5.0",
     "@types/node": "~18.15.10",
     "@typescript-eslint/eslint-plugin": "~5.57.0",
