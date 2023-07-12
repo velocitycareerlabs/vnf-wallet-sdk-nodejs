@@ -29,6 +29,8 @@ import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
+import CountriesModel from "./domain/models/CountriesModel";
+import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialTypesUIFormSchemaUseCase";
 import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
@@ -39,6 +41,8 @@ import VCLLog from "./utils/VCLLog";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
+    // private var countriesModel: CountriesModel? = null
+    countriesModel: Nullish<CountriesModel>;
     countries: Nullish<VCLCountries>;
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
@@ -49,7 +53,7 @@ export class VCLImpl implements VCL {
     private finalizeOffersUseCase: Nullish<FinalizeOffersUseCase>;
     private presentationSubmissionUseCase: Nullish<PresentationSubmissionUseCase>;
     private exchangeProgressUseCase: Nullish<ExchangeProgressUseCase>;
-
+    private credentialTypesUIFormSchemaUseCase: Nullish<CredentialTypesUIFormSchemaUseCase>;
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
         successHandler: () => any,
@@ -232,13 +236,38 @@ export class VCLImpl implements VCL {
             }
         );
     }
+
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
         successHandler: (s: VCLCredentialTypesUIFormSchema) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        if (this.countriesModel?.data) {
+            const countries = this.countriesModel.data;
+            this.credentialTypesUIFormSchemaUseCase?.getCredentialTypesUIFormSchema(
+                credentialTypesUIFormSchemaDescriptor,
+                countries,
+                (credentialTypesUIFormSchemaResult) => {
+                    credentialTypesUIFormSchemaResult.handleResult(
+                        (result) => {
+                            successHandler(result);
+                        },
+                        (error) => {
+                            logError("getCredentialTypesUIFormSchema", error);
+                            errorHandler(error);
+                        }
+                    );
+                }
+            );
+        } else {
+            const error = new VCLError(
+                "No countries for getCredentialTypesUIFormSchema"
+            );
+            logError("getCredentialTypesUIFormSchema", error);
+            errorHandler(error);
+        }
     }
+
     getVerifiedProfile(
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
         successHandler: (p: VCLVerifiedProfile) => any,
