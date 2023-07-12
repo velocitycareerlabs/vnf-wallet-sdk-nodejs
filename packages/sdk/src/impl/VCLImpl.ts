@@ -29,6 +29,7 @@ import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
+import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import { IdentificationSubmissionUseCase } from "./domain/usecases/IdentificationSubmissionUseCase";
@@ -47,6 +48,7 @@ export class VCLImpl implements VCL {
     private generateOffersUseCase: Nullish<GenerateOffersUseCase>;
     private finalizeOffersUseCase: Nullish<FinalizeOffersUseCase>;
     private presentationSubmissionUseCase: Nullish<PresentationSubmissionUseCase>;
+    private exchangeProgressUseCase: Nullish<ExchangeProgressUseCase>;
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -91,8 +93,22 @@ export class VCLImpl implements VCL {
         successHandler: (e: VCLExchange) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.exchangeProgressUseCase?.getExchangeProgress(
+            exchangeDescriptor,
+            (presentationSubmissionResult) => {
+                presentationSubmissionResult.handleResult(
+                    (it) => {
+                        successHandler(it);
+                    },
+                    (it) => {
+                        logError("getExchangeProgress", it);
+                        errorHandler(it);
+                    }
+                );
+            }
+        );
     }
+
     searchForOrganizations(
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
         successHandler: (o: VCLOrganizations) => any,
