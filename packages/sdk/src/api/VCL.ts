@@ -84,6 +84,7 @@ export default interface VCL {
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
+        didJwk: VCLDidJwk,
         token: VCLToken,
         successHandler: (c: VCLJwtVerifiableCredentials) => any,
         errorHandler: (e: VCLError) => any

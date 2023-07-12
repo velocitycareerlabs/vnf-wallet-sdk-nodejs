@@ -29,6 +29,7 @@ import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
+import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import { IdentificationSubmissionUseCase } from "./domain/usecases/IdentificationSubmissionUseCase";
 import VCLLog from "./utils/VCLLog";
@@ -43,6 +44,7 @@ export class VCLImpl implements VCL {
 
     private identificationSubmissionUseCase: Nullish<IdentificationSubmissionUseCase>;
     private generateOffersUseCase: Nullish<GenerateOffersUseCase>;
+    private finalizeOffersUseCase: Nullish<FinalizeOffersUseCase>;
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -169,11 +171,27 @@ export class VCLImpl implements VCL {
     }
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
+        didJwk: VCLDidJwk,
         token: VCLToken,
         successHandler: (c: VCLJwtVerifiableCredentials) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.finalizeOffersUseCase?.finalizeOffers(
+            finalizeOffersDescriptor,
+            didJwk,
+            token,
+            (jwtVerifiableCredentialsResult) => {
+                jwtVerifiableCredentialsResult.handleResult(
+                    (it) => {
+                        successHandler(it);
+                    },
+                    (e) => {
+                        logError("finalizeOffers", e);
+                        errorHandler(e);
+                    }
+                );
+            }
+        );
     }
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
