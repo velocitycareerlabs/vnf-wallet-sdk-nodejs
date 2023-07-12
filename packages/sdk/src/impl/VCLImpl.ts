@@ -32,6 +32,7 @@ import VclBlocksProvider from "./VclBlocksProvider";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import { IdentificationSubmissionUseCase } from "./domain/usecases/IdentificationSubmissionUseCase";
+import { PresentationSubmissionUseCase } from "./domain/usecases/PresentationSubmissionUseCase";
 import VCLLog from "./utils/VCLLog";
 
 export class VCLImpl implements VCL {
@@ -45,6 +46,7 @@ export class VCLImpl implements VCL {
     private identificationSubmissionUseCase: Nullish<IdentificationSubmissionUseCase>;
     private generateOffersUseCase: Nullish<GenerateOffersUseCase>;
     private finalizeOffersUseCase: Nullish<FinalizeOffersUseCase>;
+    private presentationSubmissionUseCase: Nullish<PresentationSubmissionUseCase>;
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -63,10 +65,25 @@ export class VCLImpl implements VCL {
     }
     submitPresentation(
         presentationSubmission: VCLPresentationSubmission,
+        didJwk: VCLDidJwk,
         successHandler: (r: VCLSubmissionResult) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.presentationSubmissionUseCase?.submit(
+            presentationSubmission,
+            didJwk,
+            (presentationSubmissionResult) => {
+                presentationSubmissionResult.handleResult(
+                    (it) => {
+                        successHandler(it);
+                    },
+                    (it) => {
+                        logError("submit presentation", it);
+                        errorHandler(it);
+                    }
+                );
+            }
+        );
     }
 
     getExchangeProgress(

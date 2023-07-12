@@ -46,6 +46,7 @@ export default interface VCL {
 
     submitPresentation(
         presentationSubmission: VCLPresentationSubmission,
+        didJwk: VCLDidJwk,
         successHandler: (r: VCLSubmissionResult) => any,
         errorHandler: (e: VCLError) => any
     ): void;
