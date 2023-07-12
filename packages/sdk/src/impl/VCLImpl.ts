@@ -12,6 +12,7 @@ import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "../api/entities/VCLGenerateOffersDescriptor";
+import VCLIdentificationSubmission from "../api/entities/VCLIdentificationSubmission";
 import VCLInitializationDescriptor from "../api/entities/VCLInitializationDescriptor";
 import VCLJwkPublic from "../api/entities/VCLJwkPublic";
 import VCLJwt from "../api/entities/VCLJwt";
@@ -28,6 +29,8 @@ import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
+import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
+import { IdentificationSubmissionUseCase } from "./domain/usecases/IdentificationSubmissionUseCase";
 import VCLLog from "./utils/VCLLog";
 
 export class VCLImpl implements VCL {
@@ -37,6 +40,9 @@ export class VCLImpl implements VCL {
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
     verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
+
+    private identificationSubmissionUseCase: Nullish<IdentificationSubmissionUseCase>;
+    private generateOffersUseCase: Nullish<GenerateOffersUseCase>;
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -60,6 +66,7 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
+
     getExchangeProgress(
         exchangeDescriptor: VCLExchangeDescriptor,
         successHandler: (e: VCLExchange) => any,
@@ -95,13 +102,63 @@ export class VCLImpl implements VCL {
         }
         throw new Error("Method not implemented.");
     }
+
     generateOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        didJwk: VCLDidJwk,
         successHandler: (o: VCLOffers) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        const identificationSubmission = new VCLIdentificationSubmission(
+            generateOffersDescriptor.credentialManifest,
+            generateOffersDescriptor.identificationVerifiableCredentials
+        );
+
+        this.identificationSubmissionUseCase?.submit(
+            identificationSubmission,
+            didJwk,
+            (identificationSubmissionResult) => {
+                identificationSubmissionResult.handleResult(
+                    (identificationSubmission) => {
+                        this.invokeGenerateOffersUseCase(
+                            generateOffersDescriptor,
+                            identificationSubmission.token,
+                            successHandler,
+                            errorHandler
+                        );
+                    },
+                    (e) => {
+                        logError("submit identification", e);
+                        errorHandler(e);
+                    }
+                );
+            }
+        );
     }
+
+    invokeGenerateOffersUseCase(
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        token: VCLToken,
+        successHandler: (o: VCLOffers) => any,
+        errorHandler: (e: VCLError) => any
+    ): void {
+        this.generateOffersUseCase?.generateOffers(
+            token,
+            generateOffersDescriptor,
+            (vnOffersResult) => {
+                vnOffersResult.handleResult(
+                    (it) => {
+                        successHandler(it);
+                    },
+                    (e) => {
+                        logError("generateOffers", e);
+                        errorHandler(e);
+                    }
+                );
+            }
+        );
+    }
+
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         token: VCLToken,

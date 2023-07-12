@@ -70,6 +70,7 @@ export default interface VCL {
 
     generateOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        didJwk: VCLDidJwk,
         successHandler: (o: VCLOffers) => any,
         errorHandler: (e: VCLError) => any
     ): void;
