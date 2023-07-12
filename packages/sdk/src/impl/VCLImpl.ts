@@ -167,8 +167,14 @@ export class VCLImpl implements VCL {
         successHandler: (o: VCLOffers) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        this.invokeGenerateOffersUseCase(
+            generateOffersDescriptor,
+            token,
+            successHandler,
+            errorHandler
+        );
     }
+
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
         didJwk: VCLDidJwk,
