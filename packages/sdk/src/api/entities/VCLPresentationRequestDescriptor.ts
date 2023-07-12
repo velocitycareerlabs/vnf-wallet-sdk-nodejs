@@ -15,6 +15,10 @@ export default class VCLPresentationRequestDescriptor {
         return this.deepLink.requestUri;
     }
 
+    get did() {
+        return this.deepLink.did;
+    }
+
     generateQueryParams() {
         let pPushDelegate: Nullish<string>;
         if (this.pushDelegate) {

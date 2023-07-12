@@ -23,6 +23,7 @@ import VCLOrganizationsSearchDescriptor from "../api/entities/VCLOrganizationsSe
 import VCLPresentationRequest from "../api/entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "../api/entities/VCLPresentationRequestDescriptor";
 import VCLPresentationSubmission from "../api/entities/VCLPresentationSubmission";
+import VCLServiceType from "../api/entities/VCLServiceType";
 import VCLServiceTypes from "../api/entities/VCLServiceTypes";
 import VCLSubmissionResult from "../api/entities/VCLSubmissionResult";
 import VCLToken from "../api/entities/VCLToken";
@@ -43,6 +44,8 @@ export class VCLImpl implements VCL {
     profileServiceTypeVerifier = new ProfileServiceTypeVerifier(
         this.verifiedProfileUseCase
     );
+    presentationRequestUseCase =
+        VclBlocksProvider.providePresentationRequestUseCase();
 
     credentialManifestUseCase =
         VclBlocksProvider.provideCredentialManifestUseCase();
@@ -60,7 +63,38 @@ export class VCLImpl implements VCL {
         successHandler: (r: VCLPresentationRequest) => any,
         errorHandler: (e: VCLError) => any
     ): void {
-        throw new Error("Method not implemented.");
+        const did = presentationRequestDescriptor.did;
+        if (!did) {
+            let err = new VCLError(
+                "did was not found in $presentationRequestDescriptor"
+            );
+            logError("getPresentationRequest::verifiedProfile", err);
+            errorHandler(err);
+            return;
+        }
+
+        this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+            new VCLVerifiedProfileDescriptor(did),
+            new VCLServiceTypes([VCLServiceType.Inspector]),
+            () => {
+                this.presentationRequestUseCase.getPresentationRequest(
+                    presentationRequestDescriptor,
+                    (presentationRequestResult) => {
+                        presentationRequestResult.handleResult(
+                            (it) => successHandler(it),
+                            (it) => {
+                                logError("getPresentationRequest", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            },
+            (it) => {
+                logError("profile verification failed", it);
+                errorHandler(it);
+            }
+        );
     }
     submitPresentation(
         presentationSubmission: VCLPresentationSubmission,
