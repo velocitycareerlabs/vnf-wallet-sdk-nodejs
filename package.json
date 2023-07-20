@@ -10,6 +10,7 @@
     "node": ">= 16.0.0"
   },
   "devDependencies": {
+    "@types/babel__core": "^7.20.1",
     "lerna": "^6.6.1"
   },
   "workspaces": [
