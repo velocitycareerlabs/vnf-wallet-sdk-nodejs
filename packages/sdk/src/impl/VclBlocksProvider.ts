@@ -1,6 +1,7 @@
 import JwtServiceImpl from "./data/infrastructure/jwt/JwtServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
 import CredentialManifestRepositoryImpl from "./data/repositories/CredentialManifestRepositoryImpl";
+import ExchangeProgressRepositoryImpl from "./data/repositories/ExchangeProgressRepositoryImpl";
 import { FinalizeOffersRepositoryImpl } from "./data/repositories/FinalizeOffersRepositoryImpl";
 import GenerateOffersRepositoryImpl from "./data/repositories/GenerateOffersRepositoryImpl";
 import IdentificationSubmissionRepositoryImpl from "./data/repositories/IdentificationSubmissionRepositoryImpl";
@@ -9,6 +10,7 @@ import PresentationRequestRepositoryImpl from "./data/repositories/PresentationR
 import ResolveKidRepositoryImpl from "./data/repositories/ResolveKidRepositoryImpl";
 import VerifiedProfileRepositoryImpl from "./data/repositories/VerifiedProfileRepositoryImpl";
 import CredentialManifestUseCaseImpl from "./data/usecases/CredentialManifestUseCaseImpl";
+import ExchangeProgressUseCaseImpl from "./data/usecases/ExchangeProgressUseCaseImpl";
 import FinalizeOffersUseCaseImpl from "./data/usecases/FinalizeOffersUseCaseImpl";
 import GenerateOffersUseCaseImpl from "./data/usecases/GenerateOffersUseCaseImpl";
 import IdentificationSubmissionUseCaseImpl from "./data/usecases/IdentificationSubmissionUseCaseImpl";
@@ -17,6 +19,7 @@ import PresentationRequestUseCaseImpl from "./data/usecases/PresentationRequestU
 import PresentationSubmissionUseCaseImpl from "./data/usecases/PresentationSubmissionUseCaseImpl";
 import VerifiedProfileUseCaseImpl from "./data/usecases/VerifiedProfileUseCaseImpl";
 import CredentialManifestUseCase from "./domain/usecases/CredentialManifestUseCase";
+import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import IdentificationSubmissionUseCase from "./domain/usecases/IdentificationSubmissionUseCase";
@@ -82,6 +85,12 @@ export default class VclBlocksProvider {
                 new NetworkServiceImpl()
             ),
             new JwtServiceRepositoryImpl(new JwtServiceImpl())
+        );
+    }
+
+    static provideExchangeProgressUseCase(): ExchangeProgressUseCase {
+        return new ExchangeProgressUseCaseImpl(
+            new ExchangeProgressRepositoryImpl(new NetworkServiceImpl())
         );
     }
 }

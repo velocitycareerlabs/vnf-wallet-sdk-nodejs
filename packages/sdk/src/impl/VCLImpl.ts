@@ -60,6 +60,9 @@ export class VCLImpl implements VCL {
     presentationSubmissionUseCase =
         VclBlocksProvider.providePresentationSubmissionUseCase();
 
+    exchangeProgressUseCase =
+        VclBlocksProvider.provideExchangeProgressUseCase();
+
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
         successHandler: () => any,
@@ -134,13 +137,28 @@ export class VCLImpl implements VCL {
             }
         );
 
-    getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        successHandler: (e: VCLExchange) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
-    }
+    getExchangeProgress = (exchangeDescriptor: VCLExchangeDescriptor) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (e: VCLExchange) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.exchangeProgressUseCase.getExchangeProgress(
+                    exchangeDescriptor,
+                    (presentationSubmissionResult) => {
+                        presentationSubmissionResult.handleResult(
+                            (it) => {
+                                successHandler(it);
+                            },
+                            (it) => {
+                                logError("getExchangeProgress", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            }
+        );
     searchForOrganizations(
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
         successHandler: (o: VCLOrganizations) => any,

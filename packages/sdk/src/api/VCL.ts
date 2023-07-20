@@ -47,10 +47,8 @@ export default interface VCL {
     ): Promise<VCLSubmissionResult>;
 
     getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        successHandler: (e: VCLExchange) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        exchangeDescriptor: VCLExchangeDescriptor
+    ): Promise<VCLExchange>;
 
     searchForOrganizations(
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
