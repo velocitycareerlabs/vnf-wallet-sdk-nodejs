@@ -39,10 +39,8 @@ export default interface VCL {
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
 
     getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        successHandler: (r: VCLPresentationRequest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLPresentationRequest>;
 
     submitPresentation(
         presentationSubmission: VCLPresentationSubmission,
@@ -63,10 +61,8 @@ export default interface VCL {
     ): void;
 
     getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        successHandler: (m: VCLCredentialManifest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLCredentialManifest>;
 
     generateOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
@@ -95,28 +91,14 @@ export default interface VCL {
     ): void;
 
     getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        successHandler: (p: VCLVerifiedProfile) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ): Promise<VCLVerifiedProfile>;
 
-    verifyJwt(
-        jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        successHandler: (b: boolean) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+    verifyJwt(jwt: VCLJwt, jwkPublic: VCLJwkPublic): Promise<boolean>;
 
-    generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        successHandler: (jwt: VCLJwt) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
 
-    generateDidJwk(
-        successHandler: (jwk: VCLDidJwk) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+    generateDidJwk(): Promise<VCLDidJwk>;
 
     printVersion(): void;
 }

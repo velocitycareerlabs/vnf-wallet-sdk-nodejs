@@ -31,6 +31,7 @@ import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
 import VclBlocksProvider from "./VclBlocksProvider";
 import { ProfileServiceTypeVerifier } from "./utils/ProfileServiceTypeVerifier";
+import PromiseConverter from "./utils/PromiseConverter";
 import VCLLog from "./utils/VCLLog";
 
 export class VCLImpl implements VCL {
@@ -58,44 +59,49 @@ export class VCLImpl implements VCL {
         throw new Error("Method not implemented.");
     }
 
-    getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        successHandler: (r: VCLPresentationRequest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        const did = presentationRequestDescriptor.did;
-        if (!did) {
-            let err = new VCLError(
-                "did was not found in $presentationRequestDescriptor"
-            );
-            logError("getPresentationRequest::verifiedProfile", err);
-            errorHandler(err);
-            return;
-        }
+    getPresentationRequest = (
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (r: VCLPresentationRequest) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                const did = presentationRequestDescriptor.did;
+                if (!did) {
+                    let err = new VCLError(
+                        "did was not found in $presentationRequestDescriptor"
+                    );
+                    logError("getPresentationRequest::verifiedProfile", err);
+                    errorHandler(err);
+                    return;
+                }
 
-        this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
-            new VCLVerifiedProfileDescriptor(did),
-            new VCLServiceTypes([VCLServiceType.Inspector]),
-            () => {
-                this.presentationRequestUseCase.getPresentationRequest(
-                    presentationRequestDescriptor,
-                    (presentationRequestResult) => {
-                        presentationRequestResult.handleResult(
-                            (it) => successHandler(it),
-                            (it) => {
-                                logError("getPresentationRequest", it);
-                                errorHandler(it);
+                this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+                    new VCLVerifiedProfileDescriptor(did),
+                    new VCLServiceTypes([VCLServiceType.Inspector]),
+                    () => {
+                        this.presentationRequestUseCase.getPresentationRequest(
+                            presentationRequestDescriptor,
+                            (presentationRequestResult) => {
+                                presentationRequestResult.handleResult(
+                                    (it) => successHandler(it),
+                                    (it) => {
+                                        logError("getPresentationRequest", it);
+                                        errorHandler(it);
+                                    }
+                                );
                             }
                         );
+                    },
+                    (it) => {
+                        logError("profile verification failed", it);
+                        errorHandler(it);
                     }
                 );
-            },
-            (it) => {
-                logError("profile verification failed", it);
-                errorHandler(it);
             }
         );
-    }
+
     submitPresentation(
         presentationSubmission: VCLPresentationSubmission,
         successHandler: (r: VCLSubmissionResult) => any,
@@ -118,51 +124,55 @@ export class VCLImpl implements VCL {
         throw new Error("Method not implemented.");
     }
 
-    getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        successHandler: (m: VCLCredentialManifest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        let did = credentialManifestDescriptor.did;
-        if (!did) {
-            let e = new VCLError(
-                `did was not found in ${credentialManifestDescriptor}`,
-                null,
-                null
-            );
-            errorHandler(e);
-            VCLLog.e(
-                VCLImpl.TAG,
-                "getCredentialManifest.verifiedProfile" +
-                    JSON.stringify(e.toJsonObject())
-            );
-            return;
-        }
-        this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
-            new VCLVerifiedProfileDescriptor(did),
-            VCLServiceTypes.fromIssuingType(
-                credentialManifestDescriptor.issuingType
-            ),
-            () => {
-                this.credentialManifestUseCase.getCredentialManifest(
-                    credentialManifestDescriptor,
-                    (credentialManifest) => {
-                        credentialManifest.handleResult(
-                            (it) => successHandler(it),
-                            (it) => {
-                                logError("getCredentialManifest", it);
-                                errorHandler(it);
+    getCredentialManifest = (
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (m: VCLCredentialManifest) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                let did = credentialManifestDescriptor.did;
+                if (!did) {
+                    let e = new VCLError(
+                        `did was not found in ${credentialManifestDescriptor}`,
+                        null,
+                        null
+                    );
+                    errorHandler(e);
+                    VCLLog.e(
+                        VCLImpl.TAG,
+                        "getCredentialManifest.verifiedProfile" +
+                            JSON.stringify(e.toJsonObject())
+                    );
+                    return;
+                }
+                this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+                    new VCLVerifiedProfileDescriptor(did),
+                    VCLServiceTypes.fromIssuingType(
+                        credentialManifestDescriptor.issuingType
+                    ),
+                    () => {
+                        this.credentialManifestUseCase.getCredentialManifest(
+                            credentialManifestDescriptor,
+                            (credentialManifest) => {
+                                credentialManifest.handleResult(
+                                    (it) => successHandler(it),
+                                    (it) => {
+                                        logError("getCredentialManifest", it);
+                                        errorHandler(it);
+                                    }
+                                );
                             }
                         );
+                    },
+                    (it) => {
+                        logError("profile verification failed", it);
+                        errorHandler(it);
                     }
                 );
-            },
-            (it) => {
-                logError("profile verification failed", it);
-                errorHandler(it);
             }
         );
-    }
     generateOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         successHandler: (o: VCLOffers) => any,
@@ -193,66 +203,87 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
-    getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        successHandler: (p: VCLVerifiedProfile) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        this.verifiedProfileUseCase.getVerifiedProfile(
-            verifiedProfileDescriptor,
-            (verifiedProfileResult) => {
-                verifiedProfileResult.handleResult(
-                    (it) => successHandler(it),
-                    (error) => {
-                        logError("getVerifiedProfile", error);
-                        errorHandler(error);
+
+    getVerifiedProfile = (
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (p: VCLVerifiedProfile) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.verifiedProfileUseCase.getVerifiedProfile(
+                    verifiedProfileDescriptor,
+                    (verifiedProfileResult) => {
+                        verifiedProfileResult.handleResult(
+                            (it) => successHandler(it),
+                            (error) => {
+                                logError("getVerifiedProfile", error);
+                                errorHandler(error);
+                            }
+                        );
                     }
                 );
             }
         );
-    }
-    verifyJwt(
-        jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        successHandler: (b: boolean) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        this.jwtServiceUseCase.verifyJwt(jwt, jwkPublic, (isVerifiedResult) => {
-            isVerifiedResult.handleResult(
-                (it) => {
-                    successHandler(it);
-                },
-                (it) => {
-                    logError("verifyJwt", it);
-                    errorHandler(it);
-                }
-            );
-        });
-    }
-    generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        successHandler: (jwt: VCLJwt) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        this.jwtServiceUseCase.generateSignedJwt(jwtDescriptor, (jwtResult) => {
-            jwtResult.handleResult(successHandler, (it) => {
-                logError("generateSignedJwt", it);
-                errorHandler(it);
-            });
-        });
-    }
 
-    generateDidJwk(
-        successHandler: (jwk: VCLDidJwk) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        this.jwtServiceUseCase.generateDidJwk(null, (didJwkResult) => {
-            didJwkResult.handleResult(successHandler, (it) => {
-                logError("generateDidJwk", it);
-                errorHandler(it);
-            });
-        });
-    }
+    verifyJwt = (jwt: VCLJwt, jwkPublic: VCLJwkPublic) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (b: boolean) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.jwtServiceUseCase.verifyJwt(
+                    jwt,
+                    jwkPublic,
+                    (isVerifiedResult) => {
+                        isVerifiedResult.handleResult(
+                            (it) => {
+                                successHandler(it);
+                            },
+                            (it) => {
+                                logError("verifyJwt", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+
+    generateSignedJwt = (jwtDescriptor: VCLJwtDescriptor) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (jwt: VCLJwt) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.jwtServiceUseCase.generateSignedJwt(
+                    jwtDescriptor,
+                    (jwtResult) => {
+                        jwtResult.handleResult(successHandler, (it) => {
+                            logError("generateSignedJwt", it);
+                            errorHandler(it);
+                        });
+                    }
+                );
+            }
+        );
+
+    generateDidJwk = () =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (jwk: VCLDidJwk) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.jwtServiceUseCase.generateDidJwk(null, (didJwkResult) => {
+                    didJwkResult.handleResult(successHandler, (it) => {
+                        logError("generateDidJwk", it);
+                        errorHandler(it);
+                    });
+                });
+            }
+        );
+
     printVersion(): void {
         throw new Error("Method not implemented.");
     }
