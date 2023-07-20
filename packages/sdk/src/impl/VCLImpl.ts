@@ -12,6 +12,7 @@ import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "../api/entities/VCLGenerateOffersDescriptor";
+import VCLIdentificationSubmission from "../api/entities/VCLIdentificationSubmission";
 import VCLInitializationDescriptor from "../api/entities/VCLInitializationDescriptor";
 import VCLJwkPublic from "../api/entities/VCLJwkPublic";
 import VCLJwt from "../api/entities/VCLJwt";
@@ -45,12 +46,16 @@ export class VCLImpl implements VCL {
     profileServiceTypeVerifier = new ProfileServiceTypeVerifier(
         this.verifiedProfileUseCase
     );
+
+    identificationUseCase = VclBlocksProvider.provideIdentificationUseCase();
+
     presentationRequestUseCase =
         VclBlocksProvider.providePresentationRequestUseCase();
 
     credentialManifestUseCase =
         VclBlocksProvider.provideCredentialManifestUseCase();
 
+    generateOffersUseCase = VclBlocksProvider.provideGenerateOffersUseCase();
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
         successHandler: () => any,
@@ -173,13 +178,39 @@ export class VCLImpl implements VCL {
                 );
             }
         );
-    generateOffers(
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
-    }
+    generateOffers = (generateOffersDescriptor: VCLGenerateOffersDescriptor) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (o: VCLOffers) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                const identificationSubmission =
+                    new VCLIdentificationSubmission(
+                        generateOffersDescriptor.credentialManifest,
+                        generateOffersDescriptor.identificationVerifiableCredentials
+                    );
+
+                this.identificationUseCase.submit(
+                    identificationSubmission,
+                    (identificationSubmissionResult) => {
+                        identificationSubmissionResult.handleResult(
+                            (submission) => {
+                                this.invokeGenerateOffersUseCase(
+                                    generateOffersDescriptor,
+                                    submission.token,
+                                    successHandler,
+                                    errorHandler
+                                );
+                            },
+                            (error) => {
+                                logError("submit identification", error);
+                                errorHandler(error);
+                            }
+                        );
+                    }
+                );
+            }
+        );
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         token: VCLToken,
@@ -286,6 +317,27 @@ export class VCLImpl implements VCL {
 
     printVersion(): void {
         throw new Error("Method not implemented.");
+    }
+
+    private invokeGenerateOffersUseCase(
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        token: VCLToken,
+        successHandler: (o: VCLOffers) => any,
+        errorHandler: (e: VCLError) => any
+    ) {
+        this.generateOffersUseCase.generateOffers(
+            token,
+            generateOffersDescriptor,
+            (vnOffersResult) => {
+                vnOffersResult.handleResult(
+                    (it) => successHandler(it),
+                    (err) => {
+                        logError("generateOffers", err);
+                        errorHandler(err);
+                    }
+                );
+            }
+        );
     }
 }
 
