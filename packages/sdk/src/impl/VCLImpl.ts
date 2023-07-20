@@ -56,6 +56,8 @@ export class VCLImpl implements VCL {
         VclBlocksProvider.provideCredentialManifestUseCase();
 
     generateOffersUseCase = VclBlocksProvider.provideGenerateOffersUseCase();
+    finalizeOffersUseCase = VclBlocksProvider.provideFinalizeOffersUseCase();
+
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
         successHandler: () => any,
@@ -219,14 +221,31 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
-    finalizeOffers(
+    finalizeOffers = (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken,
-        successHandler: (c: VCLJwtVerifiableCredentials) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
-    }
+        token: VCLToken
+    ) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (c: VCLJwtVerifiableCredentials) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.finalizeOffersUseCase.finalizeOffers(
+                    token,
+                    finalizeOffersDescriptor,
+                    (jwtVerifiableCredentials) => {
+                        jwtVerifiableCredentials.handleResult(
+                            (it) => successHandler(it),
+                            (err) => {
+                                logError("finalizeOffers", err);
+                                errorHandler(err);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
         successHandler: (s: VCLCredentialTypesUIFormSchema) => any,

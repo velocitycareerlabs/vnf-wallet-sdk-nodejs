@@ -1,5 +1,8 @@
 import VCLJwt from "./VCLJwt";
 
 export default class VCLJwtVerifiableCredentials {
-    constructor(public readonly all: VCLJwt[]) {}
+    constructor(
+        public readonly passedCredentials: VCLJwt[],
+        public readonly failedCredentials: VCLJwt[]
+    ) {}
 }

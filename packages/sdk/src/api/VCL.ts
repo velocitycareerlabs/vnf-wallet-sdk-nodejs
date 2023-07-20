@@ -79,10 +79,8 @@ export default interface VCL {
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken,
-        successHandler: (c: VCLJwtVerifiableCredentials) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        token: VCLToken
+    ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,

@@ -1,14 +1,12 @@
-// package io.velocitycareerlabs.impl.domain.repositories
-
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
-import VCLJwt from "../../../api/entities/VCLJwt";
+import VCLJwtVerifiableCredentials from "../../../api/entities/VCLJwtVerifiableCredentials";
 import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 
-export default interface FinalizeOffersRepository {
+export default interface FinalizeOffersUseCase {
     finalizeOffers(
         token: VCLToken,
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        completionBlock: (r: VCLResult<string[]>) => any
+        completionBlock: (r: VCLResult<VCLJwtVerifiableCredentials>) => any
     ): void;
 }

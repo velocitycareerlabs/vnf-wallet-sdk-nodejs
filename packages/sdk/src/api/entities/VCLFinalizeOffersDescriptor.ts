@@ -25,6 +25,7 @@ data class VCLFinalizeOffersDescriptor(
 */
 
 import VCLCredentialManifest from "./VCLCredentialManifest";
+import VCLJwt from "./VCLJwt";
 
 export default class VCLFinalizeOffersDescriptor {
     constructor(
@@ -53,7 +54,20 @@ export default class VCLFinalizeOffersDescriptor {
             this.rejectedOfferIds,
     };
 
+    generateRequestBody(jwt: VCLJwt): JSONObject {
+        const retVal = this.payload;
+        const proof: any = {};
+        proof[VCLFinalizeOffersDescriptor.KeyProofType] =
+            VCLFinalizeOffersDescriptor.KeyJwt;
+        proof[VCLFinalizeOffersDescriptor.KeyJwt] = jwt.signedJwt.serialize();
+        retVal[VCLFinalizeOffersDescriptor.KeyProof] = proof;
+        return retVal;
+    }
+
     static readonly KeyExchangeId = "exchangeId";
     static readonly KeyApprovedOfferIds = "approvedOfferIds";
     static readonly KeyRejectedOfferIds = "rejectedOfferIds";
+    static readonly KeyJwt = "jwt";
+    static readonly KeyProof = "proof";
+    static readonly KeyProofType = "proof_type";
 }
