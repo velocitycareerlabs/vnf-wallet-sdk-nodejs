@@ -169,7 +169,22 @@ export class VCLImpl implements VCL {
             (
                 successHandler: (o: VCLOrganizations) => any,
                 errorHandler: (e: VCLError) => any
-            ) => {}
+            ) => {
+                this.organizationsUseCase.searchForOrganizations(
+                    organizationsSearchDescriptor,
+                    (organization) => {
+                        organization.handleResult(
+                            (it) => {
+                                successHandler(it);
+                            },
+                            (it) => {
+                                logError("searchForOrganizations", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            }
         );
 
     getCredentialManifest = (
