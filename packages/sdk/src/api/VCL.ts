@@ -43,10 +43,8 @@ export default interface VCL {
     ): Promise<VCLPresentationRequest>;
 
     submitPresentation(
-        presentationSubmission: VCLPresentationSubmission,
-        successHandler: (r: VCLSubmissionResult) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        presentationSubmission: VCLPresentationSubmission
+    ): Promise<VCLSubmissionResult>;
 
     getExchangeProgress(
         exchangeDescriptor: VCLExchangeDescriptor,

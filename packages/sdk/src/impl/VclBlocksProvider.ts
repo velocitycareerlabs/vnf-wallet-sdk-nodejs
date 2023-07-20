@@ -14,6 +14,7 @@ import GenerateOffersUseCaseImpl from "./data/usecases/GenerateOffersUseCaseImpl
 import IdentificationSubmissionUseCaseImpl from "./data/usecases/IdentificationSubmissionUseCaseImpl";
 import JwtServiceUseCaseImpl from "./data/usecases/JwtServiceUseCaseImpl";
 import PresentationRequestUseCaseImpl from "./data/usecases/PresentationRequestUseCaseImpl";
+import PresentationSubmissionUseCaseImpl from "./data/usecases/PresentationSubmissionUseCaseImpl";
 import VerifiedProfileUseCaseImpl from "./data/usecases/VerifiedProfileUseCaseImpl";
 import CredentialManifestUseCase from "./domain/usecases/CredentialManifestUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
@@ -21,6 +22,7 @@ import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import IdentificationSubmissionUseCase from "./domain/usecases/IdentificationSubmissionUseCase";
 import JwtServiceUseCase from "./domain/usecases/JwtServiceUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
+import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 
 export default class VclBlocksProvider {
@@ -70,6 +72,15 @@ export default class VclBlocksProvider {
     static provideFinalizeOffersUseCase(): FinalizeOffersUseCase {
         return new FinalizeOffersUseCaseImpl(
             new FinalizeOffersRepositoryImpl(new NetworkServiceImpl()),
+            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+        );
+    }
+
+    static providePresentationSubmissionUseCase(): PresentationSubmissionUseCase {
+        return new PresentationSubmissionUseCaseImpl(
+            new IdentificationSubmissionRepositoryImpl(
+                new NetworkServiceImpl()
+            ),
             new JwtServiceRepositoryImpl(new JwtServiceImpl())
         );
     }

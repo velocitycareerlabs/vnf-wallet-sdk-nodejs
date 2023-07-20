@@ -57,6 +57,8 @@ export class VCLImpl implements VCL {
 
     generateOffersUseCase = VclBlocksProvider.provideGenerateOffersUseCase();
     finalizeOffersUseCase = VclBlocksProvider.provideFinalizeOffersUseCase();
+    presentationSubmissionUseCase =
+        VclBlocksProvider.providePresentationSubmissionUseCase();
 
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
@@ -109,13 +111,29 @@ export class VCLImpl implements VCL {
             }
         );
 
-    submitPresentation(
-        presentationSubmission: VCLPresentationSubmission,
-        successHandler: (r: VCLSubmissionResult) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
-    }
+    submitPresentation = (presentationSubmission: VCLPresentationSubmission) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (r: VCLSubmissionResult) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.presentationSubmissionUseCase.submit(
+                    presentationSubmission,
+                    (presentationSubmissionResult) => {
+                        presentationSubmissionResult.handleResult(
+                            (it) => {
+                                successHandler(it);
+                            },
+                            (it) => {
+                                logError("submit presentation", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+
     getExchangeProgress(
         exchangeDescriptor: VCLExchangeDescriptor,
         successHandler: (e: VCLExchange) => any,
