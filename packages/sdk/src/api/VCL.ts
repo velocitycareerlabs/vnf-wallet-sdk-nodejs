@@ -51,10 +51,8 @@ export default interface VCL {
     ): Promise<VCLExchange>;
 
     searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        successHandler: (o: VCLOrganizations) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ): Promise<VCLOrganizations>;
 
     getCredentialManifest(
         credentialManifestDescriptor: VCLCredentialManifestDescriptor

@@ -63,6 +63,8 @@ export class VCLImpl implements VCL {
     exchangeProgressUseCase =
         VclBlocksProvider.provideExchangeProgressUseCase();
 
+    organizationsUseCase = VclBlocksProvider.provideOrganizationsUseCase();
+
     initialize(
         initializationDescriptor: VCLInitializationDescriptor,
         successHandler: () => any,
@@ -159,13 +161,31 @@ export class VCLImpl implements VCL {
                 );
             }
         );
-    searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        successHandler: (o: VCLOrganizations) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
-    }
+
+    searchForOrganizations = (
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ) =>
+        PromiseConverter.MethodToPromise(
+            (
+                successHandler: (o: VCLOrganizations) => any,
+                errorHandler: (e: VCLError) => any
+            ) => {
+                this.organizationsUseCase.searchForOrganizations(
+                    organizationsSearchDescriptor,
+                    (organization) => {
+                        organization.handleResult(
+                            (it) => {
+                                successHandler(it);
+                            },
+                            (it) => {
+                                logError("searchForOrganizations", it);
+                                errorHandler(it);
+                            }
+                        );
+                    }
+                );
+            }
+        );
 
     getCredentialManifest = (
         credentialManifestDescriptor: VCLCredentialManifestDescriptor

@@ -6,6 +6,7 @@ import { FinalizeOffersRepositoryImpl } from "./data/repositories/FinalizeOffers
 import GenerateOffersRepositoryImpl from "./data/repositories/GenerateOffersRepositoryImpl";
 import IdentificationSubmissionRepositoryImpl from "./data/repositories/IdentificationSubmissionRepositoryImpl";
 import JwtServiceRepositoryImpl from "./data/repositories/JwtServiceRepositoryImpl";
+import OrganizationsRepositoryImpl from "./data/repositories/OrganizationsRepositoryImpl";
 import PresentationRequestRepositoryImpl from "./data/repositories/PresentationRequestRepositoryImpl";
 import ResolveKidRepositoryImpl from "./data/repositories/ResolveKidRepositoryImpl";
 import VerifiedProfileRepositoryImpl from "./data/repositories/VerifiedProfileRepositoryImpl";
@@ -15,6 +16,7 @@ import FinalizeOffersUseCaseImpl from "./data/usecases/FinalizeOffersUseCaseImpl
 import GenerateOffersUseCaseImpl from "./data/usecases/GenerateOffersUseCaseImpl";
 import IdentificationSubmissionUseCaseImpl from "./data/usecases/IdentificationSubmissionUseCaseImpl";
 import JwtServiceUseCaseImpl from "./data/usecases/JwtServiceUseCaseImpl";
+import OrganizationsUseCaseImpl from "./data/usecases/OrganizationsUseCaseImpl";
 import PresentationRequestUseCaseImpl from "./data/usecases/PresentationRequestUseCaseImpl";
 import PresentationSubmissionUseCaseImpl from "./data/usecases/PresentationSubmissionUseCaseImpl";
 import VerifiedProfileUseCaseImpl from "./data/usecases/VerifiedProfileUseCaseImpl";
@@ -24,6 +26,7 @@ import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
 import IdentificationSubmissionUseCase from "./domain/usecases/IdentificationSubmissionUseCase";
 import JwtServiceUseCase from "./domain/usecases/JwtServiceUseCase";
+import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
 import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
@@ -91,6 +94,12 @@ export default class VclBlocksProvider {
     static provideExchangeProgressUseCase(): ExchangeProgressUseCase {
         return new ExchangeProgressUseCaseImpl(
             new ExchangeProgressRepositoryImpl(new NetworkServiceImpl())
+        );
+    }
+
+    static provideOrganizationsUseCase(): OrganizationsUseCase {
+        return new OrganizationsUseCaseImpl(
+            new OrganizationsRepositoryImpl(new NetworkServiceImpl())
         );
     }
 }
