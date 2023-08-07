@@ -11,12 +11,10 @@ export default class ExchangeProgressUseCaseImpl
         private exchangeProgressRepository: ExchangeProgressRepository
     ) {}
     getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        completionBlock: (r: VCLResult<VCLExchange>) => any
-    ): void {
-        this.exchangeProgressRepository.getExchangeProgress(
-            exchangeDescriptor,
-            (it) => completionBlock(it)
+        exchangeDescriptor: VCLExchangeDescriptor
+    ): Promise<VCLResult<VCLExchange>> {
+        return this.exchangeProgressRepository.getExchangeProgress(
+            exchangeDescriptor
         );
     }
 }

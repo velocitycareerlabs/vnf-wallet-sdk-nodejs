@@ -8,7 +8,6 @@ import VCLToken from "../../../api/entities/VCLToken";
 export default interface FinalizeOffersRepository {
     finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        completionBlock: (r: VCLResult<string[]>) => any
-    ): void;
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
+    ): Promise<VCLResult<string[]>>;
 }

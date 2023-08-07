@@ -12,12 +12,10 @@ export default class VerifiedProfileUseCaseImpl
     ) {}
 
     getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        completionBlock: (a: VCLResult<VCLVerifiedProfile>) => any
-    ): void {
-        this.verifiedProfileRepository.getVerifiedProfile(
-            verifiedProfileDescriptor,
-            completionBlock
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ) {
+        return this.verifiedProfileRepository.getVerifiedProfile(
+            verifiedProfileDescriptor
         );
     }
 }

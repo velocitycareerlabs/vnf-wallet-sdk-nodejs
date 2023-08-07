@@ -1,13 +1,4 @@
-import {
-    jwtVerify,
-    calculateJwkThumbprint,
-    base64url,
-    JWK,
-    generateKeyPair,
-    exportJWK,
-    SignJWT,
-    GeneralSign,
-} from "jose";
+import { jwtVerify, base64url, JWK, exportJWK, SignJWT, importJWK } from "jose";
 
 import util from "util";
 import VCLDidJwk from "../../../../api/entities/VCLDidJwk";
@@ -28,12 +19,12 @@ export default class JwtServiceImpl implements JwtService {
     }
     async verify(jwt: VCLJwt, jwk: string): Promise<boolean> {
         let parsedJwk = JSON.parse(jwk);
-
-        // TODO: test
+        let importedJwk = await importJWK(parsedJwk, "ECDSA");
         try {
-            await jwtVerify(jwt.encodedJwt!, parsedJwk);
+            await jwtVerify(jwt.encodedJwt!, importedJwk);
             return true;
         } catch (error) {
+            console.log(error);
             return false;
         }
     }
@@ -48,24 +39,36 @@ export default class JwtServiceImpl implements JwtService {
             typ: "JWT",
         };
 
-        new SignJWT(jwtDescriptor.payload)
+        let signedJwtRes = new SignJWT(jwtDescriptor.payload)
             .setProtectedHeader(header)
             .setAudience(jwtDescriptor.iss)
             .setIssuer(jwtDescriptor.iss)
             .setJti(jwtDescriptor.jti)
-            .setIssuedAt(Date.now())
-            .setNotBefore(Date.now())
-            .setExpirationTime(new Date().addDaysToNow(7).getTime())
+            .setIssuedAt(undefined)
+            .setNotBefore(0)
+            .setExpirationTime(new Date().addDaysToNow(7).getTime() / 1000)
             .setSubject("".randomString(10));
 
-        let result = crypto
-            .createSign("SHA256")
-            .sign(jwk.privateKey, "base64url");
+        let result: string = "";
+
+        try {
+            result = await signedJwtRes.sign(jwk.privateKey);
+        } catch (error) {
+            console.log(error);
+        }
+
         return SignedJWT.parse(result);
     }
 
-    generateDidJwk(didJwkDescriptor: Nullish<VCLDidJwkDescriptor>): VCLDidJwk {
-        throw new Error("Method not implemented.");
+    async generateDidJwk(
+        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
+    ): Promise<VCLDidJwk> {
+        let publicJwk = await this.generateJwkPublic(
+            didJwkDescriptor?.kid ?? crypto.randomUUID()
+        );
+        let value = Buffer.from(publicJwk.valueStr, "ascii").toString("base64");
+
+        return new VCLDidJwk(`${VCLDidJwk.DidJwkPrefix}${value}`);
     }
 
     generateJwk = async () => {
@@ -106,9 +109,8 @@ export default class JwtServiceImpl implements JwtService {
         };
     }
 
-    private generateJwkPublic(kid: string) {
-        return VCLJwkPublic.fromJSON(
-            this.generateJwkSECP256K1(kid).toPublicJWK()
-        );
+    private async generateJwkPublic(kid: string) {
+        let publicJwk = await this.generateJwkSECP256K1(kid).toPublicJWK();
+        return VCLJwkPublic.fromJSON(publicJwk);
     }
 }

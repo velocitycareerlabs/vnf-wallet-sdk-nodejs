@@ -4,7 +4,6 @@ import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface CredentialManifestUseCase {
     getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ): void;
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<VCLCredentialManifest>>;
 }

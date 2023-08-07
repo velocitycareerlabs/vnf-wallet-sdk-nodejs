@@ -12,34 +12,27 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
         private submissionRepository: SubmissionRepository,
         private jwtServiceRepository: JwtServiceRepository
     ) {}
-    submit(
-        submission: VCLSubmission,
-        completionBlock: (r: VCLResult<VCLSubmissionResult>) => any
-    ): void {
-        this.jwtServiceRepository.generateSignedJwt(
+    async submit(
+        submission: VCLSubmission
+    ): Promise<VCLResult<VCLSubmissionResult>> {
+        let signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
             new VCLJwtDescriptor(
                 submission.payload,
                 submission.iss,
                 submission.jti
-            ),
-            (signedJwtResult: VCLResult<VCLJwt>) => {
-                signedJwtResult.handleResult(
-                    (jwt) => {
-                        this.submissionRepository.submit(
-                            submission,
-                            jwt,
-                            (
-                                submissionResult: VCLResult<VCLSubmissionResult>
-                            ) => {
-                                completionBlock(submissionResult);
-                            }
-                        );
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            }
+            )
         );
+
+        let [error, jwt] = await signedJwtResult.handleResult();
+
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+        let submissionResult = await this.submissionRepository.submit(
+            submission,
+            jwt!
+        );
+
+        return submissionResult;
     }
 }

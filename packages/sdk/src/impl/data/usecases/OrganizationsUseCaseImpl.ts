@@ -8,12 +8,10 @@ export default class OrganizationsUseCaseImpl implements OrganizationsUseCase {
     constructor(private organizationsRepository: OrganizationsRepository) {}
 
     searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        completionBlock: (r: VCLResult<VCLOrganizations>) => any
-    ): void {
-        this.organizationsRepository.searchForOrganizations(
-            organizationsSearchDescriptor,
-            (it) => completionBlock(it)
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ): Promise<VCLResult<VCLOrganizations>> {
+        return this.organizationsRepository.searchForOrganizations(
+            organizationsSearchDescriptor
         );
     }
 }

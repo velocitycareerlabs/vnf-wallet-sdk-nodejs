@@ -6,7 +6,6 @@ import VCLToken from "../../../api/entities/VCLToken";
 export default interface GenerateOffersUseCase {
     generateOffers(
         token: VCLToken,
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        completionBlock: (r: VCLResult<VCLOffers>) => any
-    ): void;
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ): Promise<VCLResult<VCLOffers>>;
 }

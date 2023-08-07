@@ -5,7 +5,6 @@ import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface PresentationRequestRepository {
     getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        completionBlock: (r: VCLResult<string>) => any
-    ): void;
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLResult<string>>;
 }

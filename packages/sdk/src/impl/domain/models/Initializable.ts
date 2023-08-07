@@ -1,8 +1,6 @@
+import VCLError from "../../../api/entities/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface Initializable<T> {
-    initialize(
-        cacheSequence: number,
-        completionBlock: (r: VCLResult<T>) => any
-    ): void;
+    initialize(): Promise<VCLError | null>;
 }

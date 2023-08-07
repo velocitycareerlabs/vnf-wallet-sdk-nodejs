@@ -1,4 +1,5 @@
 import VCL from "../api/VCL";
+import VCLEnvironment from "../api/VCLEnvironment";
 import VCLCountries from "../api/entities/VCLCountries";
 import VCLCredentialManifest from "../api/entities/VCLCredentialManifest";
 import VCLCredentialManifestDescriptor from "../api/entities/VCLCredentialManifestDescriptor";
@@ -30,16 +31,27 @@ import VCLSubmissionResult from "../api/entities/VCLSubmissionResult";
 import VCLToken from "../api/entities/VCLToken";
 import VCLVerifiedProfile from "../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../api/entities/VCLVerifiedProfileDescriptor";
+import GlobalConfig from "./GlobalConfig";
 import VclBlocksProvider from "./VclBlocksProvider";
+import CountriesModel from "./domain/models/CountriesModel";
+import CredentialTypeSchemasModel from "./domain/models/CredentialTypeSchemasModel";
+import CredentialTypesModel from "./domain/models/CredentialTypesModel";
+import InitializationWatcher from "./utils/InitializationWatcher";
 import { ProfileServiceTypeVerifier } from "./utils/ProfileServiceTypeVerifier";
 import PromiseConverter from "./utils/PromiseConverter";
 import VCLLog from "./utils/VCLLog";
-
+import "./extensions/DateExtensions";
+import "./extensions/StringExtensions";
+import "./extensions/ListExtensions";
+import VCLResult from "../api/entities/VCLResult";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
+    static readonly ModelsToInitializeAmount = 3;
+
     countries: Nullish<VCLCountries>;
     credentialTypes: Nullish<VCLCredentialTypes>;
+    credentialTypesModel: Nullish<CredentialTypesModel>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
     verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
     jwtServiceUseCase = VclBlocksProvider.provideJwtServiceUseCase();
@@ -65,210 +77,238 @@ export class VCLImpl implements VCL {
 
     organizationsUseCase = VclBlocksProvider.provideOrganizationsUseCase();
 
-    initialize(
-        initializationDescriptor: VCLInitializationDescriptor,
-        successHandler: () => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
+    credentialTypeSchemasModel: Nullish<CredentialTypeSchemasModel>;
+    countriesModel: Nullish<CountriesModel>;
+
+    private initializationWatcher = new InitializationWatcher(
+        VCLImpl.ModelsToInitializeAmount
+    );
+
+    // TODO: figure out a way to convert to promise
+    async initialize(
+        initializationDescriptor: VCLInitializationDescriptor
+    ): Promise<Nullish<VCLError>> {
+        GlobalConfig.CurrentEnvironment = VCLEnvironment.DEV;
+
+        this.initializationWatcher = new InitializationWatcher(
+            VCLImpl.ModelsToInitializeAmount
+        );
+
+        const completionHandler = (e?: any) => {
+            if (e) return e;
+            let firstError = this.initializationWatcher.firstError();
+            return firstError;
+        };
+
+        this.credentialTypesModel =
+            VclBlocksProvider.provideCredentialTypesModel();
+
+        this.countriesModel = VclBlocksProvider.provideCountryCodesModel();
+
+        let initializeCountriesError = await this.countriesModel.initialize();
+        this.initializationWatcher.onInitializedModel(initializeCountriesError);
+
+        let initalizeCredentialTypesError =
+            await this.credentialTypesModel.initialize();
+
+        if (
+            initalizeCredentialTypesError &&
+            this.initializationWatcher.onInitializedModel(
+                initalizeCredentialTypesError,
+                true
+            )
+        ) {
+            return completionHandler();
+        }
+
+        if (this.initializationWatcher.onInitializedModel(null)) {
+            return completionHandler();
+        } else {
+            if (this.credentialTypesModel?.data) {
+                let credentialTypes = this.credentialTypesModel.data!;
+                this.credentialTypeSchemasModel =
+                    VclBlocksProvider.provideCredentialTypeSchemasModel(
+                        credentialTypes
+                    );
+                let initializeCredentialTypeSchemasError =
+                    await this.credentialTypeSchemasModel.initialize();
+
+                if (
+                    this.initializationWatcher.onInitializedModel(
+                        initalizeCredentialTypesError
+                    )
+                ) {
+                    return completionHandler();
+                }
+            } else {
+                return completionHandler(
+                    new VCLError("Failed to get credential type schemas")
+                );
+            }
+        }
     }
 
-    getPresentationRequest = (
+    getPresentationRequest = async (
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
-    ) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (r: VCLPresentationRequest) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                const did = presentationRequestDescriptor.did;
-                if (!did) {
-                    let err = new VCLError(
-                        "did was not found in $presentationRequestDescriptor"
-                    );
-                    logError("getPresentationRequest::verifiedProfile", err);
-                    errorHandler(err);
-                    return;
-                }
+    ) => {
+        const did = presentationRequestDescriptor.did;
+        if (!did) {
+            let err = new VCLError(
+                "did was not found in $presentationRequestDescriptor"
+            );
+            logError("getPresentationRequest::verifiedProfile", err);
+            throw err;
+        }
 
-                this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
-                    new VCLVerifiedProfileDescriptor(did),
-                    new VCLServiceTypes([VCLServiceType.Inspector]),
-                    () => {
-                        this.presentationRequestUseCase.getPresentationRequest(
-                            presentationRequestDescriptor,
-                            (presentationRequestResult) => {
-                                presentationRequestResult.handleResult(
-                                    (it) => successHandler(it),
-                                    (it) => {
-                                        logError("getPresentationRequest", it);
-                                        errorHandler(it);
-                                    }
-                                );
-                            }
-                        );
-                    },
-                    (it) => {
-                        logError("profile verification failed", it);
-                        errorHandler(it);
-                    }
+        let profileVerification =
+            await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+                new VCLVerifiedProfileDescriptor(did),
+                new VCLServiceTypes([VCLServiceType.Inspector])
+            );
+
+        let [error, verificationResult] =
+            await profileVerification.handleResult();
+        if (error) {
+            console.log(error);
+            // logError("getPresentationRequest", error);
+            logError("profile verification failed", error);
+            throw error;
+        }
+
+        let presentationRequestResult: Nullish<
+            VCLResult<VCLPresentationRequest>
+        >;
+
+        try {
+            presentationRequestResult =
+                await this.presentationRequestUseCase.getPresentationRequest(
+                    presentationRequestDescriptor
                 );
-            }
-        );
+        } catch (error: any) {
+            logError("getPresentationRequest", error);
+            throw error;
+        }
 
-    submitPresentation = (presentationSubmission: VCLPresentationSubmission) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (r: VCLSubmissionResult) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.presentationSubmissionUseCase.submit(
-                    presentationSubmission,
-                    (presentationSubmissionResult) => {
-                        presentationSubmissionResult.handleResult(
-                            (it) => {
-                                successHandler(it);
-                            },
-                            (it) => {
-                                logError("submit presentation", it);
-                                errorHandler(it);
-                            }
-                        );
-                    }
-                );
-            }
-        );
+        let presentationRequest: Nullish<VCLPresentationRequest>;
+        [error, presentationRequest] =
+            await presentationRequestResult.handleResult();
 
-    getExchangeProgress = (exchangeDescriptor: VCLExchangeDescriptor) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (e: VCLExchange) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.exchangeProgressUseCase.getExchangeProgress(
-                    exchangeDescriptor,
-                    (presentationSubmissionResult) => {
-                        presentationSubmissionResult.handleResult(
-                            (it) => {
-                                successHandler(it);
-                            },
-                            (it) => {
-                                logError("getExchangeProgress", it);
-                                errorHandler(it);
-                            }
-                        );
-                    }
-                );
-            }
-        );
+        if (error) {
+            throw error;
+        }
+        return presentationRequest!;
+    };
 
-    searchForOrganizations = (
+    submitPresentation = async (
+        presentationSubmission: VCLPresentationSubmission
+    ) => {
+        let presentationSubmissionSubmission =
+            await this.presentationSubmissionUseCase.submit(
+                presentationSubmission
+            );
+        let [error, presentationSubmissionResult] =
+            await presentationSubmissionSubmission.handleResult();
+
+        if (error) {
+            logError("submit presentation", error);
+            throw error;
+        }
+        return presentationSubmissionResult!;
+    };
+
+    getExchangeProgress = async (exchangeDescriptor: VCLExchangeDescriptor) => {
+        let exchangeProgressResult =
+            await this.exchangeProgressUseCase.getExchangeProgress(
+                exchangeDescriptor
+            );
+
+        let [error, exchangeProgress] =
+            await exchangeProgressResult.handleResult();
+        if (error) {
+            logError("getExchangeProgress", error);
+            throw error;
+        }
+
+        return exchangeProgress!;
+    };
+
+    searchForOrganizations = async (
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
-    ) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (o: VCLOrganizations) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.organizationsUseCase.searchForOrganizations(
-                    organizationsSearchDescriptor,
-                    (organization) => {
-                        organization.handleResult(
-                            (it) => {
-                                successHandler(it);
-                            },
-                            (it) => {
-                                logError("searchForOrganizations", it);
-                                errorHandler(it);
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    ) => {
+        let organization =
+            await this.organizationsUseCase.searchForOrganizations(
+                organizationsSearchDescriptor
+            );
+        let [error, organizationResult] = await organization.handleResult();
+        if (error) {
+            logError("searchForOrganizations", error);
+            throw error;
+        }
 
-    getCredentialManifest = (
+        return organizationResult!;
+    };
+
+    getCredentialManifest = async (
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
-    ) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (m: VCLCredentialManifest) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                let did = credentialManifestDescriptor.did;
-                if (!did) {
-                    let e = new VCLError(
-                        `did was not found in ${credentialManifestDescriptor}`,
-                        null,
-                        null
-                    );
-                    errorHandler(e);
-                    VCLLog.e(
-                        VCLImpl.TAG,
-                        "getCredentialManifest.verifiedProfile" +
-                            JSON.stringify(e.toJsonObject())
-                    );
-                    return;
-                }
-                this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+    ) => {
+        let did = credentialManifestDescriptor.did;
+        if (!did) {
+            let e = new VCLError(
+                `did was not found in ${credentialManifestDescriptor}`,
+                null,
+                null
+            );
+            VCLLog.e(
+                VCLImpl.TAG,
+                "getCredentialManifest.verifiedProfile" +
+                    JSON.stringify(e.toJsonObject())
+            );
+            throw e;
+        }
+        try {
+            let credentialManifest =
+                await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                     new VCLVerifiedProfileDescriptor(did),
                     VCLServiceTypes.fromIssuingType(
                         credentialManifestDescriptor.issuingType
-                    ),
-                    () => {
-                        this.credentialManifestUseCase.getCredentialManifest(
-                            credentialManifestDescriptor,
-                            (credentialManifest) => {
-                                credentialManifest.handleResult(
-                                    (it) => successHandler(it),
-                                    (it) => {
-                                        logError("getCredentialManifest", it);
-                                        errorHandler(it);
-                                    }
-                                );
-                            }
-                        );
-                    },
-                    (it) => {
-                        logError("profile verification failed", it);
-                        errorHandler(it);
-                    }
+                    )
                 );
-            }
-        );
-    generateOffers = (generateOffersDescriptor: VCLGenerateOffersDescriptor) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (o: VCLOffers) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                const identificationSubmission =
-                    new VCLIdentificationSubmission(
-                        generateOffersDescriptor.credentialManifest,
-                        generateOffersDescriptor.identificationVerifiableCredentials
-                    );
 
-                this.identificationUseCase.submit(
-                    identificationSubmission,
-                    (identificationSubmissionResult) => {
-                        identificationSubmissionResult.handleResult(
-                            (submission) => {
-                                this.invokeGenerateOffersUseCase(
-                                    generateOffersDescriptor,
-                                    submission.token,
-                                    successHandler,
-                                    errorHandler
-                                );
-                            },
-                            (error) => {
-                                logError("submit identification", error);
-                                errorHandler(error);
-                            }
-                        );
-                    }
-                );
+            let [error, credentialManifestResult] =
+                await credentialManifest.handleResult();
+            if (error) {
+                logError("getCredentialManifest", error);
+                throw error;
             }
+            return credentialManifestResult!;
+        } catch (error: any) {
+            logError("profile verification failed", error);
+            throw error;
+        }
+    };
+    generateOffers = async (
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ) => {
+        const identificationSubmission = new VCLIdentificationSubmission(
+            generateOffersDescriptor.credentialManifest,
+            generateOffersDescriptor.identificationVerifiableCredentials
         );
+
+        let identificationSubmissionResult =
+            await this.identificationUseCase.submit(identificationSubmission);
+
+        let [error, submission] = identificationSubmissionResult.handleResult();
+        if (error) {
+            logError("submit identification", error);
+            throw error;
+        }
+
+        return this.invokeGenerateOffersUseCase(
+            generateOffersDescriptor,
+            submission!.token
+        );
+    };
+
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         token: VCLToken,
@@ -277,30 +317,23 @@ export class VCLImpl implements VCL {
     ): void {
         throw new Error("Method not implemented.");
     }
-    finalizeOffers = (
+    finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
         token: VCLToken
-    ) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (c: VCLJwtVerifiableCredentials) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.finalizeOffersUseCase.finalizeOffers(
-                    token,
-                    finalizeOffersDescriptor,
-                    (jwtVerifiableCredentials) => {
-                        jwtVerifiableCredentials.handleResult(
-                            (it) => successHandler(it),
-                            (err) => {
-                                logError("finalizeOffers", err);
-                                errorHandler(err);
-                            }
-                        );
-                    }
-                );
-            }
-        );
+    ) => {
+        let jwtVerifiableCredentials =
+            await this.finalizeOffersUseCase.finalizeOffers(
+                token,
+                finalizeOffersDescriptor
+            );
+
+        let [error, result] = jwtVerifiableCredentials.handleResult();
+        if (error) {
+            logError("finalizeOffers", error);
+            throw error;
+        }
+        return result!;
+    };
 
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
@@ -310,112 +343,79 @@ export class VCLImpl implements VCL {
         throw new Error("Method not implemented.");
     }
 
-    getVerifiedProfile = (
+    getVerifiedProfile = async (
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
-    ) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (p: VCLVerifiedProfile) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.verifiedProfileUseCase.getVerifiedProfile(
-                    verifiedProfileDescriptor,
-                    (verifiedProfileResult) => {
-                        verifiedProfileResult.handleResult(
-                            (it) => successHandler(it),
-                            (error) => {
-                                logError("getVerifiedProfile", error);
-                                errorHandler(error);
-                            }
-                        );
-                    }
-                );
-            }
+    ): Promise<VCLVerifiedProfile> => {
+        let verifiedProfileResult =
+            await this.verifiedProfileUseCase.getVerifiedProfile(
+                verifiedProfileDescriptor
+            );
+        let [error, result] = await verifiedProfileResult.handleResult();
+        if (error) {
+            logError("getVerifiedProfile", error);
+            throw error;
+        }
+        return result!;
+    };
+
+    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLJwkPublic) => {
+        let isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
+            jwt,
+            jwkPublic
         );
 
-    verifyJwt = (jwt: VCLJwt, jwkPublic: VCLJwkPublic) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (b: boolean) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.jwtServiceUseCase.verifyJwt(
-                    jwt,
-                    jwkPublic,
-                    (isVerifiedResult) => {
-                        isVerifiedResult.handleResult(
-                            (it) => {
-                                successHandler(it);
-                            },
-                            (it) => {
-                                logError("verifyJwt", it);
-                                errorHandler(it);
-                            }
-                        );
-                    }
-                );
-            }
+        let [err, result] = isVerifiedResult.handleResult();
+        if (err) {
+            logError("verifyJwt", err);
+            throw err;
+        }
+        return result!;
+    };
+
+    generateSignedJwt = async (jwtDescriptor: VCLJwtDescriptor) => {
+        let jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
+            jwtDescriptor
         );
 
-    generateSignedJwt = (jwtDescriptor: VCLJwtDescriptor) =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (jwt: VCLJwt) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.jwtServiceUseCase.generateSignedJwt(
-                    jwtDescriptor,
-                    (jwtResult) => {
-                        jwtResult.handleResult(successHandler, (it) => {
-                            logError("generateSignedJwt", it);
-                            errorHandler(it);
-                        });
-                    }
-                );
-            }
-        );
+        let [err, result] = jwtResult.handleResult();
+        if (err) {
+            logError("generateSignedJwt", err);
+            throw err;
+        }
+        return result!;
+    };
 
-    generateDidJwk = () =>
-        PromiseConverter.MethodToPromise(
-            (
-                successHandler: (jwk: VCLDidJwk) => any,
-                errorHandler: (e: VCLError) => any
-            ) => {
-                this.jwtServiceUseCase.generateDidJwk(null, (didJwkResult) => {
-                    didJwkResult.handleResult(successHandler, (it) => {
-                        logError("generateDidJwk", it);
-                        errorHandler(it);
-                    });
-                });
-            }
-        );
+    generateDidJwk = async () => {
+        let didJwkResult = await this.jwtServiceUseCase.generateDidJwk(null);
+
+        let [err, result] = didJwkResult.handleResult();
+        if (err) {
+            throw err;
+        }
+        return result!;
+    };
 
     printVersion(): void {
         throw new Error("Method not implemented.");
     }
 
-    private invokeGenerateOffersUseCase(
+    private async invokeGenerateOffersUseCase(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ) {
-        this.generateOffersUseCase.generateOffers(
+        token: VCLToken
+    ): Promise<VCLResult<VCLOffers>> {
+        let vnOffersResult = await this.generateOffersUseCase.generateOffers(
             token,
-            generateOffersDescriptor,
-            (vnOffersResult) => {
-                vnOffersResult.handleResult(
-                    (it) => successHandler(it),
-                    (err) => {
-                        logError("generateOffers", err);
-                        errorHandler(err);
-                    }
-                );
-            }
+            generateOffersDescriptor
         );
+
+        let [err, result] = await vnOffersResult.handleResult();
+        if (err) {
+            return new VCLResult.Error(err);
+        }
+        return new VCLResult.Success(result);
     }
 }
 
 const logError = (message: String = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${error.toJsonObject()}`);
+    VCLLog.e(VCLImpl.TAG, `${message}: ${error}`);
 };

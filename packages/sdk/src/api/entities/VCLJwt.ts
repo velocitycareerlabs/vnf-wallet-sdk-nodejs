@@ -1,4 +1,4 @@
-import { JWK } from "jose";
+import { JWK, base64url } from "jose";
 
 export default class VCLJwt {
     public encodedJwt: Nullish<string>;
@@ -23,11 +23,15 @@ export default class VCLJwt {
     }
 
     get header(): JSONObject {
-        return JSON.parse(this.signedJwt.header);
+        let buff = Buffer.from(this.signedJwt.header, "base64");
+        let text = buff.toString("ascii");
+        return JSON.parse(text);
     }
 
     get payload(): JSONObject {
-        return JSON.parse(this.signedJwt.payload);
+        let buff = Buffer.from(this.signedJwt.payload, "base64");
+        let text = buff.toString("ascii");
+        return JSON.parse(text);
     }
 
     get signature(): string {

@@ -6,7 +6,6 @@ import VCLToken from "../../../api/entities/VCLToken";
 export default interface FinalizeOffersUseCase {
     finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        completionBlock: (r: VCLResult<VCLJwtVerifiableCredentials>) => any
-    ): void;
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
+    ): Promise<VCLResult<VCLJwtVerifiableCredentials>>;
 }

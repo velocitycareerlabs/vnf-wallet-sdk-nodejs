@@ -6,7 +6,6 @@ import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface ExchangeProgressRepository {
     getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        completionBlock: (r: VCLResult<VCLExchange>) => any
-    ): void;
+        exchangeDescriptor: VCLExchangeDescriptor
+    ): Promise<VCLResult<VCLExchange>>;
 }

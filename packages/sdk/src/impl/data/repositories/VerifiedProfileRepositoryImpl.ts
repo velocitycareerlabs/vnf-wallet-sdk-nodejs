@@ -10,11 +10,10 @@ export default class VerifiedProfileRepositoryImpl
 {
     constructor(private readonly networkService: NetworkService) {}
 
-    getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        completionBlock: (r: VCLResult<VCLVerifiedProfile>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+    async getVerifiedProfile(
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ): Promise<VCLResult<VCLVerifiedProfile>> {
+        let result = await this.networkService.sendRequest({
             method: "GET",
             endpoint: Urls.VerifiedProfile.replace(
                 Params.Did,
@@ -25,24 +24,17 @@ export default class VerifiedProfileRepositoryImpl
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,
             },
-            completionBlock(result) {
-                result.handleResult(
-                    (verifiedProfileResponse) => {
-                        return completionBlock(
-                            new VCLResult.Success(
-                                new VCLVerifiedProfile(
-                                    verifiedProfileResponse.payload
-                                )
-                            )
-                        );
-                    },
-                    (error) => {
-                        return completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
             contentType: null,
             useCaches: false,
         });
+
+        let [err, verifiedProfileResponse] = result.handleResult();
+        if (err) {
+            return new VCLResult.Error(err);
+        }
+
+        return new VCLResult.Success(
+            new VCLVerifiedProfile(verifiedProfileResponse!.payload)
+        );
     }
 }

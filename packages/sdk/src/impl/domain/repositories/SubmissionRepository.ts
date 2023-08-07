@@ -8,7 +8,6 @@ import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 export default interface SubmissionRepository {
     submit(
         submission: VCLSubmission,
-        jwt: VCLJwt,
-        completionBlock: (r: VCLResult<VCLSubmissionResult>) => any
-    ): void;
+        jwt: VCLJwt
+    ): Promise<VCLResult<VCLSubmissionResult>>;
 }

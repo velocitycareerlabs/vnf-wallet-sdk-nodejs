@@ -18,128 +18,107 @@ export default class PresentationRequestUseCaseImpl
         private jwtServiceRepository: JwtServiceRepository
     ) {}
 
-    getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
-        this.presentationRequestRepository.getPresentationRequest(
-            presentationRequestDescriptor,
-            (encodedJwtStrResult) => {
-                encodedJwtStrResult.handleResult(
-                    (encodedJwtStr) => {
-                        this.onGetJwtSuccess(
-                            encodedJwtStr,
-                            presentationRequestDescriptor,
-                            completionBlock
-                        );
-                    },
-                    (error) => {
-                        this.onError(error, completionBlock);
-                    }
-                );
-            }
+    async getPresentationRequest(
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLResult<VCLPresentationRequest>> {
+        let encodedJwtStrResult =
+            await this.presentationRequestRepository.getPresentationRequest(
+                presentationRequestDescriptor
+            );
+
+        let [error, encodedJwtStr] = await encodedJwtStrResult.handleResult();
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+        return this.onGetJwtSuccess(
+            encodedJwtStr!,
+            presentationRequestDescriptor
         );
     }
 
-    onGetJwtSuccess(
+    async onGetJwtSuccess(
         encodedJwtStr: string,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLResult<VCLPresentationRequest>> {
         try {
-            this.jwtServiceRepository.decode(encodedJwtStr, (jwtResult) => {
-                jwtResult.handleResult(
-                    (jwt) =>
-                        this.onDecodeJwtSuccess(
-                            jwt,
-                            presentationRequestDescriptor,
-                            completionBlock
-                        ),
-                    (error) => this.onError(error, completionBlock)
-                );
-            });
+            let jwtResult = await this.jwtServiceRepository.decode(
+                encodedJwtStr
+            );
+            let [error, jwt] = await jwtResult.handleResult();
+            if (error) {
+                return this.onError(error);
+            }
+
+            return this.onDecodeJwtSuccess(jwt!, presentationRequestDescriptor);
         } catch (error: any) {
-            this.onError(new VCLError(error), completionBlock);
+            return this.onError(new VCLError(error));
         }
     }
 
-    onDecodeJwtSuccess(
+    async onDecodeJwtSuccess(
         jwt: VCLJwt,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLResult<VCLPresentationRequest>> {
         let keyID = jwt.header.keyID?.replace("#", encodeURIComponent("#"));
         if (!keyID) {
-            this.onError(new VCLError("Empty KeyID"), completionBlock);
-            return;
+            return this.onError(new VCLError("Empty KeyID"));
         }
-        this.resolveKidRepository.getPublicKey(keyID, (publicKeyResult) => {
-            publicKeyResult.handleResult(
-                (publicKey) => {
-                    this.onResolvePublicKeySuccess(
-                        publicKey,
-                        jwt,
-                        presentationRequestDescriptor,
-                        completionBlock
-                    );
-                },
-                (error) => {
-                    this.onError(error, completionBlock);
-                }
-            );
-        });
+        let publicKeyResult = await this.resolveKidRepository.getPublicKey(
+            keyID
+        );
+
+        let [error, publicKey] = await publicKeyResult.handleResult();
+
+        if (error) {
+            return this.onError(error);
+        }
+
+        return this.onResolvePublicKeySuccess(
+            publicKey!,
+            jwt,
+            presentationRequestDescriptor
+        );
     }
 
-    onResolvePublicKeySuccess(
+    async onResolvePublicKeySuccess(
         jwkPublic: VCLJwkPublic,
         jwt: VCLJwt,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLResult<VCLPresentationRequest>> {
         let presentationRequest = new VCLPresentationRequest(
             jwt,
             jwkPublic,
             presentationRequestDescriptor.deepLink,
             presentationRequestDescriptor.pushDelegate
         );
-        this.jwtServiceRepository.verifyJwt(
+        let isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
             presentationRequest.jwt,
-            presentationRequest.jwkPublic,
-            (isVerifiedResult) => {
-                isVerifiedResult.handleResult(
-                    (isVerified) =>
-                        this.onVerificationSuccess(
-                            isVerified,
-                            presentationRequest,
-                            completionBlock
-                        ),
-                    (error) => this.onError(error, completionBlock)
-                );
-            }
+            presentationRequest.jwkPublic
         );
+        let [error, isVerified] = await isVerifiedResult.handleResult();
+
+        if (error) {
+            return this.onError(error);
+        }
+        return this.onVerificationSuccess(isVerified!, presentationRequest);
     }
 
-    onVerificationSuccess(
+    async onVerificationSuccess(
         isVerified: Boolean,
-        presentationRequest: VCLPresentationRequest,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
+        presentationRequest: VCLPresentationRequest
+    ): Promise<VCLResult<VCLPresentationRequest>> {
         if (isVerified) {
-            completionBlock(new VCLResult.Success(presentationRequest));
+            return new VCLResult.Success(presentationRequest);
         } else {
-            this.onError(
+            return this.onError(
                 new VCLError(
-                    "Failed  to verify: ${presentationRequest.jwt.payload}"
-                ),
-                completionBlock
+                    `Failed  to verify: ${presentationRequest.jwt.payload}`
+                )
             );
         }
     }
 
-    onError(
-        error: VCLError,
-        completionBlock: (r: VCLResult<VCLPresentationRequest>) => any
-    ) {
-        completionBlock(new VCLResult.Error(error));
+    onError(error: VCLError): VCLResult<any> {
+        return new VCLResult.Error(error);
     }
 }

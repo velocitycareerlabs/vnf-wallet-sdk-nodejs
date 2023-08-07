@@ -21,105 +21,96 @@ export default class CredentialManifestUseCaseImpl
     onVerificationSuccess(
         isVerified: Boolean,
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ) {
         if (isVerified) {
-            completionBlock(
-                new VCLResult.Success(
-                    new VCLCredentialManifest(
-                        jwt,
-                        credentialManifestDescriptor.vendorOriginContext
-                    )
+            return new VCLResult.Success(
+                new VCLCredentialManifest(
+                    jwt,
+                    credentialManifestDescriptor.vendorOriginContext
                 )
             );
         } else {
-            this.onError(
-                new VCLError("Failed to verify: $jwt"),
-                completionBlock
-            );
+            return this.onError(new VCLError("Failed to verify: $jwt"));
         }
     }
 
-    onError(
-        error: VCLError,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ) {
-        completionBlock(new VCLResult.Error(error));
+    onError(error: VCLError): VCLResult<VCLCredentialManifest> {
+        return new VCLResult.Error(error);
     }
 
-    onGetJwtSuccess(
+    async onGetJwtSuccess(
         jwtStr: string,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ): void {
-        this.jwtServiceRepository.decode(jwtStr, (jwtResult) => {
-            jwtResult.handleResult(
-                (jwt) =>
-                    this.onDecodeJwtSuccess(
-                        jwt,
-                        credentialManifestDescriptor,
-                        completionBlock
-                    ),
-                (error) => this.onError(error, completionBlock)
-            );
-        });
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<VCLCredentialManifest>> {
+        let jwtResult = await this.jwtServiceRepository.decode(jwtStr);
+        let [err, jwt] = await jwtResult.handleResult();
+
+        if (err) {
+            return this.onError(err);
+        }
+
+        return this.onDecodeJwtSuccess(jwt!, credentialManifestDescriptor);
     }
 
-    onResolvePublicKeySuccess(
+    async onResolvePublicKeySuccess(
         jwkPublic: VCLJwkPublic,
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ) {
-        this.jwtServiceRepository.verifyJwt(
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<VCLCredentialManifest>> {
+        let verificationResult = await this.jwtServiceRepository.verifyJwt(
             jwt,
-            jwkPublic,
-            (verificationResult) =>
-                verificationResult.handleResult(
-                    (isVerified) =>
-                        this.onVerificationSuccess(
-                            isVerified,
-                            jwt,
-                            credentialManifestDescriptor,
-                            completionBlock
-                        ),
-                    (error: VCLError) => this.onError(error, completionBlock)
-                )
+            jwkPublic
+        );
+
+        let [err, isVerified] = await verificationResult.handleResult();
+        if (err) {
+            return this.onError(err);
+        }
+        return this.onVerificationSuccess(
+            isVerified!,
+            jwt,
+            credentialManifestDescriptor
         );
     }
 
-    onDecodeJwtSuccess(
+    async onDecodeJwtSuccess(
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ) {
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<VCLCredentialManifest>> {
         const keyID = jwt.header.keyID?.replace("#", encodeURIComponent("#"));
         if (!keyID) {
-            this.onError(new VCLError("Empty KeyID"), completionBlock);
-            return;
+            return this.onError(new VCLError("Empty KeyID"));
         }
-        this.resolveKidRepository.getPublicKey(keyID, (publicKeyResult) => {
-            publicKeyResult.handleResult(
-                (publicKey) =>
-                    this.onResolvePublicKeySuccess(
-                        publicKey,
-                        jwt,
-                        credentialManifestDescriptor,
-                        completionBlock
-                    ),
-                (error) => this.onError(error, completionBlock)
-            );
-        });
+        let publicKeyResult = await this.resolveKidRepository.getPublicKey(
+            keyID
+        );
+
+        let [err, publicKey] = await publicKeyResult.handleResult();
+        if (err) {
+            this.onError(err);
+        }
+        return this.onResolvePublicKeySuccess(
+            publicKey!,
+            jwt,
+            credentialManifestDescriptor
+        );
     }
 
-    getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<VCLCredentialManifest>) => any
-    ) {
-        this.credentialManifestRepository.getCredentialManifest(
-            credentialManifestDescriptor,
-            (jwtStrResult) => {
+    async getCredentialManifest(
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<VCLCredentialManifest>> {
+        let jwtStrResult =
+            await this.credentialManifestRepository.getCredentialManifest(
+                credentialManifestDescriptor
+            );
+        let [error, jwtStr] = await jwtStrResult.handleResult();
+        if (error) {
+            return this.onError(error);
+        }
+
+        return this.onGetJwtSuccess(jwtStr!, credentialManifestDescriptor);
+        /* () => {
                 jwtStrResult.handleResult(
                     (jwtStr) =>
                         this.onGetJwtSuccess(
@@ -129,7 +120,6 @@ export default class CredentialManifestUseCaseImpl
                         ),
                     (error) => this.onError(error, completionBlock)
                 );
-            }
-        );
+            } */
     }
 }

@@ -29,10 +29,8 @@ import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescripto
 
 export default interface VCL {
     initialize(
-        initializationDescriptor: VCLInitializationDescriptor,
-        successHandler: () => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        initializationDescriptor: VCLInitializationDescriptor
+    ): Promise<Nullish<VCLError>>;
 
     countries: Nullish<VCLCountries>;
     credentialTypes: Nullish<VCLCredentialTypes>;

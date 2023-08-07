@@ -1,3 +1,4 @@
+import VCLError from "../../../api/entities/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLResult from "../../../api/entities/VCLResult";
@@ -10,12 +11,11 @@ import { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class SubmissionRepositoryImpl implements SubmissionRepository {
     constructor(private networkService: NetworkService) {}
-    submit(
+    async submit(
         submission: VCLSubmission,
-        jwt: VCLJwt,
-        completionBlock: (r: VCLResult<VCLSubmissionResult>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+        jwt: VCLJwt
+    ): Promise<VCLResult<VCLSubmissionResult>> {
+        let result = await this.networkService.sendRequest({
             endpoint: submission.submitUri,
             body: submission.generateRequestBody(jwt),
             method: "POST",
@@ -24,28 +24,26 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
                     HeaderValues.XVnfProtocolVersion,
             },
             contentType: "application/json",
-            completionBlock: (result) => {
-                result.handleResult(
-                    (submissionResponse) => {
-                        try {
-                            const jsonObj = submissionResponse.payload;
-                            const submissionResult = this.parse(
-                                jsonObj,
-                                submission.jti,
-                                submission.submissionId
-                            );
-                            completionBlock(
-                                new VCLResult.Success(submissionResult)
-                            );
-                        } catch (error) {}
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
             useCaches: false,
         });
+
+        let [error, submissionResponse] = await result.handleResult();
+
+        if (submissionResponse) {
+            try {
+                const jsonObj = submissionResponse.payload;
+                const submissionResult = this.parse(
+                    jsonObj,
+                    submission.jti,
+                    submission.submissionId
+                );
+                return new VCLResult.Success(submissionResult);
+            } catch (error: any) {
+                return new VCLResult.Error(new VCLError(error));
+            }
+        }
+
+        return new VCLResult.Error(error!);
     }
 
     private parseExchange(exchangeJsonObj: JSONObject) {

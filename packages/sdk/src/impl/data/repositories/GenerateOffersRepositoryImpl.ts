@@ -13,12 +13,11 @@ export default class GenerateOffersRepositoryImpl
 {
     constructor(private networkService: NetworkService) {}
 
-    generateOffers(
+    async generateOffers(
         token: VCLToken,
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        completionBlock: (r: VCLResult<VCLOffers>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ): Promise<VCLResult<VCLOffers>> {
+        let result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: generateOffersDescriptor.checkOffersUri,
             headers: {
@@ -29,27 +28,20 @@ export default class GenerateOffersRepositoryImpl
             body: generateOffersDescriptor.payload,
             method: "POST",
             contentType: "application/json",
-            completionBlock: (result) => {
-                result.handleResult(
-                    (offersResponse) => {
-                        try {
-                            completionBlock(
-                                new VCLResult.Success(
-                                    this.parse(offersResponse, token)
-                                )
-                            );
-                        } catch (error: any) {
-                            completionBlock(
-                                new VCLResult.Error(new VCLError(error))
-                            );
-                        }
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
         });
+        let [error, offersResponse] = await result.handleResult();
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+        if (offersResponse) {
+            try {
+                return new VCLResult.Success(this.parse(offersResponse, token));
+            } catch (error: any) {
+                return new VCLResult.Error(new VCLError(error));
+            }
+        }
+
+        return new VCLResult.Error(new VCLError("Offers did not returned."));
     }
 
     parse(offersResponse: Response, token: VCLToken): VCLOffers {

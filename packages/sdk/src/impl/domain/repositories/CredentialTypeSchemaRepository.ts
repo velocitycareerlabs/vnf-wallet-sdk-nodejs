@@ -3,8 +3,6 @@ import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface CredentialTypeSchemaRepository {
     getCredentialTypeSchema(
-        schemaName: string,
-        cacheSequence: number,
-        completionBlock: (r: VCLResult<VCLCredentialTypeSchema>) => any
-    ): void;
+        schemaName: string
+    ): Promise<VCLResult<VCLCredentialTypeSchema>>;
 }

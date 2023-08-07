@@ -3,7 +3,6 @@ import VCLCredentialManifestDescriptor from "../../../api/entities/VCLCredential
 
 export default interface CredentialManifestRepository {
     getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<string>) => any
-    ): void;
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<string>>;
 }

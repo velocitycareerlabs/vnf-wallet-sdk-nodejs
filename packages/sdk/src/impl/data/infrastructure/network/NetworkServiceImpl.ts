@@ -9,10 +9,7 @@ import axios, { AxiosResponse } from "axios";
 export default class NetworkServiceImpl implements NetworkService {
     static TAG = NetworkServiceImpl.name;
 
-    sendRequest(
-        params: Request,
-        completionBlock: (r: VCLResult<Response>) => any
-    ): void {
+    async sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
         let handler: () => Nullish<Promise<AxiosResponse<any, any>>> = () => {
             return null;
         };
@@ -38,23 +35,23 @@ export default class NetworkServiceImpl implements NetworkService {
             default:
                 break;
         }
-        handler()
-            ?.then((r) => completionBlock(new VCLResult.Success(r.data)))
-            .catch((error) =>
-                completionBlock(new VCLResult.Error(error.response.data))
-            );
+        try {
+            let r = await handler();
+            return new VCLResult.Success(new Response(r!.data, r!.status));
+        } catch (error: any) {
+            return new VCLResult.Error(error.response?.data ?? error);
+        }
     }
 
-    sendRequestRaw(params: {
+    async sendRequest(params: {
         endpoint: string;
         body: Nullish<any>;
         contentType: Nullish<string>;
         method: HttpMethod;
         headers: any;
         useCaches: boolean;
-        completionBlock: (r: VCLResult<Response>) => any;
-    }): void {
-        this.sendRequest(params, params.completionBlock);
+    }): Promise<VCLResult<Response>> {
+        return this.sendRequestRaw(params);
     }
 
     logRequest(request: Request) {

@@ -1,15 +1,5 @@
 import { randomBytes } from "crypto";
 
-export {};
-declare global {
-    interface String {
-        getQueryParameters(): Map<string, string>;
-        appendQueryParams(queryParams: string): string;
-        getUrlSubPath(subPathPrefix: string): Nullish<string>;
-        randomString(length: number): string;
-    }
-}
-
 String.prototype.getQueryParameters = function (): Map<string, string> {
     const result = new Map<string, string>();
 
@@ -45,3 +35,4 @@ String.prototype.getUrlSubPath = function (
 String.prototype.randomString = function (length: number): string {
     return randomBytes(length).toString("hex");
 };
+export {};

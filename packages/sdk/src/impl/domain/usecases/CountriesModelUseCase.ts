@@ -1,6 +1,6 @@
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLCountries from "../../../api/entities/VCLCountries";
+import VCLResult from "../../../api/entities/VCLResult";
 
-export default interface CountriesRepository {
+export default interface CountriesUseCase {
     getCountries(): Promise<VCLResult<VCLCountries>>;
 }

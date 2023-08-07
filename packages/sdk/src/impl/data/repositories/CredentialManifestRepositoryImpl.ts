@@ -11,21 +11,18 @@ export default class CredentialManifestRepositoryImpl
     implements CredentialManifestRepository
 {
     constructor(private readonly networkService: NetworkService) {}
-    getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        completionBlock: (r: VCLResult<string>) => any
-    ): void {
+
+    async getCredentialManifest(
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLResult<string>> {
         const endpoint = credentialManifestDescriptor.endpoint;
         if (!endpoint) {
-            completionBlock(
-                new VCLResult.Error(
-                    new VCLError("credentialManifestDescriptor.endpoint = null")
-                )
+            return new VCLResult.Error(
+                new VCLError("credentialManifestDescriptor.endpoint = null")
             );
-            return;
         }
 
-        this.networkService.sendRequestRaw({
+        let result = await this.networkService.sendRequest({
             endpoint,
             method: "GET",
             body: null,
@@ -33,28 +30,22 @@ export default class CredentialManifestRepositoryImpl
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,
             },
-            completionBlock(result: VCLResult<Response>) {
-                result.handleResult(
-                    (credentialManifestResponse) => {
-                        try {
-                            let jwtStr =
-                                credentialManifestResponse.payload[
-                                    VCLCredentialManifest.KeyIssuingRequest
-                                ];
-                            completionBlock(new VCLResult.Success(jwtStr));
-                        } catch (ex: any) {
-                            completionBlock(
-                                new VCLResult.Error(new VCLError(ex))
-                            );
-                        }
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
+
             contentType: null,
             useCaches: false,
         });
+        let [err, credentialManifestResponse] = await result.handleResult();
+        if (err) {
+            return new VCLResult.Error(err);
+        }
+        try {
+            let jwtStr =
+                credentialManifestResponse!.payload[
+                    VCLCredentialManifest.KeyIssuingRequest
+                ];
+            return new VCLResult.Success(jwtStr);
+        } catch (error: any) {
+            return new VCLResult.Error(new VCLError(error));
+        }
     }
 }

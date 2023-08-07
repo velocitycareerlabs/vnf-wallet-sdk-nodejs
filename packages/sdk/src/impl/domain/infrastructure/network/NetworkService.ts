@@ -11,14 +11,10 @@ type NetworkRequesParams = {
     method: HttpMethod;
     headers: any;
     useCaches: boolean;
-    completionBlock: (r: VCLResult<Response>) => any;
 };
 
 export default interface NetworkService {
-    sendRequest(
-        params: Request,
-        completionBlock: (r: VCLResult<Response>) => any
-    ): void;
+    sendRequest(params: Request): Promise<VCLResult<Response>>;
 
-    sendRequestRaw(params: NetworkRequesParams): void;
+    sendRequest(params: NetworkRequesParams): Promise<VCLResult<Response>>;
 }

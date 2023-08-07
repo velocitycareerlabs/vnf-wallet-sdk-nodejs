@@ -11,71 +11,49 @@ import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository
 export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     constructor(private readonly jwtService: JwtService) {}
 
-    decode(
-        encodedJwt: string,
-        completionBlock: (r: VCLResult<VCLJwt>) => any
-    ): void {
+    async decode(encodedJwt: string): Promise<VCLResult<VCLJwt>> {
         try {
             let parsed = this.jwtService.parse(encodedJwt);
             if (parsed) {
-                completionBlock(new VCLResult.Success(new VCLJwt(parsed)));
-                return;
+                return new VCLResult.Success(new VCLJwt(parsed));
             }
 
             throw new Error("Failed to parse $encodedJwt");
         } catch (ex: any) {
-            completionBlock(new VCLResult.Error(new VCLError(ex)));
+            return new VCLResult.Error(new VCLError(ex));
         }
     }
-    verifyJwt(
+    async verifyJwt(
         jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        completionBlock: (r: VCLResult<boolean>) => any
-    ): void {
-        this.jwtService
-            .verify(jwt, jwkPublic.valueStr)
-            .then((it) => {
-                completionBlock(new VCLResult.Success(it));
-            })
-            .catch((ex) => {
-                completionBlock(new VCLResult.Error(new VCLError(ex)));
-            });
-    }
-    generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        completionBlock: (r: VCLResult<VCLJwt>) => any
-    ): void {
-        this.jwtService
-            .sign(jwtDescriptor)
-            .then((it) => {
-                if (it) {
-                    completionBlock(new VCLResult.Success(new VCLJwt(it)));
-                } else {
-                    completionBlock(
-                        new VCLResult.Error(
-                            new VCLError(
-                                `Failed to sign ${jwtDescriptor.payload}`
-                            )
-                        )
-                    );
-                }
-            })
-            .catch((e) => {
-                completionBlock(new VCLResult.Error(new VCLError(e)));
-            });
-    }
-    generateDidJwk(
-        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>,
-        completionBlock: (r: VCLResult<VCLDidJwk>) => any
-    ): void {
+        jwkPublic: VCLJwkPublic
+    ): Promise<VCLResult<boolean>> {
         try {
-            completionBlock(
-                new VCLResult.Success(
-                    this.jwtService.generateDidJwk(didJwkDescriptor)
-                )
+            let it = await this.jwtService.verify(jwt, jwkPublic.valueStr);
+            return new VCLResult.Success(it ?? false);
+        } catch (error: any) {
+            return new VCLResult.Error(new VCLError(error!));
+        }
+    }
+    async generateSignedJwt(
+        jwtDescriptor: VCLJwtDescriptor
+    ): Promise<VCLResult<VCLJwt>> {
+        try {
+            let it = await this.jwtService.sign(jwtDescriptor);
+            return new VCLResult.Success(new VCLJwt(it!));
+        } catch (error) {
+            return new VCLResult.Error(
+                new VCLError(`Failed to sign ${jwtDescriptor.payload}`)
             );
+        }
+    }
+    async generateDidJwk(
+        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
+    ): Promise<VCLResult<VCLDidJwk>> {
+        try {
+            let didJwk = await this.jwtService.generateDidJwk(didJwkDescriptor);
+            return new VCLResult.Success(didJwk);
         } catch (e: any) {
-            completionBlock(new VCLResult.Error(new VCLError(e)));
+            return new VCLResult.Error(new VCLError(e));
         }
     }
 }

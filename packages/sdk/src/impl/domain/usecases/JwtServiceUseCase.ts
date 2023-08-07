@@ -8,17 +8,14 @@ import VCLResult from "../../../api/entities/VCLResult";
 export default interface JwtServiceUseCase {
     verifyJwt(
         jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        completionBlock: (r: VCLResult<boolean>) => any
-    ): void;
+        jwkPublic: VCLJwkPublic
+    ): Promise<VCLResult<boolean>>;
 
     generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        completionBlock: (r: VCLResult<VCLJwt>) => any
-    ): void;
+        jwtDescriptor: VCLJwtDescriptor
+    ): Promise<VCLResult<VCLJwt>>;
 
     generateDidJwk(
-        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>,
-        completionBlock: (r: VCLResult<VCLDidJwk>) => any
-    ): void;
+        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
+    ): Promise<VCLResult<VCLDidJwk>>;
 }

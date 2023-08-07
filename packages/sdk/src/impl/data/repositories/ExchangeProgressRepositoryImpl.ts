@@ -11,11 +11,10 @@ export default class ExchangeProgressRepositoryImpl
 {
     constructor(private networkService: NetworkService) {}
 
-    getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        completionBlock: (r: VCLResult<VCLExchange>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+    async getExchangeProgress(
+        exchangeDescriptor: VCLExchangeDescriptor
+    ): Promise<VCLResult<VCLExchange>> {
+        let submissionResult = await this.networkService.sendRequest({
             useCaches: false,
             method: "GET",
             endpoint:
@@ -30,29 +29,22 @@ export default class ExchangeProgressRepositoryImpl
             },
             body: null,
             contentType: "application/json",
-            completionBlock: (submissionResult) => {
-                submissionResult.handleResult(
-                    (exchangeProgressResponse) => {
-                        try {
-                            completionBlock(
-                                new VCLResult.Success(
-                                    this.parseExchange(
-                                        exchangeProgressResponse.payload
-                                    )
-                                )
-                            );
-                        } catch (ex: any) {
-                            completionBlock(
-                                new VCLResult.Error(new VCLError(ex))
-                            );
-                        }
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
         });
+
+        let [error, exchangeProgressResponse] =
+            await submissionResult.handleResult();
+
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+
+        try {
+            return new VCLResult.Success(
+                this.parseExchange(exchangeProgressResponse?.payload)
+            );
+        } catch (error: any) {
+            return new VCLResult.Error(new VCLError(error));
+        }
     }
 
     private parseExchange(exchangeJsonObj: JSONObject) {

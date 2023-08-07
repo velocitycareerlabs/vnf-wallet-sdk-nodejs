@@ -1,6 +1,13 @@
+import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import JwtServiceImpl from "./data/infrastructure/jwt/JwtServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
+import CountriesModelImpl from "./data/models/CountriesModelImpl";
+import CredentialTypeSchemasModelImpl from "./data/models/CredentialTypeSchemasModelImpl";
+import CredentialTypesModelImpl from "./data/models/CredentialTypesModelImpl";
+import CountriesRepositoryImpl from "./data/repositories/CountriesRepositoryImpl";
 import CredentialManifestRepositoryImpl from "./data/repositories/CredentialManifestRepositoryImpl";
+import CredentialTypeSchemaRepositoryImpl from "./data/repositories/CredentialTypeSchemaRepositoryImpl";
+import CredentialTypesRepositoryImpl from "./data/repositories/CredentialTypesRepositoryImpl";
 import ExchangeProgressRepositoryImpl from "./data/repositories/ExchangeProgressRepositoryImpl";
 import { FinalizeOffersRepositoryImpl } from "./data/repositories/FinalizeOffersRepositoryImpl";
 import GenerateOffersRepositoryImpl from "./data/repositories/GenerateOffersRepositoryImpl";
@@ -10,7 +17,10 @@ import OrganizationsRepositoryImpl from "./data/repositories/OrganizationsReposi
 import PresentationRequestRepositoryImpl from "./data/repositories/PresentationRequestRepositoryImpl";
 import ResolveKidRepositoryImpl from "./data/repositories/ResolveKidRepositoryImpl";
 import VerifiedProfileRepositoryImpl from "./data/repositories/VerifiedProfileRepositoryImpl";
+import CountriesUseCaseImpl from "./data/usecases/CountriesModelUseCaseImpl";
 import CredentialManifestUseCaseImpl from "./data/usecases/CredentialManifestUseCaseImpl";
+import CredentialTypeSchemasUseCaseImpl from "./data/usecases/CredentialTypeSchemasUseCaseImpl";
+import CredentialTypesUseCaseImpl from "./data/usecases/CredentialTypesUseCaseImpl";
 import ExchangeProgressUseCaseImpl from "./data/usecases/ExchangeProgressUseCaseImpl";
 import FinalizeOffersUseCaseImpl from "./data/usecases/FinalizeOffersUseCaseImpl";
 import GenerateOffersUseCaseImpl from "./data/usecases/GenerateOffersUseCaseImpl";
@@ -20,6 +30,9 @@ import OrganizationsUseCaseImpl from "./data/usecases/OrganizationsUseCaseImpl";
 import PresentationRequestUseCaseImpl from "./data/usecases/PresentationRequestUseCaseImpl";
 import PresentationSubmissionUseCaseImpl from "./data/usecases/PresentationSubmissionUseCaseImpl";
 import VerifiedProfileUseCaseImpl from "./data/usecases/VerifiedProfileUseCaseImpl";
+import CountriesModel from "./domain/models/CountriesModel";
+import CredentialTypeSchemasModel from "./domain/models/CredentialTypeSchemasModel";
+import CredentialTypesModel from "./domain/models/CredentialTypesModel";
 import CredentialManifestUseCase from "./domain/usecases/CredentialManifestUseCase";
 import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
@@ -100,6 +113,35 @@ export default class VclBlocksProvider {
     static provideOrganizationsUseCase(): OrganizationsUseCase {
         return new OrganizationsUseCaseImpl(
             new OrganizationsRepositoryImpl(new NetworkServiceImpl())
+        );
+    }
+
+    static provideCredentialTypesModel(): CredentialTypesModel {
+        return new CredentialTypesModelImpl(
+            new CredentialTypesUseCaseImpl(
+                new CredentialTypesRepositoryImpl(new NetworkServiceImpl())
+            )
+        );
+    }
+
+    static provideCountryCodesModel(): CountriesModel {
+        return new CountriesModelImpl(
+            new CountriesUseCaseImpl(
+                new CountriesRepositoryImpl(new NetworkServiceImpl())
+            )
+        );
+    }
+
+    static provideCredentialTypeSchemasModel(
+        credentialTypes: VCLCredentialTypes
+    ): CredentialTypeSchemasModel {
+        return new CredentialTypeSchemasModelImpl(
+            new CredentialTypeSchemasUseCaseImpl(
+                new CredentialTypeSchemaRepositoryImpl(
+                    new NetworkServiceImpl()
+                ),
+                credentialTypes
+            )
         );
     }
 }

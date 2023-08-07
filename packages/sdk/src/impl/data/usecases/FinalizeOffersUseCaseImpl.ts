@@ -15,78 +15,63 @@ export default class FinalizeOffersUseCaseImpl
         private finalizeOffersRepository: FinalizeOffersRepository,
         private jwtServiceRepository: JwtServiceRepository
     ) {}
-    finalizeOffers(
+    async finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        completionBlock: (r: VCLResult<VCLJwtVerifiableCredentials>) => any
-    ): void {
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
+    ): Promise<VCLResult<VCLJwtVerifiableCredentials>> {
         const passedCredentials: VCLJwt[] = [];
         const failedCredentials: VCLJwt[] = [];
 
-        this.finalizeOffersRepository.finalizeOffers(
-            token,
-            finalizeOffersDescriptor,
-            (encodedJwtOffersListResult) => {
-                encodedJwtOffersListResult.handleResult(
-                    (encodedJwtOffers) => {
-                        encodedJwtOffers.forEach((encodedJwtOffer) => {
-                            this.jwtServiceRepository.decode(
-                                encodedJwtOffer,
-                                (jwtResult) => {
-                                    jwtResult.handleResult(
-                                        (jwt) => {
-                                            if (
-                                                this.verifyJwtCredential(
-                                                    jwt,
-                                                    finalizeOffersDescriptor
-                                                )
-                                            ) {
-                                                passedCredentials.push(jwt);
-                                            } else {
-                                                failedCredentials.push(jwt);
-                                            }
-                                            if (
-                                                encodedJwtOffers.length ==
-                                                passedCredentials.length +
-                                                    failedCredentials.length
-                                            ) {
-                                                completionBlock(
-                                                    new VCLResult.Success(
-                                                        new VCLJwtVerifiableCredentials(
-                                                            passedCredentials,
-                                                            failedCredentials
-                                                        )
-                                                    )
-                                                );
-                                            }
-                                        },
-                                        (error) => {
-                                            this.onError(
-                                                error,
-                                                completionBlock
-                                            );
-                                        }
-                                    );
-                                }
-                            );
-                        });
+        let encodedJwtOffersListResult =
+            await this.finalizeOffersRepository.finalizeOffers(
+                token,
+                finalizeOffersDescriptor
+            );
+        let [error, encodedJwtOffers] =
+            await encodedJwtOffersListResult.handleResult();
 
-                        if (encodedJwtOffers.length === 0) {
-                            completionBlock(
-                                new VCLResult.Success(
-                                    new VCLJwtVerifiableCredentials(
-                                        passedCredentials,
-                                        failedCredentials
-                                    )
-                                )
-                            );
-                        }
-                    },
-                    (error) => {
-                        this.onError(error, completionBlock);
-                    }
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+
+        for (let encodedJwtOffer of encodedJwtOffers!) {
+            let jwtResult = await this.jwtServiceRepository.decode(
+                encodedJwtOffer
+            );
+            let [error, jwt] = await jwtResult.handleResult();
+            if (error) {
+                return new VCLResult.Error(error);
+            }
+            if (!jwt) {
+                return new VCLResult.Error(
+                    new VCLError("Error occured while parsing jwt.")
                 );
             }
+
+            if (this.verifyJwtCredential(jwt, finalizeOffersDescriptor)) {
+                passedCredentials.push(jwt);
+            } else {
+                failedCredentials.push(jwt);
+            }
+
+            if (
+                encodedJwtOffers!.length ==
+                passedCredentials.length + failedCredentials.length
+            ) {
+                return new VCLResult.Success(
+                    new VCLJwtVerifiableCredentials(
+                        passedCredentials,
+                        failedCredentials
+                    )
+                );
+            }
+        }
+
+        return new VCLResult.Success(
+            new VCLJwtVerifiableCredentials(
+                passedCredentials,
+                failedCredentials
+            )
         );
     }
 
@@ -95,12 +80,5 @@ export default class FinalizeOffersUseCaseImpl
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
     ): boolean {
         return jwtCredential.payload["iss"] == finalizeOffersDescriptor.did;
-    }
-
-    private onError(
-        error: VCLError,
-        completionBlock: (r: VCLResult<VCLJwtVerifiableCredentials>) => any
-    ) {
-        completionBlock(new VCLResult.Error(error));
     }
 }

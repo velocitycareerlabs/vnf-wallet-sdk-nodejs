@@ -6,7 +6,6 @@ import VCLResult from "../../../api/entities/VCLResult";
 
 export default interface OrganizationsRepository {
     searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        completionBlock: (r: VCLResult<VCLOrganizations>) => any
-    ): void;
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ): Promise<VCLResult<VCLOrganizations>>;
 }

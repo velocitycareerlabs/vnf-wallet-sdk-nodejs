@@ -10,15 +10,13 @@ export default class GenerateOffersUseCaseImpl
 {
     constructor(private generateOffersRepository: GenerateOffersRepository) {}
 
-    generateOffers(
+    async generateOffers(
         token: VCLToken,
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        completionBlock: (r: VCLResult<VCLOffers>) => any
-    ): void {
-        this.generateOffersRepository.generateOffers(
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ): Promise<VCLResult<VCLOffers>> {
+        return this.generateOffersRepository.generateOffers(
             token,
-            generateOffersDescriptor,
-            completionBlock
+            generateOffersDescriptor
         );
     }
 }

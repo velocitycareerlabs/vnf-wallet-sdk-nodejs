@@ -7,11 +7,8 @@ import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
     constructor(private readonly networkService: NetworkService) {}
 
-    getPublicKey(
-        kid: string,
-        completionBlock: (r: VCLResult<VCLJwkPublic>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+    async getPublicKey(kid: string): Promise<VCLResult<VCLJwkPublic>> {
+        let result = await this.networkService.sendRequest({
             endpoint:
                 Urls.ResolveKid + kid + `?format=${VCLJwkPublic.Format.jwk}`,
             method: "GET",
@@ -20,22 +17,17 @@ export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
                     HeaderValues.XVnfProtocolVersion,
             },
             body: null,
-            completionBlock(result) {
-                result.handleResult(
-                    (publicKeyResponse) => {
-                        completionBlock(
-                            new VCLResult.Success(
-                                VCLJwkPublic.fromJSON(publicKeyResponse.payload)
-                            )
-                        );
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
             contentType: null,
             useCaches: false,
         });
+
+        let [error, publicKeyResponse] = await result.handleResult();
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+
+        return new VCLResult.Success(
+            VCLJwkPublic.fromJSON(publicKeyResponse!.payload)
+        );
     }
 }

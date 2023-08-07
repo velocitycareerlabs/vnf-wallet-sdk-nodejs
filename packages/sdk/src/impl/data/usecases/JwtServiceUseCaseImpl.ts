@@ -10,30 +10,14 @@ import JwtServiceUseCase from "../../domain/usecases/JwtServiceUseCase";
 export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     constructor(private readonly jwtServiceRepository: JwtServiceRepository) {}
 
-    generateDidJwk(
-        didJwkDescriptor: Nullish<VCLDidJwkDescriptor> = null,
-        completionBlock: (r: VCLResult<VCLDidJwk>) => any
-    ): void {
-        this.jwtServiceRepository.generateDidJwk(
-            didJwkDescriptor,
-            completionBlock
-        );
+    generateDidJwk(didJwkDescriptor: Nullish<VCLDidJwkDescriptor> = null) {
+        return this.jwtServiceRepository.generateDidJwk(didJwkDescriptor);
     }
 
-    verifyJwt(
-        jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        completionBlock: (r: VCLResult<boolean>) => any
-    ): void {
-        this.jwtServiceRepository.verifyJwt(jwt, jwkPublic, completionBlock);
+    verifyJwt(jwt: VCLJwt, jwkPublic: VCLJwkPublic) {
+        return this.jwtServiceRepository.verifyJwt(jwt, jwkPublic);
     }
-    generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        completionBlock: (r: VCLResult<VCLJwt>) => any
-    ): void {
-        this.jwtServiceRepository.generateSignedJwt(
-            jwtDescriptor,
-            completionBlock
-        );
+    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor) {
+        return this.jwtServiceRepository.generateSignedJwt(jwtDescriptor);
     }
 }

@@ -1,4 +1,5 @@
 import VCLError from "../../api/entities/VCLError";
+import VCLResult from "../../api/entities/VCLResult";
 import VCLServiceTypes from "../../api/entities/VCLServiceTypes";
 import VCLStatusCode from "../../api/entities/VCLStatusCode";
 import VCLVerifiedProfile from "../../api/entities/VCLVerifiedProfile";
@@ -10,55 +11,46 @@ export class ProfileServiceTypeVerifier {
         private readonly verifiedProfileUseCase: VerifiedProfileUseCase
     ) {}
 
-    verifyServiceTypeOfVerifiedProfile(
+    async verifyServiceTypeOfVerifiedProfile(
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        expectedServiceTypes: VCLServiceTypes,
-        successHandler: () => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        this.verifiedProfileUseCase.getVerifiedProfile(
-            verifiedProfileDescriptor,
-            (verifiedProfileResult) => {
-                verifiedProfileResult.handleResult(
-                    (verifiedProfile) => {
-                        this.verifyServiceType(
-                            verifiedProfile,
-                            expectedServiceTypes,
-                            successHandler,
-                            errorHandler
-                        );
-                    },
-                    (e) => {
-                        errorHandler(e);
-                    }
-                );
-            }
+        expectedServiceTypes: VCLServiceTypes
+    ): Promise<VCLResult<any>> {
+        let verifiedProfileResult =
+            await this.verifiedProfileUseCase.getVerifiedProfile(
+                verifiedProfileDescriptor
+            );
+        let [err, verifiedProfile] = await verifiedProfileResult.handleResult();
+
+        if (err) {
+            throw err;
+        }
+
+        let isVerified = await this.verifyServiceType(
+            verifiedProfile!,
+            expectedServiceTypes
         );
+        return new VCLResult.Success(isVerified);
     }
 
-    verifyServiceType(
+    async verifyServiceType(
         verifiedProfile: VCLVerifiedProfile,
-        expectedServiceTypes: VCLServiceTypes,
-        successHandler: () => any,
-        errorHandler: (e: VCLError) => any
-    ) {
+        expectedServiceTypes: VCLServiceTypes
+    ): Promise<boolean> {
         if (
             verifiedProfile.serviceTypes.containsAtLeastOneOf(
                 expectedServiceTypes
             )
         ) {
-            successHandler();
+            return true;
         } else {
-            errorHandler(
-                new VCLError(
-                    JSON.stringify({
-                        profileName: verifiedProfile.name,
-                        message: `Wrong service type - expected: ${expectedServiceTypes.all}, found: ${verifiedProfile.serviceTypes.all}`,
-                    }),
-                    null,
-                    null,
-                    VCLStatusCode.VerificationError
-                )
+            throw new VCLError(
+                JSON.stringify({
+                    profileName: verifiedProfile.name,
+                    message: `Wrong service type - expected: ${expectedServiceTypes.all}, found: ${verifiedProfile.serviceTypes.all}`,
+                }),
+                null,
+                null,
+                VCLStatusCode.VerificationError
             );
         }
     }

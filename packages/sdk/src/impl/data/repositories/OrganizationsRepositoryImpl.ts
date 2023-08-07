@@ -11,17 +11,16 @@ export default class OrganizationsRepositoryImpl
     implements OrganizationsRepository
 {
     constructor(private networkService: NetworkService) {}
-    searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        completionBlock: (r: VCLResult<VCLOrganizations>) => any
-    ): void {
+    async searchForOrganizations(
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ): Promise<VCLResult<VCLOrganizations>> {
         const endpoint = organizationsSearchDescriptor.queryParams
             ? Urls.Organizations +
               "?" +
               organizationsSearchDescriptor.queryParams
             : Urls.Organizations;
 
-        this.networkService.sendRequestRaw({
+        let result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint,
             headers: {
@@ -31,27 +30,19 @@ export default class OrganizationsRepositoryImpl
             body: null,
             method: "GET",
             contentType: "application/json",
-            completionBlock: (result) => {
-                result.handleResult(
-                    (organizationsResponse) => {
-                        try {
-                            completionBlock(
-                                new VCLResult.Success(
-                                    this.parse(organizationsResponse.payload)
-                                )
-                            );
-                        } catch (error: any) {
-                            completionBlock(
-                                new VCLResult.Error(new VCLError(error))
-                            );
-                        }
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
         });
+
+        let [error, organizationsResponse] = await result.handleResult();
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+        try {
+            return new VCLResult.Success(
+                this.parse(organizationsResponse!.payload)
+            );
+        } catch (error: any) {
+            return new VCLResult.Error(new VCLError(error));
+        }
     }
 
     private parse(organizationsRaw: JSONObject): VCLOrganizations {

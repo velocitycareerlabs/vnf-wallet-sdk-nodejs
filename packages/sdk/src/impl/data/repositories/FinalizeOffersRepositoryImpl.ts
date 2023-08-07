@@ -10,12 +10,11 @@ import { HeaderKeys, HeaderValues } from "./Urls";
 export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
     constructor(private networkService: NetworkService) {}
 
-    finalizeOffers(
+    async finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        completionBlock: (r: VCLResult<string[]>) => any
-    ): void {
-        this.networkService.sendRequestRaw({
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
+    ): Promise<VCLResult<string[]>> {
+        let result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: finalizeOffersDescriptor.finalizeOffersUri,
             body: finalizeOffersDescriptor.payload,
@@ -26,39 +25,26 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
             },
             contentType: "application/json",
             method: "POST",
-            completionBlock: (result) => {
-                result.handleResult(
-                    (finalizedOffersResponse) => {
-                        try {
-                            const encodedJwts: Nullish<string[]> =
-                                finalizedOffersResponse.payload as Nullish<
-                                    string[]
-                                >;
-
-                            if (encodedJwts) {
-                                completionBlock(
-                                    new VCLResult.Success(encodedJwts)
-                                );
-                            } else {
-                                completionBlock(
-                                    new VCLResult.Error(
-                                        new VCLError(
-                                            `Failed to parse: ${finalizedOffersResponse.payload}`
-                                        )
-                                    )
-                                );
-                            }
-                        } catch (error: any) {
-                            completionBlock(
-                                new VCLResult.Error(new VCLError(error))
-                            );
-                        }
-                    },
-                    (error) => {
-                        completionBlock(new VCLResult.Error(error));
-                    }
-                );
-            },
         });
+        let [error, finalizedOffersResponse] = await result.handleResult();
+        if (error) {
+            return new VCLResult.Error(error);
+        }
+
+        try {
+            const encodedJwts: Nullish<string[]> = finalizedOffersResponse!
+                .payload as Nullish<string[]>;
+
+            if (encodedJwts) {
+                return new VCLResult.Success(encodedJwts);
+            }
+            return new VCLResult.Error(
+                new VCLError(
+                    `Failed to parse: ${finalizedOffersResponse!.payload}`
+                )
+            );
+        } catch (error: any) {
+            return new VCLResult.Error(new VCLError(error));
+        }
     }
 }

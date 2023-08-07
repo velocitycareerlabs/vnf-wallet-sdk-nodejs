@@ -4,7 +4,6 @@ import VCLVerifiedProfileDescriptor from "../../../api/entities/VCLVerifiedProfi
 
 export default interface VerifiedProfileRepository {
     getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        completionBlock: (r: VCLResult<VCLVerifiedProfile>) => any
-    ): void;
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ): Promise<VCLResult<VCLVerifiedProfile>>;
 }
