@@ -45,8 +45,8 @@ export default class JwtServiceImpl implements JwtService {
             .setIssuer(jwtDescriptor.iss)
             .setJti(jwtDescriptor.jti)
             .setIssuedAt(undefined)
-            .setNotBefore(0)
-            .setExpirationTime(new Date().addDaysToNow(7).getTime() / 1000)
+            .setNotBefore("0d")
+            .setExpirationTime("7d")
             .setSubject("".randomString(10));
 
         let result: string = "";

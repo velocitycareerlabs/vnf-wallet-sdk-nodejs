@@ -29,7 +29,7 @@ export default class OrganizationsRepositoryImpl
             },
             body: null,
             method: "GET",
-            contentType: "application/json",
+            contentType: null,
         });
 
         let [error, organizationsResponse] = await result.handleResult();

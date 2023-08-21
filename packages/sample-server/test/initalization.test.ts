@@ -3,10 +3,10 @@ import { describe, expect, test, beforeAll, afterAll } from "@jest/globals";
 import app from "../src/app";
 import { FastifyInstance } from "fastify";
 
-import { VCLImpl } from "vnf-wallet-sdk-nodejs/dist/impl/VCLImpl";
-import VCLInitializationDescriptor from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLInitializationDescriptor";
-import VCLCountries from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLCountries";
-import VCLEnvironment from "vnf-wallet-sdk-nodejs/dist/api/VCLEnvironment";
+import { VCLImpl } from "vnf-wallet-sdk-nodejs/src/impl/VCLImpl";
+import VCLInitializationDescriptor from "vnf-wallet-sdk-nodejs/src/api/entities/VCLInitializationDescriptor";
+import VCLCountries from "vnf-wallet-sdk-nodejs/src/api/entities/VCLCountries";
+import VCLEnvironment from "vnf-wallet-sdk-nodejs/src/api/VCLEnvironment";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;

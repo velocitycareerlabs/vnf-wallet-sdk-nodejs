@@ -19,18 +19,19 @@ export default class NetworkServiceImpl implements NetworkService {
                     axios.get(params.endpoint, {
                         headers: {
                             ...params.headers,
-                            "Content-Type": params.contentType,
                         },
                     });
                 break;
             case "POST":
                 handler = () =>
-                    axios.post(params.endpoint, Boolean, {
-                        headers: {
-                            ...params.headers,
-                            "Content-Type": params.contentType,
-                        },
-                    });
+                    axios
+                        .create({ ...axios.defaults })
+                        .post(params.endpoint, params.body, {
+                            headers: {
+                                ...params.headers,
+                                "Content-Type": params.contentType,
+                            },
+                        });
                 break;
             default:
                 break;

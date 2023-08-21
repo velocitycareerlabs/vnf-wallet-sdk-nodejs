@@ -31,7 +31,7 @@ export default class CredentialManifestUseCaseImpl
                 )
             );
         } else {
-            return this.onError(new VCLError("Failed to verify: $jwt"));
+            return this.onError(new VCLError(`Failed to verify: ${jwt}`));
         }
     }
 
@@ -78,7 +78,7 @@ export default class CredentialManifestUseCaseImpl
         jwt: VCLJwt,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ): Promise<VCLResult<VCLCredentialManifest>> {
-        const keyID = jwt.header.keyID?.replace("#", encodeURIComponent("#"));
+        const keyID = jwt.header.kid?.replace("#", encodeURIComponent("#"));
         if (!keyID) {
             return this.onError(new VCLError("Empty KeyID"));
         }

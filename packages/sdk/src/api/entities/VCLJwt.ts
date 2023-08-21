@@ -49,13 +49,17 @@ export class SignedJWT {
 
     static parse(s: string): Nullish<SignedJWT> {
         let splitted = s.split(".");
-        if (splitted.length !== 3) {
-            return null;
-        }
-        return new SignedJWT(splitted[0], splitted[1], splitted[2]);
+        return new SignedJWT(
+            splitted[0] ?? "",
+            splitted[1] ?? "",
+            splitted[2] ?? ""
+        );
     }
 
     serialize() {
-        return `${this.header}.${this.payload}.${this.signature}`;
+        let items = [this.header, this.payload, this.signature].filter(
+            (item) => item.length
+        );
+        return items.join(".");
     }
 }

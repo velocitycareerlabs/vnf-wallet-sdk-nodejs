@@ -23,7 +23,7 @@ export default class PresentationRequestRepositoryImpl
 
         let encodedJwtResult = await this.networkService.sendRequest({
             endpoint,
-            contentType: "application/json",
+            contentType: null,
             method: "GET",
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:

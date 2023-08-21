@@ -28,7 +28,7 @@ export default class ExchangeProgressRepositoryImpl
                     HeaderValues.XVnfProtocolVersion,
             },
             body: null,
-            contentType: "application/json",
+            contentType: null,
         });
 
         let [error, exchangeProgressResponse] =

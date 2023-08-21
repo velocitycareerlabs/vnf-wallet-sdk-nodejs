@@ -3,7 +3,6 @@ import autoload from "@fastify/autoload";
 import path from "path";
 import { userSchema } from "./schemas/user";
 import { errorSchema } from "./schemas/error";
-
 interface buildOpts extends FastifyServerOptions {}
 
 const build = (opts: buildOpts = {}): FastifyInstance => {

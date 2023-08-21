@@ -1,6 +1,6 @@
-type Nullish<T> = T | null | undefined;
+declare type Nullish<T> = T | null | undefined;
 
-type JSONObject = any;
+declare type JSONObject = any;
 
 interface String {
     getQueryParameters(): Map<string, string>;

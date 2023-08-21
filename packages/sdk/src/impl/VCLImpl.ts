@@ -88,7 +88,7 @@ export class VCLImpl implements VCL {
     async initialize(
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>> {
-        GlobalConfig.CurrentEnvironment = VCLEnvironment.DEV;
+        GlobalConfig.CurrentEnvironment = initializationDescriptor.environment;
 
         this.initializationWatcher = new InitializationWatcher(
             VCLImpl.ModelsToInitializeAmount
@@ -154,7 +154,9 @@ export class VCLImpl implements VCL {
         const did = presentationRequestDescriptor.did;
         if (!did) {
             let err = new VCLError(
-                "did was not found in $presentationRequestDescriptor"
+                `did was not found in ${JSON.stringify(
+                    presentationRequestDescriptor
+                )}`
             );
             logError("getPresentationRequest::verifiedProfile", err);
             throw err;
@@ -254,7 +256,9 @@ export class VCLImpl implements VCL {
         let did = credentialManifestDescriptor.did;
         if (!did) {
             let e = new VCLError(
-                `did was not found in ${credentialManifestDescriptor}`,
+                `did was not found in ${JSON.stringify(
+                    credentialManifestDescriptor
+                )}`,
                 null,
                 null
             );
@@ -266,7 +270,7 @@ export class VCLImpl implements VCL {
             throw e;
         }
         try {
-            let credentialManifest =
+            let isVerifiedResult =
                 await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                     new VCLVerifiedProfileDescriptor(did),
                     VCLServiceTypes.fromIssuingType(
@@ -274,13 +278,22 @@ export class VCLImpl implements VCL {
                     )
                 );
 
-            let [error, credentialManifestResult] =
-                await credentialManifest.handleResult();
-            if (error) {
-                logError("getCredentialManifest", error);
-                throw error;
+            let [err, isVerified] = isVerifiedResult.handleResult();
+            if (isVerified) {
+                let credentialManifest =
+                    await this.credentialManifestUseCase.getCredentialManifest(
+                        credentialManifestDescriptor
+                    );
+                let [error, credentialManifestResult] =
+                    await credentialManifest.handleResult();
+                if (error) {
+                    logError("getCredentialManifest", error);
+                    throw error;
+                }
+                return credentialManifestResult!;
+            } else {
+                throw err;
             }
-            return credentialManifestResult!;
         } catch (error: any) {
             logError("profile verification failed", error);
             throw error;
@@ -302,6 +315,9 @@ export class VCLImpl implements VCL {
             logError("submit identification", error);
             throw error;
         }
+
+        console.log("Identification submitted success.");
+        console.log(submission);
 
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
@@ -402,20 +418,21 @@ export class VCLImpl implements VCL {
     private async invokeGenerateOffersUseCase(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         token: VCLToken
-    ): Promise<VCLResult<VCLOffers>> {
+    ): Promise<VCLOffers> {
         let vnOffersResult = await this.generateOffersUseCase.generateOffers(
             token,
             generateOffersDescriptor
         );
 
         let [err, result] = await vnOffersResult.handleResult();
+
         if (err) {
-            return new VCLResult.Error(err);
+            throw err;
         }
-        return new VCLResult.Success(result);
+        return result!;
     }
 }
 
 const logError = (message: String = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${error}`);
+    VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
 };

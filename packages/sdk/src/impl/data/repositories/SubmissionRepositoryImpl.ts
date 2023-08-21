@@ -15,9 +15,11 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
         submission: VCLSubmission,
         jwt: VCLJwt
     ): Promise<VCLResult<VCLSubmissionResult>> {
+        const body = submission.generateRequestBody(jwt);
+
         let result = await this.networkService.sendRequest({
             endpoint: submission.submitUri,
-            body: submission.generateRequestBody(jwt),
+            body,
             method: "POST",
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:

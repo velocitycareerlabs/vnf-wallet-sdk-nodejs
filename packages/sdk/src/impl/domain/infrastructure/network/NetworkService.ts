@@ -14,7 +14,7 @@ type NetworkRequesParams = {
 };
 
 export default interface NetworkService {
-    sendRequest(params: Request): Promise<VCLResult<Response>>;
+    sendRequestRaw(params: Request): Promise<VCLResult<Response>>;
 
     sendRequest(params: NetworkRequesParams): Promise<VCLResult<Response>>;
 }

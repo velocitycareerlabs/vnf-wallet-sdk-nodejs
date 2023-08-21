@@ -7,7 +7,8 @@ String.prototype.getQueryParameters = function (): Map<string, string> {
         const url = new URL(this.valueOf());
         const entries = url.searchParams.entries();
 
-        for (const [key, value] of entries) {
+        for (let i of entries) {
+            const [key, value] = i;
             // each 'entry' is a [key, value] tupple
             result.set(key, value);
         }
