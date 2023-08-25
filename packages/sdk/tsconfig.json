@@ -12,7 +12,8 @@
     "lib": ["ES6", "ES2022"],
     "downlevelIteration": true,
     "target": "es5",
-    "declaration": true
+    "declaration": true,
+    "module": "ES2015"
   },
   "include": [
     "./src/**/*"
@@ -24,5 +25,5 @@
   "parserOptions":  {
     "ecmaVersion":  "2022",  // Allows for the parsing of modern ECMAScript features
     "sourceType":  "module"  // Allows for the use of imports
-  }
+  },
 }
