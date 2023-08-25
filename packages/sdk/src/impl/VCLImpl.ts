@@ -327,11 +327,12 @@ export class VCLImpl implements VCL {
 
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
+        token: VCLToken
+    ): Promise<VCLOffers> {
+        return this.invokeGenerateOffersUseCase(
+            generateOffersDescriptor,
+            token
+        );
     }
     finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,

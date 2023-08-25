@@ -3,7 +3,12 @@ import GlobalConfig from "../../GlobalConfig";
 
 export default class Urls {
     private static get EnvironmentPrefix(): string {
-        return GlobalConfig.CurrentEnvironment;
+        return {
+            [VCLEnvironment.PROD]: "",
+            [VCLEnvironment.STAGING]: "staging",
+            [VCLEnvironment.QA]: "qa",
+            [VCLEnvironment.DEV]: "dev",
+        }[GlobalConfig.CurrentEnvironment];
     }
     private static get BaseUrlServices(): string {
         return `https://${Urls.EnvironmentPrefix}registrar.velocitynetwork.foundation`;

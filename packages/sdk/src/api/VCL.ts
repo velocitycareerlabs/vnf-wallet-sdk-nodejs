@@ -57,17 +57,13 @@ export default interface VCL {
     ): Promise<VCLCredentialManifest>;
 
     generateOffers(
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ): Promise<VCLOffers>;
 
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        token: VCLToken
+    ): Promise<VCLOffers>;
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
