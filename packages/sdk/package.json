@@ -4,6 +4,7 @@
     "description": "VNF Wallet SDK Nodejs",
     "main": "dist/index.js",
     "types": "./global.d.ts",
+    "type": "module",
     "scripts": {
         "prepublish": "tsc --declaration",
         "build": "tsc",
