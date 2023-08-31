@@ -1,5 +1,5 @@
 enum VCLEnvironment {
-    PROD = "",
+    PROD = "prod",
     STAGING = "staging",
     QA = "qa",
     DEV = "dev",
