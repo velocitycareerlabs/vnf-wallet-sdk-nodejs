@@ -85,6 +85,4 @@ export default interface VCL {
     generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
 
     generateDidJwk(): Promise<VCLDidJwk>;
-
-    printVersion(): void;
 }
