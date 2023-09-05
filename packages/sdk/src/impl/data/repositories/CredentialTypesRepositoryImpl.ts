@@ -4,7 +4,7 @@ import VCLError from "../../../api/entities/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypesRepository from "../../domain/repositories/CredentialTypesRepository";
-import Request from "../infrastructure/network/Request";
+import Request, { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class CredentialTypesRepositoryImpl
@@ -23,7 +23,7 @@ export default class CredentialTypesRepositoryImpl
         let result = await this.networkService.sendRequest({
             endpoint,
             contentType: Request.ContentTypeApplicationJson,
-            method: "GET",
+            method: HttpMethod.GET,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,

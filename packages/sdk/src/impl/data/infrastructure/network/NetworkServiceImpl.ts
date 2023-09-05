@@ -14,7 +14,7 @@ export default class NetworkServiceImpl implements NetworkService {
             return null;
         };
         switch (params.method) {
-            case "GET":
+            case HttpMethod.GET:
                 handler = () =>
                     axios.get(params.endpoint, {
                         headers: {
@@ -22,7 +22,7 @@ export default class NetworkServiceImpl implements NetworkService {
                         },
                     });
                 break;
-            case "POST":
+            case HttpMethod.POST:
                 handler = () =>
                     axios
                         .create({ ...axios.defaults })

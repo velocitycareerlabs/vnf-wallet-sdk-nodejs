@@ -7,6 +7,7 @@ import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import SubmissionRepository from "../../domain/repositories/SubmissionRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class SubmissionRepositoryImpl implements SubmissionRepository {
@@ -20,7 +21,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
         let result = await this.networkService.sendRequest({
             endpoint: submission.submitUri,
             body,
-            method: "POST",
+            method: HttpMethod.POST,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,

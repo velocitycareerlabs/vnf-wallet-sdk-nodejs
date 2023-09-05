@@ -5,6 +5,7 @@ import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import FinalizeOffersRepository from "../../domain/repositories/FinalizeOffersRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
 export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
@@ -24,7 +25,7 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
                     HeaderValues.XVnfProtocolVersion,
             },
             contentType: "application/json",
-            method: "POST",
+            method: HttpMethod.POST,
         });
         let [error, finalizedOffersResponse] = await result.handleResult();
         if (error) {

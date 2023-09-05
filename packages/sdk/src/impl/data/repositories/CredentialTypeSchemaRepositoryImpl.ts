@@ -2,6 +2,7 @@ import VCLCredentialTypeSchema from "../../../api/entities/VCLCredentialTypeSche
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypeSchemaRepository from "../../domain/repositories/CredentialTypeSchemaRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class CredentialTypeSchemaRepositoryImpl
@@ -22,7 +23,7 @@ export default class CredentialTypeSchemaRepositoryImpl
     ): Promise<VCLResult<VCLCredentialTypeSchema>> {
         let result = await this.networkService.sendRequest({
             endpoint,
-            method: "GET",
+            method: HttpMethod.GET,
             body: null,
             useCaches: true,
             headers: {

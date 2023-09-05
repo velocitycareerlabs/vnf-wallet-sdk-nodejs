@@ -4,6 +4,7 @@ import VCLPresentationRequestDescriptor from "../../../api/entities/VCLPresentat
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import PresentationRequestRepository from "../../domain/repositories/PresentationRequestRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class PresentationRequestRepositoryImpl
@@ -24,7 +25,7 @@ export default class PresentationRequestRepositoryImpl
         let encodedJwtResult = await this.networkService.sendRequest({
             endpoint,
             contentType: null,
-            method: "GET",
+            method: HttpMethod.GET,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,

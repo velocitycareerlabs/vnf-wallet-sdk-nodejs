@@ -5,6 +5,7 @@ import VCLOrganizationsSearchDescriptor from "../../../api/entities/VCLOrganizat
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import OrganizationsRepository from "../../domain/repositories/OrganizationsRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class OrganizationsRepositoryImpl
@@ -28,7 +29,7 @@ export default class OrganizationsRepositoryImpl
                     HeaderValues.XVnfProtocolVersion,
             },
             body: null,
-            method: "GET",
+            method: HttpMethod.GET,
             contentType: null,
         });
 

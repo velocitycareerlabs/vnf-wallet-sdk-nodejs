@@ -2,6 +2,7 @@ import VCLJwkPublic from "../../../api/entities/VCLJwkPublic";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
@@ -11,7 +12,7 @@ export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
         let result = await this.networkService.sendRequest({
             endpoint:
                 Urls.ResolveKid + kid + `?format=${VCLJwkPublic.Format.jwk}`,
-            method: "GET",
+            method: HttpMethod.GET,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,

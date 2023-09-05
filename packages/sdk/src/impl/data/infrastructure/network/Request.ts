@@ -1,4 +1,7 @@
-export type HttpMethod = "POST" | "GET";
+export enum HttpMethod {
+    GET = "GET",
+    POST = "POST",
+}
 
 export default class Request {
     constructor(

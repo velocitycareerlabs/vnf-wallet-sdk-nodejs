@@ -5,6 +5,7 @@ import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import GenerateOffersRepository from "../../domain/repositories/GenerateOffersRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Response from "../infrastructure/network/Response";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
@@ -26,7 +27,7 @@ export default class GenerateOffersRepositoryImpl
                     HeaderValues.XVnfProtocolVersion,
             },
             body: generateOffersDescriptor.payload,
-            method: "POST",
+            method: HttpMethod.POST,
             contentType: "application/json",
         });
         let [error, offersResponse] = await result.handleResult();

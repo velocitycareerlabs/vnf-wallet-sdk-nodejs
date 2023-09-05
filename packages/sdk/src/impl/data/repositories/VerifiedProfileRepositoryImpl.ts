@@ -3,6 +3,7 @@ import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "../../../api/entities/VCLVerifiedProfileDescriptor";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import VerifiedProfileRepository from "../../domain/repositories/VerifiedProfileRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues, Params } from "./Urls";
 
 export default class VerifiedProfileRepositoryImpl
@@ -14,7 +15,7 @@ export default class VerifiedProfileRepositoryImpl
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
     ): Promise<VCLResult<VCLVerifiedProfile>> {
         let result = await this.networkService.sendRequest({
-            method: "GET",
+            method: HttpMethod.GET,
             endpoint: Urls.VerifiedProfile.replace(
                 Params.Did,
                 verifiedProfileDescriptor.did

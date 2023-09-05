@@ -4,6 +4,7 @@ import VCLExchangeDescriptor from "../../../api/entities/VCLExchangeDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import ExchangeProgressRepository from "../../domain/repositories/ExchangeProgressRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class ExchangeProgressRepositoryImpl
@@ -16,7 +17,7 @@ export default class ExchangeProgressRepositoryImpl
     ): Promise<VCLResult<VCLExchange>> {
         let submissionResult = await this.networkService.sendRequest({
             useCaches: false,
-            method: "GET",
+            method: HttpMethod.GET,
             endpoint:
                 exchangeDescriptor.processUri +
                 `?${VCLExchangeDescriptor.KeyExchangeId}=${encodeURIComponent(

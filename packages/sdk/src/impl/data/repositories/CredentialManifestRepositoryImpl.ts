@@ -4,6 +4,7 @@ import VCLError from "../../../api/entities/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialManifestRepository from "../../domain/repositories/CredentialManifestRepository";
+import { HttpMethod } from "../infrastructure/network/Request";
 import Response from "../infrastructure/network/Response";
 import { HeaderKeys, HeaderValues } from "./Urls";
 
@@ -24,7 +25,7 @@ export default class CredentialManifestRepositoryImpl
 
         let result = await this.networkService.sendRequest({
             endpoint,
-            method: "GET",
+            method: HttpMethod.GET,
             body: null,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:

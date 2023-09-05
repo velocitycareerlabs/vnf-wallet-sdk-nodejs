@@ -5,7 +5,7 @@ import VCLRegions from "../../../api/entities/VCLRegions";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CountriesRepository from "../../domain/repositories/CountriesRepository";
-import Request from "../infrastructure/network/Request";
+import Request, { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
 
 export default class CountriesRepositoryImpl implements CountriesRepository {
@@ -21,7 +21,7 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
         let result = await this.networkService.sendRequest({
             endpoint,
             contentType: Request.ContentTypeApplicationJson,
-            method: "GET",
+            method: HttpMethod.GET,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
                     HeaderValues.XVnfProtocolVersion,
