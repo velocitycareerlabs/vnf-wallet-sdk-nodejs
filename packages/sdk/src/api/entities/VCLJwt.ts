@@ -24,13 +24,13 @@ export default class VCLJwt {
 
     get header(): JSONObject {
         let buff = Buffer.from(this.signedJwt.header, "base64");
-        let text = buff.toString("ascii");
+        let text = buff.toString("utf-8");
         return JSON.parse(text);
     }
 
     get payload(): JSONObject {
         let buff = Buffer.from(this.signedJwt.payload, "base64");
-        let text = buff.toString("ascii");
+        let text = buff.toString("utf-8");
         return JSON.parse(text);
     }
 
