@@ -44,8 +44,8 @@ export default class JwtServiceImpl implements JwtService {
             .setAudience(jwtDescriptor.iss)
             .setIssuer(jwtDescriptor.iss)
             .setJti(jwtDescriptor.jti)
-            .setIssuedAt(undefined)
-            .setNotBefore("0d")
+            .setIssuedAt(Math.floor(Date.now() / 1000))
+            .setNotBefore(Math.floor(Date.now() / 1000))
             .setExpirationTime("7d")
             .setSubject("".randomString(10));
 
