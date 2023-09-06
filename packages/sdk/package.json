@@ -1,6 +1,6 @@
 {
-    "name": "vnf-wallet-sdk-nodejs",
-    "version": "0.0.1",
+    "name": "@velocitycareerlabs/vnf-nodejs",
+    "version": "0.1.0",
     "description": "VNF Wallet SDK Nodejs",
     "main": "dist/index.js",
     "types": "./global.d.ts",
