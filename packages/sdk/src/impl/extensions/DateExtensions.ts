@@ -1,12 +1,5 @@
 export {};
 
-declare global {
-    interface Date {
-        addDaysToNow(days: number): Date;
-        equalsTo(date: Date): Boolean;
-    }
-}
-
 Date.prototype.addDaysToNow = function (days: number): Date {
     this.setUTCDate(this.getUTCDate() + days);
     return this;

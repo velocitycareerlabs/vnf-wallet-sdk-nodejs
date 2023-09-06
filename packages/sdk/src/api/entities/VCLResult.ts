@@ -6,11 +6,8 @@ export default class VCLResult<R> {
             super();
         }
 
-        handleResult(
-            successHandler: (d: T) => any,
-            errorHandler: (error: VCLError) => any
-        ): void {
-            successHandler(this.data);
+        handleResult(): [Nullish<VCLError>, Nullish<T>] {
+            return [null, this.data];
         }
 
         getData(): Nullish<T> {
@@ -18,22 +15,18 @@ export default class VCLResult<R> {
         }
     };
 
-    static Error = class<T> extends VCLResult<never> {
+    static Error = class<T> extends VCLResult<T> {
         constructor(public error: VCLError) {
             super();
         }
-        handleResult(
-            successHandler: (d: never) => any,
-            errorHandler: (error: VCLError) => any
-        ): void {
-            errorHandler(this.error);
+        handleResult(): [Nullish<VCLError>, Nullish<T>] {
+            return [this.error, null];
         }
     };
 
-    handleResult(
-        successHandler: (d: R) => any,
-        errorHandler: (error: VCLError) => any
-    ) {}
+    handleResult(): [Nullish<VCLError>, Nullish<R>] {
+        return [null, null];
+    }
 
     getData(): Nullish<R> {
         return undefined;

@@ -5,9 +5,9 @@ export default class VCLError extends Error {
     statusCode: Nullish<number> = null;
 
     constructor(
-        error: Nullish<string>,
-        errorCode: Nullish<string>,
-        message: Nullish<string>,
+        error: Nullish<string> = null,
+        errorCode: Nullish<string> = null,
+        message: Nullish<string> = null,
         statusCode: Nullish<number> = null
     ) {
         super(message ?? "");

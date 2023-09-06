@@ -10,7 +10,6 @@ import VCLEnvironment from "../VCLEnvironment";
 
 export default class VCLInitializationDescriptor {
     constructor(
-        public readonly environment: VCLEnvironment = VCLEnvironment.PROD,
-        public readonly cacheSequence: number = 0
+        public readonly environment: VCLEnvironment = VCLEnvironment.PROD
     ) {}
 }

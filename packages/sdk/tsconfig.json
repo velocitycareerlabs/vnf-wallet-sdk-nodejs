@@ -10,11 +10,13 @@
     "sourceMap": true,
     "strict": true,
     "lib": ["ES6", "ES2022"],
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "target": "es5",
+    "declaration": true
   },
   "include": [
     "./src/**/*"
-  ],
+, "global.d.ts"  ],
   "exclude": [
     "node_modules",
     "dist"

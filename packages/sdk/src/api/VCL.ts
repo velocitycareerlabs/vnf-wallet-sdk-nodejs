@@ -29,64 +29,46 @@ import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescripto
 
 export default interface VCL {
     initialize(
-        initializationDescriptor: VCLInitializationDescriptor,
-        successHandler: () => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        initializationDescriptor: VCLInitializationDescriptor
+    ): Promise<Nullish<VCLError>>;
 
     countries: Nullish<VCLCountries>;
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
 
     getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
-        successHandler: (r: VCLPresentationRequest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    ): Promise<VCLPresentationRequest>;
 
     submitPresentation(
-        presentationSubmission: VCLPresentationSubmission,
-        successHandler: (r: VCLSubmissionResult) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        presentationSubmission: VCLPresentationSubmission
+    ): Promise<VCLSubmissionResult>;
 
     getExchangeProgress(
-        exchangeDescriptor: VCLExchangeDescriptor,
-        successHandler: (e: VCLExchange) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        exchangeDescriptor: VCLExchangeDescriptor
+    ): Promise<VCLExchange>;
 
     searchForOrganizations(
-        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor,
-        successHandler: (o: VCLOrganizations) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
+    ): Promise<VCLOrganizations>;
 
     getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        successHandler: (m: VCLCredentialManifest) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+    ): Promise<VCLCredentialManifest>;
 
     generateOffers(
-        generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        generateOffersDescriptor: VCLGenerateOffersDescriptor
+    ): Promise<VCLOffers>;
 
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken,
-        successHandler: (o: VCLOffers) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        token: VCLToken
+    ): Promise<VCLOffers>;
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken,
-        successHandler: (c: VCLJwtVerifiableCredentials) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        token: VCLToken
+    ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
@@ -95,28 +77,12 @@ export default interface VCL {
     ): void;
 
     getVerifiedProfile(
-        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
-        successHandler: (p: VCLVerifiedProfile) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
+    ): Promise<VCLVerifiedProfile>;
 
-    verifyJwt(
-        jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic,
-        successHandler: (b: boolean) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+    verifyJwt(jwt: VCLJwt, jwkPublic: VCLJwkPublic): Promise<boolean>;
 
-    generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor,
-        successHandler: (jwt: VCLJwt) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
 
-    generateDidJwk(
-        successHandler: (jwk: VCLDidJwk) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
-
-    printVersion(): void;
+    generateDidJwk(): Promise<VCLDidJwk>;
 }

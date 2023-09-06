@@ -24,6 +24,7 @@ export default class VCLOrganization {
             }
         } catch (error) {
             // TODO: add log
+            console.log("Error while parsing service credential agent issuers");
         }
 
         return result;

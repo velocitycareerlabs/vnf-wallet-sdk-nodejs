@@ -53,7 +53,6 @@ export default class VCLSubmission {
         return {
             [VCLSubmission.KeyExchangeId]: this.exchangeId,
             [VCLSubmission.KeyJwtVp]: jwt.signedJwt.serialize(),
-            [VCLSubmission.KeyPushDelegate]: this.pushDelegate,
         };
     }
 

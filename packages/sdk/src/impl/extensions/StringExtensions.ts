@@ -1,11 +1,4 @@
-export {};
-declare global {
-    interface String {
-        getQueryParameters(): Map<string, string>;
-        appendQueryParams(queryParams: string): string;
-        getUrlSubPath(subPathPrefix: string): Nullish<string>;
-    }
-}
+import { randomBytes } from "crypto";
 
 String.prototype.getQueryParameters = function (): Map<string, string> {
     const result = new Map<string, string>();
@@ -14,7 +7,8 @@ String.prototype.getQueryParameters = function (): Map<string, string> {
         const url = new URL(this.valueOf());
         const entries = url.searchParams.entries();
 
-        for (const [key, value] of entries) {
+        for (let i of entries) {
+            const [key, value] = i;
             // each 'entry' is a [key, value] tupple
             result.set(key, value);
         }
@@ -38,3 +32,8 @@ String.prototype.getUrlSubPath = function (
         .split("/")
         .find((item) => item.startsWith(subPathPrefix));
 };
+
+String.prototype.randomString = function (length: number): string {
+    return randomBytes(length).toString("hex");
+};
+export {};
