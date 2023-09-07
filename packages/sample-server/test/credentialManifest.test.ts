@@ -3,20 +3,20 @@ import { describe, expect, test, beforeAll, afterAll } from "@jest/globals";
 import app from "../src/app";
 import { FastifyInstance } from "fastify";
 
-import { VCLImpl } from "vnf-wallet-sdk-nodejs/dist/impl/VCLImpl";
-import VCLInitializationDescriptor from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLInitializationDescriptor";
-import VCLCountries from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLCountries";
-import VCLEnvironment from "vnf-wallet-sdk-nodejs/dist/api/VCLEnvironment";
-import CredentialManifestUseCaseImpl from "vnf-wallet-sdk-nodejs/dist/impl/data/usecases/CredentialManifestUseCaseImpl";
-import NetworkServiceSuccess from "vnf-wallet-sdk-nodejs/dist/test/NetworkServiceSuccess";
-import CredentialManifestRepositoryImpl from "vnf-wallet-sdk-nodejs/dist/impl/data/repositories/CredentialManifestRepositoryImpl";
-import ResolveKidRepositoryImpl from "vnf-wallet-sdk-nodejs/dist/impl/data/repositories/ResolveKidRepositoryImpl";
-import JwtServiceRepositoryImpl from "vnf-wallet-sdk-nodejs/dist/impl/data/repositories/JwtServiceRepositoryImpl";
-import JwtServiceImpl from "vnf-wallet-sdk-nodejs/dist/impl/data/infrastructure/jwt/JwtServiceImpl";
-import VCLCredentialManifestDescriptorByService from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLCredentialManifestDescriptorByService";
-import VCLIssuingType from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLIssuingType";
-import VCLOrganizationsSearchDescriptor from "vnf-wallet-sdk-nodejs/dist/api/entities/VCLOrganizationsSearchDescriptor";
-import VCLDeepLink from "vnf-wallet-sdk-nodejs/src/api/entities/VCLDeepLink";
+import { VCLImpl } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/VCLImpl";
+import VCLInitializationDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/entities/VCLInitializationDescriptor";
+import VCLCountries from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/entities/VCLCountries";
+import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/VCLEnvironment";
+import CredentialManifestUseCaseImpl from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/data/usecases/CredentialManifestUseCaseImpl";
+import NetworkServiceSuccess from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/test/NetworkServiceSuccess";
+import CredentialManifestRepositoryImpl from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/data/repositories/CredentialManifestRepositoryImpl";
+import ResolveKidRepositoryImpl from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/data/repositories/ResolveKidRepositoryImpl";
+import JwtServiceRepositoryImpl from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/data/repositories/JwtServiceRepositoryImpl";
+import JwtServiceImpl from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/impl/data/infrastructure/jwt/JwtServiceImpl";
+import VCLCredentialManifestDescriptorByService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/entities/VCLCredentialManifestDescriptorByService";
+import VCLIssuingType from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/entities/VCLIssuingType";
+import VCLOrganizationsSearchDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/dist/api/entities/VCLOrganizationsSearchDescriptor";
+import VCLDeepLink from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDeepLink";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;
