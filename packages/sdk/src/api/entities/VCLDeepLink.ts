@@ -1,23 +1,24 @@
 export default class VCLDeepLink {
     constructor(public value: string) {}
 
-    get issuer(): Nullish<string> {
-        return this.generateUri(VCLDeepLink.KeyIssuer, true);
-    }
-
     get requestUri(): Nullish<string> {
         return this.generateUri(VCLDeepLink.KeyRequestUri);
     }
 
+    // get did(): Nullish<string> {
+    //     return (
+    //         this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) ??
+    //         this.issuer?.getUrlSubPath(VCLDeepLink.KeyDidPrefix)
+    //     );
+    // }
     get did(): Nullish<string> {
         return (
-            this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) ??
-            this.issuer?.getUrlSubPath(VCLDeepLink.KeyDidPrefix)
+            this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ?? this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid)
         );
     }
 
     get vendorOriginContext(): Nullish<string> {
-        return this.retrieveVendorOriginContext();
+        return this.retrieveQueryParam(VCLDeepLink.KeyVendorOriginContext);
     }
 
     private generateUri(
@@ -30,7 +31,6 @@ export default class VCLDeepLink {
             const queryItems = [...queryParams.entries()]
                 .filter((it) => it[0] !== uriKey && it[1] !== "")
                 .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-                .sort()
                 .join("&");
             if (queryItems.length > 0) {
                 return asSubParams
@@ -44,15 +44,13 @@ export default class VCLDeepLink {
         return null;
     }
 
-    retrieveVendorOriginContext(): Nullish<string> {
-        return decodeURI(this.value)
-            .getQueryParameters()
-            ?.get(VCLDeepLink.KeyVendorOriginContext);
+    retrieveQueryParam(key: string): Nullish<string> {
+        return decodeURI(this.value).getQueryParameters()?.get(key);
     }
 
     // CodingKeys
-    static readonly KeyDidPrefix = "did:";
-    static readonly KeyIssuer = "issuer";
     static readonly KeyRequestUri = "request_uri";
     static readonly KeyVendorOriginContext = "vendorOriginContext";
+    static readonly KeyIssuerDid = "issuerDid";
+    static readonly KeyInspectorDid = "inspectorDid";
 }
