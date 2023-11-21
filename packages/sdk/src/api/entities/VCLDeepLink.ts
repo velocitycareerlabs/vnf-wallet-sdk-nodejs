@@ -1,3 +1,5 @@
+import "../../impl/extensions/StringExtensions";
+
 export default class VCLDeepLink {
     public requestUri: Nullish<string>;
     public did: Nullish<string>;
