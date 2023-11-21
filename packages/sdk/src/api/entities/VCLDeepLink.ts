@@ -1,23 +1,26 @@
 export default class VCLDeepLink {
-    constructor(public value: string) {}
+    public requestUri: Nullish<string>;
+    public did: Nullish<string>;
+    public vendorOriginContext: Nullish<string>;
 
-    get requestUri(): Nullish<string> {
+    constructor(public value: string) {
+        this.did = this.getDid();
+        this.vendorOriginContext = this.getVendorOriginContext();
+        this.requestUri = this.getRequestUri();
+    }
+
+    private getRequestUri(): Nullish<string> {
         return this.generateUri(VCLDeepLink.KeyRequestUri);
     }
 
-    // get did(): Nullish<string> {
-    //     return (
-    //         this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) ??
-    //         this.issuer?.getUrlSubPath(VCLDeepLink.KeyDidPrefix)
-    //     );
-    // }
-    get did(): Nullish<string> {
+    private getDid(): Nullish<string> {
         return (
-            this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ?? this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid)
+            (this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ?? this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid)) ?? 
+            this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) // fallback for old agents
         );
     }
 
-    get vendorOriginContext(): Nullish<string> {
+    private getVendorOriginContext(): Nullish<string> {
         return this.retrieveQueryParam(VCLDeepLink.KeyVendorOriginContext);
     }
 
@@ -49,6 +52,7 @@ export default class VCLDeepLink {
     }
 
     // CodingKeys
+    static readonly KeyDidPrefix = "did:";
     static readonly KeyRequestUri = "request_uri";
     static readonly KeyVendorOriginContext = "vendorOriginContext";
     static readonly KeyIssuerDid = "issuerDid";
