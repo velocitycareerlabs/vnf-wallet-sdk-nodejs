@@ -1,23 +1,29 @@
-export default class VCLDeepLink {
-    constructor(public value: string) {}
+import "../../impl/extensions/StringExtensions";
 
-    get issuer(): Nullish<string> {
-        return this.generateUri(VCLDeepLink.KeyIssuer, true);
+export default class VCLDeepLink {
+    public requestUri: Nullish<string>;
+    public did: Nullish<string>;
+    public vendorOriginContext: Nullish<string>;
+
+    constructor(public value: string) {
+        this.did = this.getDid();
+        this.vendorOriginContext = this.getVendorOriginContext();
+        this.requestUri = this.getRequestUri();
     }
 
-    get requestUri(): Nullish<string> {
+    private getRequestUri(): Nullish<string> {
         return this.generateUri(VCLDeepLink.KeyRequestUri);
     }
 
-    get did(): Nullish<string> {
+    private getDid(): Nullish<string> {
         return (
-            this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) ??
-            this.issuer?.getUrlSubPath(VCLDeepLink.KeyDidPrefix)
+            (this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ?? this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid)) ?? 
+            this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) // fallback for old agents
         );
     }
 
-    get vendorOriginContext(): Nullish<string> {
-        return this.retrieveVendorOriginContext();
+    private getVendorOriginContext(): Nullish<string> {
+        return this.retrieveQueryParam(VCLDeepLink.KeyVendorOriginContext);
     }
 
     private generateUri(
@@ -30,7 +36,6 @@ export default class VCLDeepLink {
             const queryItems = [...queryParams.entries()]
                 .filter((it) => it[0] !== uriKey && it[1] !== "")
                 .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
-                .sort()
                 .join("&");
             if (queryItems.length > 0) {
                 return asSubParams
@@ -44,15 +49,14 @@ export default class VCLDeepLink {
         return null;
     }
 
-    retrieveVendorOriginContext(): Nullish<string> {
-        return decodeURI(this.value)
-            .getQueryParameters()
-            ?.get(VCLDeepLink.KeyVendorOriginContext);
+    retrieveQueryParam(key: string): Nullish<string> {
+        return decodeURI(this.value).getQueryParameters()?.get(key);
     }
 
     // CodingKeys
     static readonly KeyDidPrefix = "did:";
-    static readonly KeyIssuer = "issuer";
     static readonly KeyRequestUri = "request_uri";
     static readonly KeyVendorOriginContext = "vendorOriginContext";
+    static readonly KeyIssuerDid = "issuerDid";
+    static readonly KeyInspectorDid = "inspectorDid";
 }
