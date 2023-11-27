@@ -86,3 +86,29 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+  publish-nodejs-sdk:
+    # if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' }}
+    runs-on: ubuntu-latest
+    needs: 
+      - test-nodejs-sdk
+      - build-nodejs-sdk
+    steps:
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Download Artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ github.event.repository.name }}-${{ env.VERSION }}
+          path: .
+      - name: Debug
+        run: |
+           pwd
+           ls -al
+      - name: Publish
+        run: echo "npm publish ${{ github.event.repository.name }}-${{ env.VERSION }}.tgz --tag ${{ env.RELEASE_TAG }}"
+        env: 
+          RELEASE_TAG: ${{ github.ref == 'refs/heads/dev' && format('{0}', 'rc' ) || 'prod' }}
