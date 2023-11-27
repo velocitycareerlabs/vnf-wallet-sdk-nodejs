@@ -7,6 +7,9 @@ on:
       - staging
       - dev
       - VL-6484
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 env:
   LERNA_VERSION: '6.6.2'
   NODE_VERSION: '20'
@@ -23,4 +26,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       # Run test
       - name: Run Test
-        run: yarn lerna run test
+        run: lerna@${{ env.LERNA_VERSION }} run test
