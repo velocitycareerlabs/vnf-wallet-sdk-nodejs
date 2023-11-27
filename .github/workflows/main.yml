@@ -26,4 +26,4 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       # Run test
       - name: Run Test
-        run: lerna@${{ env.LERNA_VERSION }} run test
+        run: npx lerna@${{ env.LERNA_VERSION }} run test
