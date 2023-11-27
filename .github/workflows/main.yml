@@ -82,7 +82,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.event.repository.name }}-${{ env.VERSION }}.tgz
-          path: ${{ github.event.repository.name }}
+          path: ./
           if-no-files-found: error
           retention-days: 1
 
