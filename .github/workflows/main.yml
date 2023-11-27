@@ -6,7 +6,6 @@ on:
       - main
       - staging
       - dev
-      - VL-6484
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
