@@ -1,0 +1,26 @@
+name: NodeJS-SDK
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+      - dev
+      - VL-6484
+env:
+  LERNA_VERSION: '6.6.2'
+  NODE_VERSION: '20'
+jobs:
+  test-nodejs-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone repository
+        uses: actions/checkout@v4
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Run test
+      - name: Run Test
+        run: yarn lerna run test
