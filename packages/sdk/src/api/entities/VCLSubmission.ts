@@ -50,10 +50,18 @@ export default class VCLSubmission {
     }
 
     generateRequestBody(jwt: VCLJwt) {
-        return {
+        const result: JSONObject = {
             [VCLSubmission.KeyExchangeId]: this.exchangeId,
             [VCLSubmission.KeyJwtVp]: jwt.signedJwt.serialize(),
+            [VCLSubmission.KeyContext]: VCLSubmission.ValueContextList,
         };
+
+        if (this.pushDelegate) {
+            result[VCLSubmission.KeyPushDelegate] =
+                this.pushDelegate.toJsonObject();
+        }
+
+        return result;
     }
 
     static readonly KeyJti = "jti";
@@ -75,4 +83,9 @@ export default class VCLSubmission {
     static readonly KeyInputDescriptor = "input_descriptor";
     static readonly ValueJwtVc = "jwt_vc";
     static readonly ValueVerifiablePresentation = "VerifiablePresentation";
+    static readonly KeyContext = "@context";
+
+    static readonly ValueContextList = [
+        "https://www.w3.org/2018/credentials/v1",
+    ];
 }

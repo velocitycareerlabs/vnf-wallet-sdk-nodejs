@@ -70,7 +70,7 @@ export default class VCLOrganizationsSearchDescriptor {
             pPageSkip,
             pPageSize,
             pQuery,
-        ].filter((qParam) => qParam !== null);
+        ].filter((qParam) => !!qParam);
         return qParams.length === 0 ? null : qParams.join("&");
     }
 

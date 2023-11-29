@@ -59,7 +59,12 @@ export default class PresentationRequestUseCaseImpl
         jwt: VCLJwt,
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let keyID = jwt.header.keyID?.replace("#", encodeURIComponent("#"));
+        let keyID = (jwt.header.kid ?? jwt.header.keyID).replace(
+            "#",
+            encodeURIComponent("#")
+        );
+        console.log(jwt.encodedJwt);
+        console.log("Hey");
         if (!keyID) {
             return this.onError(new VCLError("Empty KeyID"));
         }

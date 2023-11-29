@@ -255,7 +255,7 @@ export class VCLImpl implements VCL {
     ) => {
         let did = credentialManifestDescriptor.did;
         if (!did) {
-            let e = new VCLError(
+            let error = new VCLError(
                 `did was not found in ${JSON.stringify(
                     credentialManifestDescriptor
                 )}`,
@@ -265,9 +265,9 @@ export class VCLImpl implements VCL {
             VCLLog.e(
                 VCLImpl.TAG,
                 "getCredentialManifest.verifiedProfile" +
-                    JSON.stringify(e.toJsonObject())
+                    JSON.stringify(error.jsonObject)
             );
-            throw e;
+            throw error;
         }
         try {
             let isVerifiedResult =

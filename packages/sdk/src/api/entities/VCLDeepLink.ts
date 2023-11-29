@@ -2,11 +2,9 @@ import "../../impl/extensions/StringExtensions";
 
 export default class VCLDeepLink {
     public requestUri: Nullish<string>;
-    public did: Nullish<string>;
     public vendorOriginContext: Nullish<string>;
 
     constructor(public value: string) {
-        this.did = this.getDid();
         this.vendorOriginContext = this.getVendorOriginContext();
         this.requestUri = this.getRequestUri();
     }
@@ -15,9 +13,10 @@ export default class VCLDeepLink {
         return this.generateUri(VCLDeepLink.KeyRequestUri);
     }
 
-    private getDid(): Nullish<string> {
+    public get did(): Nullish<string> {
         return (
-            (this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ?? this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid)) ?? 
+            this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ??
+            this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid) ??
             this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) // fallback for old agents
         );
     }

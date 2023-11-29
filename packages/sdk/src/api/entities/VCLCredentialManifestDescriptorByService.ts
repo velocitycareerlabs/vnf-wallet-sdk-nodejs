@@ -29,11 +29,14 @@ export default class VCLCredentialManifestDescriptorByService extends VCLCredent
     private generateQueryParams(): Nullish<string> {
         let pCredentialTypes: Nullish<string> = null;
         if (this.credentialTypes) {
-            pCredentialTypes = `${
-                VCLCredentialManifestDescriptor.KeyCredentialTypes
-            }=${this.credentialTypes
-                .map((it) => encodeURIComponent(it))
-                .join("&")}`;
+            pCredentialTypes = this.credentialTypes
+                .map(
+                    (it) =>
+                        `${
+                            VCLCredentialManifestDescriptor.KeyCredentialTypes
+                        }=${encodeURIComponent(it)}`
+                )
+                .join("&");
         }
 
         let pPushDelegate: Nullish<string> = null;
