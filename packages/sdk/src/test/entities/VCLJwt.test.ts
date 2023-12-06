@@ -30,13 +30,3 @@ import assert from "assert"
         })
 
     })
-
-    // @Test
-    // fun testJwt() {
-    //     subject = VCLJwt(encodedJwt = jwtStr)
-
-    //     assert(subject.header.toString().toCharArray().sort() == expectedHeader.toCharArray().sort())
-    //     assert(subject.payload.toString().toCharArray().sort() == expectedPayload.toCharArray().sort())
-    //     assert(subject.signature.toString() == "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c")
-    //     assert(subject.encodedJwt == jwtStr)
-    // }
