@@ -22,16 +22,25 @@ export default class VCLJwt {
         return item;
     }
 
+
+    get kid(): string {
+        return (this.header.kid || this.jwk.kid) || ""
+    }
+
+    get jwk(): JSONObject {
+        return JSON.parse(this.header.jwk || "{}")
+    }
+
     get header(): JSONObject {
-        let buff = Buffer.from(this.signedJwt.header, "base64");
-        let text = buff.toString("utf-8");
-        return JSON.parse(text);
+        const buff = Buffer.from(this.signedJwt.header, "base64");
+        const text = buff.toString("utf-8");
+        return JSON.parse(text || "{}");
     }
 
     get payload(): JSONObject {
-        let buff = Buffer.from(this.signedJwt.payload, "base64");
-        let text = buff.toString("utf-8");
-        return JSON.parse(text);
+        const buff = Buffer.from(this.signedJwt.payload, "base64");
+        const text = buff.toString("utf-8");
+        return JSON.parse(text || "{}");
     }
 
     get signature(): string {
