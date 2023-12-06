@@ -78,12 +78,12 @@ export default class CredentialManifestUseCaseImpl
         jwt: VCLJwt,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ): Promise<VCLResult<VCLCredentialManifest>> {
-        const keyID = jwt.header.kid?.replace("#", encodeURIComponent("#"));
-        if (!keyID) {
-            return this.onError(new VCLError("Empty KeyID"));
+        const kid = jwt.kid?.replace("#", encodeURIComponent("#"));
+        if (!kid) {
+            return this.onError(new VCLError("Empty kid"));
         }
         let publicKeyResult = await this.resolveKidRepository.getPublicKey(
-            keyID
+            kid
         );
 
         let [err, publicKey] = await publicKeyResult.handleResult();

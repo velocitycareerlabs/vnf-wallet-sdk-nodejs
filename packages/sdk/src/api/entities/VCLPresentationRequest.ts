@@ -33,10 +33,6 @@ export default class VCLPresentationRequest {
         );
     }
 
-    get keyID() {
-        return this.jwt.header.keyID ?? "";
-    }
-
     get vendorOriginContext() {
         return this.deepLink.vendorOriginContext;
     }
