@@ -28,7 +28,7 @@ export default class VCLJwt {
     }
 
     get jwk(): JSONObject {
-        return JSON.parse(this.header.jwk || "{}")
+        return this.header.jwk || JSON.parse("{}")
     }
 
     get header(): JSONObject {
