@@ -59,12 +59,12 @@ export default class PresentationRequestUseCaseImpl
         jwt: VCLJwt,
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let keyID = jwt.header.keyID?.replace("#", encodeURIComponent("#"));
-        if (!keyID) {
-            return this.onError(new VCLError("Empty KeyID"));
+        let kid = jwt.kid?.replace("#", encodeURIComponent("#"));
+        if (!kid) {
+            return this.onError(new VCLError("Empty kid"));
         }
         let publicKeyResult = await this.resolveKidRepository.getPublicKey(
-            keyID
+            kid
         );
 
         let [error, publicKey] = await publicKeyResult.handleResult();
