@@ -3,7 +3,7 @@
     "version": "0.2.2",
     "description": "VNF Wallet SDK Nodejs",
     "main": "dist/index.js",
-    "types": "./global.d.ts",
+    "types": "dist/global.d.ts",
     "scripts": {
         "prepublish": "tsc --declaration",
         "build": "tsc",

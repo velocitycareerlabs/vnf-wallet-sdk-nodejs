@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "VNF Wallet SDK Nodejs",
     "main": "index.js",
-    "types": "./packages/sdk/global.d.ts",
+    "types": "./packages/sdk/src/global.ts",
     "private": true,
     "author": "Andres Olave",
     "license": "Apache 2.0",
