@@ -1,4 +1,4 @@
-name: NodeJS-SDK
+name: NodeJS-SDK Tests
 
 on:
   pull_request:
