@@ -50,9 +50,14 @@ export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentia
     }
 
     generateQueryParams() {
-        let pCredentialIds = `${
-            VCLCredentialManifestDescriptorRefresh.KeyCredentialId
-        }=${this.credentialIds.map((it) => encodeURIComponent(it)).join("&")}`;
+        let pCredentialIds = this.credentialIds
+            .map(
+                (it) =>
+                    `${
+                        VCLCredentialManifestDescriptorRefresh.KeyCredentialId
+                    }=${encodeURIComponent(it)}`
+            )
+            .join("&");
 
         let qParams = [pCredentialIds].filter((c) => c && c.length);
         return qParams.length ? qParams.join("&") : null;

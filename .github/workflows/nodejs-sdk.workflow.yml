@@ -1,0 +1,112 @@
+name: NodeJS-SDK
+
+on:
+  push:
+    branches:
+      - main
+      - rc
+      - dev
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+env:
+  NODE_VERSION: '20'
+  SDK_PATH: './packages/sdk'
+  RC_SUFFIX: 'rc'
+jobs:
+  test-nodejs-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Git clone repository
+        uses: actions/checkout@v4
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --pure-lockfile
+        working-directory: ${{ env.SDK_PATH }}
+      # Run test 
+      - name: Run Test
+        run: yarn test
+        continue-on-error: false
+        working-directory: ${{ env.SDK_PATH }}
+
+  build-nodejs-sdk:
+    runs-on: ubuntu-latest
+    needs: 
+      - test-nodejs-sdk
+    steps:
+      # Checkout
+      - name: Git clone repository
+        uses: actions/checkout@v4
+      # Set Slug
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v4
+        with:
+          short-length: 7
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --pure-lockfile
+        working-directory: ${{ env.SDK_PATH }}
+      # Get current version
+      - name: Get current version
+        run: |
+          echo SDK_VERSION=$(jq -r '"v" + .version' package.json) >> $GITHUB_ENV
+          echo SDK_NAME=$(jq -r '.name' package.json | cut -d'/' -f2) >> $GITHUB_ENV
+        working-directory: ${{ env.SDK_PATH }}
+      # Set New Version
+      - name: Set New Version
+        run: echo SDK_NEW_VERSION=${{ github.ref == 'refs/heads/main' && format('{0}', env.SDK_VERSION) || format('{0}-{1}.{2}', env.SDK_VERSION, env.RC_SUFFIX, env.GITHUB_SHA_SHORT) }} >> $GITHUB_ENV
+      # Set Version
+      - name: Set Version
+        run: npm version ${{ env.OPTION }}
+        env: 
+          OPTION: ${{ github.ref == 'refs/heads/main' && format('{0} --allow-same-version', env.SDK_NEW_VERSION) || format('{0}', env.SDK_NEW_VERSION) }}
+        working-directory: ${{ env.SDK_PATH }}
+      # Build SDK
+      - name: Build SDK
+        run: yarn build
+        working-directory: ${{ env.SDK_PATH }}
+      # Pack SDK
+      - name: Pack SDK
+        run: yarn pack
+        working-directory: ${{ env.SDK_PATH }}
+      # Publish to npm
+      - name: Set NPM Packages Config
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > .npmrc
+        working-directory: ${{ env.SDK_PATH }}
+      # Git Set Identity
+      - name: Git Identity
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      # Commit Version Locally for Github npm
+      - name: Commit Version Locally for Github npm
+        run: git add .npmrc && git commit -am "Prepare to release"
+        working-directory: ${{ env.SDK_PATH }}
+      # Publish
+      - name: Publish
+        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/rc' }}
+        run: npm publish ${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}.tgz --tag ${{ env.RELEASE_TAG }} --access public --userconfig ./.npmrc --force
+        env: 
+          RELEASE_TAG: ${{ github.ref == 'refs/heads/main' && format('{0}', 'latest' ) || env.RC_SUFFIX }}
+        working-directory: ${{ env.SDK_PATH }}
+      # Upload Artifacts
+      - name: Upload Artifact
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}
+          path: ${{ env.SDK_PATH }}/${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}.tgz
+          if-no-files-found: error
+          retention-days: 1
+

@@ -1,5 +1,5 @@
-import VCLJwt, { SignedJWT } from "../../api/entities/VCLJwt";
-import "../../impl/extensions/StringExtensions";
+import VCLJwt, { SignedJWT } from "../../src/api/entities/VCLJwt";
+import "../../src/impl/extensions/StringExtensions";
 
     let subject: VCLJwt
     const jwtWtithKidStr = 

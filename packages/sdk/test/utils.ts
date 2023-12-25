@@ -1,9 +1,3 @@
-// export function isEquivalentUris(url1: string, url2: string): boolean {
-//     const sortedUrl1 = url1.split('').sort().join('');
-//     const sortedUrl2 = url2.split('').sort().join('');
-//     return sortedUrl1 === sortedUrl2;
-// }
-
 function normalizeUri(uri: string): string {
     const url = new URL(uri);
 

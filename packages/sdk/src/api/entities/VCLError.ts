@@ -14,6 +14,9 @@ export default class VCLError extends Error {
         this.error = error;
         this.errorCode = errorCode;
         this.statusCode = statusCode;
+
+        this.name = "VCLError";
+        Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
     }
 
     static fromPayload(payload: string): VCLError {
@@ -38,7 +41,7 @@ export default class VCLError extends Error {
         return result;
     }
 
-    toJsonObject(): JSONObject {
+    get jsonObject(): JSONObject {
         return {
             [VCLError.KeyPayload]: this.payload,
             [VCLError.KeyError]: this.error,
