@@ -71,10 +71,8 @@ export default interface VCL {
     ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(
-        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
-        successHandler: (s: VCLCredentialTypesUIFormSchema) => any,
-        errorHandler: (e: VCLError) => any
-    ): void;
+        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor
+    ): Promise<VCLCredentialTypesUIFormSchema>;
 
     getVerifiedProfile(
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
