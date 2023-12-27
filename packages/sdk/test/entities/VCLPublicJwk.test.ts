@@ -1,18 +1,18 @@
-import VCLJwkPublic from "../../src/api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../../src/api/entities/VCLPublicJwk";
 import { JwtServiceMocks } from "../infrastructure/resources/valid/JwtServiceMocks";
 
-describe("VCLJwkPublic Tests", () => {
-    let subject: VCLJwkPublic;
+describe("VCLPublicJwk Tests", () => {
+    let subject: VCLPublicJwk;
     const jwkJson = JSON.parse(JwtServiceMocks.JWK);
 
     test("testJwkPublicFromStr", () => {
-        subject = VCLJwkPublic.fromString(JwtServiceMocks.JWK);
+        subject = VCLPublicJwk.fromString(JwtServiceMocks.JWK);
 
         expect(subject.valueStr).toBe(JwtServiceMocks.JWK);
     });
 
     test("testJwkPublicFromJson", () => {
-        subject = VCLJwkPublic.fromJSON(jwkJson);
+        subject = VCLPublicJwk.fromJSON(jwkJson);
 
         expect(subject.valueJson).toEqual(jwkJson);
     });
