@@ -1,4 +1,4 @@
-import VCLError from "./VCLError";
+import VCLError from "./error/VCLError";
 
 export default class VCLResult<R> {
     static Success = class<T> extends VCLResult<T> {

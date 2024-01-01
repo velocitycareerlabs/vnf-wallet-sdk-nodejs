@@ -1,4 +1,4 @@
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLGenerateOffersDescriptor from "../../../api/entities/VCLGenerateOffersDescriptor";
 import VCLOffers from "../../../api/entities/VCLOffers";
 import VCLResult from "../../../api/entities/VCLResult";
