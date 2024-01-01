@@ -1,6 +1,6 @@
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../api/entities/VCLDidJwkDescriptor";
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";

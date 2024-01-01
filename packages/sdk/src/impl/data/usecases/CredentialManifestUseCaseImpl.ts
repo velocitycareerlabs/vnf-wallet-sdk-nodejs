@@ -1,6 +1,6 @@
 import VCLCredentialManifest from "../../../api/entities/VCLCredentialManifest";
 import VCLCredentialManifestDescriptor from "../../../api/entities/VCLCredentialManifestDescriptor";
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLResult from "../../../api/entities/VCLResult";

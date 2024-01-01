@@ -6,7 +6,7 @@ import VCLCredentialTypes from "./entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "./entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "./entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "./entities/VCLDidJwk";
-import VCLError from "./entities/VCLError";
+import VCLError from "./entities/error/VCLError";
 import VCLExchange from "./entities/VCLExchange";
 import VCLExchangeDescriptor from "./entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "./entities/VCLFinalizeOffersDescriptor";

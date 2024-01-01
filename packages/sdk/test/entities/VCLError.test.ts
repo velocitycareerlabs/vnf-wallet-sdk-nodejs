@@ -1,4 +1,4 @@
-import VCLError from "../../src/api/entities/VCLError";
+import VCLError from "../../src/api/entities/error/VCLError";
 import { ErrorMocks } from "../infrastructure/resources/valid/ErrorMocks";
 import "../../src/impl/extensions/StringExtensions";
 import "../../src/impl/extensions/ListExtensions";
@@ -46,13 +46,16 @@ describe("VCLError Tests", () => {
     });
 
     test("testErrorToJsonFromProperties", () => {
-        const error2 = new VCLError(
+        const error = new VCLError(
             ErrorMocks.Error,
             ErrorMocks.ErrorCode,
             ErrorMocks.Message,
             ErrorMocks.StatusCode
         );
-        const errorJsonObject = error2.jsonObject;
+        const errorJsonObject = error.jsonObject;
+
+        console.log("--------------------");
+        console.log(JSON.stringify(errorJsonObject));
 
         expect(errorJsonObject[VCLError.KeyPayload]).toBeFalsy();
         expect(errorJsonObject[VCLError.KeyError]).toBe(ErrorMocks.Error);

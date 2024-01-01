@@ -8,7 +8,7 @@ import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "../api/entities/VCLDidJwk";
-import VCLError from "../api/entities/VCLError";
+import VCLError from "../api/entities/error/VCLError";
 import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
