@@ -44,6 +44,7 @@ import "./extensions/DateExtensions";
 import "./extensions/StringExtensions";
 import "./extensions/ListExtensions";
 import VCLResult from "../api/entities/VCLResult";
+import VCLErrorCode from "../api/entities/error/VCLErrorCode";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -259,7 +260,7 @@ export class VCLImpl implements VCL {
                 `did was not found in ${JSON.stringify(
                     credentialManifestDescriptor
                 )}`,
-                null,
+                VCLErrorCode.SdkError.toString(),
                 null
             );
             VCLLog.e(
