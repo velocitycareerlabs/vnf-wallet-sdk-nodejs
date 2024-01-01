@@ -1,5 +1,5 @@
 import VCLCredentialTypeSchemas from "../../../api/entities/VCLCredentialTypeSchemas";
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypeSchemasModel from "../../domain/models/CredentialTypeSchemasModel";
 import CredentialTypeSchemasUseCase from "../../domain/usecases/CredentialTypeSchemasUseCase";

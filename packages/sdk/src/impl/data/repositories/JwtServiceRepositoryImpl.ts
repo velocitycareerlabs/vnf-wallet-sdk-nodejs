@@ -1,7 +1,7 @@
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../api/entities/VCLDidJwkDescriptor";
-import VCLError from "../../../api/entities/VCLError";
-import VCLJwkPublic from "../../../api/entities/VCLJwkPublic";
+import VCLError from "../../../api/entities/error/VCLError";
+import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
@@ -25,7 +25,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     }
     async verifyJwt(
         jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic
+        jwkPublic: VCLPublicJwk
     ): Promise<VCLResult<boolean>> {
         try {
             let it = await this.jwtService.verify(jwt, jwkPublic.valueStr);

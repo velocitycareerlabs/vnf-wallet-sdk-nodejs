@@ -16,7 +16,7 @@ export default class NetworkServiceImpl implements NetworkService {
         switch (params.method) {
             case HttpMethod.GET:
                 handler = () =>
-                    axios.get(params.endpoint, {
+                    axios.create({ ...axios.defaults }).get(params.endpoint, {
                         headers: {
                             ...params.headers,
                         },
