@@ -3,5 +3,4 @@ enum VCLStatusCode {
     VerificationError = 403,
     Undefined = -1,
 }
-
 export default VCLStatusCode;

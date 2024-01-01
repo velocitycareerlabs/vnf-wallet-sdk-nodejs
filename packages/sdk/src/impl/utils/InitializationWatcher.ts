@@ -1,4 +1,4 @@
-import VCLError from "../../api/entities/VCLError";
+import VCLError from "../../api/entities/error/VCLError";
 
 export default class InitializationWatcher {
     private initCount: number = 0;

@@ -8,7 +8,7 @@ import VCLJwtDescriptor from "../../../../api/entities/VCLJwtDescriptor";
 import JwtService from "../../../domain/infrastructure/jwt/JwtService";
 import crypto from "crypto";
 import canonicalize from "canonicalize";
-import VCLJwkPublic from "../../../../api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../../../../api/entities/VCLPublicJwk";
 
 export default class JwtServiceImpl implements JwtService {
     parse(jwt: string): Nullish<SignedJWT> {
@@ -111,6 +111,6 @@ export default class JwtServiceImpl implements JwtService {
 
     private async generateJwkPublic(kid: string) {
         let publicJwk = await this.generateJwkSECP256K1(kid).toPublicJWK();
-        return VCLJwkPublic.fromJSON(publicJwk);
+        return VCLPublicJwk.fromJSON(publicJwk);
     }
 }

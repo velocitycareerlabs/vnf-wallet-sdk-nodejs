@@ -1,4 +1,4 @@
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLOrganization from "../../../api/entities/VCLOrganization";
 import VCLOrganizations from "../../../api/entities/VCLOrganizations";
 import VCLOrganizationsSearchDescriptor from "../../../api/entities/VCLOrganizationsSearchDescriptor";

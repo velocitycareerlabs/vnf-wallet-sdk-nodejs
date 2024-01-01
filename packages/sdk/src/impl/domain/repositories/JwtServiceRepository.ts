@@ -2,7 +2,7 @@
 
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../api/entities/VCLDidJwkDescriptor";
-import VCLJwkPublic from "../../../api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
@@ -12,7 +12,7 @@ export default interface JwtServiceRepository {
 
     verifyJwt(
         jwt: VCLJwt,
-        jwkPublic: VCLJwkPublic
+        jwkPublic: VCLPublicJwk
     ): Promise<VCLResult<boolean>>;
 
     generateSignedJwt(

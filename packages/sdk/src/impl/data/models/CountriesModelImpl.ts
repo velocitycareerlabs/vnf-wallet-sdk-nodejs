@@ -1,5 +1,5 @@
 import VCLCountries from "../../../api/entities/VCLCountries";
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import CountriesModel from "../../domain/models/CountriesModel";
 import CountriesUseCase from "../../domain/usecases/CountriesModelUseCase";

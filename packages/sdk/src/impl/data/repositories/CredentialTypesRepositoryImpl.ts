@@ -1,6 +1,6 @@
 import VCLCredentialType from "../../../api/entities/VCLCredentialType";
 import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypesRepository from "../../domain/repositories/CredentialTypesRepository";
