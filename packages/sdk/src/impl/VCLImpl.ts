@@ -15,7 +15,7 @@ import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescri
 import VCLGenerateOffersDescriptor from "../api/entities/VCLGenerateOffersDescriptor";
 import VCLIdentificationSubmission from "../api/entities/VCLIdentificationSubmission";
 import VCLInitializationDescriptor from "../api/entities/VCLInitializationDescriptor";
-import VCLJwkPublic from "../api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../api/entities/VCLPublicJwk";
 import VCLJwt from "../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../api/entities/VCLJwtDescriptor";
 import VCLJwtVerifiableCredentials from "../api/entities/VCLJwtVerifiableCredentials";
@@ -375,7 +375,7 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLJwkPublic) => {
+    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLPublicJwk) => {
         let isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
             jwt,
             jwkPublic

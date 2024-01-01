@@ -1,5 +1,5 @@
 import VCLError from "../../../api/entities/VCLError";
-import VCLJwkPublic from "../../../api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLPresentationRequest from "../../../api/entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "../../../api/entities/VCLPresentationRequestDescriptor";
@@ -81,7 +81,7 @@ export default class PresentationRequestUseCaseImpl
     }
 
     async onResolvePublicKeySuccess(
-        jwkPublic: VCLJwkPublic,
+        jwkPublic: VCLPublicJwk,
         jwt: VCLJwt,
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ): Promise<VCLResult<VCLPresentationRequest>> {
