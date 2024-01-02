@@ -1,5 +1,10 @@
+import VCLCryptoServiceType from "../api/VCLCryptoServiceType";
 import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
-import JwtServiceImpl from "./data/infrastructure/jwt/JwtServiceImpl";
+import VCLCryptoServicesDescriptor from "../api/entities/VCLCryptoServicesDescriptor";
+import VCLError from "../api/entities/VCLError";
+import VCLErrorCode from "../api/entities/VCLErrorCode";
+import VCLKeyService from "../api/keys/VCLKeyService";
+import SecretStoreServiceImpl from "./data/infrastructure/db/SecretStoreServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
 import CountriesModelImpl from "./data/models/CountriesModelImpl";
 import CredentialTypeSchemasModelImpl from "./data/models/CredentialTypeSchemasModelImpl";
@@ -43,6 +48,7 @@ import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
 import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
+import VCLKeyServiceLocalImpl from "./keys/VCLKeyServiceLocalImpl";
 
 export default class VclBlocksProvider {
     static providePresentationRequestUseCase(): PresentationRequestUseCase {
@@ -143,5 +149,30 @@ export default class VclBlocksProvider {
                 credentialTypes
             )
         );
+    }
+
+    private static chooseKeyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLKeyService {
+        if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Local
+        ) {
+            return new VCLKeyServiceLocalImpl(new SecretStoreServiceImpl());
+        } else if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Injected
+        ) {
+            if (
+                !cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.keyService
+            ) {
+                throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+            }
+            return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+                .keyService;
+        } else {
+            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+        }
     }
 }

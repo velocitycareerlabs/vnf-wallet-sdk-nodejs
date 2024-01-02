@@ -9,7 +9,7 @@ import JwtService from "../../../domain/infrastructure/jwt/JwtService";
 import crypto from "crypto";
 import canonicalize from "canonicalize";
 import VCLPublicJwk from "../../../../api/entities/VCLPublicJwk";
-
+/* 
 export default class JwtServiceImpl implements JwtService {
     parse(jwt: string): Nullish<SignedJWT> {
         return SignedJWT.parse(jwt);
@@ -114,3 +114,4 @@ export default class JwtServiceImpl implements JwtService {
         return VCLPublicJwk.fromJSON(publicJwk);
     }
 }
+ */
