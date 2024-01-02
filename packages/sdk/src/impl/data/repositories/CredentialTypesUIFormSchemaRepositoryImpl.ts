@@ -58,7 +58,6 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
         formSchemaDict: JSONObject,
         regions: Nullish<VCLRegions>
     ): JSONObject {
-        console.log(regions);
         let formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
         for (let key of Object.keys(formSchemaDictCP)) {
             const valueDict = formSchemaDictCP[key];

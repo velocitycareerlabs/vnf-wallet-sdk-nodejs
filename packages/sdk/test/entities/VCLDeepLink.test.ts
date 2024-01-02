@@ -15,6 +15,7 @@ describe("VCLDeepLink Tests", () => {
             decodeURIComponent(DeepLinkMocks.OpenidInitiateIssuanceStrDev)
         );
         expect(subject.requestUri).toBeFalsy();
+
         expect(subject.did).toBe(DeepLinkMocks.OIDIssuerDid);
     });
 
