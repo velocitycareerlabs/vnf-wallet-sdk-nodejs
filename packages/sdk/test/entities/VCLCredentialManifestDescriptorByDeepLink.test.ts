@@ -16,9 +16,12 @@ describe("VCLCredentialManifestDescriptorByDeepLink Tests", () => {
         subject = new VCLCredentialManifestDescriptorByDeepLink(
             CredentialManifestDescriptorMocks.DeepLink,
             VCLIssuingType.Career,
-            new VCLPushDelegate("some push url", "some push token")
+            new VCLPushDelegate("some_url", "some_token")
         );
 
+        expect(subject.endpoint).toEqual(
+            decodeURIComponent(CredentialManifestDescriptorMocks.DeepLinkRequestUri) + "&push_delegate.push_url=some_url&push_delegate.push_token=some_token"
+        )
         expect.stringMatching(
             encodeURI(CredentialManifestDescriptorMocks.DeepLinkRequestUri)
         );
@@ -26,7 +29,7 @@ describe("VCLCredentialManifestDescriptorByDeepLink Tests", () => {
             CredentialManifestDescriptorMocks.IssuerDid
         );
         expect(subject.issuingType).toEqual(VCLIssuingType.Career);
-        expect(subject.pushDelegate?.pushUrl).toEqual("some push url");
-        expect(subject.pushDelegate?.pushToken).toEqual("some push token");
+        expect(subject.pushDelegate?.pushUrl).toEqual("some_url");
+        expect(subject.pushDelegate?.pushToken).toEqual("some_token");
     });
 });
