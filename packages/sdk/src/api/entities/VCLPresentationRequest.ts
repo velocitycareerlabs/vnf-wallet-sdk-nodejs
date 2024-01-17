@@ -1,12 +1,12 @@
 import VCLDeepLink from "./VCLDeepLink";
-import VCLJwkPublic from "./VCLJwkPublic";
+import VCLPublicJwk from "./VCLPublicJwk";
 import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
 
 export default class VCLPresentationRequest {
     constructor(
         public readonly jwt: VCLJwt,
-        public readonly jwkPublic: VCLJwkPublic,
+        public readonly jwkPublic: VCLPublicJwk,
         public readonly deepLink: VCLDeepLink,
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null
     ) {}
@@ -31,10 +31,6 @@ export default class VCLPresentationRequest {
                 VCLPresentationRequest.KeyPresentationDefinition
             ] ?? {})[VCLPresentationRequest.KeyId] ?? ""
         );
-    }
-
-    get keyID() {
-        return this.jwt.header.keyID ?? "";
     }
 
     get vendorOriginContext() {

@@ -6,13 +6,13 @@ import VCLCredentialTypes from "./entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "./entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "./entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "./entities/VCLDidJwk";
-import VCLError from "./entities/VCLError";
+import VCLError from "./entities/error/VCLError";
 import VCLExchange from "./entities/VCLExchange";
 import VCLExchangeDescriptor from "./entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "./entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "./entities/VCLGenerateOffersDescriptor";
 import VCLInitializationDescriptor from "./entities/VCLInitializationDescriptor";
-import VCLJwkPublic from "./entities/VCLJwkPublic";
+import VCLPublicJwk from "./entities/VCLPublicJwk";
 import VCLJwt from "./entities/VCLJwt";
 import VCLJwtDescriptor from "./entities/VCLJwtDescriptor";
 import VCLJwtVerifiableCredentials from "./entities/VCLJwtVerifiableCredentials";
@@ -78,7 +78,7 @@ export default interface VCL {
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
     ): Promise<VCLVerifiedProfile>;
 
-    verifyJwt(jwt: VCLJwt, jwkPublic: VCLJwkPublic): Promise<boolean>;
+    verifyJwt(jwt: VCLJwt, jwkPublic: VCLPublicJwk): Promise<boolean>;
 
     generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
 

@@ -1,4 +1,4 @@
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../../../api/entities/VCLExchangeDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";

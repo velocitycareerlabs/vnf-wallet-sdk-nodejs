@@ -1,4 +1,4 @@
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtVerifiableCredentials from "../../../api/entities/VCLJwtVerifiableCredentials";

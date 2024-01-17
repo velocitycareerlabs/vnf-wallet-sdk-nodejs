@@ -8,14 +8,14 @@ import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "../api/entities/VCLDidJwk";
-import VCLError from "../api/entities/VCLError";
+import VCLError from "../api/entities/error/VCLError";
 import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "../api/entities/VCLGenerateOffersDescriptor";
 import VCLIdentificationSubmission from "../api/entities/VCLIdentificationSubmission";
 import VCLInitializationDescriptor from "../api/entities/VCLInitializationDescriptor";
-import VCLJwkPublic from "../api/entities/VCLJwkPublic";
+import VCLPublicJwk from "../api/entities/VCLPublicJwk";
 import VCLJwt from "../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../api/entities/VCLJwtDescriptor";
 import VCLJwtVerifiableCredentials from "../api/entities/VCLJwtVerifiableCredentials";
@@ -44,6 +44,7 @@ import "./extensions/DateExtensions";
 import "./extensions/StringExtensions";
 import "./extensions/ListExtensions";
 import VCLResult from "../api/entities/VCLResult";
+import VCLErrorCode from "../api/entities/error/VCLErrorCode";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -262,7 +263,7 @@ export class VCLImpl implements VCL {
                 `did was not found in ${JSON.stringify(
                     credentialManifestDescriptor
                 )}`,
-                null,
+                VCLErrorCode.SdkError.toString(),
                 null
             );
             VCLLog.e(
@@ -397,7 +398,7 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLJwkPublic) => {
+    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLPublicJwk) => {
         let isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
             jwt,
             jwkPublic
