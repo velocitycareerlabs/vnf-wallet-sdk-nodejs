@@ -9,7 +9,7 @@ class DeepLinkMocks {
         "did:velocity:0xc257274276a4e539741ca11b590b9447b26a8051";
 
     static Issuer =
-        "https%3A%2F%2Fdevagent.velocitycareerlabs.io%2Fapi%2Fholder%2Fv0.6%2Forg%2Fdid%3Avelocity%3A0xc257274276a4e539741ca11b590b9447b26a8051%2Foidc%26credential_type%3DPastEmploymentPosition%26pre-authorized_code%3D8L1UArquTYvE-ylC2BV_2";
+        "https%3A%2F%2Fdevagent.velocitycareerlabs.io%2Fapi%2Fholder%2Fv0.6%2Forg%2Fdid%3Avelocity%3A0xc257274276a4e539741ca11b590b9447b26a8051%2Foidc%26credential_type%3DPastEmploymentPosition%26pre-authorized_code%3D8L1UArquTYvE-ylC2BV_2%26issuerDid%3Ddid%3Avelocity%3A0xc257274276a4e539741ca11b590b9447b26a8051";
     static IssuerDecoded = `https://devagent.velocitycareerlabs.io/api/holder/v0.6/org/${DeepLinkMocks.OIDIssuerDid}/oidc?credential_type=PastEmploymentPosition&pre-authorized_code=8L1UArquTYvE-ylC2BV_2`;
     static OpenidInitiateIssuanceStrDev = `openid-initiate-issuance://?issuer=${DeepLinkMocks.Issuer}`;
 
