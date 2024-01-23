@@ -5,18 +5,18 @@ import "../../src/impl/extensions/ListExtensions";
 import "../../src/impl/extensions/DateExtensions";
 
 describe("VCLDeepLink Tests", () => {
-    // test("testOpenidInitiateIssuance", () => {
-    //     let subject = new VCLDeepLink(
-    //         DeepLinkMocks.OpenidInitiateIssuanceStrDev
-    //     );
+    test("testOpenidInitiateIssuance", () => {
+        let subject = new VCLDeepLink(
+            DeepLinkMocks.OpenidInitiateIssuanceStrDev
+        );
 
-    //     expect(subject.value).toBe(DeepLinkMocks.OpenidInitiateIssuanceStrDev);
-    //     expect(decodeURIComponent(subject.value)).toBe(
-    //         decodeURIComponent(DeepLinkMocks.OpenidInitiateIssuanceStrDev)
-    //     );
-    //     expect(subject.requestUri).toBeFalsy();
-    //     expect(subject.did).toBe(DeepLinkMocks.OIDIssuerDid);
-    // });
+        expect(subject.value).toBe(DeepLinkMocks.OpenidInitiateIssuanceStrDev);
+        expect(decodeURIComponent(subject.value)).toBe(
+            decodeURIComponent(DeepLinkMocks.OpenidInitiateIssuanceStrDev)
+        );
+        expect(subject.requestUri).toBeFalsy();
+        expect(subject.did).toBe(DeepLinkMocks.OIDIssuerDid);
+    });
 
     test("testPresentationRequestDeepLinkDevNetValidAggregation", () => {
         let subject = new VCLDeepLink(

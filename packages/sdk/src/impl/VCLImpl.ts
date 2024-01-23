@@ -78,6 +78,9 @@ export class VCLImpl implements VCL {
 
     organizationsUseCase = VclBlocksProvider.provideOrganizationsUseCase();
 
+    credentialTypesUIFormSchemaUseCase =
+        VclBlocksProvider.provideCredentialTypesUIFormSchemaUseCase();
+
     credentialTypeSchemasModel: Nullish<CredentialTypeSchemasModel>;
     countriesModel: Nullish<CountriesModel>;
 
@@ -353,12 +356,31 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    getCredentialTypesUIFormSchema(
-        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
-        successHandler: (s: VCLCredentialTypesUIFormSchema) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
+    async getCredentialTypesUIFormSchema(
+        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor
+    ): Promise<VCLCredentialTypesUIFormSchema> {
+        const countries = this.countriesModel?.data;
+        if (countries) {
+            let credentialTypesUIFormSchemaResult =
+                await this.credentialTypesUIFormSchemaUseCase.getCredentialTypesUIFormSchema(
+                    credentialTypesUIFormSchemaDescriptor,
+                    countries
+                );
+
+            const [err, result] =
+                credentialTypesUIFormSchemaResult.handleResult();
+            if (err) {
+                throw err;
+            }
+
+            return result!;
+        } else {
+            const error = new VCLError(
+                "No countries for getCredentialTypesUIFormSchema"
+            );
+            logError("getCredentialTypesUIFormSchema", error);
+            throw error;
+        }
     }
 
     getVerifiedProfile = async (
