@@ -8,7 +8,7 @@ import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "../api/entities/VCLDidJwk";
-import VCLError from "../api/entities/VCLError";
+import VCLError from "../api/entities/error/VCLError";
 import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
@@ -44,6 +44,7 @@ import "./extensions/DateExtensions";
 import "./extensions/StringExtensions";
 import "./extensions/ListExtensions";
 import VCLResult from "../api/entities/VCLResult";
+import VCLErrorCode from "../api/entities/error/VCLErrorCode";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -76,6 +77,9 @@ export class VCLImpl implements VCL {
         VclBlocksProvider.provideExchangeProgressUseCase();
 
     organizationsUseCase = VclBlocksProvider.provideOrganizationsUseCase();
+
+    credentialTypesUIFormSchemaUseCase =
+        VclBlocksProvider.provideCredentialTypesUIFormSchemaUseCase();
 
     credentialTypeSchemasModel: Nullish<CredentialTypeSchemasModel>;
     countriesModel: Nullish<CountriesModel>;
@@ -259,7 +263,7 @@ export class VCLImpl implements VCL {
                 `did was not found in ${JSON.stringify(
                     credentialManifestDescriptor
                 )}`,
-                null,
+                VCLErrorCode.SdkError.toString(),
                 null
             );
             VCLLog.e(
@@ -352,12 +356,31 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    getCredentialTypesUIFormSchema(
-        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
-        successHandler: (s: VCLCredentialTypesUIFormSchema) => any,
-        errorHandler: (e: VCLError) => any
-    ): void {
-        throw new Error("Method not implemented.");
+    async getCredentialTypesUIFormSchema(
+        credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor
+    ): Promise<VCLCredentialTypesUIFormSchema> {
+        const countries = this.countriesModel?.data;
+        if (countries) {
+            let credentialTypesUIFormSchemaResult =
+                await this.credentialTypesUIFormSchemaUseCase.getCredentialTypesUIFormSchema(
+                    credentialTypesUIFormSchemaDescriptor,
+                    countries
+                );
+
+            const [err, result] =
+                credentialTypesUIFormSchemaResult.handleResult();
+            if (err) {
+                throw err;
+            }
+
+            return result!;
+        } else {
+            const error = new VCLError(
+                "No countries for getCredentialTypesUIFormSchema"
+            );
+            logError("getCredentialTypesUIFormSchema", error);
+            throw error;
+        }
     }
 
     getVerifiedProfile = async (

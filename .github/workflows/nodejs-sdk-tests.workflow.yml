@@ -1,0 +1,35 @@
+name: NodeJS-SDK Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+      - release/**
+      
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+env:
+  NODE_VERSION: '20'
+  SDK_PATH: './packages/sdk'
+jobs:
+  test-nodejs-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout
+      - name: Git clone repository
+        uses: actions/checkout@v4
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      # Install dependencies
+      - name: Install dependencies
+        run: yarn --frozen-lockfile --pure-lockfile
+        working-directory: ${{ env.SDK_PATH }}
+      # Run test 
+      - name: Run Test
+        run: yarn test
+        continue-on-error: false
+        working-directory: ${{ env.SDK_PATH }}

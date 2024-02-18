@@ -1,9 +1,9 @@
-import NetworkService from "../impl/domain/infrastructure/network/NetworkService";
-import VCLResult from "../api/entities/VCLResult";
+import NetworkService from "../src/impl/domain/infrastructure/network/NetworkService";
+import VCLResult from "../src/api/entities/VCLResult";
 import Request, {
     HttpMethod,
-} from "../impl/data/infrastructure/network/Request";
-import Response from "../impl/data/infrastructure/network/Response";
+} from "../src/impl/data/infrastructure/network/Request";
+import Response from "../src/impl/data/infrastructure/network/Response";
 
 export default class NetworkServiceSuccess implements NetworkService {
     constructor(private readonly validResponse: JSONObject) {}

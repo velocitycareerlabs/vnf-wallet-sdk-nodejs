@@ -13,6 +13,7 @@ import CountriesRepositoryImpl from "./data/repositories/CountriesRepositoryImpl
 import CredentialManifestRepositoryImpl from "./data/repositories/CredentialManifestRepositoryImpl";
 import CredentialTypeSchemaRepositoryImpl from "./data/repositories/CredentialTypeSchemaRepositoryImpl";
 import CredentialTypesRepositoryImpl from "./data/repositories/CredentialTypesRepositoryImpl";
+import CredentialTypesUIFormSchemaRepositoryImpl from "./data/repositories/CredentialTypesUIFormSchemaRepositoryImpl";
 import ExchangeProgressRepositoryImpl from "./data/repositories/ExchangeProgressRepositoryImpl";
 import { FinalizeOffersRepositoryImpl } from "./data/repositories/FinalizeOffersRepositoryImpl";
 import GenerateOffersRepositoryImpl from "./data/repositories/GenerateOffersRepositoryImpl";
@@ -25,6 +26,7 @@ import VerifiedProfileRepositoryImpl from "./data/repositories/VerifiedProfileRe
 import CountriesUseCaseImpl from "./data/usecases/CountriesModelUseCaseImpl";
 import CredentialManifestUseCaseImpl from "./data/usecases/CredentialManifestUseCaseImpl";
 import CredentialTypeSchemasUseCaseImpl from "./data/usecases/CredentialTypeSchemasUseCaseImpl";
+import CredentialTypesUIFormSchemaUseCaseImpl from "./data/usecases/CredentialTypesUIFormSchemaUseCaseImpl";
 import CredentialTypesUseCaseImpl from "./data/usecases/CredentialTypesUseCaseImpl";
 import ExchangeProgressUseCaseImpl from "./data/usecases/ExchangeProgressUseCaseImpl";
 import FinalizeOffersUseCaseImpl from "./data/usecases/FinalizeOffersUseCaseImpl";
@@ -39,6 +41,7 @@ import CountriesModel from "./domain/models/CountriesModel";
 import CredentialTypeSchemasModel from "./domain/models/CredentialTypeSchemasModel";
 import CredentialTypesModel from "./domain/models/CredentialTypesModel";
 import CredentialManifestUseCase from "./domain/usecases/CredentialManifestUseCase";
+import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialTypesUIFormSchemaUseCase";
 import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
 import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
@@ -174,5 +177,13 @@ export default class VclBlocksProvider {
         } else {
             throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
         }
+    }
+
+    static provideCredentialTypesUIFormSchemaUseCase(): CredentialTypesUIFormSchemaUseCase {
+        return new CredentialTypesUIFormSchemaUseCaseImpl(
+            new CredentialTypesUIFormSchemaRepositoryImpl(
+                new NetworkServiceImpl()
+            )
+        );
     }
 }

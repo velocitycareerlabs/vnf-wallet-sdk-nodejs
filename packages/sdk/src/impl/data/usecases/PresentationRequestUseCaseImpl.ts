@@ -1,4 +1,4 @@
-import VCLError from "../../../api/entities/VCLError";
+import VCLError from "../../../api/entities/error/VCLError";
 import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLPresentationRequest from "../../../api/entities/VCLPresentationRequest";
@@ -59,17 +59,12 @@ export default class PresentationRequestUseCaseImpl
         jwt: VCLJwt,
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let keyID = (jwt.header.kid ?? jwt.header.keyID).replace(
-            "#",
-            encodeURIComponent("#")
-        );
-        console.log(jwt.encodedJwt);
-        console.log("Hey");
-        if (!keyID) {
-            return this.onError(new VCLError("Empty KeyID"));
+        let kid = jwt.kid?.replace("#", encodeURIComponent("#"));
+        if (!kid) {
+            return this.onError(new VCLError("Empty kid"));
         }
         let publicKeyResult = await this.resolveKidRepository.getPublicKey(
-            keyID
+            kid
         );
 
         let [error, publicKey] = await publicKeyResult.handleResult();
