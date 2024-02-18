@@ -5,7 +5,6 @@ import VCLRemoteCryptoServicesUrlsDescriptor from "./VCLRemoteCryptoServicesUrls
 export default class VCLCryptoServicesDescriptor {
     constructor(
         readonly cryptoServiceType: VCLCryptoServiceType = VCLCryptoServiceType.Local,
-        readonly injectedCryptoServicesDescriptor: Nullish<VCLInjectedCryptoServicesDescriptor> = null,
-        readonly remoteCryptoServicesUrlsDescriptor: Nullish<VCLRemoteCryptoServicesUrlsDescriptor> = null
+        readonly injectedCryptoServicesDescriptor: Nullish<VCLInjectedCryptoServicesDescriptor> = null
     ) {}
 }

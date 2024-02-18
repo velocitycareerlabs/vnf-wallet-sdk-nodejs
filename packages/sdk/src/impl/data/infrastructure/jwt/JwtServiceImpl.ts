@@ -5,7 +5,7 @@ import VCLDidJwk from "../../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../../api/entities/VCLDidJwkDescriptor";
 import VCLJwt, { SignedJWT } from "../../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../../api/entities/VCLJwtDescriptor";
-import JwtService from "../../../domain/infrastructure/jwt/JwtService";
+// import JwtService from "../../../domain/infrastructure/jwt/JwtService";
 import crypto from "crypto";
 import canonicalize from "canonicalize";
 import VCLPublicJwk from "../../../../api/entities/VCLPublicJwk";

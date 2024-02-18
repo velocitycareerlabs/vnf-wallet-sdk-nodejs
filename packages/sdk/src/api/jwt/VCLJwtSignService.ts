@@ -9,6 +9,7 @@ interface VCLJwtSignService {
     )
 }*/
 
+import VCLDidJwk from "../entities/VCLDidJwk";
 import VCLJwt from "../entities/VCLJwt";
 import VCLJwtDescriptor from "../entities/VCLJwtDescriptor";
 import VCLResult from "../entities/VCLResult";
@@ -16,9 +17,8 @@ import VCLToken from "../entities/VCLToken";
 
 export default interface VCLJwtSignService {
     sign(
-        kid: Nullish<string>,
-        nonce: Nullish<string>,
         jwtDescriptor: VCLJwtDescriptor,
-        remoteCryptoServicesToken: Nullish<VCLToken>
+        didJwk: VCLDidJwk,
+        nonce: Nullish<string>
     ): Promise<VCLResult<VCLJwt>>;
 }

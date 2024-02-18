@@ -3,6 +3,8 @@ import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCryptoServicesDescriptor from "../api/entities/VCLCryptoServicesDescriptor";
 import VCLError from "../api/entities/VCLError";
 import VCLErrorCode from "../api/entities/VCLErrorCode";
+import VCLJwtSignService from "../api/jwt/VCLJwtSignService";
+import VCLJwtVerifyService from "../api/jwt/VCLJwtVerifyService";
 import VCLKeyService from "../api/keys/VCLKeyService";
 import SecretStoreServiceImpl from "./data/infrastructure/db/SecretStoreServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
@@ -51,14 +53,92 @@ import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
 import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
+import VCLJwtSignServiceLocalImpl from "./jwt/local/VCLJwtSignServiceLocalImpl";
+import VCLJwtVerifyServiceLocalImpl from "./jwt/local/VCLJwtVerifyServiceLocalImpl";
 import VCLKeyServiceLocalImpl from "./keys/VCLKeyServiceLocalImpl";
 
 export default class VclBlocksProvider {
-    static providePresentationRequestUseCase(): PresentationRequestUseCase {
+    private static chooseKeyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLKeyService {
+        if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Local
+        ) {
+            return new VCLKeyServiceLocalImpl(new SecretStoreServiceImpl());
+        } else if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Injected
+        ) {
+            if (
+                !cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.keyService
+            ) {
+                throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+            }
+            return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+                .keyService;
+        } else {
+            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+        }
+    }
+
+    private static chooseJwtSignService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLJwtSignService {
+        if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Local
+        ) {
+            return new VCLJwtSignServiceLocalImpl(
+                this.chooseKeyService(cryptoServicesDescriptor)
+            );
+        } else if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Injected
+        ) {
+            if (
+                cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.jwtSignService
+            ) {
+                return cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.jwtSignService;
+            }
+            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+        }
+
+        throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+    }
+
+    private static chooseJwtVerifyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLJwtVerifyService {
+        if (
+            cryptoServicesDescriptor.cryptoServiceType ===
+            VCLCryptoServiceType.Injected
+        ) {
+            if (
+                cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.jwtVerifyService
+            ) {
+                return cryptoServicesDescriptor.injectedCryptoServicesDescriptor
+                    ?.jwtVerifyService;
+            }
+        }
+
+        return new VCLJwtVerifyServiceLocalImpl(); // verification may be done locally
+    }
+
+    static providePresentationRequestUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): PresentationRequestUseCase {
         return new PresentationRequestUseCaseImpl(
             new PresentationRequestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
@@ -68,26 +148,41 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideJwtServiceUseCase(): JwtServiceUseCase {
+    static provideJwtServiceUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): JwtServiceUseCase {
         return new JwtServiceUseCaseImpl(
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static provideCredentialManifestUseCase(): CredentialManifestUseCase {
+    static provideCredentialManifestUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): CredentialManifestUseCase {
         return new CredentialManifestUseCaseImpl(
             new CredentialManifestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static provideIdentificationUseCase(): IdentificationSubmissionUseCase {
+    static provideIdentificationUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): IdentificationSubmissionUseCase {
         return new IdentificationSubmissionUseCaseImpl(
             new IdentificationSubmissionRepositoryImpl(
                 new NetworkServiceImpl()
             ),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
@@ -97,19 +192,29 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideFinalizeOffersUseCase(): FinalizeOffersUseCase {
+    static provideFinalizeOffersUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): FinalizeOffersUseCase {
         return new FinalizeOffersUseCaseImpl(
             new FinalizeOffersRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static providePresentationSubmissionUseCase(): PresentationSubmissionUseCase {
+    static providePresentationSubmissionUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): PresentationSubmissionUseCase {
         return new PresentationSubmissionUseCaseImpl(
             new IdentificationSubmissionRepositoryImpl(
                 new NetworkServiceImpl()
             ),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
@@ -152,31 +257,6 @@ export default class VclBlocksProvider {
                 credentialTypes
             )
         );
-    }
-
-    private static chooseKeyService(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
-    ): VCLKeyService {
-        if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Local
-        ) {
-            return new VCLKeyServiceLocalImpl(new SecretStoreServiceImpl());
-        } else if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Injected
-        ) {
-            if (
-                !cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.keyService
-            ) {
-                throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
-            }
-            return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
-                .keyService;
-        } else {
-            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
-        }
     }
 
     static provideCredentialTypesUIFormSchemaUseCase(): CredentialTypesUIFormSchemaUseCase {

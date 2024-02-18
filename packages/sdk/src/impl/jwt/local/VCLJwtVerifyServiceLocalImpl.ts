@@ -10,8 +10,7 @@ export default class VCLJwtVerifyServiceLocalImpl
 {
     async verify(
         jwt: VCLJwt,
-        publicJwk: VCLPublicJwk,
-        remoteCryptoServicesToken: Nullish<VCLToken>
+        publicJwk: VCLPublicJwk
     ): Promise<VCLResult<boolean>> {
         let importedJwk = await importJWK(publicJwk.valueJson as JWK, "ECDSA");
         try {

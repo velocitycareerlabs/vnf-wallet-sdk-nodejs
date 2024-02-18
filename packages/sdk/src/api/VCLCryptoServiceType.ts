@@ -16,15 +16,12 @@
 
 enum VCLCryptoServiceType {
     Local = "local",
-    Remote = "remote",
     Injected = "injected",
 }
 
 export const cryptoServiceTypeFromString = (value: string) => {
     if (value === VCLCryptoServiceType.Local) {
         return VCLCryptoServiceType.Local;
-    } else if (value === VCLCryptoServiceType.Remote) {
-        return VCLCryptoServiceType.Remote;
     } else if (value === VCLCryptoServiceType.Injected) {
         return VCLCryptoServiceType.Injected;
     }

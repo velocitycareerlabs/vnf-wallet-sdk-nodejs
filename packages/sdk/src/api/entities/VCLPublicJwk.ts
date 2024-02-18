@@ -8,6 +8,9 @@ enum Format {
 export default class VCLPublicJwk {
     constructor(public valueStr: string, public valueJson: JSONObject) {}
     static readonly Format = Format;
+    get curve(): string {
+        return this.valueJson["crv"];
+    }
 
     public static fromString(valueStr: string) {
         return new VCLPublicJwk(valueStr, JSON.parse(valueStr));
