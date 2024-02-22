@@ -45,7 +45,7 @@ export default class GenerateOffersRepositoryImpl
         return new VCLResult.Error(new VCLError("Offers did not returned."));
     }
 
-    parse(offersResponse: Response<JSONObject[] | { offers: JSONObject[], challenge: string }>, token: VCLToken): VCLOffers {
+    parse(offersResponse: Response<JSONObject[] | { offers: JSONObject[], challenge?: string }>, token: VCLToken): VCLOffers {
         const isLegacyOffersResponse = Array.isArray(offersResponse.payload);
        
         const offers = isLegacyOffersResponse ? offersResponse.payload : offersResponse.payload?.offers;
