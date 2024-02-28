@@ -41,7 +41,8 @@ export default interface VCL {
     ): Promise<VCLPresentationRequest>;
 
     submitPresentation(
-        presentationSubmission: VCLPresentationSubmission
+        presentationSubmission: VCLPresentationSubmission,
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLSubmissionResult>;
 
     getExchangeProgress(
@@ -57,7 +58,8 @@ export default interface VCL {
     ): Promise<VCLCredentialManifest>;
 
     generateOffers(
-        generateOffersDescriptor: VCLGenerateOffersDescriptor
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLOffers>;
 
     checkForOffers(
@@ -67,7 +69,8 @@ export default interface VCL {
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken
+        token: VCLToken,
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(

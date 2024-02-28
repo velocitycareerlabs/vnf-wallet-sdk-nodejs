@@ -1,4 +1,5 @@
 import VCLError from "../../../api/entities/error/VCLError";
+import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtVerifiableCredentials from "../../../api/entities/VCLJwtVerifiableCredentials";
@@ -17,7 +18,8 @@ export default class FinalizeOffersUseCaseImpl
     ) {}
     async finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLResult<VCLJwtVerifiableCredentials>> {
         const passedCredentials: VCLJwt[] = [];
         const failedCredentials: VCLJwt[] = [];

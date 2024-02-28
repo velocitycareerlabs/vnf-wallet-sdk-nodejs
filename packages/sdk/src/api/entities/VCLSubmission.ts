@@ -20,10 +20,10 @@ export default class VCLSubmission {
     get payload() {
         return this.generatePayload();
     }
-    private generatePayload() {
+    public generatePayload(iss?: string) {
         let result: JSONObject = {
             [VCLSubmission.KeyJti]: this.jti,
-            [VCLSubmission.KeyIss]: this.iss,
+            [VCLSubmission.KeyIss]: iss ? iss : this.iss,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:
                     VCLSubmission.ValueVerifiablePresentation,

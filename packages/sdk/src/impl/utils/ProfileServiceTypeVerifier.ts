@@ -30,7 +30,8 @@ export class ProfileServiceTypeVerifier {
             verifiedProfile!,
             expectedServiceTypes
         );
-        return new VCLResult.Success(isVerified);
+
+        return new VCLResult.Success(verifiedProfile);
     }
 
     async verifyServiceType(

@@ -18,6 +18,6 @@ export default interface JwtServiceRepository {
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
         nonce: Nullish<string>,
-        didJwk: VCLDidJwk
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLResult<VCLJwt>>;
 }

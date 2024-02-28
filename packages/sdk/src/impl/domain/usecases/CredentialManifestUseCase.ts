@@ -7,7 +7,6 @@ import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
 export default interface CredentialManifestUseCase {
     getCredentialManifest(
         credentialManifestDescriptor: VCLCredentialManifestDescriptor,
-        verifiedProfile: Nullish<VCLVerifiedProfile>,
-        remoteCryptoServicesToken: Nullish<VCLToken>
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>>;
 }
