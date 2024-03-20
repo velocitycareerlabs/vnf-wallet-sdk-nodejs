@@ -1,4 +1,3 @@
-import VCLCryptoServiceType from "../api/VCLCryptoServiceType";
 import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCryptoServicesDescriptor from "../api/entities/VCLCryptoServicesDescriptor";
 import VCLError from "../api/entities/error/VCLError";
@@ -53,80 +52,27 @@ import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
 import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
-import VCLJwtSignServiceLocalImpl from "./jwt/local/VCLJwtSignServiceLocalImpl";
-import VCLJwtVerifyServiceLocalImpl from "./jwt/local/VCLJwtVerifyServiceLocalImpl";
-import VCLKeyServiceLocalImpl from "./keys/VCLKeyServiceLocalImpl";
 
 export default class VclBlocksProvider {
     private static chooseKeyService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLKeyService {
-        if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Local
-        ) {
-            return new VCLKeyServiceLocalImpl(new SecretStoreServiceImpl());
-        } else if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Injected
-        ) {
-            if (
-                !cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.keyService
-            ) {
-                throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
-            }
-            return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
-                .keyService;
-        } else {
-            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
-        }
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .keyService;
     }
 
     private static chooseJwtSignService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLJwtSignService {
-        if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Local
-        ) {
-            return new VCLJwtSignServiceLocalImpl(
-                this.chooseKeyService(cryptoServicesDescriptor)
-            );
-        } else if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Injected
-        ) {
-            if (
-                cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.jwtSignService
-            ) {
-                return cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.jwtSignService;
-            }
-            throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
-        }
-
-        throw new VCLError(VCLErrorCode.InjectedServicesNotFount);
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .jwtSignService;
     }
 
     private static chooseJwtVerifyService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLJwtVerifyService {
-        if (
-            cryptoServicesDescriptor.cryptoServiceType ===
-            VCLCryptoServiceType.Injected
-        ) {
-            if (
-                cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.jwtVerifyService
-            ) {
-                return cryptoServicesDescriptor.injectedCryptoServicesDescriptor
-                    ?.jwtVerifyService;
-            }
-        }
-
-        return new VCLJwtVerifyServiceLocalImpl(); // verification may be done locally
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .jwtVerifyService!;
     }
 
     static providePresentationRequestUseCase(

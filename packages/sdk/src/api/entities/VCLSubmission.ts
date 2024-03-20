@@ -23,7 +23,6 @@ export default class VCLSubmission {
     public generatePayload(iss?: string) {
         let result: JSONObject = {
             [VCLSubmission.KeyJti]: this.jti,
-            [VCLSubmission.KeyIss]: iss ? iss : this.iss,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:
                     VCLSubmission.ValueVerifiablePresentation,
@@ -65,7 +64,6 @@ export default class VCLSubmission {
     }
 
     static readonly KeyJti = "jti";
-    static readonly KeyIss = "iss";
     static readonly KeyId = "id";
     static readonly KeyVp = "vp";
     static readonly KeyDid = "did";
