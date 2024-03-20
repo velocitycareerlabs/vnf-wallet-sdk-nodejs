@@ -8,6 +8,7 @@ import CredentialManifestRepository from "../../domain/repositories/CredentialMa
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
 import CredentialManifestUseCase from "../../domain/usecases/CredentialManifestUseCase";
+import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
 
 export default class CredentialManifestUseCaseImpl
     implements CredentialManifestUseCase
@@ -21,13 +22,15 @@ export default class CredentialManifestUseCaseImpl
     onVerificationSuccess(
         isVerified: Boolean,
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ) {
         if (isVerified) {
             return new VCLResult.Success(
                 new VCLCredentialManifest(
                     jwt,
-                    credentialManifestDescriptor.vendorOriginContext
+                    credentialManifestDescriptor.vendorOriginContext,
+                    verifiedProfile
                 )
             );
         } else {
@@ -41,7 +44,8 @@ export default class CredentialManifestUseCaseImpl
 
     async onGetJwtSuccess(
         jwtStr: string,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>> {
         let jwtResult = await this.jwtServiceRepository.decode(jwtStr);
         let [err, jwt] = await jwtResult.handleResult();
@@ -50,13 +54,18 @@ export default class CredentialManifestUseCaseImpl
             return this.onError(err);
         }
 
-        return this.onDecodeJwtSuccess(jwt!, credentialManifestDescriptor);
+        return this.onDecodeJwtSuccess(
+            jwt!,
+            credentialManifestDescriptor,
+            verifiedProfile
+        );
     }
 
     async onResolvePublicKeySuccess(
         jwkPublic: VCLPublicJwk,
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>> {
         let verificationResult = await this.jwtServiceRepository.verifyJwt(
             jwt,
@@ -70,21 +79,21 @@ export default class CredentialManifestUseCaseImpl
         return this.onVerificationSuccess(
             isVerified!,
             jwt,
-            credentialManifestDescriptor
+            credentialManifestDescriptor,
+            verifiedProfile
         );
     }
 
     async onDecodeJwtSuccess(
         jwt: VCLJwt,
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>> {
         const kid = jwt.kid?.replace("#", encodeURIComponent("#"));
         if (!kid) {
             return this.onError(new VCLError("Empty kid"));
         }
-        let publicKeyResult = await this.resolveKidRepository.getPublicKey(
-            kid
-        );
+        let publicKeyResult = await this.resolveKidRepository.getPublicKey(kid);
 
         let [err, publicKey] = await publicKeyResult.handleResult();
         if (err) {
@@ -93,12 +102,14 @@ export default class CredentialManifestUseCaseImpl
         return this.onResolvePublicKeySuccess(
             publicKey!,
             jwt,
-            credentialManifestDescriptor
+            credentialManifestDescriptor,
+            verifiedProfile
         );
     }
 
     async getCredentialManifest(
-        credentialManifestDescriptor: VCLCredentialManifestDescriptor
+        credentialManifestDescriptor: VCLCredentialManifestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>> {
         let jwtStrResult =
             await this.credentialManifestRepository.getCredentialManifest(
@@ -109,17 +120,10 @@ export default class CredentialManifestUseCaseImpl
             return this.onError(error);
         }
 
-        return this.onGetJwtSuccess(jwtStr!, credentialManifestDescriptor);
-        /* () => {
-                jwtStrResult.handleResult(
-                    (jwtStr) =>
-                        this.onGetJwtSuccess(
-                            jwtStr,
-                            credentialManifestDescriptor,
-                            completionBlock
-                        ),
-                    (error) => this.onError(error, completionBlock)
-                );
-            } */
+        return this.onGetJwtSuccess(
+            jwtStr!,
+            credentialManifestDescriptor,
+            verifiedProfile
+        );
     }
 }

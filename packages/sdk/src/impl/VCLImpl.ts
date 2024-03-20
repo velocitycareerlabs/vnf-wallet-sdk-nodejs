@@ -45,6 +45,17 @@ import "./extensions/StringExtensions";
 import "./extensions/ListExtensions";
 import VCLResult from "../api/entities/VCLResult";
 import VCLErrorCode from "../api/entities/error/VCLErrorCode";
+import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
+import JwtServiceUseCase from "./domain/usecases/JwtServiceUseCase";
+import IdentificationSubmissionUseCase from "./domain/usecases/IdentificationSubmissionUseCase";
+import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
+import CredentialManifestUseCase from "./domain/usecases/CredentialManifestUseCase";
+import GenerateOffersUseCase from "./domain/usecases/GenerateOffersUseCase";
+import FinalizeOffersUseCase from "./domain/usecases/FinalizeOffersUseCase";
+import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
+import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
+import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
+import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialTypesUIFormSchemaUseCase";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -54,35 +65,33 @@ export class VCLImpl implements VCL {
     credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypesModel: Nullish<CredentialTypesModel>;
     credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
-    verifiedProfileUseCase = VclBlocksProvider.provideVerifiedProfileUseCase();
-    jwtServiceUseCase = VclBlocksProvider.provideJwtServiceUseCase();
-    profileServiceTypeVerifier = new ProfileServiceTypeVerifier(
-        this.verifiedProfileUseCase
-    );
 
-    identificationUseCase = VclBlocksProvider.provideIdentificationUseCase();
-
-    presentationRequestUseCase =
-        VclBlocksProvider.providePresentationRequestUseCase();
-
-    credentialManifestUseCase =
-        VclBlocksProvider.provideCredentialManifestUseCase();
-
-    generateOffersUseCase = VclBlocksProvider.provideGenerateOffersUseCase();
-    finalizeOffersUseCase = VclBlocksProvider.provideFinalizeOffersUseCase();
-    presentationSubmissionUseCase =
-        VclBlocksProvider.providePresentationSubmissionUseCase();
-
-    exchangeProgressUseCase =
-        VclBlocksProvider.provideExchangeProgressUseCase();
-
-    organizationsUseCase = VclBlocksProvider.provideOrganizationsUseCase();
-
-    credentialTypesUIFormSchemaUseCase =
-        VclBlocksProvider.provideCredentialTypesUIFormSchemaUseCase();
+    initializationDescriptor!: VCLInitializationDescriptor;
 
     credentialTypeSchemasModel: Nullish<CredentialTypeSchemasModel>;
     countriesModel: Nullish<CountriesModel>;
+
+    verifiedProfileUseCase!: VerifiedProfileUseCase;
+
+    jwtServiceUseCase!: JwtServiceUseCase;
+    profileServiceTypeVerifier!: ProfileServiceTypeVerifier;
+
+    identificationUseCase!: IdentificationSubmissionUseCase;
+
+    presentationRequestUseCase!: PresentationRequestUseCase;
+
+    credentialManifestUseCase!: CredentialManifestUseCase;
+
+    generateOffersUseCase!: GenerateOffersUseCase;
+    finalizeOffersUseCase!: FinalizeOffersUseCase;
+
+    presentationSubmissionUseCase!: PresentationSubmissionUseCase;
+
+    exchangeProgressUseCase!: ExchangeProgressUseCase;
+
+    organizationsUseCase!: OrganizationsUseCase;
+
+    credentialTypesUIFormSchemaUseCase!: CredentialTypesUIFormSchemaUseCase;
 
     private initializationWatcher = new InitializationWatcher(
         VCLImpl.ModelsToInitializeAmount
@@ -93,7 +102,7 @@ export class VCLImpl implements VCL {
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>> {
         GlobalConfig.CurrentEnvironment = initializationDescriptor.environment;
-
+        this.initializationDescriptor = initializationDescriptor;
         this.initializationWatcher = new InitializationWatcher(
             VCLImpl.ModelsToInitializeAmount
         );
@@ -152,6 +161,51 @@ export class VCLImpl implements VCL {
         }
     }
 
+    private initializeUseCases() {
+        this.verifiedProfileUseCase =
+            VclBlocksProvider.provideVerifiedProfileUseCase();
+        this.jwtServiceUseCase = VclBlocksProvider.provideJwtServiceUseCase(
+            this.initializationDescriptor.cryptoServicesDescriptor
+        );
+        this.profileServiceTypeVerifier = new ProfileServiceTypeVerifier(
+            this.verifiedProfileUseCase
+        );
+
+        this.identificationUseCase =
+            VclBlocksProvider.provideIdentificationUseCase(
+                this.initializationDescriptor.cryptoServicesDescriptor
+            );
+
+        this.presentationRequestUseCase =
+            VclBlocksProvider.providePresentationRequestUseCase(
+                this.initializationDescriptor.cryptoServicesDescriptor
+            );
+
+        this.credentialManifestUseCase =
+            VclBlocksProvider.provideCredentialManifestUseCase(
+                this.initializationDescriptor.cryptoServicesDescriptor
+            );
+
+        this.generateOffersUseCase =
+            VclBlocksProvider.provideGenerateOffersUseCase();
+        this.finalizeOffersUseCase =
+            VclBlocksProvider.provideFinalizeOffersUseCase(
+                this.initializationDescriptor.cryptoServicesDescriptor
+            );
+        this.presentationSubmissionUseCase =
+            VclBlocksProvider.providePresentationSubmissionUseCase(
+                this.initializationDescriptor.cryptoServicesDescriptor
+            );
+
+        this.exchangeProgressUseCase =
+            VclBlocksProvider.provideExchangeProgressUseCase();
+
+        this.organizationsUseCase =
+            VclBlocksProvider.provideOrganizationsUseCase();
+
+        this.credentialTypesUIFormSchemaUseCase =
+            VclBlocksProvider.provideCredentialTypesUIFormSchemaUseCase();
+    }
     getPresentationRequest = async (
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ) => {
@@ -206,11 +260,13 @@ export class VCLImpl implements VCL {
     };
 
     submitPresentation = async (
-        presentationSubmission: VCLPresentationSubmission
+        presentationSubmission: VCLPresentationSubmission,
+        didJwk: Nullish<VCLDidJwk>
     ) => {
         let presentationSubmissionSubmission =
             await this.presentationSubmissionUseCase.submit(
-                presentationSubmission
+                presentationSubmission,
+                didJwk
             );
         let [error, presentationSubmissionResult] =
             await presentationSubmissionSubmission.handleResult();
@@ -274,7 +330,7 @@ export class VCLImpl implements VCL {
             throw error;
         }
         try {
-            let isVerifiedResult =
+            let verifiedProfileResult =
                 await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                     new VCLVerifiedProfileDescriptor(did),
                     VCLServiceTypes.fromIssuingType(
@@ -282,11 +338,12 @@ export class VCLImpl implements VCL {
                     )
                 );
 
-            let [err, isVerified] = isVerifiedResult.handleResult();
-            if (isVerified) {
+            let [err, verifiedProfile] = verifiedProfileResult.handleResult();
+            if (verifiedProfile) {
                 let credentialManifest =
                     await this.credentialManifestUseCase.getCredentialManifest(
-                        credentialManifestDescriptor
+                        credentialManifestDescriptor,
+                        verifiedProfile
                     );
                 let [error, credentialManifestResult] =
                     await credentialManifest.handleResult();
@@ -304,7 +361,8 @@ export class VCLImpl implements VCL {
         }
     };
     generateOffers = async (
-        generateOffersDescriptor: VCLGenerateOffersDescriptor
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        didJwk: Nullish<VCLDidJwk>
     ) => {
         const identificationSubmission = new VCLIdentificationSubmission(
             generateOffersDescriptor.credentialManifest,
@@ -312,7 +370,10 @@ export class VCLImpl implements VCL {
         );
 
         let identificationSubmissionResult =
-            await this.identificationUseCase.submit(identificationSubmission);
+            await this.identificationUseCase.submit(
+                identificationSubmission,
+                didJwk
+            );
 
         let [error, submission] = identificationSubmissionResult.handleResult();
         if (error) {
@@ -340,12 +401,14 @@ export class VCLImpl implements VCL {
     }
     finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken
+        token: VCLToken,
+        didJwk: Nullish<VCLDidJwk>
     ) => {
         let jwtVerifiableCredentials =
             await this.finalizeOffersUseCase.finalizeOffers(
                 token,
-                finalizeOffersDescriptor
+                finalizeOffersDescriptor,
+                didJwk
             );
 
         let [error, result] = jwtVerifiableCredentials.handleResult();

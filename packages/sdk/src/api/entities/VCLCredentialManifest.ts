@@ -1,9 +1,11 @@
 import VCLJwt from "./VCLJwt";
+import VCLVerifiedProfile from "./VCLVerifiedProfile";
 
 export default class VCLCredentialManifest {
     constructor(
         public jwt: VCLJwt,
-        public vendorOriginContext: Nullish<string>
+        public vendorOriginContext: Nullish<string>,
+        public verifiedProfile: VCLVerifiedProfile
     ) {}
 
     get iss(): string {

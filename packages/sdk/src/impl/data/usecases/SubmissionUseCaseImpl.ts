@@ -1,3 +1,4 @@
+import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
@@ -13,14 +14,18 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
         private jwtServiceRepository: JwtServiceRepository
     ) {}
     async submit(
-        submission: VCLSubmission
+        submission: VCLSubmission,
+        didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLResult<VCLSubmissionResult>> {
         let signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
             new VCLJwtDescriptor(
-                submission.payload,
+                submission.generatePayload(),
                 submission.iss,
-                submission.jti
-            )
+                submission.jti,
+                didJwk?.keyId
+            ),
+            null,
+            didJwk
         );
 
         let [error, jwt] = await signedJwtResult.handleResult();

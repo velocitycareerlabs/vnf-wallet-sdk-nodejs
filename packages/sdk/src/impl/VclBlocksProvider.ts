@@ -1,5 +1,11 @@
 import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
-import JwtServiceImpl from "./data/infrastructure/jwt/JwtServiceImpl";
+import VCLCryptoServicesDescriptor from "../api/entities/VCLCryptoServicesDescriptor";
+import VCLError from "../api/entities/error/VCLError";
+import VCLErrorCode from "../api/entities/VCLErrorCode";
+import VCLJwtSignService from "../api/jwt/VCLJwtSignService";
+import VCLJwtVerifyService from "../api/jwt/VCLJwtVerifyService";
+import VCLKeyService from "../api/keys/VCLKeyService";
+import SecretStoreServiceImpl from "./data/infrastructure/db/SecretStoreServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
 import CountriesModelImpl from "./data/models/CountriesModelImpl";
 import CredentialTypeSchemasModelImpl from "./data/models/CredentialTypeSchemasModelImpl";
@@ -48,11 +54,37 @@ import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmiss
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 
 export default class VclBlocksProvider {
-    static providePresentationRequestUseCase(): PresentationRequestUseCase {
+    private static chooseKeyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLKeyService {
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .keyService;
+    }
+
+    private static chooseJwtSignService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLJwtSignService {
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .jwtSignService;
+    }
+
+    private static chooseJwtVerifyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): VCLJwtVerifyService {
+        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
+            .jwtVerifyService!;
+    }
+
+    static providePresentationRequestUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): PresentationRequestUseCase {
         return new PresentationRequestUseCaseImpl(
             new PresentationRequestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
@@ -62,26 +94,41 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideJwtServiceUseCase(): JwtServiceUseCase {
+    static provideJwtServiceUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): JwtServiceUseCase {
         return new JwtServiceUseCaseImpl(
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static provideCredentialManifestUseCase(): CredentialManifestUseCase {
+    static provideCredentialManifestUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): CredentialManifestUseCase {
         return new CredentialManifestUseCaseImpl(
             new CredentialManifestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static provideIdentificationUseCase(): IdentificationSubmissionUseCase {
+    static provideIdentificationUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): IdentificationSubmissionUseCase {
         return new IdentificationSubmissionUseCaseImpl(
             new IdentificationSubmissionRepositoryImpl(
                 new NetworkServiceImpl()
             ),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
@@ -91,19 +138,29 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideFinalizeOffersUseCase(): FinalizeOffersUseCase {
+    static provideFinalizeOffersUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): FinalizeOffersUseCase {
         return new FinalizeOffersUseCaseImpl(
             new FinalizeOffersRepositoryImpl(new NetworkServiceImpl()),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 
-    static providePresentationSubmissionUseCase(): PresentationSubmissionUseCase {
+    static providePresentationSubmissionUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): PresentationSubmissionUseCase {
         return new PresentationSubmissionUseCaseImpl(
             new IdentificationSubmissionRepositoryImpl(
                 new NetworkServiceImpl()
             ),
-            new JwtServiceRepositoryImpl(new JwtServiceImpl())
+            new JwtServiceRepositoryImpl(
+                this.chooseJwtSignService(cryptoServicesDescriptor),
+                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+            )
         );
     }
 

@@ -3,7 +3,7 @@ import VCLDidJwkDescriptor from "../../../../api/entities/VCLDidJwkDescriptor";
 import VCLJwt, { SignedJWT } from "../../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../../api/entities/VCLResult";
-
+/* 
 export default interface JwtService {
     parse(jwt: string): Nullish<SignedJWT>;
 
@@ -17,3 +17,4 @@ export default interface JwtService {
         didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
     ): Promise<VCLDidJwk>;
 }
+ */
