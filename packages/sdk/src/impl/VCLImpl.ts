@@ -220,14 +220,14 @@ export class VCLImpl implements VCL {
             throw err;
         }
 
-        let profileVerification =
+        let verifiedProfileResult =
             await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                 new VCLVerifiedProfileDescriptor(did),
                 new VCLServiceTypes([VCLServiceType.Inspector])
             );
 
-        let [error, verificationResult] =
-            await profileVerification.handleResult();
+        let [error, verifiedProfile] =
+            await verifiedProfileResult.handleResult();
         if (error) {
             console.log(error);
             // logError("getPresentationRequest", error);
@@ -235,14 +235,13 @@ export class VCLImpl implements VCL {
             throw error;
         }
 
-        let presentationRequestResult: Nullish<
-            VCLResult<VCLPresentationRequest>
-        >;
+        let presentationRequestResult: Nullish<VCLResult<VCLPresentationRequest>>;
 
         try {
             presentationRequestResult =
                 await this.presentationRequestUseCase.getPresentationRequest(
-                    presentationRequestDescriptor
+                    presentationRequestDescriptor,
+                    verifiedProfile
                 );
         } catch (error: any) {
             logError("getPresentationRequest", error);

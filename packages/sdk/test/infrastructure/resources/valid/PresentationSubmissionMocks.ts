@@ -1,9 +1,9 @@
-import VCLPresentationRequestDescriptor from "../../../../src/api/entities/VCLPresentationRequestDescriptor";
 import VCLPresentationRequest from "../../../../src/api/entities/VCLPresentationRequest";
 import VCLPushDelegate from "../../../../src/api/entities/VCLPushDelegate";
 import { DeepLinkMocks } from "./DeepLinkMocks";
 import { JwtServiceMocks } from "./JwtServiceMocks";
 import VCLVerifiableCredential from "../../../../src/api/entities/VCLVerifiableCredential";
+import VCLVerifiedProfile from "../../../../src/api/entities/VCLVerifiedProfile";
 
 class PresentationSubmissionMocks {
     static PushDelegate = new VCLPushDelegate(
@@ -14,7 +14,7 @@ class PresentationSubmissionMocks {
         '{"token":"u7yLD8KS2eTEqkg9aRQE","exchange":{"id":"64131231","type":"DISCLOSURE","disclosureComplete":true,"exchangeComplete":true}}';
     static PresentationRequest = new VCLPresentationRequest(
         JwtServiceMocks.JWT,
-        JwtServiceMocks.JwkPublic,
+        new VCLVerifiedProfile(''),
         DeepLinkMocks.CredentialManifestDeepLinkMainNet,
         this.PushDelegate
     );
