@@ -8,7 +8,7 @@ export default class CredentialTypesUseCaseImpl
 {
     constructor(private readonly credentialTypes: CredentialTypesRepository) {}
     async getCredentialTypes(): Promise<VCLResult<VCLCredentialTypes>> {
-        let it = await this.credentialTypes.getCredentialTypes();
+        const it = await this.credentialTypes.getCredentialTypes();
         return it;
     }
 }

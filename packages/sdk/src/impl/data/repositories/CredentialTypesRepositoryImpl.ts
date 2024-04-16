@@ -20,7 +20,7 @@ export default class CredentialTypesRepositoryImpl
     async fetchCredentialTypes(
         endpoint: string
     ): Promise<VCLResult<VCLCredentialTypes>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint,
             contentType: Request.ContentTypeApplicationJson,
             method: HttpMethod.GET,
@@ -32,7 +32,7 @@ export default class CredentialTypesRepositoryImpl
             body: null,
         });
 
-        let [err, credentialTypesResponse] = result.handleResult();
+        const [err, credentialTypesResponse] = result.handleResult();
         if (err) {
             return new VCLResult.Error(err);
         }

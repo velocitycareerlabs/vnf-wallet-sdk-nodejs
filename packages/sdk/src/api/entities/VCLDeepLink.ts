@@ -27,7 +27,7 @@ export default class VCLDeepLink {
 
     private generateUri(
         uriKey: string,
-        asSubParams: boolean = false
+        asSubParams = false
     ): Nullish<string> {
         const queryParams = this.value.getQueryParameters();
         const uri = queryParams.get(uriKey);

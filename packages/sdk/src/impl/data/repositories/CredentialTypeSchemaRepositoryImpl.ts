@@ -21,7 +21,7 @@ export default class CredentialTypeSchemaRepositoryImpl
     private async fetchCredentialTypeSchema(
         endpoint: string
     ): Promise<VCLResult<VCLCredentialTypeSchema>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint,
             method: HttpMethod.GET,
             body: null,
@@ -33,7 +33,7 @@ export default class CredentialTypeSchemaRepositoryImpl
             contentType: null,
         });
 
-        let [error, credentialTypeSchemaResponse] = result.handleResult();
+        const [error, credentialTypeSchemaResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

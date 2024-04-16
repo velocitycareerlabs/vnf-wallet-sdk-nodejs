@@ -18,7 +18,7 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
     private async fetchCountries(
         endpoint: string
     ): Promise<VCLResult<VCLCountries>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint,
             contentType: Request.ContentTypeApplicationJson,
             method: HttpMethod.GET,
@@ -30,7 +30,7 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
             body: null,
         });
 
-        let [error, countriesResponse] = await result.handleResult();
+        const [error, countriesResponse] = await result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }
@@ -46,10 +46,10 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
 
     private parseCountry(countryJsonObj: JSONObject): VCLCountry {
         const jsonArrRegions = countryJsonObj[VCLCountry.KeyRegions];
-        var regions: Nullish<VCLRegions> = null;
+        let regions: Nullish<VCLRegions> = null;
 
         if (jsonArrRegions) {
-            let regionList: VCLRegion[] = jsonArrRegions.map(
+            const regionList: VCLRegion[] = jsonArrRegions.map(
                 (item: JSONObject) => {
                     return new VCLRegion(
                         item,

@@ -18,7 +18,7 @@ export default class GenerateOffersRepositoryImpl
         token: VCLToken,
         generateOffersDescriptor: VCLGenerateOffersDescriptor
     ): Promise<VCLResult<VCLOffers>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: generateOffersDescriptor.checkOffersUri,
             headers: {
@@ -30,7 +30,7 @@ export default class GenerateOffersRepositoryImpl
             method: HttpMethod.POST,
             contentType: "application/json",
         });
-        let [error, offersResponse] = await result.handleResult();
+        const [error, offersResponse] = await result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

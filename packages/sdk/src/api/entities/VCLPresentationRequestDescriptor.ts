@@ -8,7 +8,7 @@ export default class VCLPresentationRequestDescriptor {
     ) {}
 
     get endpoint() {
-        let queryParams = this.generateQueryParams();
+        const queryParams = this.generateQueryParams();
         if (queryParams) {
             return this.deepLink.requestUri?.appendQueryParams(queryParams);
         }
@@ -29,7 +29,7 @@ export default class VCLPresentationRequestDescriptor {
             }=${this.pushDelegate.pushToken}`;
         }
 
-        let qParams = [pPushDelegate].filter((it) => it && it.length);
+        const qParams = [pPushDelegate].filter((it) => it && it.length);
         return qParams.length ? qParams.join("&") : null;
     }
 

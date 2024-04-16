@@ -13,7 +13,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
 
     async decode(encodedJwt: string): Promise<VCLResult<VCLJwt>> {
         try {
-            let parsed = this.jwtService.parse(encodedJwt);
+            const parsed = this.jwtService.parse(encodedJwt);
             if (parsed) {
                 return new VCLResult.Success(new VCLJwt(parsed));
             }
@@ -28,7 +28,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
         jwkPublic: VCLPublicJwk
     ): Promise<VCLResult<boolean>> {
         try {
-            let it = await this.jwtService.verify(jwt, jwkPublic.valueStr);
+            const it = await this.jwtService.verify(jwt, jwkPublic.valueStr);
             return new VCLResult.Success(it ?? false);
         } catch (error: any) {
             return new VCLResult.Error(new VCLError(error!));
@@ -38,7 +38,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
         jwtDescriptor: VCLJwtDescriptor
     ): Promise<VCLResult<VCLJwt>> {
         try {
-            let it = await this.jwtService.sign(jwtDescriptor);
+            const it = await this.jwtService.sign(jwtDescriptor);
             return new VCLResult.Success(new VCLJwt(it!));
         } catch (error) {
             return new VCLResult.Error(
@@ -50,7 +50,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
         didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
     ): Promise<VCLResult<VCLDidJwk>> {
         try {
-            let didJwk = await this.jwtService.generateDidJwk(didJwkDescriptor);
+            const didJwk = await this.jwtService.generateDidJwk(didJwkDescriptor);
             return new VCLResult.Success(didJwk);
         } catch (e: any) {
             return new VCLResult.Error(new VCLError(e));

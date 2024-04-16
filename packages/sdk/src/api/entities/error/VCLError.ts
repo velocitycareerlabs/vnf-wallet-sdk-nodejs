@@ -23,7 +23,7 @@ export default class VCLError extends Error {
 
     static fromPayload(payload: string): VCLError {
         const payloadJson = JSON.parse(payload);
-        let result = new VCLError(
+        const result = new VCLError(
             payloadJson?.[VCLError.KeyError] || null,
             payloadJson?.[VCLError.KeyErrorCode] || VCLErrorCode.SdkError.toString(),
             payloadJson?.[VCLError.KeyMessage] || null,
@@ -38,7 +38,7 @@ export default class VCLError extends Error {
         exception: Error,
         statusCode: number | null = null
     ): VCLError {
-        let result = new VCLError(
+        const result = new VCLError(
             null, 
             VCLErrorCode.SdkError.toString(), 
             exception.message, 
