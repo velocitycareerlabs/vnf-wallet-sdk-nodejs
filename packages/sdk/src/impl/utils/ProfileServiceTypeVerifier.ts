@@ -16,17 +16,17 @@ export class ProfileServiceTypeVerifier {
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor,
         expectedServiceTypes: VCLServiceTypes
     ): Promise<VCLResult<any>> {
-        let verifiedProfileResult =
+        const verifiedProfileResult =
             await this.verifiedProfileUseCase.getVerifiedProfile(
                 verifiedProfileDescriptor
             );
-        let [err, verifiedProfile] = await verifiedProfileResult.handleResult();
+        const [err, verifiedProfile] = await verifiedProfileResult.handleResult();
 
         if (err) {
             throw err;
         }
 
-        let isVerified = await this.verifyServiceType(
+        const isVerified = await this.verifyServiceType(
             verifiedProfile!,
             expectedServiceTypes
         );

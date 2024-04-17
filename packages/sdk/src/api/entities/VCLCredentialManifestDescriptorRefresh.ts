@@ -35,7 +35,7 @@ export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentia
     }
 
     get endpoint(): Nullish<string> {
-        let queryParams = this.generateQueryParams();
+        const queryParams = this.generateQueryParams();
         if (queryParams) {
             const originUri = this.uri!;
             const allQueryParams =
@@ -50,7 +50,7 @@ export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentia
     }
 
     generateQueryParams() {
-        let pCredentialIds = this.credentialIds
+        const pCredentialIds = this.credentialIds
             .map(
                 (it) =>
                     `${
@@ -59,7 +59,7 @@ export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentia
             )
             .join("&");
 
-        let qParams = [pCredentialIds].filter((c) => c && c.length);
+        const qParams = [pCredentialIds].filter((c) => c && c.length);
         return qParams.length ? qParams.join("&") : null;
     }
 }

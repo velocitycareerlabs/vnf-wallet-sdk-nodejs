@@ -1,28 +1,22 @@
 {
   "compilerOptions": {
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
+    "module": "commonjs",
     "esModuleInterop": true,
-    "preserveConstEnums": true,
-    "removeComments": true,
-    "rootDir": "src",
-    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
     "sourceMap": true,
-    "strict": true,
-    "lib": ["ES6", "ES2022"],
-    "downlevelIteration": true,
-    "target": "es5",
-    "declaration": true
+    "outDir": "dist",
+    "baseUrl": "./",
+    "rootDir": "./src",
+    "paths": {
+      "": ["./src/"]
+    },
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
-  "include": [
-    "./src/**/*"
-, "global.d.ts"  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "parserOptions":  {
-    "ecmaVersion":  "2022",  // Allows for the parsing of modern ECMAScript features
-    "sourceType":  "module"  // Allows for the use of imports
-  }
+  "include": ["src"],
 }

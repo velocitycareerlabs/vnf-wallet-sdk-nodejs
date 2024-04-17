@@ -13,9 +13,9 @@ export default class CredentialTypeSchemasModelImpl
     data: Nullish<VCLCredentialTypeSchemas>;
 
     async initialize(): Promise<VCLError | null> {
-        let result =
+        const result =
             await this.credentialTypeSchemasUseCase.getCredentialTypeSchemas();
-        let [err, d] = result.handleResult();
+        const [err, d] = result.handleResult();
 
         if (err) {
             return new VCLError(err.message);

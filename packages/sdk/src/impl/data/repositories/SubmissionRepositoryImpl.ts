@@ -18,7 +18,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
     ): Promise<VCLResult<VCLSubmissionResult>> {
         const body = submission.generateRequestBody(jwt);
 
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint: submission.submitUri,
             body,
             method: HttpMethod.POST,
@@ -30,7 +30,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
             useCaches: false,
         });
 
-        let [error, submissionResponse] = await result.handleResult();
+        const [error, submissionResponse] = await result.handleResult();
 
         if (submissionResponse) {
             try {
@@ -60,10 +60,10 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
 
     private parse(
         jsonObj: JSONObject,
-        jti: String,
-        submissionId: String
+        jti: string,
+        submissionId: string
     ): VCLSubmissionResult {
-        let exchangeJsonObj = jsonObj[VCLSubmissionResult.KeyExchange];
+        const exchangeJsonObj = jsonObj[VCLSubmissionResult.KeyExchange];
         return new VCLSubmissionResult(
             new VCLToken(jsonObj[VCLSubmissionResult.KeyToken]),
             this.parseExchange(exchangeJsonObj),

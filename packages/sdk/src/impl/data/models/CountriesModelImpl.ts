@@ -9,9 +9,9 @@ export default class CountriesModelImpl implements CountriesModel {
 
     data: Nullish<VCLCountries>;
     async initialize(): Promise<VCLError | null> {
-        let result = await this.countriesUseCase.getCountries();
+        const result = await this.countriesUseCase.getCountries();
 
-        let [err, d] = result.handleResult();
+        const [err, d] = result.handleResult();
         if (err) {
             return new VCLError(err.message);
         }

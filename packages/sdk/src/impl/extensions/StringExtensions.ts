@@ -1,4 +1,5 @@
 import { randomBytes } from "crypto";
+import VCLLog from "../utils/VCLLog";
 
 String.prototype.getQueryParameters = function (): Map<string, string> {
     const result = new Map<string, string>();
@@ -7,12 +8,14 @@ String.prototype.getQueryParameters = function (): Map<string, string> {
         const url = new URL(this.valueOf());
         const entries = url.searchParams.entries();
 
-        for (let i of entries) {
+        for (const i of entries) {
             const [key, value] = i;
             // each 'entry' is a [key, value] tupple
             result.set(key, value);
         }
-    } catch (error) {}
+    } catch (error) {
+        VCLLog.e('', JSON.stringify(error))
+    }
 
     return result;
 };

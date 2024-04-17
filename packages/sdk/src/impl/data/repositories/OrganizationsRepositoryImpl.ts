@@ -21,7 +21,7 @@ export default class OrganizationsRepositoryImpl
               organizationsSearchDescriptor.queryParams
             : Urls.Organizations;
 
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint,
             headers: {
@@ -33,7 +33,7 @@ export default class OrganizationsRepositoryImpl
             contentType: null,
         });
 
-        let [error, organizationsResponse] = await result.handleResult();
+        const [error, organizationsResponse] = await result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

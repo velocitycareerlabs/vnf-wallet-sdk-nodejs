@@ -19,7 +19,7 @@ export default class CredentialManifestUseCaseImpl
     ) {}
 
     onVerificationSuccess(
-        isVerified: Boolean,
+        isVerified: boolean,
         jwt: VCLJwt,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ) {
@@ -43,8 +43,8 @@ export default class CredentialManifestUseCaseImpl
         jwtStr: string,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ): Promise<VCLResult<VCLCredentialManifest>> {
-        let jwtResult = await this.jwtServiceRepository.decode(jwtStr);
-        let [err, jwt] = await jwtResult.handleResult();
+        const jwtResult = await this.jwtServiceRepository.decode(jwtStr);
+        const [err, jwt] = await jwtResult.handleResult();
 
         if (err) {
             return this.onError(err);
@@ -58,12 +58,12 @@ export default class CredentialManifestUseCaseImpl
         jwt: VCLJwt,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ): Promise<VCLResult<VCLCredentialManifest>> {
-        let verificationResult = await this.jwtServiceRepository.verifyJwt(
+        const verificationResult = await this.jwtServiceRepository.verifyJwt(
             jwt,
             jwkPublic
         );
 
-        let [err, isVerified] = await verificationResult.handleResult();
+        const [err, isVerified] = await verificationResult.handleResult();
         if (err) {
             return this.onError(err);
         }
@@ -82,11 +82,11 @@ export default class CredentialManifestUseCaseImpl
         if (!kid) {
             return this.onError(new VCLError("Empty kid"));
         }
-        let publicKeyResult = await this.resolveKidRepository.getPublicKey(
+        const publicKeyResult = await this.resolveKidRepository.getPublicKey(
             kid
         );
 
-        let [err, publicKey] = await publicKeyResult.handleResult();
+        const [err, publicKey] = await publicKeyResult.handleResult();
         if (err) {
             this.onError(err);
         }
@@ -100,11 +100,11 @@ export default class CredentialManifestUseCaseImpl
     async getCredentialManifest(
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ): Promise<VCLResult<VCLCredentialManifest>> {
-        let jwtStrResult =
+        const jwtStrResult =
             await this.credentialManifestRepository.getCredentialManifest(
                 credentialManifestDescriptor
             );
-        let [error, jwtStr] = await jwtStrResult.handleResult();
+        const [error, jwtStr] = await jwtStrResult.handleResult();
         if (error) {
             return this.onError(error);
         }

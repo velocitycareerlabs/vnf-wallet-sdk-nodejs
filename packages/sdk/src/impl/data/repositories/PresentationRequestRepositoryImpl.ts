@@ -22,7 +22,7 @@ export default class PresentationRequestRepositoryImpl
             );
         }
 
-        let encodedJwtResult = await this.networkService.sendRequest({
+        const encodedJwtResult = await this.networkService.sendRequest({
             endpoint,
             contentType: null,
             method: HttpMethod.GET,
@@ -34,7 +34,7 @@ export default class PresentationRequestRepositoryImpl
             useCaches: false,
         });
 
-        let [error, presentationRequestResponse] =
+        const [error, presentationRequestResponse] =
             await encodedJwtResult.handleResult();
         if (error) {
             return new VCLResult.Error(error);

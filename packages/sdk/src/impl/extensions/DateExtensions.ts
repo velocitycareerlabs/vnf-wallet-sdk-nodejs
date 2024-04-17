@@ -5,11 +5,11 @@ Date.prototype.addDaysToNow = function (days: number): Date {
     return this;
 };
 
-Date.prototype.equalsTo = function (date: Date): Boolean {
-    let selfCopy = new Date(
+Date.prototype.equalsTo = function (date: Date): boolean {
+    const selfCopy = new Date(
         Date.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate())
     );
-    let check = new Date(
+    const check = new Date(
         Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate())
     );
     return selfCopy === check;

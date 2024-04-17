@@ -20,7 +20,7 @@ export default class CredentialTypeSchemasUseCaseImpl
     async getCredentialTypeSchemas(): Promise<
         VCLResult<VCLCredentialTypeSchemas>
     > {
-        let credentialTypeSchemasMap: {
+        const credentialTypeSchemasMap: {
             [key: string]: VCLCredentialTypeSchema;
         } = {};
         let credentialTypeSchemasMapIsEmpty = true;
@@ -34,8 +34,8 @@ export default class CredentialTypeSchemasUseCaseImpl
                     return it.schemaName!;
                 }) ?? [];
 
-        for (let schemaName of schemaNamesArr) {
-            let result =
+        for (const schemaName of schemaNamesArr) {
+            const result =
                 await this.credentialTypeSchemaRepository.getCredentialTypeSchema(
                     schemaName
                 );

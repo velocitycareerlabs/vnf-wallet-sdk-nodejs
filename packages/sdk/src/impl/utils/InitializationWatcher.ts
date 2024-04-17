@@ -1,14 +1,14 @@
 import VCLError from "../../api/entities/error/VCLError";
 
 export default class InitializationWatcher {
-    private initCount: number = 0;
+    private initCount = 0;
     private errors: VCLError[] = [];
 
     constructor(private readonly initAmount: number) {}
 
     onInitializedModel(
         error: VCLError | null,
-        enforceFailure: boolean = false
+        enforceFailure = false
     ): boolean {
         this.initCount++;
         error && this.errors.push(error);
