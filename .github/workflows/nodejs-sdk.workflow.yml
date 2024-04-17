@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - VL-7699-ci-run-linter
 
   workflow_dispatch:
     inputs:
