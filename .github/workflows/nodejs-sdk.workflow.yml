@@ -40,9 +40,19 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile --pure-lockfile
         working-directory: ${{ env.SDK_PATH }}
+      # Run LS 
+      - name: Run LS 1
+        run: ls -a
+        continue-on-error: false
+        working-directory: ${{ env.SDK_PATH }}
       # Run lint 
       - name: Run Lint
         run: yarn lint
+        continue-on-error: false
+        working-directory: ${{ env.SDK_PATH }}
+        # Run LS 
+      - name: Run LS 2
+        run: ls -a
         continue-on-error: false
         working-directory: ${{ env.SDK_PATH }}
       # Run test 
