@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - release/**
+      - VL-7699-ci-run-linter
       
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
@@ -30,6 +31,6 @@ jobs:
         working-directory: ${{ env.SDK_PATH }}
       # Run test 
       - name: Run Test
-        run: yarn test
+        run: yarn lint && yarn test
         continue-on-error: false
         working-directory: ${{ env.SDK_PATH }}
