@@ -36,6 +36,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+      # Run LS 
+      - name: Run LS 0
+        run: ls -a
+        continue-on-error: false
+        working-directory: ${{ env.SDK_PATH }}
       # Install dependencies
       - name: Install dependencies
         run: yarn --frozen-lockfile --pure-lockfile
