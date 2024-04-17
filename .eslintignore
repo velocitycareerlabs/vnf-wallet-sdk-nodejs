@@ -4,8 +4,5 @@ packages/sample-server/node_modules/**
 packages/sdk/dist/**
 dist/**
 babel.config.js
-metro.config.js
 setupJestAfterEnv.js
-secrets.js
-app/api/linkedin-config.js
 .yarn/*
