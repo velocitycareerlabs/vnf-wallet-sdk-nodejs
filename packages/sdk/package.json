@@ -1,9 +1,9 @@
 {
     "name": "@velocitycareerlabs/vnf-nodejs-wallet-sdk",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "VNF Wallet SDK Nodejs",
     "main": "dist/index.js",
-    "types": "dist/global.d.ts",
+    "types": "dist/index.d.ts",
     "scripts": {
         "lint": "eslint .",
         "lint:fix": "eslint --fix --ext .js .",
