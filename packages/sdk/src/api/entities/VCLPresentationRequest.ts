@@ -1,12 +1,12 @@
 import VCLDeepLink from "./VCLDeepLink";
-import VCLPublicJwk from "./VCLPublicJwk";
 import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
+import VCLVerifiedProfile from "./VCLVerifiedProfile";
 
 export default class VCLPresentationRequest {
     constructor(
         public readonly jwt: VCLJwt,
-        public readonly jwkPublic: VCLPublicJwk,
+        public readonly verifiedProfile: VCLVerifiedProfile,
         public readonly deepLink: VCLDeepLink,
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null
     ) {}
