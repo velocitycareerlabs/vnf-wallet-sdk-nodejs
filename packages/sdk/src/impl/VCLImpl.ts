@@ -61,10 +61,7 @@ export class VCLImpl implements VCL {
 
     static readonly ModelsToInitializeAmount = 3;
 
-    countries: Nullish<VCLCountries>;
-    credentialTypes: Nullish<VCLCredentialTypes>;
     credentialTypesModel: Nullish<CredentialTypesModel>;
-    credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
 
     initializationDescriptor!: VCLInitializationDescriptor;
 
@@ -235,7 +232,9 @@ export class VCLImpl implements VCL {
             throw error;
         }
 
-        let presentationRequestResult: Nullish<VCLResult<VCLPresentationRequest>>;
+        let presentationRequestResult: Nullish<
+            VCLResult<VCLPresentationRequest>
+        >;
 
         try {
             presentationRequestResult =
@@ -260,7 +259,7 @@ export class VCLImpl implements VCL {
 
     submitPresentation = async (
         presentationSubmission: VCLPresentationSubmission,
-        didJwk: Nullish<VCLDidJwk>
+        didJwk: VCLDidJwk
     ) => {
         let presentationSubmissionSubmission =
             await this.presentationSubmissionUseCase.submit(
@@ -361,7 +360,7 @@ export class VCLImpl implements VCL {
     };
     generateOffers = async (
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        didJwk: Nullish<VCLDidJwk>
+        didJwk: VCLDidJwk
     ) => {
         const identificationSubmission = new VCLIdentificationSubmission(
             generateOffersDescriptor.credentialManifest,
@@ -401,7 +400,7 @@ export class VCLImpl implements VCL {
     finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
         token: VCLToken,
-        didJwk: Nullish<VCLDidJwk>
+        didJwk: VCLDidJwk
     ) => {
         let jwtVerifiableCredentials =
             await this.finalizeOffersUseCase.finalizeOffers(

@@ -5,7 +5,6 @@ import VCLErrorCode from "../api/entities/VCLErrorCode";
 import VCLJwtSignService from "../api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "../api/jwt/VCLJwtVerifyService";
 import VCLKeyService from "../api/keys/VCLKeyService";
-import SecretStoreServiceImpl from "./data/infrastructure/db/SecretStoreServiceImpl";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
 import CountriesModelImpl from "./data/models/CountriesModelImpl";
 import CredentialTypeSchemasModelImpl from "./data/models/CredentialTypeSchemasModelImpl";
@@ -54,25 +53,16 @@ import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmiss
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 
 export default class VclBlocksProvider {
-    private static chooseKeyService(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
-    ): VCLKeyService {
-        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
-            .keyService;
-    }
-
     private static chooseJwtSignService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLJwtSignService {
-        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
-            .jwtSignService;
+        return cryptoServicesDescriptor.jwtSignService;
     }
 
     private static chooseJwtVerifyService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLJwtVerifyService {
-        return cryptoServicesDescriptor.injectedCryptoServicesDescriptor!
-            .jwtVerifyService!;
+        return cryptoServicesDescriptor.jwtVerifyService;
     }
 
     static providePresentationRequestUseCase(

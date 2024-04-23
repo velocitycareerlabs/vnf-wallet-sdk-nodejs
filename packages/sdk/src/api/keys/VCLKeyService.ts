@@ -10,15 +10,4 @@ export default interface VCLKeyService {
     generateDidJwk(
         remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLDidJwk>>;
-
-    // Implemented for local crypto services only
-    generateSecret(): Promise<VCLResult<KeyPairKeyObjectResult>>;
-
-    // Implemented for local crypto services only
-    retrieveSecretReference(
-        keyId: string
-    ): Promise<VCLResult<KeyPairKeyObjectResult>>;
-
-    // Implemented for local crypto services only
-    retrievePublicJwk(ecKey: KeyPairKeyObjectResult): Promise<VCLResult<JWK>>;
 }
