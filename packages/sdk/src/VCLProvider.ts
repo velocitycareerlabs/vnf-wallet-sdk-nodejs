@@ -1,6 +1,6 @@
 import { VCLImpl } from "./impl/VCLImpl";
 
-export default class VCLProvider {
+export class VCLProvider {
     private static vclInstance: VCLImpl;
 
     constructor() {
