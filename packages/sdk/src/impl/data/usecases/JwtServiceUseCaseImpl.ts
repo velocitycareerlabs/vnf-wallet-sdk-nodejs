@@ -10,14 +10,18 @@ import JwtServiceUseCase from "../../domain/usecases/JwtServiceUseCase";
 export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     constructor(private readonly jwtServiceRepository: JwtServiceRepository) {}
 
-    generateDidJwk(didJwkDescriptor: Nullish<VCLDidJwkDescriptor> = null) {
-        return this.jwtServiceRepository.generateDidJwk(didJwkDescriptor);
-    }
-
     verifyJwt(jwt: VCLJwt, jwkPublic: VCLPublicJwk) {
         return this.jwtServiceRepository.verifyJwt(jwt, jwkPublic);
     }
-    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor) {
-        return this.jwtServiceRepository.generateSignedJwt(jwtDescriptor);
+    generateSignedJwt(
+        jwtDescriptor: VCLJwtDescriptor,
+        nonce: Nullish<string>,
+        didJwk: VCLDidJwk
+    ) {
+        return this.jwtServiceRepository.generateSignedJwt(
+            jwtDescriptor,
+            nonce,
+            didJwk
+        );
     }
 }

@@ -51,8 +51,16 @@ import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import PresentationRequestUseCase from "./domain/usecases/PresentationRequestUseCase";
 import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmissionUseCase";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
+import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
+import KeyServiceUseCaseImpl from "./data/usecases/KeyServiceUseCaseImpl";
+import KeyServiceRepositoryImpl from "./data/repositories/KeyServiceRepositoryImpl";
 
 export default class VclBlocksProvider {
+    private static chooseKeyService(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ) {
+        return cryptoServicesDescriptor.keyService;
+    }
     private static chooseJwtSignService(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): VCLJwtSignService {
@@ -108,7 +116,7 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideIdentificationUseCase(
+    static provideIdentificationSubmissionUseCase(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): IdentificationSubmissionUseCase {
         return new IdentificationSubmissionUseCaseImpl(
@@ -174,7 +182,7 @@ export default class VclBlocksProvider {
         );
     }
 
-    static provideCountryCodesModel(): CountriesModel {
+    static provideCountriesModel(): CountriesModel {
         return new CountriesModelImpl(
             new CountriesUseCaseImpl(
                 new CountriesRepositoryImpl(new NetworkServiceImpl())
@@ -199,6 +207,16 @@ export default class VclBlocksProvider {
         return new CredentialTypesUIFormSchemaUseCaseImpl(
             new CredentialTypesUIFormSchemaRepositoryImpl(
                 new NetworkServiceImpl()
+            )
+        );
+    }
+
+    static provideKeyServiceUseCase(
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+    ): KeyServiceUseCase {
+        return new KeyServiceUseCaseImpl(
+            new KeyServiceRepositoryImpl(
+                VclBlocksProvider.chooseKeyService(cryptoServicesDescriptor)
             )
         );
     }

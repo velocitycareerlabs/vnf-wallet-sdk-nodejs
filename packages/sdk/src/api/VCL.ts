@@ -79,7 +79,8 @@ export default interface VCL {
 
     verifyJwt(jwt: VCLJwt, jwkPublic: VCLPublicJwk): Promise<boolean>;
 
-    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
-
-    generateDidJwk(): Promise<VCLDidJwk>;
+    generateSignedJwt(
+        jwtDescriptor: VCLJwtDescriptor,
+        didJwk: VCLDidJwk
+    ): Promise<VCLJwt>;
 }

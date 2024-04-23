@@ -12,10 +12,8 @@ export default interface JwtServiceUseCase {
     ): Promise<VCLResult<boolean>>;
 
     generateSignedJwt(
-        jwtDescriptor: VCLJwtDescriptor
+        jwtDescriptor: VCLJwtDescriptor,
+        nonce: Nullish<string>,
+        didJwk: VCLDidJwk
     ): Promise<VCLResult<VCLJwt>>;
-
-    generateDidJwk(
-        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
-    ): Promise<VCLResult<VCLDidJwk>>;
 }

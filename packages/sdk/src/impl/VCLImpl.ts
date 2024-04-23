@@ -56,6 +56,8 @@ import PresentationSubmissionUseCase from "./domain/usecases/PresentationSubmiss
 import ExchangeProgressUseCase from "./domain/usecases/ExchangeProgressUseCase";
 import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialTypesUIFormSchemaUseCase";
+import VCLDidJwkDescriptor from "../api/entities/VCLDidJwkDescriptor";
+import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -90,6 +92,8 @@ export class VCLImpl implements VCL {
 
     credentialTypesUIFormSchemaUseCase!: CredentialTypesUIFormSchemaUseCase;
 
+    keyServiceUseCase!: KeyServiceUseCase;
+
     private initializationWatcher = new InitializationWatcher(
         VCLImpl.ModelsToInitializeAmount
     );
@@ -113,7 +117,7 @@ export class VCLImpl implements VCL {
         this.credentialTypesModel =
             VclBlocksProvider.provideCredentialTypesModel();
 
-        this.countriesModel = VclBlocksProvider.provideCountryCodesModel();
+        this.countriesModel = VclBlocksProvider.provideCountriesModel();
 
         let initializeCountriesError = await this.countriesModel.initialize();
         this.initializationWatcher.onInitializedModel(initializeCountriesError);
@@ -169,7 +173,7 @@ export class VCLImpl implements VCL {
         );
 
         this.identificationUseCase =
-            VclBlocksProvider.provideIdentificationUseCase(
+            VclBlocksProvider.provideIdentificationSubmissionUseCase(
                 this.initializationDescriptor.cryptoServicesDescriptor
             );
 
@@ -202,6 +206,10 @@ export class VCLImpl implements VCL {
 
         this.credentialTypesUIFormSchemaUseCase =
             VclBlocksProvider.provideCredentialTypesUIFormSchemaUseCase();
+
+        this.keyServiceUseCase = VclBlocksProvider.provideKeyServiceUseCase(
+            this.initializationDescriptor.cryptoServicesDescriptor
+        );
     }
     getPresentationRequest = async (
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
@@ -473,9 +481,14 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    generateSignedJwt = async (jwtDescriptor: VCLJwtDescriptor) => {
+    generateSignedJwt = async (
+        jwtDescriptor: VCLJwtDescriptor,
+        didJwk: VCLDidJwk
+    ) => {
         let jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
-            jwtDescriptor
+            jwtDescriptor,
+            null,
+            didJwk
         );
 
         let [err, result] = jwtResult.handleResult();
@@ -486,8 +499,10 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    generateDidJwk = async () => {
-        let didJwkResult = await this.jwtServiceUseCase.generateDidJwk(null);
+    generateDidJwk = async (didJwkDescriptor: VCLDidJwkDescriptor) => {
+        let didJwkResult = await this.keyServiceUseCase.generateDidJwk(
+            didJwkDescriptor
+        );
 
         let [err, result] = didJwkResult.handleResult();
         if (err) {
