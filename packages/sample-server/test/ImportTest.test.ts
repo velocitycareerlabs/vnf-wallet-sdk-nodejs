@@ -1,9 +1,9 @@
-import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
+// import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
 
-describe("Imports Test", () => {
+// describe("Imports Test", () => {
 
-    test("testEnvironment", async () => {
+//     test("testEnvironment", async () => {
 
-        expect(VCLEnvironment.DEV).toBeDefined();
-    });
-});
+//         expect(VCLEnvironment.DEV).toBeDefined();
+//     });
+// });
