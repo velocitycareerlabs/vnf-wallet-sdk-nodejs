@@ -17,7 +17,7 @@ export default class VCLCredentialManifestDescriptor {
     }
 
     get endpoint(): Nullish<string> {
-        let params = this.generateQueryParams();
+        const params = this.generateQueryParams();
         if (!params) {
             return this.uri;
         }
@@ -46,7 +46,7 @@ export default class VCLCredentialManifestDescriptor {
             }=${this.pushDelegate.pushToken}`;
         }
 
-        let qParams = [pCredentialTypes, pPushDelegate].filter(
+        const qParams = [pCredentialTypes, pPushDelegate].filter(
             (it) => it && it !== ""
         );
 

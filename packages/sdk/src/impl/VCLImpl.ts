@@ -110,7 +110,7 @@ export class VCLImpl implements VCL {
 
         const completionHandler = (e?: any) => {
             if (e) return e;
-            let firstError = this.initializationWatcher.firstError();
+            const firstError = this.initializationWatcher.firstError();
             return firstError;
         };
 
@@ -119,10 +119,10 @@ export class VCLImpl implements VCL {
 
         this.countriesModel = VclBlocksProvider.provideCountriesModel();
 
-        let initializeCountriesError = await this.countriesModel.initialize();
+        const initializeCountriesError = await this.countriesModel.initialize();
         this.initializationWatcher.onInitializedModel(initializeCountriesError);
 
-        let initalizeCredentialTypesError =
+        const initalizeCredentialTypesError =
             await this.credentialTypesModel.initialize();
 
         if (
@@ -139,12 +139,12 @@ export class VCLImpl implements VCL {
             return completionHandler();
         } else {
             if (this.credentialTypesModel?.data) {
-                let credentialTypes = this.credentialTypesModel.data!;
+                const credentialTypes = this.credentialTypesModel.data!;
                 this.credentialTypeSchemasModel =
                     VclBlocksProvider.provideCredentialTypeSchemasModel(
                         credentialTypes
                     );
-                let initializeCredentialTypeSchemasError =
+                const initializeCredentialTypeSchemasError =
                     await this.credentialTypeSchemasModel.initialize();
 
                 if (
@@ -216,7 +216,7 @@ export class VCLImpl implements VCL {
     ) => {
         const did = presentationRequestDescriptor.did;
         if (!did) {
-            let err = new VCLError(
+            const err = new VCLError(
                 `did was not found in ${JSON.stringify(
                     presentationRequestDescriptor
                 )}`
@@ -225,19 +225,19 @@ export class VCLImpl implements VCL {
             throw err;
         }
 
-        let verifiedProfileResult =
+        const verifiedProfileResult =
             await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                 new VCLVerifiedProfileDescriptor(did),
                 new VCLServiceTypes([VCLServiceType.Inspector])
             );
 
-        let [error, verifiedProfile] =
+        const [error1, verifiedProfile] =
             await verifiedProfileResult.handleResult();
-        if (error) {
-            console.log(error);
+        if (error1) {
+            console.log(error1);
             // logError("getPresentationRequest", error);
-            logError("profile verification failed", error);
-            throw error;
+            logError("profile verification failed", error1);
+            throw error1;
         }
 
         let presentationRequestResult: Nullish<
@@ -255,12 +255,11 @@ export class VCLImpl implements VCL {
             throw error;
         }
 
-        let presentationRequest: Nullish<VCLPresentationRequest>;
-        [error, presentationRequest] =
+        const [error2, presentationRequest] =
             await presentationRequestResult.handleResult();
 
-        if (error) {
-            throw error;
+        if (error2) {
+            throw error2;
         }
         return presentationRequest!;
     };
@@ -269,12 +268,12 @@ export class VCLImpl implements VCL {
         presentationSubmission: VCLPresentationSubmission,
         didJwk: VCLDidJwk
     ) => {
-        let presentationSubmissionSubmission =
+        const presentationSubmissionSubmission =
             await this.presentationSubmissionUseCase.submit(
                 presentationSubmission,
                 didJwk
             );
-        let [error, presentationSubmissionResult] =
+        const [error, presentationSubmissionResult] =
             await presentationSubmissionSubmission.handleResult();
 
         if (error) {
@@ -285,12 +284,12 @@ export class VCLImpl implements VCL {
     };
 
     getExchangeProgress = async (exchangeDescriptor: VCLExchangeDescriptor) => {
-        let exchangeProgressResult =
+        const exchangeProgressResult =
             await this.exchangeProgressUseCase.getExchangeProgress(
                 exchangeDescriptor
             );
 
-        let [error, exchangeProgress] =
+        const [error, exchangeProgress] =
             await exchangeProgressResult.handleResult();
         if (error) {
             logError("getExchangeProgress", error);
@@ -303,11 +302,11 @@ export class VCLImpl implements VCL {
     searchForOrganizations = async (
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
     ) => {
-        let organization =
+        const organization =
             await this.organizationsUseCase.searchForOrganizations(
                 organizationsSearchDescriptor
             );
-        let [error, organizationResult] = await organization.handleResult();
+        const [error, organizationResult] = await organization.handleResult();
         if (error) {
             logError("searchForOrganizations", error);
             throw error;
@@ -319,9 +318,9 @@ export class VCLImpl implements VCL {
     getCredentialManifest = async (
         credentialManifestDescriptor: VCLCredentialManifestDescriptor
     ) => {
-        let did = credentialManifestDescriptor.did;
+        const did = credentialManifestDescriptor.did;
         if (!did) {
-            let error = new VCLError(
+            const error = new VCLError(
                 `did was not found in ${JSON.stringify(
                     credentialManifestDescriptor
                 )}`,
@@ -336,7 +335,7 @@ export class VCLImpl implements VCL {
             throw error;
         }
         try {
-            let verifiedProfileResult =
+            const verifiedProfileResult =
                 await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                     new VCLVerifiedProfileDescriptor(did),
                     VCLServiceTypes.fromIssuingType(
@@ -344,14 +343,14 @@ export class VCLImpl implements VCL {
                     )
                 );
 
-            let [err, verifiedProfile] = verifiedProfileResult.handleResult();
+            const [err, verifiedProfile] = verifiedProfileResult.handleResult();
             if (verifiedProfile) {
-                let credentialManifest =
+                const credentialManifest =
                     await this.credentialManifestUseCase.getCredentialManifest(
                         credentialManifestDescriptor,
                         verifiedProfile
                     );
-                let [error, credentialManifestResult] =
+                const [error, credentialManifestResult] =
                     await credentialManifest.handleResult();
                 if (error) {
                     logError("getCredentialManifest", error);
@@ -375,13 +374,13 @@ export class VCLImpl implements VCL {
             generateOffersDescriptor.identificationVerifiableCredentials
         );
 
-        let identificationSubmissionResult =
+        const identificationSubmissionResult =
             await this.identificationUseCase.submit(
                 identificationSubmission,
                 didJwk
             );
 
-        let [error, submission] = identificationSubmissionResult.handleResult();
+        const [error, submission] = identificationSubmissionResult.handleResult();
         if (error) {
             logError("submit identification", error);
             throw error;
@@ -410,14 +409,14 @@ export class VCLImpl implements VCL {
         token: VCLToken,
         didJwk: VCLDidJwk
     ) => {
-        let jwtVerifiableCredentials =
+        const jwtVerifiableCredentials =
             await this.finalizeOffersUseCase.finalizeOffers(
                 token,
                 finalizeOffersDescriptor,
                 didJwk
             );
 
-        let [error, result] = jwtVerifiableCredentials.handleResult();
+        const [error, result] = jwtVerifiableCredentials.handleResult();
         if (error) {
             logError("finalizeOffers", error);
             throw error;
@@ -430,7 +429,7 @@ export class VCLImpl implements VCL {
     ): Promise<VCLCredentialTypesUIFormSchema> {
         const countries = this.countriesModel?.data;
         if (countries) {
-            let credentialTypesUIFormSchemaResult =
+            const credentialTypesUIFormSchemaResult =
                 await this.credentialTypesUIFormSchemaUseCase.getCredentialTypesUIFormSchema(
                     credentialTypesUIFormSchemaDescriptor,
                     countries
@@ -455,11 +454,11 @@ export class VCLImpl implements VCL {
     getVerifiedProfile = async (
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
     ): Promise<VCLVerifiedProfile> => {
-        let verifiedProfileResult =
+        const verifiedProfileResult =
             await this.verifiedProfileUseCase.getVerifiedProfile(
                 verifiedProfileDescriptor
             );
-        let [error, result] = await verifiedProfileResult.handleResult();
+        const [error, result] = await verifiedProfileResult.handleResult();
         if (error) {
             logError("getVerifiedProfile", error);
             throw error;
@@ -468,12 +467,12 @@ export class VCLImpl implements VCL {
     };
 
     verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLPublicJwk) => {
-        let isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
+        const isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
             jwt,
             jwkPublic
         );
 
-        let [err, result] = isVerifiedResult.handleResult();
+        const [err, result] = isVerifiedResult.handleResult();
         if (err) {
             logError("verifyJwt", err);
             throw err;
@@ -485,13 +484,13 @@ export class VCLImpl implements VCL {
         jwtDescriptor: VCLJwtDescriptor,
         didJwk: VCLDidJwk
     ) => {
-        let jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
+        const jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
             jwtDescriptor,
             null,
             didJwk
         );
 
-        let [err, result] = jwtResult.handleResult();
+        const [err, result] = jwtResult.handleResult();
         if (err) {
             logError("generateSignedJwt", err);
             throw err;
@@ -500,11 +499,11 @@ export class VCLImpl implements VCL {
     };
 
     generateDidJwk = async (didJwkDescriptor: VCLDidJwkDescriptor) => {
-        let didJwkResult = await this.keyServiceUseCase.generateDidJwk(
+        const didJwkResult = await this.keyServiceUseCase.generateDidJwk(
             didJwkDescriptor
         );
 
-        let [err, result] = didJwkResult.handleResult();
+        const [err, result] = didJwkResult.handleResult();
         if (err) {
             throw err;
         }
@@ -519,12 +518,12 @@ export class VCLImpl implements VCL {
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
         token: VCLToken
     ): Promise<VCLOffers> {
-        let vnOffersResult = await this.generateOffersUseCase.generateOffers(
+        const vnOffersResult = await this.generateOffersUseCase.generateOffers(
             token,
             generateOffersDescriptor
         );
 
-        let [err, result] = await vnOffersResult.handleResult();
+        const [err, result] = await vnOffersResult.handleResult();
 
         if (err) {
             throw err;
@@ -533,6 +532,6 @@ export class VCLImpl implements VCL {
     }
 }
 
-const logError = (message: String = "", error: VCLError) => {
+const logError = (message = "", error: VCLError) => {
     VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
 };

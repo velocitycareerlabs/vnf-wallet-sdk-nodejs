@@ -21,7 +21,7 @@ export default class VCLSubmission {
         return this.generatePayload();
     }
     public generatePayload(iss?: string) {
-        let result: JSONObject = {
+        const result: JSONObject = {
             [VCLSubmission.KeyJti]: this.jti,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:

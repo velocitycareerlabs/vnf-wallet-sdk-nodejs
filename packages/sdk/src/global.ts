@@ -15,5 +15,5 @@ interface Array<T> {
 
 interface Date {
     addDaysToNow(days: number): Date;
-    equalsTo(date: Date): Boolean;
+    equalsTo(date: Date): boolean;
 }

@@ -17,7 +17,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
 
     async decode(encodedJwt: string): Promise<VCLResult<VCLJwt>> {
         try {
-            let parsed = SignedJWT.parse(encodedJwt);
+            const parsed = SignedJWT.parse(encodedJwt);
             if (parsed) {
                 return new VCLResult.Success(new VCLJwt(parsed));
             }
@@ -32,7 +32,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
         publicJwk: VCLPublicJwk
     ): Promise<VCLResult<boolean>> {
         try {
-            let it = await this.jwtVerifyService.verify(jwt, publicJwk);
+            const it = await this.jwtVerifyService.verify(jwt, publicJwk);
             return it;
         } catch (error: any) {
             return new VCLResult.Error(new VCLError(error!));
@@ -44,7 +44,7 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
         didJwk: VCLDidJwk
     ): Promise<VCLResult<VCLJwt>> {
         try {
-            let it = await this.jwtSignService.sign(
+            const it = await this.jwtSignService.sign(
                 jwtDescriptor,
                 didJwk,
                 nonce

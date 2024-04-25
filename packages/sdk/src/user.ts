@@ -1,4 +1,4 @@
 import {randomUUID} from 'crypto';
-export function userId(): String {
+export function userId(): string {
     return randomUUID();
 }

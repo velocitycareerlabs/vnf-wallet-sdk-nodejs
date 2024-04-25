@@ -5,8 +5,8 @@ export default class VCLSubmissionResult {
     constructor(
         public readonly token: VCLToken,
         public readonly exchange: VCLExchange,
-        public readonly jti: String,
-        public readonly submissionId: String
+        public readonly jti: string,
+        public readonly submissionId: string
     ) {}
 
     static readonly KeyToken = "token";

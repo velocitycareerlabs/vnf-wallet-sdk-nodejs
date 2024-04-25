@@ -15,7 +15,7 @@ export default class ExchangeProgressRepositoryImpl
     async getExchangeProgress(
         exchangeDescriptor: VCLExchangeDescriptor
     ): Promise<VCLResult<VCLExchange>> {
-        let submissionResult = await this.networkService.sendRequest({
+        const submissionResult = await this.networkService.sendRequest({
             useCaches: false,
             method: HttpMethod.GET,
             endpoint:
@@ -32,7 +32,7 @@ export default class ExchangeProgressRepositoryImpl
             contentType: null,
         });
 
-        let [error, exchangeProgressResponse] =
+        const [error, exchangeProgressResponse] =
             await submissionResult.handleResult();
 
         if (error) {

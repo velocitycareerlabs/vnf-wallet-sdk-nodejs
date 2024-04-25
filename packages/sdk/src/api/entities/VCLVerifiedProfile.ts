@@ -29,7 +29,7 @@ export default class VCLVerifiedProfile {
     constructor(public readonly payload: JSONObject) {}
 
     retrieveServiceTypes(serviceCategoriesJsonArr: JSONObject[]) {
-        let result: VCLServiceType[] = [];
+        const result: VCLServiceType[] = [];
         if (serviceCategoriesJsonArr) {
             for (let i = 0; i < serviceCategoriesJsonArr.length; i++) {
                 result.push(

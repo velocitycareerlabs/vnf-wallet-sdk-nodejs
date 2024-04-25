@@ -18,7 +18,7 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
         countries: VCLCountries
     ): Promise<VCLResult<VCLCredentialTypesUIFormSchema>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint: Urls.CredentialTypesFormSchema.replace(
                 Params.CredentialType,
                 credentialTypesUIFormSchemaDescriptor.credentialType
@@ -33,7 +33,7 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
             body: null,
         });
 
-        let [err, credentialTypesFormSchemaResponse] = result.handleResult();
+        const [err, credentialTypesFormSchemaResponse] = result.handleResult();
 
         if (err) {
             return new VCLResult.Error(err);
@@ -59,11 +59,11 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
         regions: Nullish<VCLRegions>
     ): JSONObject {
         let formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
-        for (let key of Object.keys(formSchemaDictCP)) {
+        for (const key of Object.keys(formSchemaDictCP)) {
             const valueDict = formSchemaDictCP[key];
             if (typeof valueDict === "object") {
                 if (key === VCLCredentialTypesUIFormSchema.KeyAddressCountry) {
-                    let allCountries = countries.all;
+                    const allCountries = countries.all;
                     if (allCountries) {
                         formSchemaDictCP = this.updateAddressEnums(
                             allCountries,
@@ -75,7 +75,7 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
                 } else if (
                     key == VCLCredentialTypesUIFormSchema.KeyAddressRegion
                 ) {
-                    let allRegions = regions?.all;
+                    const allRegions = regions?.all;
                     if (allRegions) {
                         formSchemaDictCP = this.updateAddressEnums(
                             allRegions,
@@ -103,7 +103,7 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
         valueDict: JSONObject,
         formSchemaDict: JSONObject
     ): JSONObject {
-        let formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
+        const formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
         const valueDictHasKeyUiEnum = Object.keys(valueDict).includes(
             VCLCredentialTypesUIFormSchema.KeyUiEnum
         );

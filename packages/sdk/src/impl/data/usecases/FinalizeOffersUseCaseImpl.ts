@@ -24,23 +24,23 @@ export default class FinalizeOffersUseCaseImpl
         const passedCredentials: VCLJwt[] = [];
         const failedCredentials: VCLJwt[] = [];
 
-        let encodedJwtOffersListResult =
+        const encodedJwtOffersListResult =
             await this.finalizeOffersRepository.finalizeOffers(
                 token,
                 finalizeOffersDescriptor
             );
-        let [error, encodedJwtOffers] =
+        const [error, encodedJwtOffers] =
             await encodedJwtOffersListResult.handleResult();
 
         if (error) {
             return new VCLResult.Error(error);
         }
 
-        for (let encodedJwtOffer of encodedJwtOffers!) {
-            let jwtResult = await this.jwtServiceRepository.decode(
+        for (const encodedJwtOffer of encodedJwtOffers!) {
+            const jwtResult = await this.jwtServiceRepository.decode(
                 encodedJwtOffer
             );
-            let [error, jwt] = await jwtResult.handleResult();
+            const [error, jwt] = await jwtResult.handleResult();
             if (error) {
                 return new VCLResult.Error(error);
             }

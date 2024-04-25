@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+
   workflow_dispatch:
     inputs:
       environment:
@@ -32,12 +33,17 @@ jobs:
         uses: actions/checkout@v4
       # Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       # Install dependencies
       - name: Install dependencies
         run: yarn --frozen-lockfile --pure-lockfile
+        working-directory: ${{ env.SDK_PATH }}
+      # Run lint 
+      - name: Run Lint
+        run: yarn lint
+        continue-on-error: false
         working-directory: ${{ env.SDK_PATH }}
       # Run test 
       - name: Run Test
@@ -60,7 +66,7 @@ jobs:
           short-length: 7
       # Setup Node.js
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
       # Install dependencies
@@ -113,7 +119,7 @@ jobs:
       # Upload Artifacts
       - name: Upload Artifact
         if: success()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}
           path: ${{ env.SDK_PATH }}/${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}.tgz

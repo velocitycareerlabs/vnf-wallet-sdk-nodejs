@@ -2,21 +2,33 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "module": "commonjs",
     "esModuleInterop": true,
     "preserveConstEnums": true,
     "removeComments": true,
     "rootDir": "src",
     "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
     "lib": ["ES6", "ES2022"],
     "downlevelIteration": true,
-    "target": "es5",
-    "declaration": true
+    "target": "ES5",
+    "declaration": true,
+    "baseUrl": "./",
+    "paths": {
+      "": ["./src/"]
+    },
   },
   "include": [
-    "./src/**/*"
-, "global.d.ts"  ],
+    "./src/**/*",
+    "global.d.ts",
+    "index.d.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist"
