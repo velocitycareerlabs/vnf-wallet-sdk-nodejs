@@ -15,7 +15,7 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
         token: VCLToken,
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
     ): Promise<VCLResult<string[]>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: finalizeOffersDescriptor.finalizeOffersUri,
             body: finalizeOffersDescriptor.payload,
@@ -27,7 +27,7 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
             contentType: "application/json",
             method: HttpMethod.POST,
         });
-        let [error, finalizedOffersResponse] = await result.handleResult();
+        const [error, finalizedOffersResponse] = await result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

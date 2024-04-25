@@ -23,20 +23,20 @@ export default class PresentationRequestUseCaseImpl
         presentationRequestDescriptor: VCLPresentationRequestDescriptor,
         verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let encodedJwtStrResult =
+        const encodedJwtStrResult =
             await this.presentationRequestRepository.getPresentationRequest(
                 presentationRequestDescriptor
             );
 
-        let [error, encodedJwtStr] = await encodedJwtStrResult.handleResult();
+        const [error, encodedJwtStr] = await encodedJwtStrResult.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }
         try {
-            let jwtResult = await this.jwtServiceRepository.decode(
+            const jwtResult = await this.jwtServiceRepository.decode(
                 encodedJwtStr ?? ''
             );
-            let [error, jwt] = await jwtResult.handleResult();
+            const [error, jwt] = await jwtResult.handleResult();
             if (error) {
                 return this.onError(error);
             }
@@ -56,15 +56,15 @@ export default class PresentationRequestUseCaseImpl
     async onGetPresentationRequestSuccess(
         presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let kid = presentationRequest.jwt.kid?.replace("#", encodeURIComponent("#"));
+        const kid = presentationRequest.jwt.kid?.replace("#", encodeURIComponent("#"));
         if (!kid) {
             return this.onError(new VCLError("Empty kid"));
         }
-        let publicJwkResult = await this.resolveKidRepository.getPublicKey(
+        const publicJwkResult = await this.resolveKidRepository.getPublicKey(
             kid
         );
 
-        let [error, publicJwk] = await publicJwkResult.handleResult();
+        const [error, publicJwk] = await publicJwkResult.handleResult();
 
         if (error) {
             return this.onError(error);
@@ -80,11 +80,11 @@ export default class PresentationRequestUseCaseImpl
         publicJwk: VCLPublicJwk,
         presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        let isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
+        const isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
             presentationRequest.jwt,
             publicJwk
         );
-        let [error, isVerified] = await isVerifiedResult.handleResult();
+        const [error, isVerified] = await isVerifiedResult.handleResult();
 
         if (error) {
             return this.onError(error);
@@ -93,7 +93,7 @@ export default class PresentationRequestUseCaseImpl
     }
 
     async onVerificationSuccess(
-        isVerified: Boolean,
+        isVerified: boolean,
         presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
         if (isVerified) {

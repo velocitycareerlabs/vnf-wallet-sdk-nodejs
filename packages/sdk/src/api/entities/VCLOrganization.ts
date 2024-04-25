@@ -12,11 +12,11 @@ export default class VCLOrganization {
         const result: VCLServiceCredentialAgentIssuer[] = [];
 
         try {
-            let serviceJsonArr = (this.payload[VCLOrganization.KeyService] ??
+            const serviceJsonArr = (this.payload[VCLOrganization.KeyService] ??
                 []) as JSONObject[];
             if (serviceJsonArr) {
-                for (let i in serviceJsonArr) {
-                    let it = serviceJsonArr[i];
+                for (const i in serviceJsonArr) {
+                    const it = serviceJsonArr[i];
                     if (it) {
                         result.push(new VCLServiceCredentialAgentIssuer(it));
                     }

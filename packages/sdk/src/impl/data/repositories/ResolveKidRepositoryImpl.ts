@@ -9,7 +9,7 @@ export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
     constructor(private readonly networkService: NetworkService) {}
 
     async getPublicKey(kid: string): Promise<VCLResult<VCLPublicJwk>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint:
                 Urls.ResolveKid + kid + `?format=${VCLPublicJwk.Format.jwk}`,
             method: HttpMethod.GET,
@@ -22,7 +22,7 @@ export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
             useCaches: false,
         });
 
-        let [error, publicKeyResponse] = await result.handleResult();
+        const [error, publicKeyResponse] = await result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

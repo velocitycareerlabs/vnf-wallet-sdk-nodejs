@@ -9,7 +9,7 @@ export default class Request {
         readonly method: HttpMethod,
         readonly body: Nullish<any> = null,
         readonly headers: { [key: string]: string } = {},
-        readonly useCaches: Boolean = true,
+        readonly useCaches: boolean = true,
         readonly contentType: Nullish<string> = null
     ) {}
 

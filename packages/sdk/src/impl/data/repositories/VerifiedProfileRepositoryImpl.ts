@@ -14,7 +14,7 @@ export default class VerifiedProfileRepositoryImpl
     async getVerifiedProfile(
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
     ): Promise<VCLResult<VCLVerifiedProfile>> {
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             method: HttpMethod.GET,
             endpoint: Urls.VerifiedProfile.replace(
                 Params.Did,
@@ -29,7 +29,7 @@ export default class VerifiedProfileRepositoryImpl
             useCaches: false,
         });
 
-        let [err, verifiedProfileResponse] = result.handleResult();
+        const [err, verifiedProfileResponse] = result.handleResult();
         if (err) {
             return new VCLResult.Error(err);
         }

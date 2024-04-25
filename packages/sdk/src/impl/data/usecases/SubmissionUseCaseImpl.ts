@@ -17,7 +17,7 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
         submission: VCLSubmission,
         didJwk: Nullish<VCLDidJwk>
     ): Promise<VCLResult<VCLSubmissionResult>> {
-        let signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
+        const signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
             new VCLJwtDescriptor(
                 submission.generatePayload(),
                 submission.iss,
@@ -28,12 +28,12 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
             didJwk
         );
 
-        let [error, jwt] = await signedJwtResult.handleResult();
+        const [error, jwt] = await signedJwtResult.handleResult();
 
         if (error) {
             return new VCLResult.Error(error);
         }
-        let submissionResult = await this.submissionRepository.submit(
+        const submissionResult = await this.submissionRepository.submit(
             submission,
             jwt!
         );

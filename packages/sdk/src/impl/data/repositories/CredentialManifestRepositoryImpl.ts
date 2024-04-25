@@ -23,7 +23,7 @@ export default class CredentialManifestRepositoryImpl
             );
         }
 
-        let result = await this.networkService.sendRequest({
+        const result = await this.networkService.sendRequest({
             endpoint,
             method: HttpMethod.GET,
             body: null,
@@ -35,12 +35,12 @@ export default class CredentialManifestRepositoryImpl
             contentType: null,
             useCaches: false,
         });
-        let [err, credentialManifestResponse] = await result.handleResult();
+        const [err, credentialManifestResponse] = await result.handleResult();
         if (err) {
             return new VCLResult.Error(err);
         }
         try {
-            let jwtStr =
+            const jwtStr =
                 credentialManifestResponse!.payload[
                     VCLCredentialManifest.KeyIssuingRequest
                 ];

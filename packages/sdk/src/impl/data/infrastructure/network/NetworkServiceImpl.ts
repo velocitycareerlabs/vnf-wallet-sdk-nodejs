@@ -37,7 +37,7 @@ export default class NetworkServiceImpl implements NetworkService {
                 break;
         }
         try {
-            let r = await handler();
+            const r = await handler();
             return new VCLResult.Success(new Response(r!.data, r!.status));
         } catch (error: any) {
             return new VCLResult.Error(error.response?.data ?? error);
@@ -56,9 +56,9 @@ export default class NetworkServiceImpl implements NetworkService {
     }
 
     logRequest(request: Request) {
-        let methodLog = `Request Method: ${request.method}`;
-        let endpointLog = `\nRequest Endpoint: ${request.endpoint}`;
-        let bodyLog = request.body
+        const methodLog = `Request Method: ${request.method}`;
+        const endpointLog = `\nRequest Endpoint: ${request.endpoint}`;
+        const bodyLog = request.body
             ? `\nRequest Body: ${JSON.stringify(request.body)}`
             : "\n";
         VCLLog.d(

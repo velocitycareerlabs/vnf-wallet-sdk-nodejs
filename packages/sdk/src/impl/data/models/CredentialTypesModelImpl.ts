@@ -10,9 +10,9 @@ export default class CredentialTypesModelImpl implements CredentialTypesModel {
     ) {}
     data: Nullish<VCLCredentialTypes>;
     async initialize(): Promise<VCLError | null> {
-        let result = await this.credentialTypesUseCase.getCredentialTypes();
+        const result = await this.credentialTypesUseCase.getCredentialTypes();
 
-        let [err, d] = result.handleResult();
+        const [err, d] = result.handleResult();
         if (err) {
             return err;
         }

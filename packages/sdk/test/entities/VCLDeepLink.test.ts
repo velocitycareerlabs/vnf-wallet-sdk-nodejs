@@ -6,7 +6,7 @@ import "../../src/impl/extensions/DateExtensions";
 
 describe("VCLDeepLink Tests", () => {
     test("testOpenidInitiateIssuance", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.OpenidInitiateIssuanceStrDev
         );
 
@@ -19,7 +19,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testPresentationRequestDeepLinkDevNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.PresentationRequestDeepLinkDevNetStr
         );
 
@@ -41,7 +41,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testPresentationRequestDeepLinkTestNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.PresentationRequestDeepLinkTestNetStr
         );
 
@@ -64,7 +64,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testPresentationRequestDeepLinkMainNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.PresentationRequestDeepLinkMainNetStr
         );
 
@@ -86,7 +86,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testCredentialManifestDeepLinkDevNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.CredentialManifestDeepLinkDevNetStr
         );
 
@@ -106,7 +106,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testCredentialManifestDeepLinkTestNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.CredentialManifestDeepLinkTestNetStr
         );
 
@@ -126,7 +126,7 @@ describe("VCLDeepLink Tests", () => {
     });
 
     test("testCredentialManifestDeepLinkMainNetValidAggregation", () => {
-        let subject = new VCLDeepLink(
+        const subject = new VCLDeepLink(
             DeepLinkMocks.CredentialManifestDeepLinkMainNetStr
         );
 

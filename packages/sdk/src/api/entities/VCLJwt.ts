@@ -9,7 +9,7 @@ export default class VCLJwt {
 
     static fromEncodedJwt(encodedJwt: string): VCLJwt {
         const encodedJwtArr = encodedJwt.split(".");
-        let item = new VCLJwt(
+        const item = new VCLJwt(
             new SignedJWT(
                 encodedJwtArr[0] || "",
                 encodedJwtArr[1] || "",
@@ -57,7 +57,7 @@ export class SignedJWT {
     ) {}
 
     static parse(s: string): Nullish<SignedJWT> {
-        let splitted = s.split(".");
+        const splitted = s.split(".");
         return new SignedJWT(
             splitted[0] ?? "",
             splitted[1] ?? "",
@@ -66,7 +66,7 @@ export class SignedJWT {
     }
 
     serialize() {
-        let items = [this.header, this.payload, this.signature].filter(
+        const items = [this.header, this.payload, this.signature].filter(
             (item) => item.length
         );
         return items.join(".");
