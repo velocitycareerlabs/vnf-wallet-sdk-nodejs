@@ -105,9 +105,10 @@ describe("VCLOrganizationsSearchDescriptor Tests", () => {
     });
 
     test("testOrganizationsDescriptorNoParamsAggregationSuccess", () => {
+        const organizationDescriptorQueryParamsMock = null;
         subject = new VCLOrganizationsSearchDescriptor();
 
-        expect(subject.queryParams).toBe(null);
+        expect(subject.queryParams).toBe(organizationDescriptorQueryParamsMock);
     });
 
     afterEach(() => {

@@ -19,7 +19,7 @@
         "@fastify/autoload": "~5.7.1",
         "env-var": "~7.3.0",
         "fastify": "~4.15.0",
-        "@velocitycareerlabs/vnf-nodejs-wallet-sdk": "^0.8.4"
+        "@velocitycareerlabs/vnf-nodejs-wallet-sdk": "^0.8.5"
     },
     "devDependencies": {
         "@jest/globals": "~29.5.0",

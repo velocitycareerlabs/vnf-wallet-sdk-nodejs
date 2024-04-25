@@ -20,10 +20,9 @@ export default class VCLSubmission {
     get payload() {
         return this.generatePayload();
     }
-    private generatePayload() {
+    public generatePayload(iss?: string) {
         const result: JSONObject = {
             [VCLSubmission.KeyJti]: this.jti,
-            [VCLSubmission.KeyIss]: this.iss,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:
                     VCLSubmission.ValueVerifiablePresentation,
@@ -65,7 +64,6 @@ export default class VCLSubmission {
     }
 
     static readonly KeyJti = "jti";
-    static readonly KeyIss = "iss";
     static readonly KeyId = "id";
     static readonly KeyVp = "vp";
     static readonly KeyDid = "did";

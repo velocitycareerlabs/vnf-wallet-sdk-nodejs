@@ -14,7 +14,7 @@ String.prototype.getQueryParameters = function (): Map<string, string> {
             result.set(key, value);
         }
     } catch (error) {
-        VCLLog.e('', JSON.stringify(error))
+        VCLLog.e('', JSON.stringify(error));
     }
 
     return result;

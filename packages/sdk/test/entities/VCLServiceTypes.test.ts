@@ -1,9 +1,9 @@
-import VCLServiceTypes from '../../src/api/entities/VCLServiceTypes';
-import VCLServiceType from '../../src/api/entities/VCLServiceType';
-import VCLIssuingType from '../../src/api/entities/VCLIssuingType';
+import VCLServiceTypes from "../../src/api/entities/VCLServiceTypes";
+import VCLServiceType from "../../src/api/entities/VCLServiceType";
+import VCLIssuingType from "../../src/api/entities/VCLIssuingType";
 
-describe('VCLServiceTypes Tests', () => {
-    test('testContainsFull', () => {
+describe("VCLServiceTypes Tests", () => {
+    test("testContainsFull", () => {
         const serviceTypes = new VCLServiceTypes([
             VCLServiceType.Issuer,
             VCLServiceType.Inspector,
@@ -38,7 +38,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testContainsPartial', () => {
+    test("testContainsPartial", () => {
         const serviceTypes = new VCLServiceTypes([
             VCLServiceType.Issuer,
             VCLServiceType.Inspector,
@@ -68,7 +68,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testContainsEmpty', () => {
+    test("testContainsEmpty", () => {
         const serviceTypes = new VCLServiceTypes([]);
 
         expect(serviceTypes.contains(VCLServiceType.Issuer)).toBeFalsy();
@@ -93,7 +93,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testFromCareer', () => {
+    test("testFromCareer", () => {
         const serviceTypes = VCLServiceTypes.fromIssuingType(
             VCLIssuingType.Career
         );
@@ -123,7 +123,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testFromIdentity', () => {
+    test("testFromIdentity", () => {
         const serviceTypes = VCLServiceTypes.fromIssuingType(
             VCLIssuingType.Identity
         );
@@ -156,7 +156,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testFromRefresh', () => {
+    test("testFromRefresh", () => {
         const serviceTypes = VCLServiceTypes.fromIssuingType(
             VCLIssuingType.Refresh
         );
@@ -186,7 +186,7 @@ describe('VCLServiceTypes Tests', () => {
         ).toBeFalsy();
     });
 
-    test('testFromUndefined', () => {
+    test("testFromUndefined", () => {
         const serviceTypes = VCLServiceTypes.fromIssuingType(
             VCLIssuingType.Undefined
         );

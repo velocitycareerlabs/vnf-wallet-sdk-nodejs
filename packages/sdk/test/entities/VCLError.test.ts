@@ -1,11 +1,11 @@
-import VCLError from '../../src/api/entities/error/VCLError';
-import { ErrorMocks } from '../infrastructure/resources/valid/ErrorMocks';
-import '../../src/impl/extensions/StringExtensions';
-import '../../src/impl/extensions/ListExtensions';
-import '../../src/impl/extensions/DateExtensions';
+import VCLError from "../../src/api/entities/error/VCLError";
+import { ErrorMocks } from "../infrastructure/resources/valid/ErrorMocks";
+import "../../src/impl/extensions/StringExtensions";
+import "../../src/impl/extensions/ListExtensions";
+import "../../src/impl/extensions/DateExtensions";
 
-describe('VCLError Tests', () => {
-    test('testErrorFromPayload', () => {
+describe("VCLError Tests", () => {
+    test("testErrorFromPayload", () => {
         const error = VCLError.fromPayload(ErrorMocks.Payload);
 
         expect(error.payload).toBe(ErrorMocks.Payload);
@@ -15,7 +15,7 @@ describe('VCLError Tests', () => {
         expect(error.statusCode).toBe(ErrorMocks.StatusCode);
     });
 
-    test('testErrorFromProperties', () => {
+    test("testErrorFromProperties", () => {
         const error = new VCLError(
             ErrorMocks.Error,
             ErrorMocks.ErrorCode,
@@ -30,7 +30,7 @@ describe('VCLError Tests', () => {
         expect(error.statusCode).toBe(ErrorMocks.StatusCode);
     });
 
-    test('testErrorToJsonFromPayload', () => {
+    test("testErrorToJsonFromPayload", () => {
         const error = VCLError.fromPayload(ErrorMocks.Payload);
         const errorJsonObject = error.jsonObject;
 
@@ -45,7 +45,7 @@ describe('VCLError Tests', () => {
         );
     });
 
-    test('testErrorToJsonFromProperties', () => {
+    test("testErrorToJsonFromProperties", () => {
         const error = new VCLError(
             ErrorMocks.Error,
             ErrorMocks.ErrorCode,
@@ -54,7 +54,7 @@ describe('VCLError Tests', () => {
         );
         const errorJsonObject = error.jsonObject;
 
-        console.log('--------------------');
+        console.log("--------------------");
         console.log(JSON.stringify(errorJsonObject));
 
         expect(errorJsonObject[VCLError.KeyPayload]).toBeFalsy();

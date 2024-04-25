@@ -5,11 +5,11 @@ import VCLDidJwk from "../../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../../api/entities/VCLDidJwkDescriptor";
 import VCLJwt, { SignedJWT } from "../../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../../api/entities/VCLJwtDescriptor";
-import JwtService from "../../../domain/infrastructure/jwt/JwtService";
+// import JwtService from "../../../domain/infrastructure/jwt/JwtService";
 import crypto from "crypto";
 import canonicalize from "canonicalize";
 import VCLPublicJwk from "../../../../api/entities/VCLPublicJwk";
-
+/* 
 export default class JwtServiceImpl implements JwtService {
     parse(jwt: string): Nullish<SignedJWT> {
         return SignedJWT.parse(jwt);
@@ -18,8 +18,8 @@ export default class JwtServiceImpl implements JwtService {
         return base64url.encode(str);
     }
     async verify(jwt: VCLJwt, jwk: string): Promise<boolean> {
-        const parsedJwk = JSON.parse(jwk);
-        const importedJwk = await importJWK(parsedJwk, "ECDSA");
+        let parsedJwk = JSON.parse(jwk);
+        let importedJwk = await importJWK(parsedJwk, "ECDSA");
         try {
             await jwtVerify(jwt.encodedJwt!, importedJwk);
             return true;
@@ -31,7 +31,7 @@ export default class JwtServiceImpl implements JwtService {
 
     async sign(jwtDescriptor: VCLJwtDescriptor): Promise<Nullish<SignedJWT>> {
         const jwk = this.generateJwkSECP256K1(jwtDescriptor.kid);
-        const publicJwk = await jwk.toPublicJWK();
+        let publicJwk = await jwk.toPublicJWK();
 
         const header = {
             alg: "ES256K",
@@ -39,7 +39,7 @@ export default class JwtServiceImpl implements JwtService {
             typ: "JWT",
         };
 
-        const signedJwtRes = new SignJWT(jwtDescriptor.payload)
+        let signedJwtRes = new SignJWT(jwtDescriptor.payload)
             .setProtectedHeader(header)
             .setAudience(jwtDescriptor.iss)
             .setIssuer(jwtDescriptor.iss)
@@ -49,7 +49,7 @@ export default class JwtServiceImpl implements JwtService {
             .setExpirationTime("7d")
             .setSubject("".randomString(10));
 
-        let result = "";
+        let result: string = "";
 
         try {
             result = await signedJwtRes.sign(jwk.privateKey);
@@ -63,10 +63,10 @@ export default class JwtServiceImpl implements JwtService {
     async generateDidJwk(
         didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
     ): Promise<VCLDidJwk> {
-        const publicJwk = await this.generateJwkPublic(
+        let publicJwk = await this.generateJwkPublic(
             didJwkDescriptor?.kid ?? crypto.randomUUID()
         );
-        const value = Buffer.from(publicJwk.valueStr, "ascii").toString("base64");
+        let value = Buffer.from(publicJwk.valueStr, "ascii").toString("base64");
 
         return new VCLDidJwk(`${VCLDidJwk.DidJwkPrefix}${value}`);
     }
@@ -80,7 +80,7 @@ export default class JwtServiceImpl implements JwtService {
     };
 
     jwkToPublicBase64Url = (json: JWK) => {
-        const c = canonicalize(json);
+        let c = canonicalize(json);
         if (!c) {
             return "";
         }
@@ -110,7 +110,8 @@ export default class JwtServiceImpl implements JwtService {
     }
 
     private async generateJwkPublic(kid: string) {
-        const publicJwk = await this.generateJwkSECP256K1(kid).toPublicJWK();
+        let publicJwk = await this.generateJwkSECP256K1(kid).toPublicJWK();
         return VCLPublicJwk.fromJSON(publicJwk);
     }
 }
+ */

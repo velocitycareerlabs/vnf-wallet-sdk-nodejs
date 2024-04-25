@@ -8,6 +8,7 @@ import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository
 import PresentationRequestRepository from "../../domain/repositories/PresentationRequestRepository";
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
 import PresentationRequestUseCase from "../../domain/usecases/PresentationRequestUseCase";
+import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
 
 export default class PresentationRequestUseCaseImpl
     implements PresentationRequestUseCase
@@ -19,7 +20,8 @@ export default class PresentationRequestUseCaseImpl
     ) {}
 
     async getPresentationRequest(
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+        presentationRequestDescriptor: VCLPresentationRequestDescriptor,
+        verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLPresentationRequest>> {
         const encodedJwtStrResult =
             await this.presentationRequestRepository.getPresentationRequest(
@@ -30,70 +32,57 @@ export default class PresentationRequestUseCaseImpl
         if (error) {
             return new VCLResult.Error(error);
         }
-        return this.onGetJwtSuccess(
-            encodedJwtStr!,
-            presentationRequestDescriptor
-        );
-    }
-
-    async onGetJwtSuccess(
-        encodedJwtStr: string,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor
-    ): Promise<VCLResult<VCLPresentationRequest>> {
         try {
             const jwtResult = await this.jwtServiceRepository.decode(
-                encodedJwtStr
+                encodedJwtStr ?? ''
             );
             const [error, jwt] = await jwtResult.handleResult();
             if (error) {
                 return this.onError(error);
             }
-
-            return this.onDecodeJwtSuccess(jwt!, presentationRequestDescriptor);
+            return this.onGetPresentationRequestSuccess(
+                new VCLPresentationRequest(
+                    jwt as VCLJwt,
+                    verifiedProfile,
+                    presentationRequestDescriptor.deepLink,
+                    presentationRequestDescriptor.pushDelegate
+                )
+            );
         } catch (error: any) {
             return this.onError(new VCLError(error));
         }
     }
 
-    async onDecodeJwtSuccess(
-        jwt: VCLJwt,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+    async onGetPresentationRequestSuccess(
+        presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        const kid = jwt.kid?.replace("#", encodeURIComponent("#"));
+        const kid = presentationRequest.jwt.kid?.replace("#", encodeURIComponent("#"));
         if (!kid) {
             return this.onError(new VCLError("Empty kid"));
         }
-        const publicKeyResult = await this.resolveKidRepository.getPublicKey(
+        const publicJwkResult = await this.resolveKidRepository.getPublicKey(
             kid
         );
 
-        const [error, publicKey] = await publicKeyResult.handleResult();
+        const [error, publicJwk] = await publicJwkResult.handleResult();
 
         if (error) {
             return this.onError(error);
         }
 
         return this.onResolvePublicKeySuccess(
-            publicKey!,
-            jwt,
-            presentationRequestDescriptor
+            publicJwk as VCLPublicJwk,
+            presentationRequest
         );
     }
 
     async onResolvePublicKeySuccess(
-        jwkPublic: VCLPublicJwk,
-        jwt: VCLJwt,
-        presentationRequestDescriptor: VCLPresentationRequestDescriptor
+        publicJwk: VCLPublicJwk,
+        presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
-        const presentationRequest = new VCLPresentationRequest(
-            jwt,
-            jwkPublic,
-            presentationRequestDescriptor.deepLink,
-            presentationRequestDescriptor.pushDelegate
-        );
         const isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
             presentationRequest.jwt,
-            presentationRequest.jwkPublic
+            publicJwk
         );
         const [error, isVerified] = await isVerifiedResult.handleResult();
 

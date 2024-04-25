@@ -32,16 +32,13 @@ export default interface VCL {
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>>;
 
-    countries: Nullish<VCLCountries>;
-    credentialTypes: Nullish<VCLCredentialTypes>;
-    credentialTypeSchemas: Nullish<VCLCredentialTypeSchemas>;
-
     getPresentationRequest(
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ): Promise<VCLPresentationRequest>;
 
     submitPresentation(
-        presentationSubmission: VCLPresentationSubmission
+        presentationSubmission: VCLPresentationSubmission,
+        didJwk: VCLDidJwk
     ): Promise<VCLSubmissionResult>;
 
     getExchangeProgress(
@@ -57,7 +54,8 @@ export default interface VCL {
     ): Promise<VCLCredentialManifest>;
 
     generateOffers(
-        generateOffersDescriptor: VCLGenerateOffersDescriptor
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        didJwk: VCLDidJwk
     ): Promise<VCLOffers>;
 
     checkForOffers(
@@ -67,7 +65,8 @@ export default interface VCL {
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken
+        token: VCLToken,
+        didJwk: VCLDidJwk
     ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(
@@ -80,7 +79,8 @@ export default interface VCL {
 
     verifyJwt(jwt: VCLJwt, jwkPublic: VCLPublicJwk): Promise<boolean>;
 
-    generateSignedJwt(jwtDescriptor: VCLJwtDescriptor): Promise<VCLJwt>;
-
-    generateDidJwk(): Promise<VCLDidJwk>;
+    generateSignedJwt(
+        jwtDescriptor: VCLJwtDescriptor,
+        didJwk: VCLDidJwk
+    ): Promise<VCLJwt>;
 }
