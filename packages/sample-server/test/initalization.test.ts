@@ -7,10 +7,20 @@ import { VCLImpl } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/impl/VCLI
 import VCLInitializationDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLInitializationDescriptor";
 import VCLCountries from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCountries";
 import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLEnvironment";
+import VCLCryptoServicesDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCryptoServicesDescriptor";
+import VCLKeyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/keys/VCLKeyService"
+import VCLDidJwk from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwk";
+import VCLDidJwkDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwkDescriptor";
+import VCLResult from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLResult";
+import VCLPublicJwk from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLPublicJwk";
+import VCLJwtSignService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtSignService";
+import VCLJwtDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwtDescriptor";
+import VCLJwt from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwt";
+import VCLJwtVerifyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtVerifyService";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;
-    let vcl = new VCLImpl();
+    const vcl = new VCLImpl();
     beforeAll(async () => {
         appInstance = await app({ logger: true });
     });
@@ -20,9 +30,14 @@ describe("initalization flow", () => {
     });
 
     test("App initialization", async () => {
-        let init = await vcl.initialize(
-            new VCLInitializationDescriptor(VCLEnvironment.DEV)
-        );
+        const init = await vcl.initialize(
+            new VCLInitializationDescriptor(VCLEnvironment.DEV, 
+            new VCLCryptoServicesDescriptor(
+                new VCLKeyServiceEmptyImpl(),
+                new VCLJwtSignServiceEmptyImpl(),
+                new VCLJwtVerifyServiceEmptyImpl()
+            )
+        ));
         console.log(
             "#Credential Types: %s",
             vcl.credentialTypesModel.data.all.length
@@ -33,10 +48,10 @@ describe("initalization flow", () => {
         );
         console.log("#Countries: %s", vcl.countriesModel.data.all.length);
 
-        let afghanistanCountry = vcl.countriesModel.data.countryByCode(
+        const afghanistanCountry = vcl.countriesModel.data.countryByCode(
             VCLCountries.AF
-        )!!;
-        let afghanistanRegions = afghanistanCountry.regions;
+        )!;
+        const afghanistanRegions = afghanistanCountry.regions;
 
         const AfghanistanRegion1Name = "Balkh Province";
         const AfghanistanRegion1Code = "BAL";
@@ -68,3 +83,31 @@ describe("initalization flow", () => {
         ).toBeTruthy();
     }, 400000);
 });
+
+class VCLKeyServiceEmptyImpl implements VCLKeyService {
+    generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLResult<VCLDidJwk>> {
+        return new Promise<VCLResult<VCLDidJwk>>((resolve, reject) => {
+            resolve(new VCLResult<VCLDidJwk>());
+        });
+    }
+}
+
+class VCLJwtSignServiceEmptyImpl implements VCLJwtSignService {
+    sign(
+        jwtDescriptor: VCLJwtDescriptor,
+        didJwk: VCLDidJwk,
+        nonce: Nullish<string>
+    ): Promise<VCLResult<VCLJwt>> {
+        return new Promise<VCLResult<VCLJwt>>((resolve, reject) => {
+            resolve(new VCLResult<VCLJwt>());
+        });
+    }
+}
+
+class VCLJwtVerifyServiceEmptyImpl implements VCLJwtVerifyService {
+    verify(jwt: VCLJwt, publicJwk: VCLPublicJwk): Promise<VCLResult<boolean>> {
+        return new Promise<VCLResult<boolean>>((resolve, reject) => {
+            resolve(new VCLResult<boolean>());
+        });
+    }
+}

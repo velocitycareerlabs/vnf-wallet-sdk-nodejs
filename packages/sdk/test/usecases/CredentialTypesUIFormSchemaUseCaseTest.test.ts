@@ -10,11 +10,9 @@ import VCLCredentialTypesUIFormSchemaDescriptor from "../../src/api/entities/VCL
 import "../../src/impl/extensions/StringExtensions";
 import "../../src/impl/extensions/DateExtensions";
 import "../../src/impl/extensions/ListExtensions";
-import VCLResult from "../../src/api/entities/VCLResult";
 import VCLCountry from "../../src/api/entities/VCLCountry";
 import VCLRegions from "../../src/api/entities/VCLRegions";
 import VCLRegion from "../../src/api/entities/VCLRegion";
-import "../../src/global";
 
 describe("CredentialTypesUIFormSchemaUseCase Tests", () => {
     let subject: CredentialTypesUIFormSchemaUseCase;
