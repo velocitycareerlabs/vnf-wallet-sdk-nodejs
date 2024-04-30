@@ -111,6 +111,9 @@ export class VCLImpl implements VCL {
         const completionHandler = (e?: any) => {
             if (e) return e;
             const firstError = this.initializationWatcher.firstError();
+            if(!firstError) {
+                this.initializeUseCases();
+            }
             return firstError;
         };
 
