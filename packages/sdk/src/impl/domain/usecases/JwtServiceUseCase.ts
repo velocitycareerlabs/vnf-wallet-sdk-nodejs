@@ -13,7 +13,7 @@ export default interface JwtServiceUseCase {
 
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
+        nonce: string | null | undefined,
         didJwk: VCLDidJwk
     ): Promise<VCLResult<VCLJwt>>;
 }

@@ -8,7 +8,7 @@ export default class CredentialTypesModelImpl implements CredentialTypesModel {
     constructor(
         private readonly credentialTypesUseCase: CredentialTypesUseCase
     ) {}
-    data: Nullish<VCLCredentialTypes>;
+    data: VCLCredentialTypes | null | undefined;
     async initialize(): Promise<VCLError | null> {
         const result = await this.credentialTypesUseCase.getCredentialTypes();
 

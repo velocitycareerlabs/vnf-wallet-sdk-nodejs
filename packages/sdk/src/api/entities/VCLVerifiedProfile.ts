@@ -44,19 +44,19 @@ export default class VCLVerifiedProfile {
         return new VCLServiceTypes(result);
     }
 
-    get credentialSubject(): Nullish<JSONObject> {
+    get credentialSubject(): JSONObject | null | undefined {
         return this.payload[VCLVerifiedProfile.KeyCredentialSubject];
     }
 
-    get name(): Nullish<string> {
+    get name(): string | null | undefined {
         return this.payload[VCLVerifiedProfile.KeyName];
     }
 
-    get logo(): Nullish<string> {
+    get logo(): string | null | undefined {
         return this.payload[VCLVerifiedProfile.KeyLogo];
     }
 
-    get id(): Nullish<string> {
+    get id(): string | null | undefined {
         return this.payload[VCLVerifiedProfile.KeyId];
     }
 

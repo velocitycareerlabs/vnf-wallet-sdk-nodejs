@@ -18,6 +18,6 @@ export default interface VCLJwtSignService {
     sign(
         jwtDescriptor: VCLJwtDescriptor,
         didJwk: VCLDidJwk,
-        nonce: Nullish<string>
+        nonce: string | null | undefined
     ): Promise<VCLResult<VCLJwt>>;
 }

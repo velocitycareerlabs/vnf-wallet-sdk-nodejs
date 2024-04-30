@@ -1,7 +1,7 @@
 import { JWK, base64url } from "jose";
 
 export default class VCLJwt {
-    public encodedJwt: Nullish<string>;
+    public encodedJwt: string | null | undefined;
     constructor(public signedJwt: SignedJWT) {
         this.signedJwt = signedJwt;
         this.encodedJwt = signedJwt.serialize();
@@ -22,13 +22,12 @@ export default class VCLJwt {
         return item;
     }
 
-
     get kid(): string {
-        return (this.header.kid || this.jwk.kid) || ""
+        return this.header.kid || this.jwk.kid || "";
     }
 
     get jwk(): JSONObject {
-        return this.header.jwk || JSON.parse("{}")
+        return this.header.jwk || JSON.parse("{}");
     }
 
     get header(): JSONObject {
@@ -56,7 +55,7 @@ export class SignedJWT {
         public readonly signature: string
     ) {}
 
-    static parse(s: string): Nullish<SignedJWT> {
+    static parse(s: string): SignedJWT | null | undefined {
         const splitted = s.split(".");
         return new SignedJWT(
             splitted[0] ?? "",

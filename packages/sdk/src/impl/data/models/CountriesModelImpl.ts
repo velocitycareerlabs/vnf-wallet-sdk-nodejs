@@ -7,7 +7,7 @@ import CountriesUseCase from "../../domain/usecases/CountriesModelUseCase";
 export default class CountriesModelImpl implements CountriesModel {
     constructor(private readonly countriesUseCase: CountriesUseCase) {}
 
-    data: Nullish<VCLCountries>;
+    data: VCLCountries | null | undefined;
     async initialize(): Promise<VCLError | null> {
         const result = await this.countriesUseCase.getCountries();
 

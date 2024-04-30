@@ -15,7 +15,7 @@ export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     }
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
+        nonce: string | null | undefined,
         didJwk: VCLDidJwk
     ) {
         return this.jwtServiceRepository.generateSignedJwt(

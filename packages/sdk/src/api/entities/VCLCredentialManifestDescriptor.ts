@@ -2,21 +2,21 @@ import VCLIssuingType from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
 
 export default class VCLCredentialManifestDescriptor {
-    readonly did: Nullish<string>;
+    readonly did: string | null | undefined;
 
     constructor(
-        public readonly uri: Nullish<string> = null,
+        public readonly uri: string | null | undefined = null,
         public readonly issuingType: VCLIssuingType = VCLIssuingType.Career,
-        public readonly credentialTypes: Nullish<string[]> = null,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
-        public readonly vendorOriginContext: Nullish<string> = null
+        public readonly credentialTypes: string[] | null | undefined = null,
+        public readonly pushDelegate: VCLPushDelegate | null | undefined = null,
+        public readonly vendorOriginContext: string | null | undefined = null
     ) {
         this.did = uri?.getUrlSubPath(
             VCLCredentialManifestDescriptor.KeyDidPrefix
         );
     }
 
-    get endpoint(): Nullish<string> {
+    get endpoint(): string | null | undefined {
         const params = this.generateQueryParams();
         if (!params) {
             return this.uri;
@@ -24,8 +24,8 @@ export default class VCLCredentialManifestDescriptor {
         return this.uri?.appendQueryParams(params);
     }
 
-    generateQueryParams(): Nullish<string> {
-        let pCredentialTypes: Nullish<string> = null;
+    generateQueryParams(): string | null | undefined {
+        let pCredentialTypes: string | null | undefined = null;
         if (this.credentialTypes) {
             pCredentialTypes = this.credentialTypes
                 .map(
@@ -37,7 +37,7 @@ export default class VCLCredentialManifestDescriptor {
                 .join("&");
         }
 
-        let pPushDelegate: Nullish<string> = null;
+        let pPushDelegate: string | null | undefined = null;
         if (this.pushDelegate) {
             pPushDelegate = `${
                 VCLCredentialManifestDescriptor.KeyPushDelegatePushUrl

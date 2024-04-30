@@ -30,7 +30,7 @@ import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescripto
 export default interface VCL {
     initialize(
         initializationDescriptor: VCLInitializationDescriptor
-    ): Promise<Nullish<VCLError>>;
+    ): Promise<VCLError | null | undefined>;
 
     getPresentationRequest(
         presentationRequestDescriptor: VCLPresentationRequestDescriptor

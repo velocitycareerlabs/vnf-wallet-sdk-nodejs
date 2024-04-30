@@ -56,7 +56,7 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
     private parseCredentialTypesUIFormSchema(
         countries: VCLCountries,
         formSchemaDict: JSONObject,
-        regions: Nullish<VCLRegions>
+        regions: VCLRegions | null | undefined
     ): JSONObject {
         let formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
         for (const key of Object.keys(formSchemaDictCP)) {

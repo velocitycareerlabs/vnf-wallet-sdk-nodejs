@@ -27,7 +27,7 @@
   "include": [
     "./src/**/*",
     "global.d.ts",
-    "index.d.ts"
+    "index.d.ts",
   ],
   "exclude": [
     "node_modules",

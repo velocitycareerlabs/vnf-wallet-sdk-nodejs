@@ -7,7 +7,7 @@ export default class VCLCredentialManifestDescriptorByDeepLink extends VCLCreden
     constructor(
         public deeplink: VCLDeepLink,
         public issuingType: VCLIssuingType = VCLIssuingType.Career,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
+        public readonly pushDelegate: VCLPushDelegate | null | undefined = null
     ) {
         super(
             deeplink.requestUri,

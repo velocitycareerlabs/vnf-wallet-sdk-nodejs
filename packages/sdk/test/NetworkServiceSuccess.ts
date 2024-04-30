@@ -14,8 +14,8 @@ export default class NetworkServiceSuccess implements NetworkService {
 
     async sendRequest(params: {
         endpoint: string;
-        body: Nullish<any>;
-        contentType: Nullish<string>;
+        body: any | null | undefined;
+        contentType: string | null | undefined;
         method: HttpMethod;
         headers: any;
         useCaches: boolean;

@@ -1,17 +1,20 @@
 import VCLCountry from "./VCLCountry";
 
 class VCLCountries {
-    all: Nullish<VCLCountry[]>;
+    all: VCLCountry[] | null | undefined;
 
     constructor(all: VCLCountry[]) {
         this.all = all;
     }
 
-    countryByCode(code: string): Nullish<VCLCountry> {
+    countryByCode(code: string): VCLCountry | null | undefined {
         return this.countryBy(VCLCountry.KeyCode, code);
     }
 
-    private countryBy(key: string, value: string): Nullish<VCLCountry> {
+    private countryBy(
+        key: string,
+        value: string
+    ): VCLCountry | null | undefined {
         return (
             this.all?.find((country) => country.payload[key] === value) || null
         );

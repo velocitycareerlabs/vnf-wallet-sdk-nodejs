@@ -1,19 +1,19 @@
 import "../../impl/extensions/StringExtensions";
 
 export default class VCLDeepLink {
-    public requestUri: Nullish<string>;
-    public vendorOriginContext: Nullish<string>;
+    public requestUri: string | null | undefined;
+    public vendorOriginContext: string | null | undefined;
 
     constructor(public value: string) {
         this.vendorOriginContext = this.getVendorOriginContext();
         this.requestUri = this.getRequestUri();
     }
 
-    private getRequestUri(): Nullish<string> {
+    private getRequestUri(): string | null | undefined {
         return this.generateUri(VCLDeepLink.KeyRequestUri);
     }
 
-    public get did(): Nullish<string> {
+    public get did(): string | null | undefined {
         return (
             this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ??
             this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid) ??
@@ -21,14 +21,14 @@ export default class VCLDeepLink {
         );
     }
 
-    private getVendorOriginContext(): Nullish<string> {
+    private getVendorOriginContext(): string | null | undefined {
         return this.retrieveQueryParam(VCLDeepLink.KeyVendorOriginContext);
     }
 
     private generateUri(
         uriKey: string,
         asSubParams = false
-    ): Nullish<string> {
+    ): string | null | undefined {
         const queryParams = this.value.getQueryParameters();
         const uri = queryParams.get(uriKey);
         if (uri) {
@@ -48,7 +48,7 @@ export default class VCLDeepLink {
         return null;
     }
 
-    retrieveQueryParam(key: string): Nullish<string> {
+    retrieveQueryParam(key: string): string | null | undefined {
         return decodeURIComponent(this.value).getQueryParameters()?.get(key);
     }
 

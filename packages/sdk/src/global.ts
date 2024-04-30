@@ -1,11 +1,9 @@
-declare type Nullish<T> = T | null | undefined;
-
 declare type JSONObject = any;
 
 interface String {
     getQueryParameters(): Map<string, string>;
     appendQueryParams(queryParams: string): string;
-    getUrlSubPath(subPathPrefix: string): Nullish<string>;
+    getUrlSubPath(subPathPrefix: string): string | null | undefined;
     randomString(length: number): string;
 }
 

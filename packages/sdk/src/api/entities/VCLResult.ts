@@ -6,11 +6,11 @@ export default class VCLResult<R> {
             super();
         }
 
-        handleResult(): [Nullish<VCLError>, Nullish<T>] {
+        handleResult(): [VCLError | null | undefined, T | null | undefined] {
             return [null, this.data];
         }
 
-        getData(): Nullish<T> {
+        getData(): T | null | undefined {
             return this.data;
         }
     };
@@ -19,16 +19,16 @@ export default class VCLResult<R> {
         constructor(public error: VCLError) {
             super();
         }
-        handleResult(): [Nullish<VCLError>, Nullish<T>] {
+        handleResult(): [VCLError | null | undefined, T | null | undefined] {
             return [this.error, null];
         }
     };
 
-    handleResult(): [Nullish<VCLError>, Nullish<R>] {
+    handleResult(): [VCLError | null | undefined, R | null | undefined] {
         return [null, null];
     }
 
-    getData(): Nullish<R> {
+    getData(): R | null | undefined {
         return undefined;
     }
 }

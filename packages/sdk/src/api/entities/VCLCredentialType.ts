@@ -1,11 +1,11 @@
 export default class VCLCredentialType {
     constructor(
         public payload: JSONObject,
-        public id: Nullish<string>,
-        public schema: Nullish<string>,
-        public createdAt: Nullish<string>,
-        public schemaName: Nullish<string>,
-        public credentialType: Nullish<string>,
+        public id: string | null | undefined,
+        public schema: string | null | undefined,
+        public createdAt: string | null | undefined,
+        public schemaName: string | null | undefined,
+        public credentialType: string | null | undefined,
         public recommended: boolean
     ) {}
 

@@ -1,16 +1,16 @@
 import VCLErrorCode from "./VCLErrorCode";
 
 export default class VCLError extends Error {
-    payload: Nullish<string> = null;
-    error: Nullish<string> = null;
+    payload: string | null | undefined = null;
+    error: string | null | undefined = null;
     errorCode: string = VCLErrorCode.SdkError.toString();
-    statusCode: Nullish<number> = null;
+    statusCode: number | null | undefined = null;
 
     constructor(
-        error: Nullish<string> = null,
+        error: string | null | undefined = null,
         errorCode: string = VCLErrorCode.SdkError.toString(),
-        message: Nullish<string> = null,
-        statusCode: Nullish<number> = null
+        message: string | null | undefined = null,
+        statusCode: number | null | undefined = null
     ) {
         super(message ?? "");
         this.error = error;
@@ -25,7 +25,8 @@ export default class VCLError extends Error {
         const payloadJson = JSON.parse(payload);
         const result = new VCLError(
             payloadJson?.[VCLError.KeyError] || null,
-            payloadJson?.[VCLError.KeyErrorCode] || VCLErrorCode.SdkError.toString(),
+            payloadJson?.[VCLError.KeyErrorCode] ||
+                VCLErrorCode.SdkError.toString(),
             payloadJson?.[VCLError.KeyMessage] || null,
             payloadJson?.[VCLError.KeyStatusCode] || null
         );
@@ -39,11 +40,11 @@ export default class VCLError extends Error {
         statusCode: number | null = null
     ): VCLError {
         const result = new VCLError(
-            null, 
-            VCLErrorCode.SdkError.toString(), 
-            exception.message, 
+            null,
+            VCLErrorCode.SdkError.toString(),
+            exception.message,
             statusCode
-            );
+        );
         return result;
     }
 
@@ -51,7 +52,8 @@ export default class VCLError extends Error {
         return {
             [VCLError.KeyPayload]: this.payload,
             [VCLError.KeyError]: this.error,
-            [VCLError.KeyErrorCode]: (this.errorCode || VCLErrorCode.SdkError.toString()),
+            [VCLError.KeyErrorCode]:
+                this.errorCode || VCLErrorCode.SdkError.toString(),
             [VCLError.KeyMessage]: this.message,
             [VCLError.KeyStatusCode]: this.statusCode,
         };

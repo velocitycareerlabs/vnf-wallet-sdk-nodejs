@@ -6,7 +6,7 @@ export default class VCLCountry extends VCLPlace {
         public payload: JSONObject,
         public code: string,
         public name: string,
-        public regions: Nullish<VCLRegions>
+        public regions: VCLRegions | null | undefined
     ) {
         super(payload, code, name);
     }

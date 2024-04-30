@@ -11,7 +11,7 @@ import canonicalize from "canonicalize";
 import VCLPublicJwk from "../../../../api/entities/VCLPublicJwk";
 /* 
 export default class JwtServiceImpl implements JwtService {
-    parse(jwt: string): Nullish<SignedJWT> {
+    parse(jwt: string): SignedJWT | null | undefined {
         return SignedJWT.parse(jwt);
     }
     encode(str: string): string {
@@ -29,7 +29,7 @@ export default class JwtServiceImpl implements JwtService {
         }
     }
 
-    async sign(jwtDescriptor: VCLJwtDescriptor): Promise<Nullish<SignedJWT>> {
+    async sign(jwtDescriptor: VCLJwtDescriptor): Promise<SignedJWT | null | undefined> {
         const jwk = this.generateJwkSECP256K1(jwtDescriptor.kid);
         let publicJwk = await jwk.toPublicJWK();
 
@@ -61,7 +61,7 @@ export default class JwtServiceImpl implements JwtService {
     }
 
     async generateDidJwk(
-        didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
+        didJwkDescriptor: VCLDidJwkDescriptor | null | undefined
     ): Promise<VCLDidJwk> {
         let publicJwk = await this.generateJwkPublic(
             didJwkDescriptor?.kid ?? crypto.randomUUID()

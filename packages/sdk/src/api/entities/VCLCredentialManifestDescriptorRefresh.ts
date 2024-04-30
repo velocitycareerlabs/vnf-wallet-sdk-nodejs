@@ -34,7 +34,7 @@ export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentia
         super(service.serviceEndpoint, VCLIssuingType.Refresh);
     }
 
-    get endpoint(): Nullish<string> {
+    get endpoint(): string | null | undefined {
         const queryParams = this.generateQueryParams();
         if (queryParams) {
             const originUri = this.uri!;

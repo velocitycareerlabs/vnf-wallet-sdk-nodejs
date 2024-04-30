@@ -46,7 +46,7 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
 
     private parseCountry(countryJsonObj: JSONObject): VCLCountry {
         const jsonArrRegions = countryJsonObj[VCLCountry.KeyRegions];
-        let regions: Nullish<VCLRegions> = null;
+        let regions: VCLRegions | null | undefined = null;
 
         if (jsonArrRegions) {
             const regionList: VCLRegion[] = jsonArrRegions.map(

@@ -10,8 +10,8 @@ export default class VCLSubmission {
         public readonly exchangeId: string,
         public readonly presentationDefinitionId: string,
         public readonly verifiableCredentials: VCLVerifiableCredential[],
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
-        public readonly vendorOriginContext: Nullish<string> = null
+        public readonly pushDelegate: VCLPushDelegate | null | undefined = null,
+        public readonly vendorOriginContext: string | null | undefined = null
     ) {}
 
     readonly jti = crypto.randomUUID().toString();

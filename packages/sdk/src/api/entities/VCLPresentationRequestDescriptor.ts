@@ -4,7 +4,7 @@ import VCLPushDelegate from "./VCLPushDelegate";
 export default class VCLPresentationRequestDescriptor {
     constructor(
         public readonly deepLink: VCLDeepLink,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null
+        public readonly pushDelegate: VCLPushDelegate | null | undefined = null
     ) {}
 
     get endpoint() {
@@ -20,7 +20,7 @@ export default class VCLPresentationRequestDescriptor {
     }
 
     generateQueryParams() {
-        let pPushDelegate: Nullish<string>;
+        let pPushDelegate: string | null | undefined;
         if (this.pushDelegate) {
             pPushDelegate = `${
                 VCLPresentationRequestDescriptor.KeyPushDelegatePushUrl

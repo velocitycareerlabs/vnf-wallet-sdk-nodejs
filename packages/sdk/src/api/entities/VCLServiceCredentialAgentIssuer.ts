@@ -1,7 +1,7 @@
 import VCLService from "./VCLService";
 
 export default class VCLServiceCredentialAgentIssuer extends VCLService {
-    credentialTypes: Nullish<string[]>;
+    credentialTypes: string[] | null | undefined;
     constructor(public readonly payload: JSONObject) {
         super(payload);
 

@@ -4,7 +4,7 @@ import VCLVerifiedProfile from "./VCLVerifiedProfile";
 export default class VCLCredentialManifest {
     constructor(
         public jwt: VCLJwt,
-        public vendorOriginContext: Nullish<string>,
+        public vendorOriginContext: string | null | undefined,
         public verifiedProfile: VCLVerifiedProfile
     ) {}
 

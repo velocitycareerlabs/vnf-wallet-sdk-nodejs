@@ -6,8 +6,8 @@ export default class VCLJwtDescriptor {
         public payload: JSONObject,
         public iss: string,
         public jti: string = randomUUID().toString(),
-        public keyId: Nullish<string>,
-        public didJwk: Nullish<VCLDidJwk> = null,
-        public aud: Nullish<string> = null
+        public keyId: string | null | undefined,
+        public didJwk: VCLDidJwk | null | undefined = null,
+        public aud: string | null | undefined = null
     ) {}
 }

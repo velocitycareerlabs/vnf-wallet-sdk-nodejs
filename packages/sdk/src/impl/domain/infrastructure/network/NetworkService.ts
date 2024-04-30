@@ -6,8 +6,8 @@ import Response from "../../../data/infrastructure/network/Response";
 
 type NetworkRequesParams = {
     endpoint: string;
-    body: Nullish<any>;
-    contentType: Nullish<string>;
+    body: any | null | undefined;
+    contentType: string | null | undefined;
     method: HttpMethod;
     headers: any;
     useCaches: boolean;

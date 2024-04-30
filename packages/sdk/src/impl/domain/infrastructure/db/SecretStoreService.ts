@@ -3,6 +3,6 @@ import { JWK } from "jose";
 
 export default interface SecretStoreService {
     storeKey(keyId: string, key: KeyPairKeyObjectResult): void;
-    retrieveKey(keyId: string): Nullish<KeyPairKeyObjectResult>;
+    retrieveKey(keyId: string): KeyPairKeyObjectResult | null | undefined;
     containsKey(keyId: string): boolean;
 }

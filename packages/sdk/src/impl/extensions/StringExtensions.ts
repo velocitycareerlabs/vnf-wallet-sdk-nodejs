@@ -14,7 +14,7 @@ String.prototype.getQueryParameters = function (): Map<string, string> {
             result.set(key, value);
         }
     } catch (error) {
-        VCLLog.e('', JSON.stringify(error));
+        VCLLog.e("", JSON.stringify(error));
     }
 
     return result;
@@ -30,7 +30,7 @@ String.prototype.appendQueryParams = function (queryParams: string): string {
 
 String.prototype.getUrlSubPath = function (
     subPathPrefix: string
-): Nullish<string> {
+): string | null | undefined {
     return decodeURI(this.valueOf())
         .split("/")
         .find((item) => item.startsWith(subPathPrefix));

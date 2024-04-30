@@ -8,7 +8,7 @@ import VCLInitializationDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-s
 import VCLCountries from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCountries";
 import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLEnvironment";
 import VCLCryptoServicesDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCryptoServicesDescriptor";
-import VCLKeyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/keys/VCLKeyService"
+import VCLKeyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/keys/VCLKeyService";
 import VCLDidJwk from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwkDescriptor";
 import VCLResult from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLResult";
@@ -31,13 +31,15 @@ describe("initalization flow", () => {
 
     test("App initialization", async () => {
         const init = await vcl.initialize(
-            new VCLInitializationDescriptor(VCLEnvironment.DEV, 
-            new VCLCryptoServicesDescriptor(
-                new VCLKeyServiceEmptyImpl(),
-                new VCLJwtSignServiceEmptyImpl(),
-                new VCLJwtVerifyServiceEmptyImpl()
+            new VCLInitializationDescriptor(
+                VCLEnvironment.DEV,
+                new VCLCryptoServicesDescriptor(
+                    new VCLKeyServiceEmptyImpl(),
+                    new VCLJwtSignServiceEmptyImpl(),
+                    new VCLJwtVerifyServiceEmptyImpl()
+                )
             )
-        ));
+        );
         console.log(
             "#Credential Types: %s",
             vcl.credentialTypesModel.data.all.length
@@ -85,7 +87,9 @@ describe("initalization flow", () => {
 });
 
 class VCLKeyServiceEmptyImpl implements VCLKeyService {
-    generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLResult<VCLDidJwk>> {
+    generateDidJwk(
+        didJwkDescriptor: VCLDidJwkDescriptor
+    ): Promise<VCLResult<VCLDidJwk>> {
         return new Promise<VCLResult<VCLDidJwk>>((resolve, reject) => {
             resolve(new VCLResult<VCLDidJwk>());
         });
@@ -96,7 +100,7 @@ class VCLJwtSignServiceEmptyImpl implements VCLJwtSignService {
     sign(
         jwtDescriptor: VCLJwtDescriptor,
         didJwk: VCLDidJwk,
-        nonce: Nullish<string>
+        nonce: string | null | undefined
     ): Promise<VCLResult<VCLJwt>> {
         return new Promise<VCLResult<VCLJwt>>((resolve, reject) => {
             resolve(new VCLResult<VCLJwt>());

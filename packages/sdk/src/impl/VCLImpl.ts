@@ -63,12 +63,12 @@ export class VCLImpl implements VCL {
 
     static readonly ModelsToInitializeAmount = 3;
 
-    credentialTypesModel: Nullish<CredentialTypesModel>;
+    credentialTypesModel: CredentialTypesModel | null | undefined;
 
     initializationDescriptor!: VCLInitializationDescriptor;
 
-    credentialTypeSchemasModel: Nullish<CredentialTypeSchemasModel>;
-    countriesModel: Nullish<CountriesModel>;
+    credentialTypeSchemasModel: CredentialTypeSchemasModel | null | undefined;
+    countriesModel: CountriesModel | null | undefined;
 
     verifiedProfileUseCase!: VerifiedProfileUseCase;
 
@@ -101,7 +101,7 @@ export class VCLImpl implements VCL {
     // TODO: figure out a way to convert to promise
     async initialize(
         initializationDescriptor: VCLInitializationDescriptor
-    ): Promise<Nullish<VCLError>> {
+    ): Promise<VCLError | null | undefined> {
         GlobalConfig.CurrentEnvironment = initializationDescriptor.environment;
         this.initializationDescriptor = initializationDescriptor;
         this.initializationWatcher = new InitializationWatcher(
@@ -240,9 +240,10 @@ export class VCLImpl implements VCL {
             throw error1;
         }
 
-        let presentationRequestResult: Nullish<
-            VCLResult<VCLPresentationRequest>
-        >;
+        let presentationRequestResult:
+            | VCLResult<VCLPresentationRequest>
+            | null
+            | undefined;
 
         try {
             presentationRequestResult =
@@ -344,6 +345,7 @@ export class VCLImpl implements VCL {
                 );
 
             const [err, verifiedProfile] = verifiedProfileResult.handleResult();
+            console.log(err);
             if (verifiedProfile) {
                 const credentialManifest =
                     await this.credentialManifestUseCase.getCredentialManifest(
@@ -380,7 +382,8 @@ export class VCLImpl implements VCL {
                 didJwk
             );
 
-        const [error, submission] = identificationSubmissionResult.handleResult();
+        const [error, submission] =
+            identificationSubmissionResult.handleResult();
         if (error) {
             logError("submit identification", error);
             throw error;

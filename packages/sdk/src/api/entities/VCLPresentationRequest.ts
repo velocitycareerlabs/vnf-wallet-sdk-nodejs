@@ -8,7 +8,7 @@ export default class VCLPresentationRequest {
         public readonly jwt: VCLJwt,
         public readonly verifiedProfile: VCLVerifiedProfile,
         public readonly deepLink: VCLDeepLink,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null
+        public readonly pushDelegate: VCLPushDelegate | null | undefined = null
     ) {}
 
     get iss() {

@@ -33,8 +33,8 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
         }
 
         try {
-            const encodedJwts: Nullish<string[]> = finalizedOffersResponse!
-                .payload as Nullish<string[]>;
+            const encodedJwts: string[] | null | undefined =
+                finalizedOffersResponse!.payload as string[] | null | undefined;
 
             if (encodedJwts) {
                 return new VCLResult.Success(encodedJwts);

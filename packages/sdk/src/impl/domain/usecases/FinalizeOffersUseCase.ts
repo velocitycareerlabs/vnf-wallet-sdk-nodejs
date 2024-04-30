@@ -8,6 +8,6 @@ export default interface FinalizeOffersUseCase {
     finalizeOffers(
         token: VCLToken,
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        didJwk: Nullish<VCLDidJwk>
+        didJwk: VCLDidJwk | null | undefined
     ): Promise<VCLResult<VCLJwtVerifiableCredentials>>;
 }

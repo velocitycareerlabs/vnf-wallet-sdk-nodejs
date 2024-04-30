@@ -10,7 +10,7 @@ export default class CredentialTypeSchemasModelImpl
     constructor(
         private readonly credentialTypeSchemasUseCase: CredentialTypeSchemasUseCase
     ) {}
-    data: Nullish<VCLCredentialTypeSchemas>;
+    data: VCLCredentialTypeSchemas | null | undefined;
 
     async initialize(): Promise<VCLError | null> {
         const result =

@@ -2,12 +2,12 @@ import GlobalConfig from "../GlobalConfig";
 
 export default class VCLLog {
     static readonly format = "%s/%s: %s";
-    static v(tag: Nullish<string>, msg: string) {
+    static v(tag: string | null | undefined, msg: string) {
         GlobalConfig.isLoggerOn &&
             console.log(this.format, "V", GlobalConfig.LogTagPrefix + tag, msg);
     }
 
-    static d(tag: Nullish<string>, msg: string) {
+    static d(tag: string | null | undefined, msg: string) {
         GlobalConfig.isLoggerOn &&
             console.debug(
                 this.format,
@@ -17,7 +17,7 @@ export default class VCLLog {
             );
     }
 
-    static i(tag: Nullish<string>, msg: string) {
+    static i(tag: string | null | undefined, msg: string) {
         GlobalConfig.isLoggerOn &&
             console.info(
                 this.format,
@@ -27,7 +27,7 @@ export default class VCLLog {
             );
     }
 
-    static w(tag: Nullish<string>, msg: string) {
+    static w(tag: string | null | undefined, msg: string) {
         GlobalConfig.isLoggerOn &&
             console.warn(
                 this.format,
@@ -37,7 +37,7 @@ export default class VCLLog {
             );
     }
 
-    static e(tag: Nullish<string>, msg: string) {
+    static e(tag: string | null | undefined, msg: string) {
         GlobalConfig.isLoggerOn &&
             console.error(
                 this.format,

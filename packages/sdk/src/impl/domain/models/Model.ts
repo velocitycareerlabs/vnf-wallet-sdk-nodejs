@@ -1,3 +1,3 @@
 export default interface Model<T> {
-    data: Nullish<T>;
+    data: T | null | undefined;
 }

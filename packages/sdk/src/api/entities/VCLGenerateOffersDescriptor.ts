@@ -4,8 +4,8 @@ import VCLVerifiableCredential from "./VCLVerifiableCredential";
 export default class VCLGenerateOffersDescriptor {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
-        public readonly types: Nullish<string[]> = null,
-        public readonly offerHashes: Nullish<string[]> = null,
+        public readonly types: string[] | null | undefined = null,
+        public readonly offerHashes: string[] | null | undefined = null,
         public readonly identificationVerifiableCredentials: VCLVerifiableCredential[]
     ) {}
 

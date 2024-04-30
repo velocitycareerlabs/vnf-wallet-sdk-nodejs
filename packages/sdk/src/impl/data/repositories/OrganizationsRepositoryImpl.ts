@@ -47,7 +47,7 @@ export default class OrganizationsRepositoryImpl
     }
 
     private parse(organizationsRaw: JSONObject): VCLOrganizations {
-        const organizationsJsonArray: Nullish<JSONObject[]> =
+        const organizationsJsonArray: JSONObject[] | null | undefined =
             organizationsRaw[VCLOrganizations.KeyResult];
 
         const organizations: VCLOrganization[] = (

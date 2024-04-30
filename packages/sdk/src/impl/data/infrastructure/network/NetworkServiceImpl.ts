@@ -10,7 +10,9 @@ export default class NetworkServiceImpl implements NetworkService {
     static TAG = NetworkServiceImpl.name;
 
     async sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
-        let handler: () => Nullish<Promise<AxiosResponse<any, any>>> = () => {
+        let handler: () => Promise<
+            AxiosResponse<any, any | null | undefined>
+        > = () => {
             return null;
         };
         switch (params.method) {
@@ -46,8 +48,8 @@ export default class NetworkServiceImpl implements NetworkService {
 
     async sendRequest(params: {
         endpoint: string;
-        body: Nullish<any>;
-        contentType: Nullish<string>;
+        body: any | null | undefined;
+        contentType: string | null | undefined;
         method: HttpMethod;
         headers: any;
         useCaches: boolean;

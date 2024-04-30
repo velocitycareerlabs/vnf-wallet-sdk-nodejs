@@ -7,8 +7,8 @@ export default class VCLCredentialManifestDescriptorByService extends VCLCredent
     constructor(
         public service: VCLService,
         public issuingType: VCLIssuingType = VCLIssuingType.Career,
-        public credentialTypes: Nullish<string[]> = null,
-        public pushDelegate: Nullish<VCLPushDelegate> = null
+        public credentialTypes: string[] | null | undefined = null,
+        public pushDelegate: VCLPushDelegate | null | undefined = null
     ) {
         super(
             service.serviceEndpoint,
