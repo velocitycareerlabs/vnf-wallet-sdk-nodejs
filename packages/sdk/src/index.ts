@@ -51,6 +51,8 @@ import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
 import VCLKeyService from "./api/keys/VCLKeyService";
+import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
+import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 
 export {
     VCL,
@@ -107,6 +109,8 @@ export {
     VCLDidJwkDescriptor,
     VCLDidJwk,
     VCLKeyService,
+    VCLJwtSignService,
+    VCLJwtVerifyService,
 };
 
 // export type {
