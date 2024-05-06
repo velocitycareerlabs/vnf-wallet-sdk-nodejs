@@ -54,12 +54,12 @@ import VCLKeyService from "./api/keys/VCLKeyService";
 
 export {
     VCL,
+    VCLProvider,
     VCLEnvironment,
     VCLStatusCode,
     VCLErrorCode,
     VCLServiceType,
     VCLIssuingType,
-    VCLProvider,
     VCLCountryCodes,
     VCLError,
     VCLCountry,
