@@ -1,5 +1,10 @@
 import VCLProvider from "./VCLProvider";
 import VCL from "./api/VCL";
+import VCLInitializationDescriptor from "./api/entities/VCLInitializationDescriptor";
+import VCLCryptoServicesDescriptor from "./api/entities/VCLCryptoServicesDescriptor";
+import VCLKeyService from "./api/keys/VCLKeyService";
+import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
+import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 import VCLEnvironment from "./api/VCLEnvironment";
 import VCLCountry from "./api/entities/VCLCountry";
 import VCLCountries from "./api/entities/VCLCountries";
@@ -50,15 +55,17 @@ import VCLDidJwk from "./api/entities/VCLDidJwk";
 import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
-import VCLKeyService from "./api/keys/VCLKeyService";
-import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
-import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 import VCLResult from "./api/entities/VCLResult";
 import { Nullish } from "./types";
 
 export {
-    VCL,
     VCLProvider,
+    VCL,
+    VCLInitializationDescriptor,
+    VCLCryptoServicesDescriptor,
+    VCLKeyService,
+    VCLJwtSignService,
+    VCLJwtVerifyService,
     VCLEnvironment,
     VCLStatusCode,
     VCLErrorCode,
@@ -110,9 +117,6 @@ export {
     VCLJwtDescriptor,
     VCLDidJwkDescriptor,
     VCLDidJwk,
-    VCLKeyService,
-    VCLJwtSignService,
-    VCLJwtVerifyService,
     VCLResult,
     Nullish,
 };
