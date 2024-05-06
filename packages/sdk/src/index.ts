@@ -53,6 +53,12 @@ import VCLErrorCode from "./api/entities/error/VCLErrorCode";
 import VCLKeyService from "./api/keys/VCLKeyService";
 
 export {
+    VCL,
+    VCLEnvironment,
+    VCLStatusCode,
+    VCLErrorCode,
+    VCLServiceType,
+    VCLIssuingType,
     VCLProvider,
     VCLCountryCodes,
     VCLError,
@@ -103,14 +109,14 @@ export {
     VCLKeyService,
 };
 
-export type {
-    VCL,
-    VCLEnvironment,
-    VCLStatusCode,
-    VCLErrorCode,
-    VCLServiceType,
-    VCLIssuingType,
-};
+// export type {
+//     VCL,
+//     VCLEnvironment,
+//     VCLStatusCode,
+//     VCLErrorCode,
+//     VCLServiceType,
+//     VCLIssuingType,
+// };
 
 // export * from './VCLProvider';
 // export * from './api/VCL';
