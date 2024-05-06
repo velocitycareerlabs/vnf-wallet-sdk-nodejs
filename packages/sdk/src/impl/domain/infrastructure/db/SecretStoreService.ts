@@ -1,5 +1,5 @@
 import { KeyPairKeyObjectResult } from "crypto";
-import { JWK } from "jose";
+import { Nullish } from "../../../../types";
 
 export default interface SecretStoreService {
     storeKey(keyId: string, key: KeyPairKeyObjectResult): void;

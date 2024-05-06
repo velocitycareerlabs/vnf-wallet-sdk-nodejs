@@ -1,3 +1,5 @@
+import { Nullish } from "../../types";
+
 export default class VCLCredentialType {
     constructor(
         public payload: JSONObject,

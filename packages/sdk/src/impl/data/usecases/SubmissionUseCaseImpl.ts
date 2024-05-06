@@ -1,3 +1,4 @@
+import { Nullish } from "../../../types";
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";

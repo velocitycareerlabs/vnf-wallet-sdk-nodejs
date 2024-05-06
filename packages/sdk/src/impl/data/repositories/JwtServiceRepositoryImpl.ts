@@ -8,6 +8,7 @@ import VCLResult from "../../../api/entities/VCLResult";
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import VCLJwtSignService from "../../../api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "../../../api/jwt/VCLJwtVerifyService";
+import { Nullish } from "../../../types";
 
 export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     constructor(

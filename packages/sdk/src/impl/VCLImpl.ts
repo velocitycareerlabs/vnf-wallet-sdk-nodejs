@@ -58,6 +58,7 @@ import OrganizationsUseCase from "./domain/usecases/OrganizationsUseCase";
 import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialTypesUIFormSchemaUseCase";
 import VCLDidJwkDescriptor from "../api/entities/VCLDidJwkDescriptor";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
+import { Nullish } from "../types";
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 

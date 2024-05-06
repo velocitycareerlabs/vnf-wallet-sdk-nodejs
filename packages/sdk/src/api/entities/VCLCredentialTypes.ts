@@ -1,3 +1,4 @@
+import { Nullish } from "../../types";
 import VCLCredentialType from "./VCLCredentialType";
 
 export default class VCLCredentialTypes {

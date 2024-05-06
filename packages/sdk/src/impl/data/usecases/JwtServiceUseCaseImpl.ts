@@ -6,6 +6,7 @@ import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import JwtServiceUseCase from "../../domain/usecases/JwtServiceUseCase";
+import { Nullish } from "../../../types";
 
 export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     constructor(private readonly jwtServiceRepository: JwtServiceRepository) {}
