@@ -22,7 +22,7 @@ data class VCLVerifiedProfile(val payload: JSONObject) {
 }
 */
 
-import { Nullish } from "../../Nullish";
+import { Nullish } from "../../types";
 import VCLServiceType from "./VCLServiceType";
 import VCLServiceTypes from "./VCLServiceTypes";
 

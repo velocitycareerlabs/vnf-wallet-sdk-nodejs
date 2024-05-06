@@ -1,4 +1,4 @@
-import { Nullish } from "../../Nullish";
+import { Nullish } from "../../types";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";

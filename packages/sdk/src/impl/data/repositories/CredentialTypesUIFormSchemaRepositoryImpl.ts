@@ -1,4 +1,4 @@
-import { Nullish } from "../../../Nullish";
+import { Nullish } from "../../../types";
 import VCLCountries from "../../../api/entities/VCLCountries";
 import VCLCredentialTypesUIFormSchema from "../../../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";

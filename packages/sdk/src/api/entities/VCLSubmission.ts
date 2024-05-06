@@ -1,4 +1,4 @@
-import { Nullish } from "../../Nullish";
+import { Nullish } from "../../types";
 import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";

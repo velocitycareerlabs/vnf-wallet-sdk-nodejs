@@ -1,4 +1,4 @@
-import { Nullish } from "../../Nullish";
+import { Nullish } from "../../types";
 import VCLPlace from "./VCLPlace";
 import VCLRegions from "./VCLRegions";
 

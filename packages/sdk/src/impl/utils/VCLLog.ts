@@ -1,4 +1,4 @@
-import { Nullish } from "../../Nullish";
+import { Nullish } from "../../types";
 import GlobalConfig from "../GlobalConfig";
 
 export default class VCLLog {

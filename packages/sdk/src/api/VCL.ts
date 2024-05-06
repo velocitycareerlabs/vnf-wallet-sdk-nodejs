@@ -26,7 +26,7 @@ import VCLSubmissionResult from "./entities/VCLSubmissionResult";
 import VCLToken from "./entities/VCLToken";
 import VCLVerifiedProfile from "./entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescriptor";
-import { Nullish } from "../Nullish";
+import { Nullish } from "../types";
 
 export default interface VCL {
     initialize(
