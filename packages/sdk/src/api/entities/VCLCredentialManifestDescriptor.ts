@@ -1,4 +1,4 @@
-import { Nullish } from "../Nullish";
+import { Nullish } from "../../Nullish";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
 

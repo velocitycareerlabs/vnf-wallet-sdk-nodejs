@@ -1,4 +1,4 @@
-import { Nullish } from "../../../api/Nullish";
+import { Nullish } from "../../../Nullish";
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLResult from "../../../api/entities/VCLResult";
 import VCLSubmission from "../../../api/entities/VCLSubmission";

@@ -4,7 +4,7 @@ import Request, {
     HttpMethod,
 } from "../src/impl/data/infrastructure/network/Request";
 import Response from "../src/impl/data/infrastructure/network/Response";
-import { Nullish } from "../src/api/Nullish";
+import { Nullish } from "../src/Nullish";
 
 export default class NetworkServiceSuccess implements NetworkService {
     constructor(private readonly validResponse: JSONObject) {}

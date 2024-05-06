@@ -1,5 +1,5 @@
 import "../../impl/extensions/StringExtensions";
-import { Nullish } from "../Nullish";
+import { Nullish } from "../../Nullish";
 
 export default class VCLDeepLink {
     public requestUri: Nullish<string>;

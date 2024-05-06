@@ -1,4 +1,4 @@
-import { Nullish } from "../Nullish";
+import { Nullish } from "../../Nullish";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLDeepLink from "./VCLDeepLink";
 import VCLIssuingType from "./VCLIssuingType";

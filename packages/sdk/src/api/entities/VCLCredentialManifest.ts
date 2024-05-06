@@ -1,4 +1,4 @@
-import { Nullish } from "../Nullish";
+import { Nullish } from "../../Nullish";
 import VCLJwt from "./VCLJwt";
 import VCLVerifiedProfile from "./VCLVerifiedProfile";
 

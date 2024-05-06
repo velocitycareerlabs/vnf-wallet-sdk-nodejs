@@ -54,7 +54,7 @@ import VCLKeyService from "./api/keys/VCLKeyService";
 import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 import VCLResult from "./api/entities/VCLResult";
-import { Nullish } from "./api/Nullish";
+import { Nullish } from "./Nullish";
 
 export {
     VCL,
