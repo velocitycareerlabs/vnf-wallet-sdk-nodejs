@@ -30,7 +30,7 @@ String.prototype.appendQueryParams = function (queryParams: string): string {
 
 String.prototype.getUrlSubPath = function (
     subPathPrefix: string
-): Nullish<string> {
+): string | null | undefined {
     return decodeURI(this.valueOf())
         .split("/")
         .find((item) => item.startsWith(subPathPrefix));

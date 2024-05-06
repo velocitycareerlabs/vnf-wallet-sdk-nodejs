@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto";
 import VCLDidJwk from "./VCLDidJwk";
+import { Nullish } from "../../types";
 
 export default class VCLJwtDescriptor {
     constructor(

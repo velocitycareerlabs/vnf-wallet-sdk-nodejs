@@ -1,3 +1,4 @@
+import { Nullish } from "../../types";
 import VCLService from "./VCLService";
 
 export default class VCLServiceCredentialAgentIssuer extends VCLService {

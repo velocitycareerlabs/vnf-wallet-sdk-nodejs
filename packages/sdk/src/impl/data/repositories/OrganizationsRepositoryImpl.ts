@@ -1,3 +1,4 @@
+import { Nullish } from "../../..//types";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLOrganization from "../../../api/entities/VCLOrganization";
 import VCLOrganizations from "../../../api/entities/VCLOrganizations";

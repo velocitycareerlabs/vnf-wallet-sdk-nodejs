@@ -1,3 +1,4 @@
+import { Nullish } from "../../../types";
 import VCLErrorCode from "./VCLErrorCode";
 
 export default class VCLError extends Error {

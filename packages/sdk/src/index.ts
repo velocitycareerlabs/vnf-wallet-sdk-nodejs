@@ -53,6 +53,8 @@ import VCLErrorCode from "./api/entities/error/VCLErrorCode";
 import VCLKeyService from "./api/keys/VCLKeyService";
 import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
+import VCLResult from "./api/entities/VCLResult";
+import { Nullish } from "./types";
 
 export {
     VCL,
@@ -111,6 +113,8 @@ export {
     VCLKeyService,
     VCLJwtSignService,
     VCLJwtVerifyService,
+    VCLResult,
+    Nullish,
 };
 
 // export type {

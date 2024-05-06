@@ -1,3 +1,5 @@
+import { Nullish } from "../../../../types";
+
 export enum HttpMethod {
     GET = "GET",
     POST = "POST",

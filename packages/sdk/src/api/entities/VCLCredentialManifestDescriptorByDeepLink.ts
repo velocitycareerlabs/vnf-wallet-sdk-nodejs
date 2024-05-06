@@ -1,3 +1,4 @@
+import { Nullish } from "../../types";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLDeepLink from "./VCLDeepLink";
 import VCLIssuingType from "./VCLIssuingType";

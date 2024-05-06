@@ -1,3 +1,4 @@
+import { Nullish } from "../../../../types";
 import VCLResult from "../../../../api/entities/VCLResult";
 import NetworkService from "../../../domain/infrastructure/network/NetworkService";
 import VCLLog from "../../../utils/VCLLog";

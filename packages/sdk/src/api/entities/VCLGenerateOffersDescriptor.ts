@@ -1,3 +1,4 @@
+import { Nullish } from "../../types";
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
 

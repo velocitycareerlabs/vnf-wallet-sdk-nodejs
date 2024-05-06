@@ -1,3 +1,4 @@
+import { Nullish } from "../../../types";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";

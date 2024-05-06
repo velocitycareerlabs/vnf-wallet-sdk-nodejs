@@ -1,4 +1,4 @@
-import { JWK, base64url } from "jose";
+import { Nullish } from "../../types";
 
 export default class VCLJwt {
     public encodedJwt: Nullish<string>;
