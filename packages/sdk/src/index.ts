@@ -28,6 +28,7 @@ import VCLOffers from "./api/entities/VCLOffers";
 import VCLOrganization from "./api/entities/VCLOrganization";
 import VCLOrganizations from "./api/entities/VCLOrganizations";
 import VCLOrganizationsSearchDescriptor from "./api/entities/VCLOrganizationsSearchDescriptor";
+import { VCLFilter, VCLPage } from "./api/entities/VCLOrganizationsSearchDescriptor";
 import VCLPresentationRequest from "./api/entities/VCLPresentationRequest";
 import VCLPresentationSubmission from "./api/entities/VCLPresentationSubmission";
 import VCLPublicJwk from "./api/entities/VCLPublicJwk";
@@ -81,6 +82,8 @@ export {
     VCLOrganization,
     VCLOrganizations,
     VCLOrganizationsSearchDescriptor,
+    VCLFilter, 
+    VCLPage,
     VCLPresentationRequest,
     VCLPresentationSubmission,
     VCLPublicJwk,
