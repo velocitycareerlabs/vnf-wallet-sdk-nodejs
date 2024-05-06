@@ -1,3 +1,4 @@
+import { Nullish } from "../Nullish";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLService from "./VCLService";

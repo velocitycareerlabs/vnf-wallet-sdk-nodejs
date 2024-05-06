@@ -1,3 +1,4 @@
+import { Nullish } from "../../../api/Nullish";
 import VCLErrorCode from "./VCLErrorCode";
 
 export default class VCLError extends Error {

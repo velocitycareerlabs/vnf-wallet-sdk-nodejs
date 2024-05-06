@@ -1,3 +1,4 @@
+import { Nullish } from "../Nullish";
 import VCLError from "./error/VCLError";
 
 export default class VCLResult<R> {
