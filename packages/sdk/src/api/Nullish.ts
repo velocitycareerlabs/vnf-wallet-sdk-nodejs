@@ -1,1 +1,1 @@
-export type Nullish = null | undefined;
+export type Nullish<T> = T | null | undefined;
