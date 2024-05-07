@@ -1,4 +1,4 @@
-import { Dictionary } from "src/api/VCLTypes";
+import { Dictionary } from "../../api/VCLTypes";
 import VCLToken from "./VCLToken";
 
 export default class VCLOffers {

@@ -1,4 +1,4 @@
-import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLEnvironment";
+import { VCLEnvironment } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
 
 describe("Imports Test", () => {
 

@@ -17,7 +17,7 @@ import VCLJwtSignService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api
 import VCLJwtDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwtDescriptor";
 import VCLJwt from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwt";
 import VCLJwtVerifyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtVerifyService";
-import { Nullish } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/Nullish";
+import { Nullish } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;
