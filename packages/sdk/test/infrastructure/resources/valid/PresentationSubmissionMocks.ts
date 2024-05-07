@@ -14,7 +14,7 @@ class PresentationSubmissionMocks {
         '{"token":"u7yLD8KS2eTEqkg9aRQE","exchange":{"id":"64131231","type":"DISCLOSURE","disclosureComplete":true,"exchangeComplete":true}}';
     static PresentationRequest = new VCLPresentationRequest(
         JwtServiceMocks.JWT,
-        new VCLVerifiedProfile(''),
+        new VCLVerifiedProfile({}),
         DeepLinkMocks.CredentialManifestDeepLinkMainNet,
         this.PushDelegate
     );

@@ -4,7 +4,7 @@ import Request, {
     HttpMethod,
 } from "../src/impl/data/infrastructure/network/Request";
 import Response from "../src/impl/data/infrastructure/network/Response";
-import { Dictionary, Nullish } from "../src/types";
+import { Dictionary, Nullish } from "../../sdk//src/api/VCLTypes";
 
 export default class NetworkServiceSuccess implements NetworkService {
     constructor(private readonly validResponse: Dictionary<any>) {}
