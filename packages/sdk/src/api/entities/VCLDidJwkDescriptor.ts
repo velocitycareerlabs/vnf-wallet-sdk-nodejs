@@ -1,4 +1,4 @@
-import { Nullish } from "src/api/VCLTypes";
+import { Nullish } from "../../api/VCLTypes";
 import VCLToken from "./VCLToken";
 import VCLSignatureAlgorithm from "../VCLSignatureAlgorithm";
 
