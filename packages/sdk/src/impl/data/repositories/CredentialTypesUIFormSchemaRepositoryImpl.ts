@@ -1,4 +1,4 @@
-import { Nullish } from "../../../types";
+import { Dictionary, Nullish } from "../../../api/VCLTypes";
 import VCLCountries from "../../../api/entities/VCLCountries";
 import VCLCredentialTypesUIFormSchema from "../../../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
@@ -56,9 +56,9 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
 
     private parseCredentialTypesUIFormSchema(
         countries: VCLCountries,
-        formSchemaDict: JSONObject,
+        formSchemaDict: Dictionary<any>,
         regions: Nullish<VCLRegions>
-    ): JSONObject {
+    ): Dictionary<any> {
         let formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
         for (const key of Object.keys(formSchemaDictCP)) {
             const valueDict = formSchemaDictCP[key];
@@ -101,9 +101,9 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
     private updateAddressEnums(
         places: VCLPlace[],
         key: string,
-        valueDict: JSONObject,
-        formSchemaDict: JSONObject
-    ): JSONObject {
+        valueDict: Dictionary<any>,
+        formSchemaDict: Dictionary<any>
+    ): Dictionary<any> {
         const formSchemaDictCP = JSON.parse(JSON.stringify(formSchemaDict));
         const valueDictHasKeyUiEnum = Object.keys(valueDict).includes(
             VCLCredentialTypesUIFormSchema.KeyUiEnum
@@ -113,8 +113,8 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
         );
 
         if (valueDictHasKeyUiEnum || valueDictHasKeyUiNames) {
-            const uiEnumArr: JSONObject[] = [];
-            const uiNamesArr: JSONObject[] = [];
+            const uiEnumArr: any[] = [];
+            const uiNamesArr: any[] = [];
             places.forEach((place) => {
                 if (valueDictHasKeyUiEnum) {
                     uiEnumArr.push(place.code);

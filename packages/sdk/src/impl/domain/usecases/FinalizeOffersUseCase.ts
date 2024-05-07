@@ -1,4 +1,4 @@
-import { Nullish } from "../../../types";
+import { Nullish } from "../../../api/VCLTypes";
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
 import VCLJwtVerifiableCredentials from "../../../api/entities/VCLJwtVerifiableCredentials";

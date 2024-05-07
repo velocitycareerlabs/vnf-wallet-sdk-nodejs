@@ -1,4 +1,4 @@
-import { Nullish } from "../../..//types";
+import { Dictionary, Nullish } from "../../../api/VCLTypes";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLOrganization from "../../../api/entities/VCLOrganization";
 import VCLOrganizations from "../../../api/entities/VCLOrganizations";
@@ -47,8 +47,8 @@ export default class OrganizationsRepositoryImpl
         }
     }
 
-    private parse(organizationsRaw: JSONObject): VCLOrganizations {
-        const organizationsJsonArray: Nullish<JSONObject[]> =
+    private parse(organizationsRaw: Dictionary<any>): VCLOrganizations {
+        const organizationsJsonArray: Nullish<Dictionary<any>[]> =
             organizationsRaw[VCLOrganizations.KeyResult];
 
         const organizations: VCLOrganization[] = (

@@ -1,4 +1,4 @@
-import { VCLImpl } from "./impl/VCLImpl";
+import { VCLImpl } from "../impl/VCLImpl";
 
 export default class VCLProvider {
     private static vclInstance: VCLImpl;

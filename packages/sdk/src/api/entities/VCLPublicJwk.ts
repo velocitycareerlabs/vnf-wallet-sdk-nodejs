@@ -1,3 +1,5 @@
+import { Dictionary } from "../VCLTypes";
+
 enum Format {
     jwk = "jwk",
     hex = "hex",
@@ -6,7 +8,7 @@ enum Format {
 }
 
 export default class VCLPublicJwk {
-    constructor(public valueStr: string, public valueJson: JSONObject) {}
+    constructor(public valueStr: string, public valueJson: Dictionary<any>) {}
     static readonly Format = Format;
     get curve(): string {
         return this.valueJson["crv"];
@@ -16,7 +18,7 @@ export default class VCLPublicJwk {
         return new VCLPublicJwk(valueStr, JSON.parse(valueStr));
     }
 
-    public static fromJSON(valueJson: JSONObject) {
+    public static fromJSON(valueJson: Dictionary<any>) {
         return new VCLPublicJwk(JSON.stringify(valueJson), valueJson);
     }
 }

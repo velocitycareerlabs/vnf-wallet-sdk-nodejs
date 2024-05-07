@@ -3,7 +3,7 @@ import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypeSchemasModel from "../../domain/models/CredentialTypeSchemasModel";
 import CredentialTypeSchemasUseCase from "../../domain/usecases/CredentialTypeSchemasUseCase";
-import { Nullish } from "../../../types";
+import { Nullish } from "../../../api/VCLTypes";
 
 export default class CredentialTypeSchemasModelImpl
     implements CredentialTypeSchemasModel

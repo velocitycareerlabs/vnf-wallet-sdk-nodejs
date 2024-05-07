@@ -1,7 +1,8 @@
+import { Dictionary } from "../VCLTypes";
 import VCLPlace from "./VCLPlace";
 
 export default class VCLRegion extends VCLPlace {
-    constructor(payload: JSONObject, code: string, name: string) {
+    constructor(payload: Dictionary<any>, code: string, name: string) {
         super(payload, code, name);
     }
 

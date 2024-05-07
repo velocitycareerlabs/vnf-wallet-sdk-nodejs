@@ -1,3 +1,10 @@
+import { Nullish } from "src/api/VCLTypes";
+import VCLToken from "./VCLToken";
+import VCLSignatureAlgorithm from "../VCLSignatureAlgorithm";
+
 export default class VCLDidJwkDescriptor {
-    constructor(public kid: string) {}
+    constructor(
+        public signatureAlgorithm: VCLSignatureAlgorithm = VCLSignatureAlgorithm.ES256,
+        public remoteCryptoServicesToken: Nullish<VCLToken> = null
+    ) {}
 }

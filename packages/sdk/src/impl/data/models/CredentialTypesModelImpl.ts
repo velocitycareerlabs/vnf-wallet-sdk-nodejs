@@ -3,7 +3,7 @@ import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypesModel from "../../domain/models/CredentialTypesModel";
 import { CredentialTypesUseCase } from "../../domain/usecases/CredentialTypesUseCase";
-import { Nullish } from "../../../types";
+import { Nullish } from "../../../api/VCLTypes";
 
 export default class CredentialTypesModelImpl implements CredentialTypesModel {
     constructor(

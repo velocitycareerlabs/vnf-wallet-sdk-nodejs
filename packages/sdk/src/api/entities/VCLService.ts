@@ -1,8 +1,10 @@
+import { Dictionary } from "../VCLTypes";
+
 export default class VCLService {
     id: string;
     type: string;
     serviceEndpoint: string;
-    constructor(public payload: JSONObject) {
+    constructor(public payload: Dictionary<any>) {
         this.id = payload[VCLService.KeyId];
         this.type = payload[VCLService.KeyType];
         this.serviceEndpoint = payload[VCLService.KeyServiceEndpoint];

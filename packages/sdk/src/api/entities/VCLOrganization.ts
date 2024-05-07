@@ -1,3 +1,4 @@
+import { Dictionary } from "../VCLTypes";
 import VCLServiceCredentialAgentIssuer from "./VCLServiceCredentialAgentIssuer";
 
 export default class VCLOrganization {
@@ -6,14 +7,14 @@ export default class VCLOrganization {
     get serviceCredentialAgentIssuers(): VCLServiceCredentialAgentIssuer[] {
         return this.parseServiceCredentialAgentIssuers();
     }
-    constructor(public readonly payload: JSONObject) {}
+    constructor(public readonly payload: Dictionary<any>) {}
 
     private parseServiceCredentialAgentIssuers(): VCLServiceCredentialAgentIssuer[] {
         const result: VCLServiceCredentialAgentIssuer[] = [];
 
         try {
             const serviceJsonArr = (this.payload[VCLOrganization.KeyService] ??
-                []) as JSONObject[];
+                []) as Dictionary<any>[];
             if (serviceJsonArr) {
                 for (const i in serviceJsonArr) {
                     const it = serviceJsonArr[i];

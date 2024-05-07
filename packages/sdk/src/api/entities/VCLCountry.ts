@@ -1,10 +1,10 @@
-import { Nullish } from "../../types";
+import { Dictionary, Nullish } from "../VCLTypes";
 import VCLPlace from "./VCLPlace";
 import VCLRegions from "./VCLRegions";
 
 export default class VCLCountry extends VCLPlace {
     constructor(
-        public payload: JSONObject,
+        public payload: Dictionary<any>,
         public code: string,
         public name: string,
         public regions: Nullish<VCLRegions>

@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Dictionary, Nullish } from "../VCLTypes";
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
 
@@ -10,7 +10,7 @@ export default class VCLGenerateOffersDescriptor {
         public readonly identificationVerifiableCredentials: VCLVerifiableCredential[]
     ) {}
 
-    payload: JSONObject = {
+    payload: Dictionary<any> = {
         [VCLGenerateOffersDescriptor.KeyExchangeId]: this.exchangeId,
         [VCLGenerateOffersDescriptor.KeyTypes]: this.types,
         [VCLGenerateOffersDescriptor.KeyOfferHashes]: this.offerHashes,

@@ -1,8 +1,8 @@
-import { Nullish } from "../../types";
+import { Dictionary, Nullish } from "../VCLTypes";
 
 export default class VCLCredentialType {
     constructor(
-        public payload: JSONObject,
+        public payload: Dictionary<any>,
         public id: Nullish<string>,
         public schema: Nullish<string>,
         public createdAt: Nullish<string>,
