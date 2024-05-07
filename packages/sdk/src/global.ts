@@ -1,5 +1,3 @@
-declare type JSONObject = any;
-
 interface String {
     getQueryParameters(): Map<string, string>;
     appendQueryParams(queryParams: string): string;

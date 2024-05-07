@@ -1,4 +1,4 @@
-import { Nullish } from "../../../types";
+import { Dictionary, Nullish } from "../../VCLTypes";
 import VCLErrorCode from "./VCLErrorCode";
 
 export default class VCLError extends Error {
@@ -48,7 +48,7 @@ export default class VCLError extends Error {
         return result;
     }
 
-    get jsonObject(): JSONObject {
+    get jsonObject(): Dictionary<any> {
         return {
             [VCLError.KeyPayload]: this.payload,
             [VCLError.KeyError]: this.error,

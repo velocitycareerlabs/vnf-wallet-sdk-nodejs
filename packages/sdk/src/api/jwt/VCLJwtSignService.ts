@@ -9,7 +9,7 @@ interface VCLJwtSignService {
     )
 }*/
 
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLDidJwk from "../entities/VCLDidJwk";
 import VCLJwt from "../entities/VCLJwt";
 import VCLJwtDescriptor from "../entities/VCLJwtDescriptor";

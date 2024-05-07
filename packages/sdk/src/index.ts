@@ -1,4 +1,5 @@
-import VCLProvider from "./VCLProvider";
+import VCLProvider from "./api/VCLProvider";
+import VCLSignatureAlgorithm from "./api/VCLSignatureAlgorithm";
 import VCL from "./api/VCL";
 import VCLInitializationDescriptor from "./api/entities/VCLInitializationDescriptor";
 import VCLCryptoServicesDescriptor from "./api/entities/VCLCryptoServicesDescriptor";
@@ -56,10 +57,11 @@ import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
 import VCLResult from "./api/entities/VCLResult";
-import { Nullish } from "./types";
+import { Nullish, Dictionary } from "./api/VCLTypes";
 
 export {
     VCLProvider,
+    VCLSignatureAlgorithm,
     VCL,
     VCLInitializationDescriptor,
     VCLCryptoServicesDescriptor,
@@ -119,16 +121,8 @@ export {
     VCLDidJwk,
     VCLResult,
     Nullish,
+    Dictionary,
 };
-
-// export type {
-//     VCL,
-//     VCLEnvironment,
-//     VCLStatusCode,
-//     VCLErrorCode,
-//     VCLServiceType,
-//     VCLIssuingType,
-// };
 
 // export * from './VCLProvider';
 // export * from './api/VCL';

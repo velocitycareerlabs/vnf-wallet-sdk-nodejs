@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLDeepLink from "./VCLDeepLink";
 import VCLPushDelegate from "./VCLPushDelegate";
 

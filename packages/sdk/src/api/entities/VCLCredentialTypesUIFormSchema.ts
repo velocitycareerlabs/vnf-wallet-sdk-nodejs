@@ -1,5 +1,7 @@
+import { Dictionary } from "../VCLTypes";
+
 export default class VCLCredentialTypesUIFormSchema {
-    constructor(public payload: JSONObject) {}
+    constructor(public payload: Dictionary<any>) {}
     // CodingKeys
     static readonly KeyAddressRegion = "addressRegion";
     static readonly KeyAddressCountry = "addressCountry";

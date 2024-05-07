@@ -1,3 +1,5 @@
+import { Dictionary } from "../VCLTypes";
+
 export default class VCLPushDelegate {
     constructor(
         public readonly pushUrl: string,
@@ -7,7 +9,7 @@ export default class VCLPushDelegate {
     static readonly KeyPushUrl = "pushUrl";
     static readonly KeyPushToken = "pushToken";
 
-    toJsonObject() {
+    toJsonObject(): Dictionary<any> {
         return {
             [VCLPushDelegate.KeyPushUrl]: this.pushUrl,
             [VCLPushDelegate.KeyPushToken]: this.pushToken,

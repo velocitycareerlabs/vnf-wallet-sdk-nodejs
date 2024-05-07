@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLCredentialType from "./VCLCredentialType";
 
 export default class VCLCredentialTypes {

@@ -1,11 +1,11 @@
 import VCLCredentialType from "../../../api/entities/VCLCredentialType";
 import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
-import VCLError from "../../../api/entities/error/VCLError";
 import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypesRepository from "../../domain/repositories/CredentialTypesRepository";
 import Request, { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
+import { Dictionary } from "../../../api/VCLTypes";
 
 export default class CredentialTypesRepositoryImpl
     implements CredentialTypesRepository
@@ -38,8 +38,8 @@ export default class CredentialTypesRepositoryImpl
         }
         return new VCLResult.Success(
             new VCLCredentialTypes(
-                (credentialTypesResponse!.payload as JSONObject[]).map(
-                    (item: JSONObject) => {
+                (credentialTypesResponse!.payload as Dictionary<any>[]).map(
+                    (item: Dictionary<any>) => {
                         return new VCLCredentialType(
                             item,
                             item[VCLCredentialType.KeyId],

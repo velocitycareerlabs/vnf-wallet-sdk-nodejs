@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLServiceTypes from "./VCLServiceTypes";
 
 export default class VCLOrganizationsSearchDescriptor {

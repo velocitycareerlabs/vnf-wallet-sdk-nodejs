@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Dictionary, Nullish } from "../VCLTypes";
 
 export default class VCLJwt {
     public encodedJwt: Nullish<string>;
@@ -27,17 +27,17 @@ export default class VCLJwt {
         return (this.header.kid || this.jwk.kid) || ""
     }
 
-    get jwk(): JSONObject {
+    get jwk(): Dictionary<any> {
         return this.header.jwk || JSON.parse("{}")
     }
 
-    get header(): JSONObject {
+    get header(): Dictionary<any> {
         const buff = Buffer.from(this.signedJwt.header, "base64");
         const text = buff.toString("utf-8");
         return JSON.parse(text || "{}");
     }
 
-    get payload(): JSONObject {
+    get payload(): Dictionary<any> {
         const buff = Buffer.from(this.signedJwt.payload, "base64");
         const text = buff.toString("utf-8");
         return JSON.parse(text || "{}");

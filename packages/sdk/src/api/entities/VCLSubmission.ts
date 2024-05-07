@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Dictionary, Nullish } from "../VCLTypes";
 import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
@@ -22,7 +22,7 @@ export default class VCLSubmission {
         return this.generatePayload();
     }
     public generatePayload(iss?: string) {
-        const result: JSONObject = {
+        const result: Dictionary<any> = {
             [VCLSubmission.KeyJti]: this.jti,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:
@@ -50,7 +50,7 @@ export default class VCLSubmission {
     }
 
     generateRequestBody(jwt: VCLJwt) {
-        const result: JSONObject = {
+        const result: Dictionary<any> = {
             [VCLSubmission.KeyExchangeId]: this.exchangeId,
             [VCLSubmission.KeyJwtVp]: jwt.signedJwt.serialize(),
             [VCLSubmission.KeyContext]: VCLSubmission.ValueContextList,

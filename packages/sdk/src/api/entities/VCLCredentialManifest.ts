@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLJwt from "./VCLJwt";
 import VCLVerifiedProfile from "./VCLVerifiedProfile";
 

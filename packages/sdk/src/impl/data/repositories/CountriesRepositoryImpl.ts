@@ -1,4 +1,4 @@
-import { Nullish } from "../../../types";
+import { Dictionary, Nullish } from "../../../api/VCLTypes";
 import VCLCountries from "../../../api/entities/VCLCountries";
 import VCLCountry from "../../../api/entities/VCLCountry";
 import VCLRegion from "../../../api/entities/VCLRegion";
@@ -38,20 +38,20 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
 
         return new VCLResult.Success(
             new VCLCountries(
-                (countriesResponse!.payload as JSONObject[]).map((i) =>
+                (countriesResponse!.payload as Dictionary<any>[]).map((i) =>
                     this.parseCountry(i)
                 )
             )
         );
     }
 
-    private parseCountry(countryJsonObj: JSONObject): VCLCountry {
+    private parseCountry(countryJsonObj: Dictionary<any>): VCLCountry {
         const jsonArrRegions = countryJsonObj[VCLCountry.KeyRegions];
         let regions: Nullish<VCLRegions> = null;
 
         if (jsonArrRegions) {
             const regionList: VCLRegion[] = jsonArrRegions.map(
-                (item: JSONObject) => {
+                (item: Dictionary<any>) => {
                     return new VCLRegion(
                         item,
                         item[VCLRegion.KeyCode],

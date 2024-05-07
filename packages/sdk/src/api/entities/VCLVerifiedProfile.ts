@@ -1,43 +1,17 @@
-/*
-
-data class VCLVerifiedProfile(val payload: JSONObject) {
-
-    val credentialSubject: JSONObject? get() = payload.optJSONObject(KeyCredentialSubject)
-
-    val name get() = credentialSubject?.optString(KeyName)
-    val logo get() = credentialSubject?.optString(KeyLogo)
-    val id get() = credentialSubject?.optString(KeyId)
-    val serviceTypes get() = retrieveServiceTypes(credentialSubject?.optJSONArray(KeyServiceType))
-
-   
-
-    companion object CodingKeys {
-        const val KeyCredentialSubject = "credentialSubject"
-
-        const val KeyName = "name"
-        const val KeyLogo = "logo"
-        const val KeyId = "id"
-        const val KeyServiceType = "permittedVelocityServiceCategory"
-    }
-}
-*/
-
-import { Nullish } from "../../types";
-import VCLServiceType from "./VCLServiceType";
+import { Dictionary, Nullish } from "../VCLTypes";
+import VCLServiceType, { serviceTypeFromString } from "./VCLServiceType";
 import VCLServiceTypes from "./VCLServiceTypes";
 
 export default class VCLVerifiedProfile {
-    constructor(public readonly payload: JSONObject) {}
+    constructor(public readonly payload: Dictionary<any>) {}
 
-    retrieveServiceTypes(serviceCategoriesJsonArr: JSONObject[]) {
+    retrieveServiceTypes(serviceCategoriesJsonArr: any[]) {
         const result: VCLServiceType[] = [];
         if (serviceCategoriesJsonArr) {
             for (let i = 0; i < serviceCategoriesJsonArr.length; i++) {
                 result.push(
                     VCLServiceType[
-                        serviceCategoriesJsonArr[
-                            i
-                        ] as keyof typeof VCLServiceType
+                        serviceCategoriesJsonArr[i] as keyof typeof VCLServiceType
                     ]
                 );
             }
@@ -45,7 +19,7 @@ export default class VCLVerifiedProfile {
         return new VCLServiceTypes(result);
     }
 
-    get credentialSubject(): Nullish<JSONObject> {
+    get credentialSubject(): Nullish<Dictionary<any>> {
         return this.payload[VCLVerifiedProfile.KeyCredentialSubject];
     }
 
@@ -63,7 +37,7 @@ export default class VCLVerifiedProfile {
 
     get serviceTypes() {
         return this.retrieveServiceTypes(
-            this.credentialSubject[VCLVerifiedProfile.KeyServiceType]
+            (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyServiceType] : [])
         );
     }
 

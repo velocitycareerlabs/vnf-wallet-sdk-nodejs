@@ -6,7 +6,7 @@ import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
-import { Nullish } from "../../../types";
+import { Nullish } from "../../../api/VCLTypes";
 
 export default interface JwtServiceRepository {
     decode(encodedJwt: string): Promise<VCLResult<VCLJwt>>;

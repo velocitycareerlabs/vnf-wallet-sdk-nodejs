@@ -1,3 +1,4 @@
+import { Dictionary } from "../../../api/VCLTypes";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../../../api/entities/VCLExchangeDescriptor";
@@ -48,7 +49,7 @@ export default class ExchangeProgressRepositoryImpl
         }
     }
 
-    private parseExchange(exchangeJsonObj: JSONObject) {
+    private parseExchange(exchangeJsonObj: Dictionary<any>) {
         return new VCLExchange(
             exchangeJsonObj[VCLExchange.KeyId],
             exchangeJsonObj[VCLExchange.KeyType],

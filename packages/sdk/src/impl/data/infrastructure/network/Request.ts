@@ -1,4 +1,4 @@
-import { Nullish } from "../../../../types";
+import { Nullish } from "../../../../api/VCLTypes";
 
 export enum HttpMethod {
     GET = "GET",

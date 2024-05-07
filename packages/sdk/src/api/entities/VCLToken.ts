@@ -1,4 +1,4 @@
-import { Nullish } from "../../types";
+import { Nullish } from "../VCLTypes";
 import VCLJwt from "./VCLJwt"
 
 export default class VCLToken {

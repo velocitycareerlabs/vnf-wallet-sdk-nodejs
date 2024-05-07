@@ -4,10 +4,10 @@ import Request, {
     HttpMethod,
 } from "../src/impl/data/infrastructure/network/Request";
 import Response from "../src/impl/data/infrastructure/network/Response";
-import { Nullish } from "../src/types";
+import { Dictionary, Nullish } from "../src/types";
 
 export default class NetworkServiceSuccess implements NetworkService {
-    constructor(private readonly validResponse: JSONObject) {}
+    constructor(private readonly validResponse: Dictionary<any>) {}
 
     sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
         throw new Error("not implemented");

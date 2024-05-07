@@ -1,3 +1,5 @@
+import { Dictionary } from "../VCLTypes";
+
 export default class VCLDidDocument {
-    constructor(public payload: JSONObject) {}
+    constructor(public payload: Dictionary<any>) {}
 }

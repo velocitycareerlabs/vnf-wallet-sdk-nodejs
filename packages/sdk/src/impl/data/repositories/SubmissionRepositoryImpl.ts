@@ -1,3 +1,4 @@
+import { Dictionary } from "../../../api/VCLTypes";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLJwt from "../../../api/entities/VCLJwt";
@@ -49,7 +50,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
         return new VCLResult.Error(error!);
     }
 
-    private parseExchange(exchangeJsonObj: JSONObject) {
+    private parseExchange(exchangeJsonObj: Dictionary<any>) {
         return new VCLExchange(
             exchangeJsonObj[VCLExchange.KeyId] ?? "",
             exchangeJsonObj[VCLExchange.KeyType] ?? "",
@@ -59,7 +60,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     private parse(
-        jsonObj: JSONObject,
+        jsonObj: Dictionary<any>,
         jti: string,
         submissionId: string
     ): VCLSubmissionResult {

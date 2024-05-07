@@ -1,4 +1,4 @@
-import { Nullish } from "../../../../types";
+import { Nullish } from "../../../../api/VCLTypes";
 import VCLResult from "../../../../api/entities/VCLResult";
 import Request, {
     HttpMethod,
