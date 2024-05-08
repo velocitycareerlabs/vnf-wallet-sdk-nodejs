@@ -1,14 +1,15 @@
 import { VCLImpl } from "../impl/VCLImpl";
+import VCL from "./VCL";
 
 export default class VCLProvider {
-    private static vclInstance: VCLImpl | null = null;
+    private static vclInstance: VCL | null = null;
 
     // Private constructor to prevent external instantiation
     private constructor() {
         // Do nothing
     }
 
-    public static getInstance(): VCLImpl {
+    public static getInstance(): VCL {
         // Double-checked locking pattern
         if (VCLProvider.vclInstance === null) {
             // Lock this section
