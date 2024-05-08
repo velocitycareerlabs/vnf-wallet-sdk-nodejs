@@ -41,18 +41,18 @@ describe("initalization flow", () => {
         ));
         console.log(
             "#Credential Types: %s",
-            vcl.credentialTypesModel.data.all.length
+            vcl.credentialTypesModel?.data?.all?.length ?? 0
         );
         console.log(
             "#Credential Type Schemas: %s",
-            Object.keys(vcl.credentialTypeSchemasModel.data.all).length
+            Object.keys(vcl.credentialTypeSchemasModel?.data?.all ?? {}).length
         );
-        console.log("#Countries: %s", vcl.countriesModel.data.all.length);
+        console.log("#Countries: %s", vcl.countriesModel?.data?.all?.length ?? 0);
 
-        const afghanistanCountry = vcl.countriesModel.data.countryByCode(
+        const afghanistanCountry = vcl.countriesModel?.data?.countryByCode(
             VCLCountries.AF
-        )!;
-        const afghanistanRegions = afghanistanCountry.regions;
+        );
+        const afghanistanRegions = afghanistanCountry?.regions;
 
         const AfghanistanRegion1Name = "Balkh Province";
         const AfghanistanRegion1Code = "BAL";
@@ -61,26 +61,26 @@ describe("initalization flow", () => {
         const AfghanistanRegion3Name = "Badghis Province";
         const AfghanistanRegion3Code = "BDG";
 
-        expect(afghanistanCountry.code == "AF").toBeTruthy();
-        expect(afghanistanCountry.name == "Afghanistan").toBeTruthy();
+        expect(afghanistanCountry?.code == "AF").toBeTruthy();
+        expect(afghanistanCountry?.name == "Afghanistan").toBeTruthy();
 
         expect(
-            afghanistanRegions.all[0].name == AfghanistanRegion1Name
+            afghanistanRegions?.all[0].name === AfghanistanRegion1Name
         ).toBeTruthy();
         expect(
-            afghanistanRegions.all[0].code == AfghanistanRegion1Code
+            afghanistanRegions?.all[0].code === AfghanistanRegion1Code
         ).toBeTruthy();
         expect(
-            afghanistanRegions.all[1].name == AfghanistanRegion2Name
+            afghanistanRegions?.all[1].name === AfghanistanRegion2Name
         ).toBeTruthy();
         expect(
-            afghanistanRegions.all[1].code == AfghanistanRegion2Code
+            afghanistanRegions?.all[1].code === AfghanistanRegion2Code
         ).toBeTruthy();
         expect(
-            afghanistanRegions.all[2].name == AfghanistanRegion3Name
+            afghanistanRegions?.all[2].name === AfghanistanRegion3Name
         ).toBeTruthy();
         expect(
-            afghanistanRegions.all[2].code == AfghanistanRegion3Code
+            afghanistanRegions?.all[2].code == AfghanistanRegion3Code
         ).toBeTruthy();
     }, 400000);
 });
