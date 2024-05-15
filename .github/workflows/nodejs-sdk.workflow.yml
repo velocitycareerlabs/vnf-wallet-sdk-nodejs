@@ -119,13 +119,13 @@ jobs:
         env:
           RELEASE_TAG: ${{ env.GLOBAL_ENV == 'prod' && format('{0}', 'latest' ) || env.RC_SUFFIX }}
         working-directory: ${{ env.SDK_PATH }}
-#      # Publish NpmJS
-#      - name: Publish
-#        if: ${{ env.GLOBAL_ENV == 'prod' || env.GLOBAL_ENV == 'rc' }}
-#        run: npm publish ${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}.tgz --tag ${{ env.RELEASE_TAG }} --access public --userconfig ./.npmrc --force
-#        env:
-#          RELEASE_TAG: ${{ env.GLOBAL_ENV == 'prod' && format('{0}', 'latest' ) || env.RC_SUFFIX }}
-#        working-directory: ${{ env.SDK_PATH }}
+      # Publish NpmJS
+      - name: Publish
+        if: ${{ env.GLOBAL_ENV == 'prod' || env.GLOBAL_ENV == 'rc' }}
+        run: npm publish ${{ github.repository_owner }}-${{ env.SDK_NAME }}-${{ env.SDK_NEW_VERSION }}.tgz --tag ${{ env.RELEASE_TAG }} --access public --userconfig ./.npmrc --force
+        env:
+          RELEASE_TAG: ${{ env.GLOBAL_ENV == 'prod' && format('{0}', 'latest' ) || env.RC_SUFFIX }}
+        working-directory: ${{ env.SDK_PATH }}
       # Upload Artifacts
       - name: Upload Artifact
         if: success()
