@@ -40,10 +40,7 @@ export default class CredentialManifestRepositoryImpl
             return new VCLResult.Error(err);
         }
         try {
-            const jwtStr =
-                credentialManifestResponse!.payload[
-                    VCLCredentialManifest.KeyIssuingRequest
-                ];
+            const jwtStr = credentialManifestResponse!.payload.toDictionary()[VCLCredentialManifest.KeyIssuingRequest];
             return new VCLResult.Success(jwtStr);
         } catch (error: any) {
             return new VCLResult.Error(new VCLError(error));

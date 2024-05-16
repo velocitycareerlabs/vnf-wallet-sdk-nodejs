@@ -1,5 +1,6 @@
 import { randomBytes } from "crypto";
 import VCLLog from "../utils/VCLLog";
+import { Dictionary } from "../../api/VCLTypes";
 
 String.prototype.getQueryParameters = function (): Map<string, string> {
     const result = new Map<string, string>();
@@ -34,6 +35,10 @@ String.prototype.getUrlSubPath = function (
     return decodeURI(this.valueOf())
         .split("/")
         .find((item) => item.startsWith(subPathPrefix));
+};
+
+String.prototype.toDictionary = function (): Dictionary<any> {
+    return JSON.parse(this.valueOf());
 };
 
 String.prototype.randomString = function (length: number): string {
