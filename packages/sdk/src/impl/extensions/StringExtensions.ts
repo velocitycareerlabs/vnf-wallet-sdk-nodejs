@@ -37,10 +37,6 @@ String.prototype.getUrlSubPath = function (
         .find((item) => item.startsWith(subPathPrefix));
 };
 
-String.prototype.toDictionary = function (): Dictionary<any> {
-    return JSON.parse(this.valueOf());
-};
-
 String.prototype.randomString = function (length: number): string {
     return randomBytes(length).toString("hex");
 };

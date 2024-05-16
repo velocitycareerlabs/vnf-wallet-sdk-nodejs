@@ -24,7 +24,7 @@ describe("CredentialManifestUseCase Tests", () => {
     test("testGetCredentialManifestSuccess", async () => {
         subject1 = new CredentialManifestUseCaseImpl(
             new CredentialManifestRepositoryImpl(
-                new NetworkServiceSuccess(CredentialManifestMocks.CredentialManifest1)
+                new NetworkServiceSuccess(JSON.parse(CredentialManifestMocks.CredentialManifest1))
             ),
             new ResolveKidRepositoryImpl(
                 new NetworkServiceSuccess(CredentialManifestMocks.JWK)
@@ -57,7 +57,7 @@ describe("CredentialManifestUseCase Tests", () => {
     test("testGetCredentialManifestFailure", async () => {
         subject2 = new CredentialManifestUseCaseImpl(
             new CredentialManifestRepositoryImpl(
-                new NetworkServiceSuccess("wrong payload")
+                new NetworkServiceSuccess(JSON.parse(`{"wrong": "payload"}`))
             ),
             new ResolveKidRepositoryImpl(
                 new NetworkServiceSuccess(CredentialManifestMocks.JWK)
