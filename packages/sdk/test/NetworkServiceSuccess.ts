@@ -7,7 +7,7 @@ import Response from "../src/impl/data/infrastructure/network/Response";
 import { Dictionary, Nullish } from "../../sdk//src/api/VCLTypes";
 
 export default class NetworkServiceSuccess implements NetworkService {
-    constructor(private readonly validResponse: Dictionary<any>) {}
+    constructor(private readonly validResponse: string) {}
 
     sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
         throw new Error("not implemented");
