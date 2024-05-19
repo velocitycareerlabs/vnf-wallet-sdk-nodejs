@@ -1,11 +1,15 @@
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLSubmission from "./VCLSubmission";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
+import { Nullish } from "../VCLTypes";
+import VCLToken from "./VCLToken";
+import VCLPushDelegate from "./VCLPushDelegate";
 
 export default class VCLIdentificationSubmission extends VCLSubmission {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
-        public readonly verifiableCredentials: VCLVerifiableCredential[]
+        public readonly verifiableCredentials: VCLVerifiableCredential[],
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null
     ) {
         super(
             credentialManifest.submitPresentationUri,
@@ -14,7 +18,8 @@ export default class VCLIdentificationSubmission extends VCLSubmission {
             credentialManifest.presentationDefinitionId,
             verifiableCredentials,
             null,
-            credentialManifest.vendorOriginContext
+            credentialManifest.vendorOriginContext,
+            remoteCryptoServicesToken
         );
     }
 }

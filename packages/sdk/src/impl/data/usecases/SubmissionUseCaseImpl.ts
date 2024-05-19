@@ -1,6 +1,5 @@
 import { Nullish } from "../../../api/VCLTypes";
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
-import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
 import VCLSubmission from "../../../api/entities/VCLSubmission";
@@ -26,7 +25,8 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
                 didJwk?.keyId
             ),
             null,
-            didJwk
+            didJwk,
+            submission.remoteCryptoServicesToken
         );
 
         const [error, jwt] = await signedJwtResult.handleResult();
@@ -34,11 +34,9 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
         if (error) {
             return new VCLResult.Error(error);
         }
-        const submissionResult = await this.submissionRepository.submit(
+        return await this.submissionRepository.submit(
             submission,
             jwt!
         );
-
-        return submissionResult;
     }
 }

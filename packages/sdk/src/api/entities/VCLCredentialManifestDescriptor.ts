@@ -1,6 +1,7 @@
 import { Nullish } from "../VCLTypes";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
+import VCLToken from "./VCLToken";
 
 export default class VCLCredentialManifestDescriptor {
     readonly did: Nullish<string>;
@@ -10,7 +11,8 @@ export default class VCLCredentialManifestDescriptor {
         public readonly issuingType: VCLIssuingType = VCLIssuingType.Career,
         public readonly credentialTypes: Nullish<string[]> = null,
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
-        public readonly vendorOriginContext: Nullish<string> = null
+        public readonly vendorOriginContext: Nullish<string> = null,
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
     ) {
         this.did = uri?.getUrlSubPath(
             VCLCredentialManifestDescriptor.KeyDidPrefix

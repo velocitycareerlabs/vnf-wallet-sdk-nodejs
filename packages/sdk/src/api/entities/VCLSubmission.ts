@@ -3,6 +3,7 @@ import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
 import crypto from "crypto";
+import VCLToken from "./VCLToken";
 
 export default class VCLSubmission {
     constructor(
@@ -12,7 +13,9 @@ export default class VCLSubmission {
         public readonly presentationDefinitionId: string,
         public readonly verifiableCredentials: VCLVerifiableCredential[],
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
-        public readonly vendorOriginContext: Nullish<string> = null
+        public readonly vendorOriginContext: Nullish<string> = null,
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
+
     ) {}
 
     readonly jti = crypto.randomUUID().toString();

@@ -1,5 +1,4 @@
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
-import VCLDidJwkDescriptor from "../../../api/entities/VCLDidJwkDescriptor";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLPublicJwk from "../../../api/entities/VCLPublicJwk";
 import VCLJwt, { SignedJWT } from "../../../api/entities/VCLJwt";
@@ -9,6 +8,7 @@ import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository
 import VCLJwtSignService from "../../../api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "../../../api/jwt/VCLJwtVerifyService";
 import { Nullish } from "../../../api/VCLTypes";
+import VCLToken from "../../../api/entities/VCLToken";
 
 export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     constructor(
@@ -30,11 +30,15 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     }
     async verifyJwt(
         jwt: VCLJwt,
-        publicJwk: VCLPublicJwk
+        publicJwk: Nullish<VCLPublicJwk>,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<boolean>> {
         try {
-            const it = await this.jwtVerifyService.verify(jwt, publicJwk);
-            return it;
+            return await this.jwtVerifyService.verify(
+                jwt,
+                publicJwk,
+                remoteCryptoServicesToken
+            );
         } catch (error: any) {
             return new VCLResult.Error(new VCLError(error!));
         }
@@ -42,15 +46,16 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     async generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
         nonce: Nullish<string>,
-        didJwk: VCLDidJwk
+        didJwk: VCLDidJwk,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLJwt>> {
         try {
-            const it = await this.jwtSignService.sign(
+            return await this.jwtSignService.sign(
                 jwtDescriptor,
                 didJwk,
-                nonce
+                nonce,
+                remoteCryptoServicesToken
             );
-            return it;
         } catch (error) {
             return new VCLResult.Error(
                 new VCLError(`Failed to sign ${jwtDescriptor.payload}`)

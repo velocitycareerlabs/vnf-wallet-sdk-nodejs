@@ -17,7 +17,7 @@ import VCLJwtSignService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api
 import VCLJwtDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwtDescriptor";
 import VCLJwt from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwt";
 import VCLJwtVerifyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtVerifyService";
-import { Nullish } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
+import { Nullish } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLTypes";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;
@@ -106,7 +106,7 @@ class VCLJwtSignServiceEmptyImpl implements VCLJwtSignService {
 }
 
 class VCLJwtVerifyServiceEmptyImpl implements VCLJwtVerifyService {
-    verify(jwt: VCLJwt, publicJwk: VCLPublicJwk): Promise<VCLResult<boolean>> {
+    verify(jwt: VCLJwt, publicJwk: Nullish<VCLPublicJwk>): Promise<VCLResult<boolean>> {
         return new Promise<VCLResult<boolean>>((resolve, reject) => {
             resolve(new VCLResult<boolean>());
         });
