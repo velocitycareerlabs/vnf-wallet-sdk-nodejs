@@ -9,6 +9,8 @@ import PresentationRequestRepository from "../../domain/repositories/Presentatio
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
 import PresentationRequestUseCase from "../../domain/usecases/PresentationRequestUseCase";
 import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
+import { Nullish } from "../../../api/VCLTypes";
+import VCLToken from "../../../api/entities/VCLToken";
 
 export default class PresentationRequestUseCaseImpl
     implements PresentationRequestUseCase
@@ -46,7 +48,8 @@ export default class PresentationRequestUseCaseImpl
                     verifiedProfile,
                     presentationRequestDescriptor.deepLink,
                     presentationRequestDescriptor.pushDelegate
-                )
+                ),
+                presentationRequestDescriptor.remoteCryptoServicesToken
             );
         } catch (error: any) {
             return this.onError(new VCLError(error));
@@ -54,7 +57,8 @@ export default class PresentationRequestUseCaseImpl
     }
 
     async onGetPresentationRequestSuccess(
-        presentationRequest: VCLPresentationRequest
+        presentationRequest: VCLPresentationRequest,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLPresentationRequest>> {
         const kid = presentationRequest.jwt.kid?.replace("#", encodeURIComponent("#"));
         if (!kid) {
@@ -72,17 +76,20 @@ export default class PresentationRequestUseCaseImpl
 
         return this.onResolvePublicKeySuccess(
             publicJwk as VCLPublicJwk,
-            presentationRequest
+            presentationRequest,
+            remoteCryptoServicesToken
         );
     }
 
     async onResolvePublicKeySuccess(
         publicJwk: VCLPublicJwk,
-        presentationRequest: VCLPresentationRequest
+        presentationRequest: VCLPresentationRequest,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLPresentationRequest>> {
         const isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
             presentationRequest.jwt,
-            publicJwk
+            publicJwk,
+            remoteCryptoServicesToken
         );
         const [error, isVerified] = await isVerifiedResult.handleResult();
 

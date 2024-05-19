@@ -1,12 +1,14 @@
 import { Nullish } from "../VCLTypes";
 import VCLDeepLink from "./VCLDeepLink";
 import VCLPushDelegate from "./VCLPushDelegate";
+import VCLToken from "./VCLToken";
 
 export default class VCLPresentationRequestDescriptor {
     constructor(
         public readonly deepLink: VCLDeepLink,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null
-    ) {}
+        public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
+) {}
 
     get endpoint() {
         const queryParams = this.generateQueryParams();

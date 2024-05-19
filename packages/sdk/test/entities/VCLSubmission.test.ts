@@ -12,7 +12,8 @@ describe("VCLSubmission Tests", () => {
     beforeEach(() => {
         subject = new VCLPresentationSubmission(
             PresentationSubmissionMocks.PresentationRequest,
-            PresentationSubmissionMocks.SelectionsList
+            PresentationSubmissionMocks.SelectionsList,
+            null
         );
     });
 

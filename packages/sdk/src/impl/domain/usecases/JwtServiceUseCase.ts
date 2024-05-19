@@ -5,16 +5,19 @@ import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
 import VCLResult from "../../../api/entities/VCLResult";
 import { Nullish } from "../../../api/VCLTypes";
+import VCLToken from "../../../api/entities/VCLToken";
 
 export default interface JwtServiceUseCase {
     verifyJwt(
         jwt: VCLJwt,
-        publicJwk: VCLPublicJwk
+        publicJwk: Nullish<VCLPublicJwk>,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<boolean>>;
 
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
         nonce: Nullish<string>,
-        didJwk: VCLDidJwk
+        didJwk: VCLDidJwk,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLJwt>>;
 }

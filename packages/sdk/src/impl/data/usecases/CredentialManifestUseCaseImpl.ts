@@ -69,7 +69,8 @@ export default class CredentialManifestUseCaseImpl
     ): Promise<VCLResult<VCLCredentialManifest>> {
         const verificationResult = await this.jwtServiceRepository.verifyJwt(
             jwt,
-            publicJwk
+            publicJwk,
+            credentialManifestDescriptor.remoteCryptoServicesToken
         );
 
         const [err, isVerified] = await verificationResult.handleResult();

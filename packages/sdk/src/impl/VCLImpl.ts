@@ -470,10 +470,15 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    verifyJwt = async (jwt: VCLJwt, publicJwk: VCLPublicJwk) => {
+    verifyJwt = async (
+        jwt: VCLJwt,
+        publicJwk: Nullish<VCLPublicJwk>,
+        remoteCryptoServicesToken: Nullish<VCLToken>
+    ) => {
         const isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
             jwt,
-            publicJwk
+            publicJwk,
+            remoteCryptoServicesToken
         );
 
         const [err, result] = isVerifiedResult.handleResult();
@@ -486,12 +491,15 @@ export class VCLImpl implements VCL {
 
     generateSignedJwt = async (
         jwtDescriptor: VCLJwtDescriptor,
-        didJwk: VCLDidJwk
+        nonce: Nullish<string>,
+        didJwk: VCLDidJwk,
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ) => {
         const jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
             jwtDescriptor,
-            null,
-            didJwk
+            nonce,
+            didJwk,
+            remoteCryptoServicesToken
         );
 
         const [err, result] = jwtResult.handleResult();

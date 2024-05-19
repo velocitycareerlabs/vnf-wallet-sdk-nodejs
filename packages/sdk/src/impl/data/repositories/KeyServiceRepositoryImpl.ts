@@ -12,7 +12,7 @@ export default class KeyServiceRepositoryImpl implements KeyServiceRepository {
     }
 
     async generateDidJwk(
-        didJwkDescriptor: VCLDidJwkDescriptor
+        didJwkDescriptor: VCLDidJwkDescriptor,
     ): Promise<VCLResult<VCLDidJwk>> {
         return this.keyService.generateDidJwk(didJwkDescriptor);
     }
