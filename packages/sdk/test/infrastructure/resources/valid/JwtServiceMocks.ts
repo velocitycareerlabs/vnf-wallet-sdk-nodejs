@@ -30,7 +30,7 @@ class JwtServiceMocks {
         this.splittedPresentationRequestJwt[2]
     );
 
-    static JwkPublic = VCLPublicJwk.fromString(this.JWK);
+    static PublicJwk = VCLPublicJwk.fromString(this.JWK);
 
     static JWT = new VCLJwt(this.SignedJWT);
 }

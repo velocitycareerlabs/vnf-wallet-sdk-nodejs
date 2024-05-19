@@ -5,13 +5,13 @@ describe("VCLPublicJwk Tests", () => {
     let subject: VCLPublicJwk;
     const jwkJson = JSON.parse(JwtServiceMocks.JWK);
 
-    test("testJwkPublicFromStr", () => {
+    test("testPublicJwkFromStr", () => {
         subject = VCLPublicJwk.fromString(JwtServiceMocks.JWK);
 
         expect(subject.valueStr).toBe(JwtServiceMocks.JWK);
     });
 
-    test("testJwkPublicFromJson", () => {
+    test("testPublicJwkFromJson", () => {
         subject = VCLPublicJwk.fromJSON(jwkJson);
 
         expect(subject.valueJson).toEqual(jwkJson);

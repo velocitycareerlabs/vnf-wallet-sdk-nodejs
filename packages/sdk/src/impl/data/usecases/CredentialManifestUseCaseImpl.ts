@@ -62,14 +62,14 @@ export default class CredentialManifestUseCaseImpl
     }
 
     async onResolvePublicKeySuccess(
-        jwkPublic: VCLPublicJwk,
+        publicJwk: VCLPublicJwk,
         jwt: VCLJwt,
         credentialManifestDescriptor: VCLCredentialManifestDescriptor,
         verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLResult<VCLCredentialManifest>> {
         const verificationResult = await this.jwtServiceRepository.verifyJwt(
             jwt,
-            jwkPublic
+            publicJwk
         );
 
         const [err, isVerified] = await verificationResult.handleResult();

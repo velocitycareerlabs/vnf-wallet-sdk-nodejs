@@ -63,7 +63,7 @@ export default class JwtServiceImpl implements JwtService {
     async generateDidJwk(
         didJwkDescriptor: Nullish<VCLDidJwkDescriptor>
     ): Promise<VCLDidJwk> {
-        let publicJwk = await this.generateJwkPublic(
+        let publicJwk = await this.generatePublicJwk(
             didJwkDescriptor?.kid ?? crypto.randomUUID()
         );
         let value = Buffer.from(publicJwk.valueStr, "ascii").toString("base64");
@@ -109,7 +109,7 @@ export default class JwtServiceImpl implements JwtService {
         };
     }
 
-    private async generateJwkPublic(kid: string) {
+    private async generatePublicJwk(kid: string) {
         let publicJwk = await this.generateJwkSECP256K1(kid).toPublicJWK();
         return VCLPublicJwk.fromJSON(publicJwk);
     }
