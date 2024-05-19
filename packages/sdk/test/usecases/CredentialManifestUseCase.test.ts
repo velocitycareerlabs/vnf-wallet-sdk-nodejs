@@ -9,12 +9,13 @@ import { JwtSignServiceMock } from "../infrastructure/resources/jwt/JwtSignServi
 import { JwtVerifyServiceMock } from "../infrastructure/resources/jwt/JwtVerifyServiceMock";
 import {
     VCLCredentialManifestDescriptorByDeepLink, VCLErrorCode,
-    VCLIssuingType,
+    VCLIssuingType, VCLToken,
     VCLVerifiedProfile
 } from "../../src";
 import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
 import { VerifiedProfileMocks } from "../infrastructure/resources/valid/VerifiedProfileMocks";
 import { expect } from "@jest/globals";
+import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("CredentialManifestUseCase Tests", () => {
 
@@ -39,7 +40,10 @@ describe("CredentialManifestUseCase Tests", () => {
             const result = await subject1.getCredentialManifest(
                 new VCLCredentialManifestDescriptorByDeepLink(
                     DeepLinkMocks.CredentialManifestDeepLinkDevNet,
-                    VCLIssuingType.Career
+                    VCLIssuingType.Career,
+                    null,
+                    DidJwkMocks.DidJwk,
+                    new VCLToken("some token")
                 ),
                 new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1))
             );
@@ -48,6 +52,8 @@ describe("CredentialManifestUseCase Tests", () => {
             expect(credentialManifest?.jwt.header).toStrictEqual(JSON.parse(CredentialManifestMocks.Header));
             expect(credentialManifest?.jwt.payload).toStrictEqual(JSON.parse(CredentialManifestMocks.Payload));
             expect(credentialManifest?.jwt.signature).toBe(CredentialManifestMocks.Signature);
+            expect(credentialManifest?.didJwk.did).toStrictEqual(DidJwkMocks.DidJwk.did);
+            expect(credentialManifest?.remoteCryptoServicesToken?.value).toBe("some token");
         } catch (error) {
             console.log(error);
             expect(error).toBeNull();
@@ -72,7 +78,9 @@ describe("CredentialManifestUseCase Tests", () => {
             const result = await subject2.getCredentialManifest(
                 new VCLCredentialManifestDescriptorByDeepLink(
                     DeepLinkMocks.CredentialManifestDeepLinkDevNet,
-                    VCLIssuingType.Career
+                    VCLIssuingType.Career,
+                    null,
+                    DidJwkMocks.DidJwk
                 ),
                 new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1))
             );

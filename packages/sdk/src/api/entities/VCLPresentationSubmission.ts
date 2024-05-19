@@ -1,16 +1,12 @@
 import VCLPresentationRequest from "./VCLPresentationRequest";
 import VCLSubmission from "./VCLSubmission";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
-import { Nullish } from "../VCLTypes";
-import VCLToken from "./VCLToken";
 
 export default class VCLPresentationSubmission extends VCLSubmission {
     public readonly progressUri: string;
     constructor(
         presentationRequest: VCLPresentationRequest,
-        verifiableCredentials: VCLVerifiableCredential[],
-        remoteCryptoServicesToken: Nullish<VCLToken>
-
+        verifiableCredentials: VCLVerifiableCredential[]
     ) {
         super(
             presentationRequest.submitPresentationUri,
@@ -20,7 +16,8 @@ export default class VCLPresentationSubmission extends VCLSubmission {
             verifiableCredentials,
             presentationRequest.pushDelegate,
             presentationRequest.vendorOriginContext,
-            remoteCryptoServicesToken
+            presentationRequest.didJwk,
+            presentationRequest.remoteCryptoServicesToken
         );
 
         this.progressUri = presentationRequest.progressUri;

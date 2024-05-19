@@ -9,7 +9,6 @@ export default class VCLIdentificationSubmission extends VCLSubmission {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
         public readonly verifiableCredentials: VCLVerifiableCredential[],
-        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null
     ) {
         super(
             credentialManifest.submitPresentationUri,
@@ -19,7 +18,8 @@ export default class VCLIdentificationSubmission extends VCLSubmission {
             verifiableCredentials,
             null,
             credentialManifest.vendorOriginContext,
-            remoteCryptoServicesToken
+            credentialManifest.didJwk,
+            credentialManifest.remoteCryptoServicesToken,
         );
     }
 }

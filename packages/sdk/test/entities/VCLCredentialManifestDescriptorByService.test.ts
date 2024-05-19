@@ -6,6 +6,7 @@ import "../../src/impl/extensions/StringExtensions";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
 
 import "../../src/impl/extensions/StringExtensions";
+import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLCredentialManifestDescriptorByService Tests", () => {
     let subject: VCLCredentialManifestDescriptorByService;
@@ -18,7 +19,8 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
             service,
             VCLIssuingType.Career,
             CredentialManifestDescriptorMocks.CredentialTypesList,
-            CredentialManifestDescriptorMocks.PushDelegate
+            CredentialManifestDescriptorMocks.PushDelegate,
+            DidJwkMocks.DidJwk
         );
 
         const credentialTypesQuery = `${
@@ -48,7 +50,8 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
             service,
             VCLIssuingType.Identity,
             CredentialManifestDescriptorMocks.CredentialTypesList,
-            CredentialManifestDescriptorMocks.PushDelegate
+            CredentialManifestDescriptorMocks.PushDelegate,
+            DidJwkMocks.DidJwk
         );
 
         const credentialTypesQuery = `${
@@ -78,7 +81,8 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
             service,
             VCLIssuingType.Career,
             undefined,
-            CredentialManifestDescriptorMocks.PushDelegate
+            CredentialManifestDescriptorMocks.PushDelegate,
+            DidJwkMocks.DidJwk
         );
 
         const credentialTypesQuery = `${
@@ -105,7 +109,9 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
         subject = new VCLCredentialManifestDescriptorByService(
             service,
             VCLIssuingType.Career,
-            CredentialManifestDescriptorMocks.CredentialTypesList
+            CredentialManifestDescriptorMocks.CredentialTypesList,
+            null,
+            DidJwkMocks.DidJwk
         );
 
         const credentialTypesQuery = `${VCLCredentialManifestDescriptorByService.KeyCredentialTypes}=${CredentialManifestDescriptorMocks.CredentialTypesList[0]}&${VCLCredentialManifestDescriptorByService.KeyCredentialTypes}=${CredentialManifestDescriptorMocks.CredentialTypesList[1]}`;
@@ -123,7 +129,10 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
         );
         subject = new VCLCredentialManifestDescriptorByService(
             service,
-            VCLIssuingType.Career
+            VCLIssuingType.Career,
+            null,
+            null,
+            DidJwkMocks.DidJwk
         );
 
         const mockEndpoint =
@@ -137,7 +146,13 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
         const service = new VCLServiceCredentialAgentIssuer(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
-        subject = new VCLCredentialManifestDescriptorByService(service);
+        subject = new VCLCredentialManifestDescriptorByService(
+            service,
+            VCLIssuingType.Career,
+            null,
+            null,
+            DidJwkMocks.DidJwk
+        );
 
         const mockEndpoint =
             CredentialManifestDescriptorMocks.IssuingServiceEndPoint;

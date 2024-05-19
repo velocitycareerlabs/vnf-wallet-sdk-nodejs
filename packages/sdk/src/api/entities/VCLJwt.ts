@@ -1,4 +1,5 @@
 import { Dictionary, Nullish } from "../VCLTypes";
+import VCLLog from "../../impl/utils/VCLLog";
 
 export default class VCLJwt {
     public encodedJwt: Nullish<string>;
@@ -8,17 +9,19 @@ export default class VCLJwt {
     }
 
     static fromEncodedJwt(encodedJwt: string): VCLJwt {
-        const encodedJwtArr = encodedJwt.split(".");
-        const item = new VCLJwt(
-            new SignedJWT(
-                encodedJwtArr[0] || "",
-                encodedJwtArr[1] || "",
-                encodedJwtArr[2] || ""
-            )
-        );
-
-        item.encodedJwt = encodedJwt;
-
+        let item = new VCLJwt(new SignedJWT("", "", ""));
+        try {
+            const encodedJwtArr = encodedJwt.split(".");
+            item = new VCLJwt(
+                new SignedJWT(
+                    encodedJwtArr[0] || "",
+                    encodedJwtArr[1] || "",
+                    encodedJwtArr[2] || ""
+                )
+            );
+        } catch (e) {
+            VCLLog.e("VCLJwt", JSON.stringify(e));
+        }
         return item;
     }
 

@@ -15,7 +15,7 @@ describe("VCLSubmissionResult Tests", () => {
     });
 
     test("testProps", () => {
-        expect(subject.token.value).toBe("token123");
+        expect(subject.sessionToken.value).toBe("token123");
         expect(subject.exchange.id).toBe("id123");
         expect(subject.exchange.type).toBe("type123");
         expect(subject.exchange.exchangeComplete).toBeTruthy();

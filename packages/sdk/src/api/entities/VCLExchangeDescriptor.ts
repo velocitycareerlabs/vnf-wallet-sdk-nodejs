@@ -19,8 +19,8 @@ export default class VCLExchangeDescriptor {
         return this.submissionResult.exchange.id;
     }
 
-    get token() {
-        return this.submissionResult.token;
+    get sessionToken() {
+        return this.submissionResult.sessionToken;
     }
 
     static readonly KeyExchangeId = "exchange_id";

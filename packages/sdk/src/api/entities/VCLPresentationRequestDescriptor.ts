@@ -2,11 +2,13 @@ import { Nullish } from "../VCLTypes";
 import VCLDeepLink from "./VCLDeepLink";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLToken from "./VCLToken";
+import VCLDidJwk from "./VCLDidJwk";
 
 export default class VCLPresentationRequestDescriptor {
     constructor(
         public readonly deepLink: VCLDeepLink,
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
+        public readonly didJwk: VCLDidJwk,
         public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
 ) {}
 

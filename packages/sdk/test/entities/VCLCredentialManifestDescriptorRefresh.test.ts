@@ -2,6 +2,7 @@ import VCLCredentialManifestDescriptorRefresh from "../../src/api/entities/VCLCr
 import VCLService from "../../src/api/entities/VCLService";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
 import "../../src/impl/extensions/StringExtensions";
+import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLCredentialManifestDescriptorRefresh Tests", () => {
     let subject: VCLCredentialManifestDescriptorRefresh;
@@ -10,10 +11,14 @@ describe("VCLCredentialManifestDescriptorRefresh Tests", () => {
         const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
-        subject = new VCLCredentialManifestDescriptorRefresh(service, [
+        subject = new VCLCredentialManifestDescriptorRefresh(
+            service,
+            [
             CredentialManifestDescriptorMocks.CredentialId1,
-            CredentialManifestDescriptorMocks.CredentialId2,
-        ]);
+            CredentialManifestDescriptorMocks.CredentialId2
+            ],
+            DidJwkMocks.DidJwk
+        );
 
         const credentialTypesQuery = `${
             VCLCredentialManifestDescriptorRefresh.KeyRefresh
@@ -36,9 +41,11 @@ describe("VCLCredentialManifestDescriptorRefresh Tests", () => {
         const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
-        subject = new VCLCredentialManifestDescriptorRefresh(service, [
-            CredentialManifestDescriptorMocks.CredentialId1,
-        ]);
+        subject = new VCLCredentialManifestDescriptorRefresh(
+            service,
+            [CredentialManifestDescriptorMocks.CredentialId1],
+            DidJwkMocks.DidJwk
+        );
 
         const credentialTypesQuery = `${
             VCLCredentialManifestDescriptorRefresh.KeyRefresh
@@ -57,7 +64,7 @@ describe("VCLCredentialManifestDescriptorRefresh Tests", () => {
         const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
-        subject = new VCLCredentialManifestDescriptorRefresh(service, []);
+        subject = new VCLCredentialManifestDescriptorRefresh(service, [], DidJwkMocks.DidJwk);
 
         const credentialTypesQuery = `${VCLCredentialManifestDescriptorRefresh.KeyRefresh}=true`;
         const mockEndpoint = `${CredentialManifestDescriptorMocks.IssuingServiceEndPoint}?${credentialTypesQuery}`;
