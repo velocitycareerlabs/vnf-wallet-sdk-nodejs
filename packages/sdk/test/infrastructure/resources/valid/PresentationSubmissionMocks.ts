@@ -4,6 +4,7 @@ import { DeepLinkMocks } from "./DeepLinkMocks";
 import { JwtServiceMocks } from "./JwtServiceMocks";
 import VCLVerifiableCredential from "../../../../src/api/entities/VCLVerifiableCredential";
 import VCLVerifiedProfile from "../../../../src/api/entities/VCLVerifiedProfile";
+import { DidJwkMocks } from "./DidJwkMocks";
 
 class PresentationSubmissionMocks {
     static PushDelegate = new VCLPushDelegate(
@@ -16,7 +17,8 @@ class PresentationSubmissionMocks {
         JwtServiceMocks.JWT,
         new VCLVerifiedProfile({}),
         DeepLinkMocks.CredentialManifestDeepLinkMainNet,
-        this.PushDelegate
+        this.PushDelegate,
+        DidJwkMocks.DidJwk
     );
 
     static SelectionsList = [

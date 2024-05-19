@@ -4,6 +4,7 @@ import VCLPushDelegate from "./VCLPushDelegate";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
 import crypto from "crypto";
 import VCLToken from "./VCLToken";
+import VCLDidJwk from "./VCLDidJwk";
 
 export default class VCLSubmission {
     constructor(
@@ -14,6 +15,7 @@ export default class VCLSubmission {
         public readonly verifiableCredentials: VCLVerifiableCredential[],
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
         public readonly vendorOriginContext: Nullish<string> = null,
+        public readonly didJwk: VCLDidJwk,
         public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
 
     ) {}

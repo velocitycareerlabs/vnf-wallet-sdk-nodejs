@@ -4,6 +4,7 @@ import VCLIssuingType from "../../src/api/entities/VCLIssuingType";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
 import "../../src/impl/extensions/StringExtensions";
 import VCLPushDelegate from "../../src/api/entities/VCLPushDelegate";
+import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLCredentialManifestDescriptorByDeepLink Tests", () => {
     let subject: VCLCredentialManifestDescriptorByDeepLink;
@@ -16,7 +17,8 @@ describe("VCLCredentialManifestDescriptorByDeepLink Tests", () => {
         subject = new VCLCredentialManifestDescriptorByDeepLink(
             CredentialManifestDescriptorMocks.DeepLink,
             VCLIssuingType.Career,
-            new VCLPushDelegate("some_url", "some_token")
+            new VCLPushDelegate("some_url", "some_token"),
+            DidJwkMocks.DidJwk
         );
 
         expect(subject.endpoint).toEqual(

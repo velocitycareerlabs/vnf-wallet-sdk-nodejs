@@ -395,7 +395,7 @@ export class VCLImpl implements VCL {
 
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
-            submission!.token
+            submission!.sessionToken
         );
     };
 

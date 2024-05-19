@@ -1,12 +1,18 @@
 import { Nullish } from "../VCLTypes";
 import VCLJwt from "./VCLJwt";
 import VCLVerifiedProfile from "./VCLVerifiedProfile";
+import VCLDeepLink from "./VCLDeepLink";
+import VCLDidJwk from "./VCLDidJwk";
+import VCLToken from "./VCLToken";
 
 export default class VCLCredentialManifest {
     constructor(
-        public jwt: VCLJwt,
-        public vendorOriginContext: Nullish<string>,
-        public verifiedProfile: VCLVerifiedProfile
+        public readonly jwt: VCLJwt,
+        public readonly vendorOriginContext: Nullish<string>,
+        public readonly verifiedProfile: VCLVerifiedProfile,
+        public readonly deepLink: Nullish<VCLDeepLink> = null,
+        public readonly didJwk: VCLDidJwk,
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
     ) {}
 
     get iss(): string {

@@ -2,6 +2,8 @@ import { Nullish } from "../VCLTypes";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLToken from "./VCLToken";
+import VCLDidJwk from "./VCLDidJwk";
+import VCLDeepLink from "./VCLDeepLink";
 
 export default class VCLCredentialManifestDescriptor {
     readonly did: Nullish<string>;
@@ -12,6 +14,8 @@ export default class VCLCredentialManifestDescriptor {
         public readonly credentialTypes: Nullish<string[]> = null,
         public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
         public readonly vendorOriginContext: Nullish<string> = null,
+        public readonly deepLink: Nullish<VCLDeepLink>,
+        public readonly didJwk: VCLDidJwk,
         public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
     ) {
         this.did = uri?.getUrlSubPath(

@@ -47,9 +47,10 @@ export default class PresentationRequestUseCaseImpl
                     jwt as VCLJwt,
                     verifiedProfile,
                     presentationRequestDescriptor.deepLink,
-                    presentationRequestDescriptor.pushDelegate
+                    presentationRequestDescriptor.pushDelegate,
+                    presentationRequestDescriptor.didJwk,
+                    presentationRequestDescriptor.remoteCryptoServicesToken
                 ),
-                presentationRequestDescriptor.remoteCryptoServicesToken
             );
         } catch (error: any) {
             return this.onError(new VCLError(error));
@@ -57,8 +58,7 @@ export default class PresentationRequestUseCaseImpl
     }
 
     async onGetPresentationRequestSuccess(
-        presentationRequest: VCLPresentationRequest,
-        remoteCryptoServicesToken: Nullish<VCLToken>
+        presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
         const kid = presentationRequest.jwt.kid?.replace("#", encodeURIComponent("#"));
         if (!kid) {
@@ -76,20 +76,18 @@ export default class PresentationRequestUseCaseImpl
 
         return this.onResolvePublicKeySuccess(
             publicJwk as VCLPublicJwk,
-            presentationRequest,
-            remoteCryptoServicesToken
+            presentationRequest
         );
     }
 
     async onResolvePublicKeySuccess(
         publicJwk: VCLPublicJwk,
-        presentationRequest: VCLPresentationRequest,
-        remoteCryptoServicesToken: Nullish<VCLToken>
+        presentationRequest: VCLPresentationRequest
     ): Promise<VCLResult<VCLPresentationRequest>> {
         const isVerifiedResult = await this.jwtServiceRepository.verifyJwt(
             presentationRequest.jwt,
             publicJwk,
-            remoteCryptoServicesToken
+            presentationRequest.remoteCryptoServicesToken
         );
         const [error, isVerified] = await isVerifiedResult.handleResult();
 

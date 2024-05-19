@@ -3,6 +3,7 @@ import { PresentationRequestDescriptorMocks } from "../infrastructure/resources/
 import "../../src/impl/extensions/StringExtensions";
 import "../../src/impl/extensions/ListExtensions";
 import "../../src/impl/extensions/DateExtensions";
+import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLPresentationRequestDescriptor Tests", () => {
     let subject: VCLPresentationRequestDescriptor;
@@ -10,7 +11,8 @@ describe("VCLPresentationRequestDescriptor Tests", () => {
     test("testPresentationRequestDescriptorWithPushDelegateSuccess", () => {
         subject = new VCLPresentationRequestDescriptor(
             PresentationRequestDescriptorMocks.DeepLink,
-            PresentationRequestDescriptorMocks.PushDelegate
+            PresentationRequestDescriptorMocks.PushDelegate,
+            DidJwkMocks.DidJwk
         );
 
         const queryParams =
@@ -42,7 +44,9 @@ describe("VCLPresentationRequestDescriptor Tests", () => {
 
     test("testPresentationRequestDescriptorWithoutPushDelegateOnlySuccess", () => {
         subject = new VCLPresentationRequestDescriptor(
-            PresentationRequestDescriptorMocks.DeepLink
+            PresentationRequestDescriptorMocks.DeepLink,
+            null,
+            DidJwkMocks.DidJwk
         );
 
         expect(subject.endpoint).toBe(
@@ -57,7 +61,8 @@ describe("VCLPresentationRequestDescriptor Tests", () => {
     test("testPresentationRequestDescriptorWithQParamsWithPushDelegateSuccess", () => {
         subject = new VCLPresentationRequestDescriptor(
             PresentationRequestDescriptorMocks.DeepLinkWithQParams,
-            PresentationRequestDescriptorMocks.PushDelegate
+            PresentationRequestDescriptorMocks.PushDelegate,
+            DidJwkMocks.DidJwk
         );
 
         const queryParams =
@@ -89,7 +94,9 @@ describe("VCLPresentationRequestDescriptor Tests", () => {
 
     test("testPresentationRequestDescriptorWithQParamsWithoutPushDelegateOnlySuccess", () => {
         subject = new VCLPresentationRequestDescriptor(
-            PresentationRequestDescriptorMocks.DeepLinkWithQParams
+            PresentationRequestDescriptorMocks.DeepLinkWithQParams,
+            null,
+            DidJwkMocks.DidJwk
         );
 
         const mockEndpoint = `${decodeURIComponent(

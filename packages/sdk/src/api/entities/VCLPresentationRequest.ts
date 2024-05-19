@@ -3,13 +3,17 @@ import VCLDeepLink from "./VCLDeepLink";
 import VCLJwt from "./VCLJwt";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLVerifiedProfile from "./VCLVerifiedProfile";
+import VCLDidJwk from "./VCLDidJwk";
+import VCLToken from "./VCLToken";
 
 export default class VCLPresentationRequest {
     constructor(
         public readonly jwt: VCLJwt,
         public readonly verifiedProfile: VCLVerifiedProfile,
         public readonly deepLink: VCLDeepLink,
-        public readonly pushDelegate: Nullish<VCLPushDelegate> = null
+        public readonly pushDelegate: Nullish<VCLPushDelegate> = null,
+        public readonly didJwk: VCLDidJwk,
+        public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null
     ) {}
 
     get iss() {

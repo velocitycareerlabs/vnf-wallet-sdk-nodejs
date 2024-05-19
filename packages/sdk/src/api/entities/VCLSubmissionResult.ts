@@ -3,7 +3,7 @@ import VCLToken from "./VCLToken";
 
 export default class VCLSubmissionResult {
     constructor(
-        public readonly token: VCLToken,
+        public readonly sessionToken: VCLToken,
         public readonly exchange: VCLExchange,
         public readonly jti: string,
         public readonly submissionId: string

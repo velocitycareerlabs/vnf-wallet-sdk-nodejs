@@ -2,6 +2,8 @@ import { Nullish } from "../VCLTypes";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLIssuingType from "./VCLIssuingType";
 import VCLService from "./VCLService";
+import VCLDidJwk from "./VCLDidJwk";
+import VCLToken from "./VCLToken";
 
 /*
 class VCLCredentialManifestDescriptorRefresh(
@@ -29,10 +31,21 @@ class VCLCredentialManifestDescriptorRefresh(
 */
 export default class VCLCredentialManifestDescriptorRefresh extends VCLCredentialManifestDescriptor {
     constructor(
-        public readonly service: VCLService,
-        public readonly credentialIds: string[]
+        service: VCLService,
+        public readonly credentialIds: string[],
+        didJwk: VCLDidJwk,
+        remoteCryptoServicesToken: Nullish<VCLToken> = null
     ) {
-        super(service.serviceEndpoint, VCLIssuingType.Refresh);
+        super(
+            service.serviceEndpoint,
+            VCLIssuingType.Refresh,
+            null,
+            null,
+            null,
+            null,
+            didJwk,
+            remoteCryptoServicesToken
+        );
     }
 
     get endpoint(): Nullish<string> {
