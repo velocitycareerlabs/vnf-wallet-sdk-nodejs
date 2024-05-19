@@ -11,8 +11,8 @@ import { Nullish } from "../../../api/VCLTypes";
 export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     constructor(private readonly jwtServiceRepository: JwtServiceRepository) {}
 
-    verifyJwt(jwt: VCLJwt, jwkPublic: VCLPublicJwk) {
-        return this.jwtServiceRepository.verifyJwt(jwt, jwkPublic);
+    verifyJwt(jwt: VCLJwt, publicJwk: VCLPublicJwk) {
+        return this.jwtServiceRepository.verifyJwt(jwt, publicJwk);
     }
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,

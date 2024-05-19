@@ -470,10 +470,10 @@ export class VCLImpl implements VCL {
         return result!;
     };
 
-    verifyJwt = async (jwt: VCLJwt, jwkPublic: VCLPublicJwk) => {
+    verifyJwt = async (jwt: VCLJwt, publicJwk: VCLPublicJwk) => {
         const isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
             jwt,
-            jwkPublic
+            publicJwk
         );
 
         const [err, result] = isVerifiedResult.handleResult();

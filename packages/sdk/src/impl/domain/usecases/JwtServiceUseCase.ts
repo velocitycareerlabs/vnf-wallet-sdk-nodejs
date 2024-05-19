@@ -9,7 +9,7 @@ import { Nullish } from "../../../api/VCLTypes";
 export default interface JwtServiceUseCase {
     verifyJwt(
         jwt: VCLJwt,
-        jwkPublic: VCLPublicJwk
+        publicJwk: VCLPublicJwk
     ): Promise<VCLResult<boolean>>;
 
     generateSignedJwt(
