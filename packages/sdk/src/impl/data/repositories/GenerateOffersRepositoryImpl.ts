@@ -8,11 +8,12 @@ import GenerateOffersRepository from "../../domain/repositories/GenerateOffersRe
 import { HttpMethod } from "../infrastructure/network/Request";
 import Response from "../infrastructure/network/Response";
 import { HeaderKeys, HeaderValues } from "./Urls";
+import { Utils } from "../utils/Utils";
 
 export default class GenerateOffersRepositoryImpl
-    implements GenerateOffersRepository
-{
-    constructor(private networkService: NetworkService) {}
+    implements GenerateOffersRepository {
+    constructor(private networkService: NetworkService) {
+    }
 
     async generateOffers(
         token: VCLToken,
@@ -24,7 +25,7 @@ export default class GenerateOffersRepositoryImpl
             headers: {
                 [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${token.value}`,
                 [HeaderKeys.XVnfProtocolVersion]:
-                    HeaderValues.XVnfProtocolVersion,
+                HeaderValues.XVnfProtocolVersion,
             },
             body: generateOffersDescriptor.payload,
             method: HttpMethod.POST,
@@ -45,15 +46,35 @@ export default class GenerateOffersRepositoryImpl
         return new VCLResult.Error(new VCLError("Offers did not returned."));
     }
 
-    parse(offersResponse: Response, token: VCLToken): VCLOffers {
-        try {
+    parse(offersResponse: Response, sessionToken: VCLToken): VCLOffers {
+        const payload = JSON.parse(offersResponse.payload);
+
+        if (payload) {
             return new VCLOffers(
-                offersResponse.payload,
+                payload,
+                Utils.offersFromJsonArray(payload[VCLOffers.CodingKeys.KeyOffers] || []),
                 offersResponse.code,
-                token
+                sessionToken,
+                payload[VCLOffers.CodingKeys.KeyChallenge]
             );
-        } catch (ex) {
-            return new VCLOffers([], offersResponse.code, token);
+        } else {
+            const offersJsonArray = JSON.parse(offersResponse.payload);
+
+            if (offersJsonArray) {
+                return new VCLOffers(
+                    offersJsonArray,
+                    Utils.offersFromJsonArray(offersJsonArray),
+                    offersResponse.code,
+                    sessionToken
+                );
+            } else {
+                return new VCLOffers(
+                    {},
+                    [],
+                    offersResponse.code,
+                    sessionToken
+                );
+            }
         }
     }
 }

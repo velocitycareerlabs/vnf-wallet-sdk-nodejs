@@ -5,11 +5,13 @@ import VCLResult from "../../../../src/api/entities/VCLResult";
 import VCLJwt from "../../../../src/api/entities/VCLJwt";
 
 export class JwtSignServiceMock implements VCLJwtSignService {
+    constructor(readonly successValue: string) {
+    }
     sign(
         jwtDescriptor: VCLJwtDescriptor,
         didJwk: VCLDidJwk,
         nonce: Nullish<string>
     ): Promise<VCLResult<VCLJwt>> {
-        throw new Error("Method not implemented.");
+        return Promise.resolve(new VCLResult.Success(VCLJwt.fromEncodedJwt(this.successValue)));
     }
 }
