@@ -1,7 +1,6 @@
 import { Nullish } from "../../../api/VCLTypes";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
-import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";

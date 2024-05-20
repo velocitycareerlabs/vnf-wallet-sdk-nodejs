@@ -31,7 +31,7 @@ describe("CredentialManifestUseCase Tests", () => {
                 new NetworkServiceSuccess(CredentialManifestMocks.JWK)
             ),
             new JwtServiceRepositoryImpl(
-                new JwtSignServiceMock(),
+                new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
             )
         );
@@ -69,7 +69,7 @@ describe("CredentialManifestUseCase Tests", () => {
                 new NetworkServiceSuccess(CredentialManifestMocks.JWK)
             ),
             new JwtServiceRepositoryImpl(
-                new JwtSignServiceMock(),
+                new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
             )
         );
