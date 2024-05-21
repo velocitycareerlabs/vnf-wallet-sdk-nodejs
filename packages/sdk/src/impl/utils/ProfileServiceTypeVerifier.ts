@@ -20,7 +20,7 @@ export class ProfileServiceTypeVerifier {
             await this.verifiedProfileUseCase.getVerifiedProfile(
                 verifiedProfileDescriptor
             );
-        const [err, verifiedProfile] = await verifiedProfileResult.handleResult();
+        const [err, verifiedProfile] = verifiedProfileResult.handleResult();
 
         if (err) {
             throw err;

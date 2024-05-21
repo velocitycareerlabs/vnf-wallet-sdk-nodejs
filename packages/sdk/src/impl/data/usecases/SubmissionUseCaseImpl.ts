@@ -29,7 +29,7 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
             submission.remoteCryptoServicesToken
         );
 
-        const [error, jwt] = await signedJwtResult.handleResult();
+        const [error, jwt] = signedJwtResult.handleResult();
 
         if (error) {
             return new VCLResult.Error(error);

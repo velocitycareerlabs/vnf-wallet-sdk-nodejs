@@ -21,6 +21,7 @@ module.exports = {
         'prefer-arrow-functions',
         'autofix',
         '@typescript-eslint',
+        "unused-imports",
     ],
     overrides: [
         {

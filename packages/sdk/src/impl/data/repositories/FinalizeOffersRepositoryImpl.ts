@@ -27,7 +27,7 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
             contentType: "application/json",
             method: HttpMethod.POST,
         });
-        const [error, finalizedOffersResponse] = await result.handleResult();
+        const [error, finalizedOffersResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

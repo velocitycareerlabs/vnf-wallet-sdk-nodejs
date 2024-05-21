@@ -34,7 +34,7 @@ export default class ExchangeProgressRepositoryImpl
         });
 
         const [error, exchangeProgressResponse] =
-            await submissionResult.handleResult();
+            submissionResult.handleResult();
 
         if (error) {
             return new VCLResult.Error(error);

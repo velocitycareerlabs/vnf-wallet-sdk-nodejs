@@ -31,7 +31,7 @@ export default class GenerateOffersRepositoryImpl
             method: HttpMethod.POST,
             contentType: "application/json",
         });
-        const [error, offersResponse] = await result.handleResult();
+        const [error, offersResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

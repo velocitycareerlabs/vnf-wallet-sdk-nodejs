@@ -34,8 +34,7 @@ export default class PresentationRequestRepositoryImpl
             useCaches: false,
         });
 
-        const [error, presentationRequestResponse] =
-            await encodedJwtResult.handleResult();
+        const [error, presentationRequestResponse] = encodedJwtResult.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

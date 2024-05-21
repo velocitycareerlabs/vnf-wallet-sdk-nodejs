@@ -34,7 +34,7 @@ export default class OrganizationsRepositoryImpl
             contentType: null,
         });
 
-        const [error, organizationsResponse] = await result.handleResult();
+        const [error, organizationsResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

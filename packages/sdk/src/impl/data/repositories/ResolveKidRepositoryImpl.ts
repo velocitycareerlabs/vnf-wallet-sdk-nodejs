@@ -22,7 +22,7 @@ export default class ResolveKidRepositoryImpl implements ResolveKidRepository {
             useCaches: false,
         });
 
-        const [error, publicKeyResponse] = await result.handleResult();
+        const [error, publicKeyResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

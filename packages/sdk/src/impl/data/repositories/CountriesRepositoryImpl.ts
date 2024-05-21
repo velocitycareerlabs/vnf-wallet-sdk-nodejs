@@ -31,7 +31,7 @@ export default class CountriesRepositoryImpl implements CountriesRepository {
             body: null,
         });
 
-        const [error, countriesResponse] = await result.handleResult();
+        const [error, countriesResponse] = result.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }

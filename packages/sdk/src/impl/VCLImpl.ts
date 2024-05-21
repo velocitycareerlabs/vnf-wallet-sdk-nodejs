@@ -236,7 +236,7 @@ export class VCLImpl implements VCL {
             );
 
         const [error1, verifiedProfile] =
-            await verifiedProfileResult.handleResult();
+            verifiedProfileResult.handleResult();
         if (error1) {
             console.log(error1);
             // logError("getPresentationRequest", error);
@@ -260,7 +260,7 @@ export class VCLImpl implements VCL {
         }
 
         const [error2, presentationRequest] =
-            await presentationRequestResult.handleResult();
+            presentationRequestResult.handleResult();
 
         if (error2) {
             throw error2;
@@ -278,7 +278,7 @@ export class VCLImpl implements VCL {
                 didJwk
             );
         const [error, presentationSubmissionResult] =
-            await presentationSubmissionSubmission.handleResult();
+            presentationSubmissionSubmission.handleResult();
 
         if (error) {
             logError("submit presentation", error);
@@ -294,7 +294,7 @@ export class VCLImpl implements VCL {
             );
 
         const [error, exchangeProgress] =
-            await exchangeProgressResult.handleResult();
+            exchangeProgressResult.handleResult();
         if (error) {
             logError("getExchangeProgress", error);
             throw error;
@@ -310,7 +310,7 @@ export class VCLImpl implements VCL {
             await this.organizationsUseCase.searchForOrganizations(
                 organizationsSearchDescriptor
             );
-        const [error, organizationResult] = await organization.handleResult();
+        const [error, organizationResult] = organization.handleResult();
         if (error) {
             logError("searchForOrganizations", error);
             throw error;
@@ -355,7 +355,7 @@ export class VCLImpl implements VCL {
                         verifiedProfile
                     );
                 const [error, credentialManifestResult] =
-                    await credentialManifest.handleResult();
+                    credentialManifest.handleResult();
                 if (error) {
                     logError("getCredentialManifest", error);
                     throw error;
@@ -462,7 +462,7 @@ export class VCLImpl implements VCL {
             await this.verifiedProfileUseCase.getVerifiedProfile(
                 verifiedProfileDescriptor
             );
-        const [error, result] = await verifiedProfileResult.handleResult();
+        const [error, result] = verifiedProfileResult.handleResult();
         if (error) {
             logError("getVerifiedProfile", error);
             throw error;
@@ -535,7 +535,7 @@ export class VCLImpl implements VCL {
             generateOffersDescriptor
         );
 
-        const [err, result] = await vnOffersResult.handleResult();
+        const [err, result] = vnOffersResult.handleResult();
 
         if (err) {
             throw err;
@@ -545,5 +545,5 @@ export class VCLImpl implements VCL {
 }
 
 const logError = (message = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
+    VCLLog.e(VCLImpl.TAG, `${message}: ${error}`);
 };
