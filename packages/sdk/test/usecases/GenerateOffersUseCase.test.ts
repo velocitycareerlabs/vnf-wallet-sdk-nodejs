@@ -18,10 +18,10 @@ describe("GenerateOffersUseCase Tests", () => {
     const expectedOffer1 = new VCLOffer(JSON.parse(GenerateOffersMocks.Offer1));
     const expectedOffer2 = new VCLOffer(JSON.parse(GenerateOffersMocks.Offer2));
 
-    test("testGenerateOffers", async () => {
+    test("testGenerateOffersJsonObj", async () => {
         subject1 = new GenerateOffersUseCaseImpl(
             new GenerateOffersRepositoryImpl(
-                new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffers)
+                new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersJsonObj)
             )
         )
 
@@ -41,10 +41,40 @@ describe("GenerateOffersUseCase Tests", () => {
         const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
         const [error, generatedOffers] = result.handleResult();
 
-        expect(generatedOffers?.payload).toStrictEqual(JSON.parse(GenerateOffersMocks.GeneratedOffers));
+        expect(generatedOffers?.payload).toStrictEqual(JSON.parse(GenerateOffersMocks.GeneratedOffersJsonObj));
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBe(GenerateOffersMocks.Challenge);
+        expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
+    });
+
+    test("testGenerateOffersJsonArr", async () => {
+        subject1 = new GenerateOffersUseCaseImpl(
+            new GenerateOffersRepositoryImpl(
+                new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersJsonArr)
+            )
+        )
+
+        const generateOffersDescriptor = new VCLGenerateOffersDescriptor(
+            new VCLCredentialManifest(
+                CommonMocks.JWT,
+                null,
+                new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1)),
+                null,
+                DidJwkMocks.DidJwk
+            ),
+            null,
+            null,
+            []
+        )
+
+        const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
+        const [error, generatedOffers] = result.handleResult();
+
+        expect(generatedOffers?.payload).toStrictEqual(JSON.parse(GenerateOffersMocks.GeneratedOffersJsonArr));
+        expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
+        expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
+        expect(generatedOffers?.challenge).toBeNull()
         expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
     });
 

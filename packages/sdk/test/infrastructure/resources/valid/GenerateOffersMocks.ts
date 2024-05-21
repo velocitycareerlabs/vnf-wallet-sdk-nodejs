@@ -3,7 +3,8 @@ export class GenerateOffersMocks {
     static readonly Offer2: string = "{\"offer2\":\"some offer 2\"}";
     static readonly Offers: string = `[${GenerateOffersMocks.Offer1},${GenerateOffersMocks.Offer2}]`;
     static readonly Challenge: string = "CSASLD10103aa_RW";
-    static readonly GeneratedOffers: string = `{"offers":${GenerateOffersMocks.Offers},"challenge":"${GenerateOffersMocks.Challenge}"}`;
+    static readonly GeneratedOffersJsonObj: string = `{"offers":${GenerateOffersMocks.Offers},"challenge":"${GenerateOffersMocks.Challenge}"}`;
+    static readonly GeneratedOffersJsonArr: string = GenerateOffersMocks.Offers;
     static readonly GeneratedOffersEmptyJsonObj: string = "{}";
     static readonly GeneratedOffersEmptyJsonArr: string = "[]";
 
