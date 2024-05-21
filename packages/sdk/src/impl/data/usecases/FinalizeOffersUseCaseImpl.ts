@@ -30,8 +30,7 @@ export default class FinalizeOffersUseCaseImpl
                 token,
                 finalizeOffersDescriptor
             );
-        const [error, encodedJwtOffers] =
-            await encodedJwtOffersListResult.handleResult();
+        const [error, encodedJwtOffers] = encodedJwtOffersListResult.handleResult();
 
         if (error) {
             return new VCLResult.Error(error);
@@ -41,7 +40,7 @@ export default class FinalizeOffersUseCaseImpl
             const jwtResult = await this.jwtServiceRepository.decode(
                 encodedJwtOffer
             );
-            const [error, jwt] = await jwtResult.handleResult();
+            const [error, jwt] = jwtResult.handleResult();
             if (error) {
                 return new VCLResult.Error(error);
             }

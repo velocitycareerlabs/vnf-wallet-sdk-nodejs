@@ -27,7 +27,7 @@ export default class CredentialManifestUseCaseImpl
             await this.credentialManifestRepository.getCredentialManifest(
                 credentialManifestDescriptor
             );
-        const [error, jwtStr] = await jwtStrResult.handleResult();
+        const [error, jwtStr] = jwtStrResult.handleResult();
         if (error) {
             return this.onError(error);
         }
@@ -61,7 +61,7 @@ export default class CredentialManifestUseCaseImpl
         }
         const publicKeyResult = await this.resolveKidRepository.getPublicKey(kid);
 
-        const [err, publicKey] = await publicKeyResult.handleResult();
+        const [err, publicKey] = publicKeyResult.handleResult();
         if (err) {
             this.onError(err);
         }
@@ -81,7 +81,7 @@ export default class CredentialManifestUseCaseImpl
             credentialManifest.remoteCryptoServicesToken
         );
 
-        const [err, isVerified] = await verificationResult.handleResult();
+        const [err, isVerified] = verificationResult.handleResult();
         if (err) {
             return this.onError(err);
         }

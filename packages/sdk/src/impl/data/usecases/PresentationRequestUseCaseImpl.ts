@@ -30,7 +30,7 @@ export default class PresentationRequestUseCaseImpl
                 presentationRequestDescriptor
             );
 
-        const [error, encodedJwtStr] = await encodedJwtStrResult.handleResult();
+        const [error, encodedJwtStr] = encodedJwtStrResult.handleResult();
         if (error) {
             return new VCLResult.Error(error);
         }
@@ -38,7 +38,7 @@ export default class PresentationRequestUseCaseImpl
             const jwtResult = await this.jwtServiceRepository.decode(
                 encodedJwtStr ?? ''
             );
-            const [error, jwt] = await jwtResult.handleResult();
+            const [error, jwt] = jwtResult.handleResult();
             if (error) {
                 return this.onError(error);
             }
@@ -68,7 +68,7 @@ export default class PresentationRequestUseCaseImpl
             kid
         );
 
-        const [error, publicJwk] = await publicJwkResult.handleResult();
+        const [error, publicJwk] = publicJwkResult.handleResult();
 
         if (error) {
             return this.onError(error);
@@ -89,7 +89,7 @@ export default class PresentationRequestUseCaseImpl
             publicJwk,
             presentationRequest.remoteCryptoServicesToken
         );
-        const [error, isVerified] = await isVerifiedResult.handleResult();
+        const [error, isVerified] = isVerifiedResult.handleResult();
 
         if (error) {
             return this.onError(error);

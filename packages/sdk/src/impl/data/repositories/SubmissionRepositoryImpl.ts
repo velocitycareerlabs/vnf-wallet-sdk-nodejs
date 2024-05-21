@@ -31,7 +31,7 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
             useCaches: false,
         });
 
-        const [error, submissionResponse] = await result.handleResult();
+        const [error, submissionResponse] = result.handleResult();
 
         if (submissionResponse) {
             try {

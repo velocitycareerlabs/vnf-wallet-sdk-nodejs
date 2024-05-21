@@ -35,7 +35,7 @@ export default class CredentialManifestRepositoryImpl
             contentType: null,
             useCaches: false,
         });
-        const [err, credentialManifestResponse] = await result.handleResult();
+        const [err, credentialManifestResponse] = result.handleResult();
         if (err) {
             return new VCLResult.Error(err);
         }
