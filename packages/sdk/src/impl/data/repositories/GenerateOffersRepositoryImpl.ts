@@ -50,31 +50,29 @@ export default class GenerateOffersRepositoryImpl
         const payload = JSON.parse(offersResponse.payload);
 
         if (payload) {
-            return new VCLOffers(
-                payload,
-                Utils.offersFromJsonArray(payload[VCLOffers.CodingKeys.KeyOffers] || []),
-                offersResponse.code,
-                sessionToken,
-                payload[VCLOffers.CodingKeys.KeyChallenge]
-            );
-        } else {
-            const offersJsonArray = JSON.parse(offersResponse.payload);
-
-            if (offersJsonArray) {
+            if (Array.isArray(payload)) {
                 return new VCLOffers(
-                    offersJsonArray,
-                    Utils.offersFromJsonArray(offersJsonArray),
+                    payload,
+                    Utils.offersFromJsonArray(payload),
                     offersResponse.code,
                     sessionToken
                 );
             } else {
                 return new VCLOffers(
-                    {},
-                    [],
+                    payload,
+                    Utils.offersFromJsonArray(payload[VCLOffers.CodingKeys.KeyOffers] || []),
                     offersResponse.code,
-                    sessionToken
+                    sessionToken,
+                    payload[VCLOffers.CodingKeys.KeyChallenge]
                 );
             }
+        } else {
+            return new VCLOffers(
+                {},
+                [],
+                offersResponse.code,
+                sessionToken
+            );
         }
     }
 }
