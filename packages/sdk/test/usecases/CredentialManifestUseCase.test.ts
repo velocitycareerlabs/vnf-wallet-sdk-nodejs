@@ -52,7 +52,7 @@ describe("CredentialManifestUseCase Tests", () => {
             expect(credentialManifest?.jwt.header).toStrictEqual(JSON.parse(CredentialManifestMocks.Header));
             expect(credentialManifest?.jwt.payload).toStrictEqual(JSON.parse(CredentialManifestMocks.Payload));
             expect(credentialManifest?.jwt.signature).toBe(CredentialManifestMocks.Signature);
-            expect(credentialManifest?.didJwk.did).toStrictEqual(DidJwkMocks.DidJwk.did);
+            expect(credentialManifest?.didJwk).toStrictEqual(DidJwkMocks.DidJwk);
             expect(credentialManifest?.remoteCryptoServicesToken?.value).toBe("some token");
         } catch (error) {
             console.log(error);
