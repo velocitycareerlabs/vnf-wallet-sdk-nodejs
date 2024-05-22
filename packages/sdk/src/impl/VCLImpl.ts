@@ -269,13 +269,11 @@ export class VCLImpl implements VCL {
     };
 
     submitPresentation = async (
-        presentationSubmission: VCLPresentationSubmission,
-        didJwk: VCLDidJwk
+        presentationSubmission: VCLPresentationSubmission
     ) => {
         const presentationSubmissionSubmission =
             await this.presentationSubmissionUseCase.submit(
-                presentationSubmission,
-                didJwk
+                presentationSubmission
             );
         const [error, presentationSubmissionResult] =
             presentationSubmissionSubmission.handleResult();
@@ -371,7 +369,6 @@ export class VCLImpl implements VCL {
     };
     generateOffers = async (
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        didJwk: VCLDidJwk
     ) => {
         const identificationSubmission = new VCLIdentificationSubmission(
             generateOffersDescriptor.credentialManifest,
@@ -381,7 +378,6 @@ export class VCLImpl implements VCL {
         const identificationSubmissionResult =
             await this.identificationUseCase.submit(
                 identificationSubmission,
-                didJwk
             );
 
         const [error, submission] = identificationSubmissionResult.handleResult();
@@ -410,14 +406,12 @@ export class VCLImpl implements VCL {
     }
     finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken,
-        didJwk: VCLDidJwk
+        token: VCLToken
     ) => {
         const jwtVerifiableCredentials =
             await this.finalizeOffersUseCase.finalizeOffers(
                 token,
-                finalizeOffersDescriptor,
-                didJwk
+                finalizeOffersDescriptor
             );
 
         const [error, result] = jwtVerifiableCredentials.handleResult();

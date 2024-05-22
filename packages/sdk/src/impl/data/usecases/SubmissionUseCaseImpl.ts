@@ -14,18 +14,17 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
         private jwtServiceRepository: JwtServiceRepository
     ) {}
     async submit(
-        submission: VCLSubmission,
-        didJwk: Nullish<VCLDidJwk>
+        submission: VCLSubmission
     ): Promise<VCLResult<VCLSubmissionResult>> {
         const signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
             new VCLJwtDescriptor(
                 submission.generatePayload(),
                 submission.iss,
                 submission.jti,
-                didJwk?.keyId
+                submission.didJwk?.keyId
             ),
             null,
-            didJwk,
+            submission.didJwk,
             submission.remoteCryptoServicesToken
         );
 

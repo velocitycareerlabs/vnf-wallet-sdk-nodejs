@@ -19,8 +19,7 @@ export default class FinalizeOffersUseCaseImpl
     ) {}
     async finalizeOffers(
         token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        didJwk: Nullish<VCLDidJwk>
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
     ): Promise<VCLResult<VCLJwtVerifiableCredentials>> {
         const passedCredentials: VCLJwt[] = [];
         const failedCredentials: VCLJwt[] = [];

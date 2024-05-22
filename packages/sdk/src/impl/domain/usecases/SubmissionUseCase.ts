@@ -6,7 +6,6 @@ import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 
 export default interface SubmissionUseCase {
     submit(
-        submission: VCLSubmission,
-        didJwk: Nullish<VCLDidJwk>
+        submission: VCLSubmission
     ): Promise<VCLResult<VCLSubmissionResult>>;
 }
