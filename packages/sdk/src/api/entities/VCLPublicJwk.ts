@@ -8,7 +8,7 @@ enum Format {
 }
 
 export default class VCLPublicJwk {
-    constructor(public valueStr: string, public valueJson: Dictionary<any>) {}
+    private constructor(public valueStr: string, public valueJson: Dictionary<any>) {}
     static readonly Format = Format;
     get curve(): string {
         return this.valueJson["crv"];
