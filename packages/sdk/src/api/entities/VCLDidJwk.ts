@@ -2,6 +2,7 @@ import { JWK, base64url, exportJWK } from "jose";
 import VCLPublicJwk from "./VCLPublicJwk";
 import { KeyObject, KeyPairKeyObjectResult } from "crypto";
 import canonicalize from "canonicalize";
+import { Dictionary } from "../VCLTypes";
 
 export default class VCLDidJwk {
     constructor(
@@ -17,6 +18,7 @@ export default class VCLDidJwk {
     static readonly KeyDid = "did";
     static readonly KeyKid = "kid";
     static readonly KeyKeyId = "keyId";
+    static readonly KeyPublicJwk = "publicJwk";
     static Utils = class {
         static generateDidJwk = async (ecKey: KeyPairKeyObjectResult) => {
             const publicJwk = await exportJWK(ecKey.publicKey);
@@ -29,4 +31,17 @@ export default class VCLDidJwk {
             return `${this.generateDidJwk(ecKey)}${VCLDidJwk.DidJwkSuffix}`;
         };
     };
+
+    public static fromString(didJwkStr: string): VCLDidJwk {
+        return VCLDidJwk.fromJSON(JSON.parse(didJwkStr));
+    }
+
+    public static fromJSON(didJwkJson: Dictionary<any>): VCLDidJwk {
+        return new VCLDidJwk(
+            didJwkJson[VCLDidJwk.KeyDid],
+            VCLPublicJwk.fromJSON(didJwkJson[VCLDidJwk.KeyPublicJwk]),
+            didJwkJson[VCLDidJwk.KeyKid],
+            didJwkJson[VCLDidJwk.KeyKeyId]
+        );
+    }
 }
