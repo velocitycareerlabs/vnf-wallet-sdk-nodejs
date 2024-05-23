@@ -5,13 +5,13 @@ import VCLResult from "../../../../src/api/entities/VCLResult";
 import VCLJwt from "../../../../src/api/entities/VCLJwt";
 
 export class JwtSignServiceMock implements VCLJwtSignService {
-    constructor(readonly successValue: string) {
+    constructor(readonly successValue: Nullish<string> = null) {
     }
     sign(
         jwtDescriptor: VCLJwtDescriptor,
         didJwk: VCLDidJwk,
         nonce: Nullish<string>
     ): Promise<VCLResult<VCLJwt>> {
-        return Promise.resolve(new VCLResult.Success(VCLJwt.fromEncodedJwt(this.successValue)));
+        return Promise.resolve(new VCLResult.Success(VCLJwt.fromEncodedJwt(this.successValue || '')));
     }
 }
