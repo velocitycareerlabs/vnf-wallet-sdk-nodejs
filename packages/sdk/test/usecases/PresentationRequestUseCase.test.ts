@@ -15,10 +15,11 @@ import {
 } from "../../src";
 import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
+import PresentationRequestUseCase from "../../src/impl/domain/usecases/PresentationRequestUseCase";
 
 describe("PresentationRequestUseCase Tests", () => {
-    let subject1: PresentationRequestUseCaseImpl
-    let subject2: PresentationRequestUseCaseImpl
+    let subject1: PresentationRequestUseCase
+    let subject2: PresentationRequestUseCase
 
     test("testGetPresentationRequestSuccess", async () => {
         const pushUrl = "push_url"
