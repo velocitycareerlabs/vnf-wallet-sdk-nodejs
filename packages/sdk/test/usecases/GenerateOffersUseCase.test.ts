@@ -41,7 +41,7 @@ describe("GenerateOffersUseCase Tests", () => {
         const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
         const [error, generatedOffers] = result.handleResult();
 
-        expect(generatedOffers?.payload).toStrictEqual(JSON.parse(GenerateOffersMocks.GeneratedOffersJsonObj));
+        expect(generatedOffers?.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonObj);
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBe(GenerateOffersMocks.Challenge);
@@ -71,7 +71,7 @@ describe("GenerateOffersUseCase Tests", () => {
         const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
         const [error, generatedOffers] = result.handleResult();
 
-        expect(generatedOffers?.payload).toStrictEqual(JSON.parse(GenerateOffersMocks.GeneratedOffersJsonArr));
+        expect(generatedOffers?.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonArr);
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBeNull()

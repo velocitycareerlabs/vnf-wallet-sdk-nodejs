@@ -47,7 +47,7 @@ export default class GenerateOffersRepositoryImpl
     }
 
     parse(offersResponse: Response, sessionToken: VCLToken): VCLOffers {
-        const payload = JSON.parse(offersResponse.payload);
+        const payload = offersResponse.payload;
 
         if (payload) {
             if (Array.isArray(payload)) {
