@@ -23,8 +23,8 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
                 submission.jti,
                 submission.didJwk?.keyId
             ),
-            null,
             submission.didJwk,
+            null,
             submission.remoteCryptoServicesToken
         );
 

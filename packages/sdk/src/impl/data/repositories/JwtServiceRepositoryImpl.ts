@@ -45,8 +45,8 @@ export default class JwtServiceRepositoryImpl implements JwtServiceRepository {
     }
     async generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
         didJwk: VCLDidJwk,
+        nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLJwt>> {
         try {

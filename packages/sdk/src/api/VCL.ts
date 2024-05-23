@@ -27,6 +27,7 @@ import VCLToken from "./entities/VCLToken";
 import VCLVerifiedProfile from "./entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescriptor";
 import { Nullish } from "./VCLTypes";
+import VCLResult from "./entities/VCLResult";
 
 export default interface VCL {
     initialize(
@@ -83,8 +84,8 @@ export default interface VCL {
 
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
         didJwk: VCLDidJwk,
+        nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLJwt>;
 }
