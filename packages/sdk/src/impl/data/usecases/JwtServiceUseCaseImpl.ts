@@ -21,10 +21,10 @@ export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     }
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
         didJwk: VCLDidJwk,
+        nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
-    ) {
-        return this.jwtServiceRepository.generateSignedJwt(jwtDescriptor, nonce, didJwk, remoteCryptoServicesToken);
+    ): Promise<VCLResult<VCLJwt>> {
+        return this.jwtServiceRepository.generateSignedJwt(jwtDescriptor, didJwk, nonce, remoteCryptoServicesToken);
     }
 }

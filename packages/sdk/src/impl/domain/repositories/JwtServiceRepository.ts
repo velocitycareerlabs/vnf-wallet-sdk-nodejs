@@ -21,8 +21,8 @@ export default interface JwtServiceRepository {
 
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
+        didJwk: VCLDidJwk,
         nonce: Nullish<string>,
-        didJwk: Nullish<VCLDidJwk>,
-    remoteCryptoServicesToken: Nullish<VCLToken>
+        remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLJwt>>;
 }

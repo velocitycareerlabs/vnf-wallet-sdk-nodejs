@@ -16,8 +16,8 @@ export default interface JwtServiceUseCase {
 
     generateSignedJwt(
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
         didJwk: VCLDidJwk,
+        nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLResult<VCLJwt>>;
 }

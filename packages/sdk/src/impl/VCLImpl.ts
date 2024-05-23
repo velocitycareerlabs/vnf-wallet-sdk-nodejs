@@ -485,14 +485,14 @@ export class VCLImpl implements VCL {
 
     generateSignedJwt = async (
         jwtDescriptor: VCLJwtDescriptor,
-        nonce: Nullish<string>,
         didJwk: VCLDidJwk,
+        nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ) => {
         const jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
             jwtDescriptor,
-            nonce,
             didJwk,
+            nonce,
             remoteCryptoServicesToken
         );
 

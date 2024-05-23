@@ -73,7 +73,7 @@ describe("PresentationSubmission Tests", () => {
             presentationSubmission.jti,
             presentationSubmission.submissionId
         )
-    test("testGetPresentationRequestSuccess", async () => {
+    test("testGetPresentationSubmissionSuccess", async () => {
         const result = await subject.submit(presentationSubmission)
         const [error, presentationSubmissionResult] = result.handleResult()
 
