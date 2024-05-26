@@ -1,8 +1,10 @@
 import VCLDidJwk from "../../src/api/entities/VCLDidJwk";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
+import { expect } from "@jest/globals";
 
 describe("VCLDidJwk Tests", () => {
     let subject: VCLDidJwk;
+    const expectedPayload = DidJwkMocks.DidJwkJson;
     const expectedDid = "did:jwk:eyJjcnYiOiJQLTI1NiIsImt0eSI6IkVDIiwieCI6InI5ZnlhNTJJbG1UbzN5YlMwd19HZWZlUV9SWDJFSF9ISm1TV3FZWU8ySlkiLCJ5IjoicFFUUmE3R2txYzVrajZvZGVNcXBnVjVUNExqYlphNEY1S1R1MkpEclduYyJ9";
     const expectedKid = "did:jwk:eyJjcnYiOiJQLTI1NiIsImt0eSI6IkVDIiwieCI6InI5ZnlhNTJJbG1UbzN5YlMwd19HZWZlUV9SWDJFSF9ISm1TV3FZWU8ySlkiLCJ5IjoicFFUUmE3R2txYzVrajZvZGVNcXBnVjVUNExqYlphNEY1S1R1MkpEclduYyJ9#0";
     const expectedKeyId = "6630f0a67b097c289711f583";
@@ -16,6 +18,7 @@ describe("VCLDidJwk Tests", () => {
     test("testPublicJwkFromStr", () => {
         subject = VCLDidJwk.fromString(DidJwkMocks.DidJwkStr);
 
+        expect(subject.payload).toStrictEqual(expectedPayload);
         expect(subject.did).toBe(expectedDid);
         expect(subject.kid).toBe(expectedKid);
         expect(subject.keyId).toBe(expectedKeyId);
@@ -25,6 +28,7 @@ describe("VCLDidJwk Tests", () => {
     test("testPublicJwkFromJson", () => {
         subject = VCLDidJwk.fromJSON(DidJwkMocks.DidJwkJson);
 
+        expect(subject.payload).toStrictEqual(expectedPayload);
         expect(subject.did).toBe(expectedDid);
         expect(subject.kid).toBe(expectedKid);
         expect(subject.keyId).toBe(expectedKeyId);

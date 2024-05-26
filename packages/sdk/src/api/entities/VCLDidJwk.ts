@@ -5,7 +5,8 @@ import canonicalize from "canonicalize";
 import { Dictionary } from "../VCLTypes";
 
 export default class VCLDidJwk {
-    constructor(
+    private constructor(
+        public readonly payload: Dictionary<any>,
         public readonly did: string,
         public readonly publicJwk: VCLPublicJwk,
         public readonly kid: string,
@@ -38,6 +39,7 @@ export default class VCLDidJwk {
 
     public static fromJSON(didJwkJson: Dictionary<any>): VCLDidJwk {
         return new VCLDidJwk(
+            didJwkJson,
             didJwkJson[VCLDidJwk.KeyDid],
             VCLPublicJwk.fromJSON(didJwkJson[VCLDidJwk.KeyPublicJwk]),
             didJwkJson[VCLDidJwk.KeyKid],
