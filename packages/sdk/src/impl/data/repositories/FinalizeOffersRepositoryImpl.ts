@@ -28,11 +28,12 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
             contentType: "application/json",
             method: HttpMethod.POST,
         });
-        const encodedJwts: Nullish<string[]> = finalizedOffersResponse.payload as Nullish<string[]>;
 
-        if (encodedJwts) {
-            return encodedJwts.map((encodedJwt) => VCLJwt.fromEncodedJwt(encodedJwt));
+        const encodedJwtCredArr: Nullish<string[]> = (finalizedOffersResponse.payload as Nullish<string[]>);
+        if (encodedJwtCredArr) {
+            return encodedJwtCredArr.map((encodedJwtCred) => VCLJwt.fromEncodedJwt(encodedJwtCred));
         }
-        throw new VCLError(`Failed to parse: ${finalizedOffersResponse!.payload}`);
+
+        throw new VCLError(`Failed to parse: ${finalizedOffersResponse.payload}`);
     }
 }
