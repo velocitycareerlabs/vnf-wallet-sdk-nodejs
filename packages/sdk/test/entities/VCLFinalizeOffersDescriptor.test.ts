@@ -28,7 +28,7 @@ describe("VCLCredentialManifest Tests", () => {
     const approvedOfferIds = ["approvedOfferId1", "approvedOfferId2"]
     const rejectedOfferIds = ["rejectedOfferId1", "rejectedOfferId2"]
 
-    beforeAll(() => {
+    beforeAll(async () => {
         const credentialManifest =
             new VCLCredentialManifest(
                 VCLJwt.fromEncodedJwt(CredentialManifestMocks.JwtCredentialManifest1),
