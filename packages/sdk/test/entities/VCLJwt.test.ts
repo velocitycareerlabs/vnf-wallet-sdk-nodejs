@@ -1,4 +1,4 @@
-import VCLJwt, { SignedJWT } from "../../src/api/entities/VCLJwt";
+import VCLJwt from "../../src/api/entities/VCLJwt";
 import "../../src/impl/extensions/StringExtensions";
 
     let subject: VCLJwt

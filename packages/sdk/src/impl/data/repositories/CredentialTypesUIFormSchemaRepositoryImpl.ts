@@ -4,7 +4,6 @@ import VCLCredentialTypesUIFormSchema from "../../../api/entities/VCLCredentialT
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLPlace from "../../../api/entities/VCLPlace";
 import VCLRegions from "../../../api/entities/VCLRegions";
-import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypesUIFormSchemaRepository from "../../domain/repositories/CredentialTypesUIFormSchemaRepository";
 import Request, { HttpMethod } from "../infrastructure/network/Request";
@@ -18,8 +17,8 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
     async getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
         countries: VCLCountries
-    ): Promise<VCLResult<VCLCredentialTypesUIFormSchema>> {
-        const result = await this.networkService.sendRequest({
+    ): Promise<VCLCredentialTypesUIFormSchema> {
+        const credentialTypesFormSchemaResponse = await this.networkService.sendRequest({
             endpoint: Urls.CredentialTypesFormSchema.replace(
                 Params.CredentialType,
                 credentialTypesUIFormSchemaDescriptor.credentialType
@@ -28,30 +27,23 @@ export default class CredentialTypesUIFormSchemaRepositoryImpl
             contentType: Request.ContentTypeApplicationJson,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
-                    HeaderValues.XVnfProtocolVersion,
+                HeaderValues.XVnfProtocolVersion,
             },
             useCaches: true,
             body: null,
         });
 
-        const [err, credentialTypesFormSchemaResponse] = result.handleResult();
-
-        if (err) {
-            return new VCLResult.Error(err);
-        }
         const country = countries.countryByCode(
             credentialTypesUIFormSchemaDescriptor.countryCode
         );
 
-        return new VCLResult.Success(
-            new VCLCredentialTypesUIFormSchema(
-                this.parseCredentialTypesUIFormSchema(
-                    countries,
-                    credentialTypesFormSchemaResponse?.payload,
-                    country?.regions
-                )
+        return new VCLCredentialTypesUIFormSchema(
+            this.parseCredentialTypesUIFormSchema(
+                countries,
+                credentialTypesFormSchemaResponse?.payload,
+                country?.regions
             )
-        );
+        )
     }
 
     private parseCredentialTypesUIFormSchema(

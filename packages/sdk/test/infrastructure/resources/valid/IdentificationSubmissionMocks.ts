@@ -8,7 +8,6 @@ import {
     VCLVerifiableCredential,
     VCLVerifiedProfile
 } from "../../../../src";
-import { DidJwkMocks } from "./DidJwkMocks";
 
 export class IdentificationSubmissionMocks {
     static DidJwkJson =

@@ -1,7 +1,6 @@
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLPresentationRequest from "../../../api/entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "../../../api/entities/VCLPresentationRequestDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import PresentationRequestRepository from "../../domain/repositories/PresentationRequestRepository";
 import { HttpMethod } from "../infrastructure/network/Request";
@@ -14,15 +13,13 @@ export default class PresentationRequestRepositoryImpl
 
     async getPresentationRequest(
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
-    ): Promise<VCLResult<string>> {
+    ): Promise<string> {
         const endpoint = presentationRequestDescriptor.endpoint;
         if (!endpoint) {
-            return new VCLResult.Error(
-                new VCLError("presentationRequestDescriptor.endpoint = null")
-            );
+            throw new VCLError("presentationRequestDescriptor.endpoint = null");
         }
 
-        const encodedJwtResult = await this.networkService.sendRequest({
+        const presentationRequestResponse = await this.networkService.sendRequest({
             endpoint,
             contentType: null,
             method: HttpMethod.GET,
@@ -33,19 +30,8 @@ export default class PresentationRequestRepositoryImpl
             body: null,
             useCaches: false,
         });
-
-        const [error, presentationRequestResponse] = encodedJwtResult.handleResult();
-        if (error) {
-            return new VCLResult.Error(error);
-        }
-        try {
-            const encodedJwtStr =
-                presentationRequestResponse!.payload[
-                    VCLPresentationRequest.KeyPresentationRequest
-                ];
-            return new VCLResult.Success(encodedJwtStr);
-        } catch (error: any) {
-            return new VCLResult.Error(new VCLError(error));
-        }
+        return presentationRequestResponse.payload[
+            VCLPresentationRequest.KeyPresentationRequest
+        ];
     }
 }

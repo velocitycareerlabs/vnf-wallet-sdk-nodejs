@@ -1,9 +1,9 @@
 import VCLGenerateOffersDescriptor from "../../../api/entities/VCLGenerateOffersDescriptor";
 import VCLOffers from "../../../api/entities/VCLOffers";
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import GenerateOffersRepository from "../../domain/repositories/GenerateOffersRepository";
 import GenerateOffersUseCase from "../../domain/usecases/GenerateOffersUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class GenerateOffersUseCaseImpl
     implements GenerateOffersUseCase
@@ -11,12 +11,13 @@ export default class GenerateOffersUseCaseImpl
     constructor(private generateOffersRepository: GenerateOffersRepository) {}
 
     async generateOffers(
-        token: VCLToken,
-        generateOffersDescriptor: VCLGenerateOffersDescriptor
-    ): Promise<VCLResult<VCLOffers>> {
-        return this.generateOffersRepository.generateOffers(
-            token,
-            generateOffersDescriptor
-        );
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        sessionToken: VCLToken
+    ): Promise<VCLOffers> {
+        try {
+            return await this.generateOffersRepository.generateOffers(generateOffersDescriptor, sessionToken);
+        } catch (error: any) {
+            throw new VCLError(error);
+        }
     }
 }

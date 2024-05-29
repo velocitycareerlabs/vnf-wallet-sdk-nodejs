@@ -1,15 +1,15 @@
+/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
 import NetworkService from "../src/impl/domain/infrastructure/network/NetworkService";
-import VCLResult from "../src/api/entities/VCLResult";
 import Request, {
     HttpMethod,
 } from "../src/impl/data/infrastructure/network/Request";
 import Response from "../src/impl/data/infrastructure/network/Response";
-import { Dictionary, Nullish } from "../../sdk//src/api/VCLTypes";
+import { Nullish } from "../src";
 
 export default class NetworkServiceSuccess implements NetworkService {
     constructor(private readonly validResponse: any) {}
 
-    sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
+    sendRequestRaw(params: Request): Promise<Response> {
         throw new Error("not implemented");
     }
 
@@ -20,7 +20,7 @@ export default class NetworkServiceSuccess implements NetworkService {
         method: HttpMethod;
         headers: any;
         useCaches: boolean;
-    }): Promise<VCLResult<Response>> {
-        return new VCLResult.Success(new Response(this.validResponse, 0));
+    }): Promise<Response> {
+        return new Response(this.validResponse, 0);
     }
 }

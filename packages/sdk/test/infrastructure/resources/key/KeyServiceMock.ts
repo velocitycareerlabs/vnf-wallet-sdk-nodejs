@@ -1,12 +1,11 @@
+/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
 import { VCLKeyService } from "../../../../src";
 import VCLDidJwkDescriptor from "../../../../src/api/entities/VCLDidJwkDescriptor";
-import VCLResult from "../../../../src/api/entities/VCLResult";
 import VCLDidJwk from "../../../../src/api/entities/VCLDidJwk";
+import { DidJwkMocks } from "../valid/DidJwkMocks";
 
-class KeyServiceMock implements VCLKeyService {
-    generateDidJwk(
-        didJwkDescriptor: VCLDidJwkDescriptor
-    ): Promise<VCLResult<VCLDidJwk>> {
-        throw new Error("Method not implemented.");
+export class KeyServiceMock implements VCLKeyService {
+    async generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLDidJwk> {
+        return DidJwkMocks.DidJwk
     }
 }

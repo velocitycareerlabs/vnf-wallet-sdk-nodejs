@@ -1,41 +1,35 @@
-import { Nullish } from "../../../api/VCLTypes";
-import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLJwtDescriptor from "../../../api/entities/VCLJwtDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLSubmission from "../../../api/entities/VCLSubmission";
 import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import SubmissionRepository from "../../domain/repositories/SubmissionRepository";
 import SubmissionUseCase from "../../domain/usecases/SubmissionUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class SubmissionUseCaseImpl implements SubmissionUseCase {
     constructor(
         private submissionRepository: SubmissionRepository,
         private jwtServiceRepository: JwtServiceRepository
-    ) {}
+    ) {
+    }
+
     async submit(
         submission: VCLSubmission
-    ): Promise<VCLResult<VCLSubmissionResult>> {
-        const signedJwtResult = await this.jwtServiceRepository.generateSignedJwt(
-            new VCLJwtDescriptor(
-                submission.generatePayload(),
-                submission.iss,
-                submission.jti,
-                submission.didJwk?.keyId
-            ),
-            submission.didJwk,
-            null,
-            submission.remoteCryptoServicesToken
-        );
-
-        const [error, jwt] = signedJwtResult.handleResult();
-
-        if (error) {
-            return new VCLResult.Error(error);
+    ): Promise<VCLSubmissionResult> {
+        try {
+            const jwt = await this.jwtServiceRepository.generateSignedJwt(
+                new VCLJwtDescriptor(
+                    submission.generatePayload(submission.didJwk.did),
+                    submission.jti,
+                    submission.didJwk.did,
+                ),
+                submission.didJwk,
+                null,
+                submission.remoteCryptoServicesToken
+            );
+            return await this.submissionRepository.submit(submission, jwt);
+        } catch (error: any) {
+            throw new VCLError(error);
         }
-        return await this.submissionRepository.submit(
-            submission,
-            jwt!
-        );
     }
 }

@@ -1,9 +1,9 @@
 import VCLCountries from "../../../api/entities/VCLCountries";
 import VCLCredentialTypesUIFormSchema from "../../../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypesUIFormSchemaRepository from "../../domain/repositories/CredentialTypesUIFormSchemaRepository";
 import CredentialTypesUIFormSchemaUseCase from "../../domain/usecases/CredentialTypesUIFormSchemaUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class CredentialTypesUIFormSchemaUseCaseImpl
     implements CredentialTypesUIFormSchemaUseCase
@@ -12,13 +12,17 @@ export default class CredentialTypesUIFormSchemaUseCaseImpl
         private readonly credentialTypesUIFormSchemaRepository: CredentialTypesUIFormSchemaRepository
     ) {}
 
-    getCredentialTypesUIFormSchema(
+    async getCredentialTypesUIFormSchema(
         credentialTypesUIFormSchemaDescriptor: VCLCredentialTypesUIFormSchemaDescriptor,
         countries: VCLCountries
-    ): Promise<VCLResult<VCLCredentialTypesUIFormSchema>> {
-        return this.credentialTypesUIFormSchemaRepository.getCredentialTypesUIFormSchema(
-            credentialTypesUIFormSchemaDescriptor,
-            countries
-        );
+    ): Promise<VCLCredentialTypesUIFormSchema> {
+        try {
+            return await this.credentialTypesUIFormSchemaRepository.getCredentialTypesUIFormSchema(
+                credentialTypesUIFormSchemaDescriptor,
+                countries
+            );
+        } catch (error: any) {
+            throw new VCLError(error);
+        }
     }
 }

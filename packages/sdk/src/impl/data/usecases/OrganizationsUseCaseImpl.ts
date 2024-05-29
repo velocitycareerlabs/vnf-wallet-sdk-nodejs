@@ -1,17 +1,19 @@
 import VCLOrganizations from "../../../api/entities/VCLOrganizations";
 import VCLOrganizationsSearchDescriptor from "../../../api/entities/VCLOrganizationsSearchDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import OrganizationsRepository from "../../domain/repositories/OrganizationsRepository";
 import OrganizationsUseCase from "../../domain/usecases/OrganizationsUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class OrganizationsUseCaseImpl implements OrganizationsUseCase {
     constructor(private organizationsRepository: OrganizationsRepository) {}
 
-    searchForOrganizations(
+    async searchForOrganizations(
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
-    ): Promise<VCLResult<VCLOrganizations>> {
-        return this.organizationsRepository.searchForOrganizations(
-            organizationsSearchDescriptor
-        );
+    ): Promise<VCLOrganizations> {
+        try {
+            return await this.organizationsRepository.searchForOrganizations(organizationsSearchDescriptor);
+        } catch (error: any) {
+            throw new VCLError(error);
+        }
     }
 }

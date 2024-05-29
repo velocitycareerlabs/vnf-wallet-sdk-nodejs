@@ -1,8 +1,5 @@
-import VCLCountries from "./entities/VCLCountries";
 import VCLCredentialManifest from "./entities/VCLCredentialManifest";
 import VCLCredentialManifestDescriptor from "./entities/VCLCredentialManifestDescriptor";
-import VCLCredentialTypeSchemas from "./entities/VCLCredentialTypeSchemas";
-import VCLCredentialTypes from "./entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "./entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "./entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "./entities/VCLDidJwk";
@@ -11,7 +8,7 @@ import VCLExchange from "./entities/VCLExchange";
 import VCLExchangeDescriptor from "./entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "./entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "./entities/VCLGenerateOffersDescriptor";
-import VCLInitializationDescriptor from "./entities/VCLInitializationDescriptor";
+import VCLInitializationDescriptor from "./entities/initialization/VCLInitializationDescriptor";
 import VCLPublicJwk from "./entities/VCLPublicJwk";
 import VCLJwt from "./entities/VCLJwt";
 import VCLJwtDescriptor from "./entities/VCLJwtDescriptor";
@@ -27,7 +24,6 @@ import VCLToken from "./entities/VCLToken";
 import VCLVerifiedProfile from "./entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescriptor";
 import { Nullish } from "./VCLTypes";
-import VCLResult from "./entities/VCLResult";
 
 export default interface VCL {
     initialize(
@@ -60,12 +56,12 @@ export default interface VCL {
 
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken
+        sessionToken: VCLToken,
     ): Promise<VCLOffers>;
 
     finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken
+        sessionToken: VCLToken,
     ): Promise<VCLJwtVerifiableCredentials>;
 
     getCredentialTypesUIFormSchema(

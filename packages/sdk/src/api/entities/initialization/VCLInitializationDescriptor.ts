@@ -1,4 +1,4 @@
-import VCLEnvironment from "../VCLEnvironment";
+import VCLEnvironment from "../../VCLEnvironment";
 import VCLCryptoServicesDescriptor from "./VCLCryptoServicesDescriptor";
 
 export default class VCLInitializationDescriptor {

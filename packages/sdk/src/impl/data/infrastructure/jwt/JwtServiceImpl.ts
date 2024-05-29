@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { jwtVerify, base64url, JWK, exportJWK, SignJWT, importJWK } from "jose";
-
 import util from "util";
 import VCLDidJwk from "../../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../../api/entities/VCLDidJwkDescriptor";

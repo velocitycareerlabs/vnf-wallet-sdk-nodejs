@@ -37,7 +37,7 @@ describe("CredentialManifestUseCase Tests", () => {
         );
 
         try {
-            const result = await subject1.getCredentialManifest(
+            const credentialManifest = await subject1.getCredentialManifest(
                 new VCLCredentialManifestDescriptorByDeepLink(
                     DeepLinkMocks.CredentialManifestDeepLinkDevNet,
                     VCLIssuingType.Career,
@@ -47,7 +47,6 @@ describe("CredentialManifestUseCase Tests", () => {
                 ),
                 new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1))
             );
-            const [error, credentialManifest] = result.handleResult();
             expect(credentialManifest?.jwt.encodedJwt).toBe(CredentialManifestMocks.JwtCredentialManifest1);
             expect(credentialManifest?.jwt.header).toStrictEqual(JSON.parse(CredentialManifestMocks.Header));
             expect(credentialManifest?.jwt.payload).toStrictEqual(JSON.parse(CredentialManifestMocks.Payload));
@@ -75,7 +74,7 @@ describe("CredentialManifestUseCase Tests", () => {
         );
 
         try {
-            const result = await subject2.getCredentialManifest(
+            await subject2.getCredentialManifest(
                 new VCLCredentialManifestDescriptorByDeepLink(
                     DeepLinkMocks.CredentialManifestDeepLinkDevNet,
                     VCLIssuingType.Career,
@@ -84,13 +83,9 @@ describe("CredentialManifestUseCase Tests", () => {
                 ),
                 new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1))
             );
-            const [error, credentialManifest] = result.handleResult();
-
-            expect(error?.errorCode).toBe(VCLErrorCode.SdkError);
-
-        } catch (error) {
-            console.log(error);
-            expect(error).toBeNull();
+            expect(true).toBe(false);
+        } catch (error: any) {
+            expect(error?.errorCode).toBe(VCLErrorCode.SdkError.toString());
         }
     });
 });

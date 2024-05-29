@@ -11,10 +11,6 @@ export default class VCLExchangeDescriptor {
         return this.presentationSubmission.progressUri;
     }
 
-    get did() {
-        return this.presentationSubmission.iss;
-    }
-
     get exchangeId() {
         return this.submissionResult.exchange.id;
     }

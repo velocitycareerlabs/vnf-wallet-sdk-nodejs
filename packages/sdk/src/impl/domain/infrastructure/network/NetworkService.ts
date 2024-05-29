@@ -1,11 +1,10 @@
 import { Nullish } from "../../../../api/VCLTypes";
-import VCLResult from "../../../../api/entities/VCLResult";
 import Request, {
     HttpMethod,
 } from "../../../data/infrastructure/network/Request";
 import Response from "../../../data/infrastructure/network/Response";
 
-type NetworkRequesParams = {
+type NetworkRequestParams = {
     endpoint: string;
     body: Nullish<any>;
     contentType: Nullish<string>;
@@ -15,7 +14,7 @@ type NetworkRequesParams = {
 };
 
 export default interface NetworkService {
-    sendRequestRaw(params: Request): Promise<VCLResult<Response>>;
+    sendRequestRaw(params: Request): Promise<Response>;
 
-    sendRequest(params: NetworkRequesParams): Promise<VCLResult<Response>>;
+    sendRequest(params: NetworkRequestParams): Promise<Response>;
 }

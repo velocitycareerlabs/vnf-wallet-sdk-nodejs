@@ -1,7 +1,6 @@
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLGenerateOffersDescriptor from "../../../api/entities/VCLGenerateOffersDescriptor";
 import VCLOffers from "../../../api/entities/VCLOffers";
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import GenerateOffersRepository from "../../domain/repositories/GenerateOffersRepository";
@@ -16,14 +15,14 @@ export default class GenerateOffersRepositoryImpl
     }
 
     async generateOffers(
-        token: VCLToken,
-        generateOffersDescriptor: VCLGenerateOffersDescriptor
-    ): Promise<VCLResult<VCLOffers>> {
-        const result = await this.networkService.sendRequest({
+        generateOffersDescriptor: VCLGenerateOffersDescriptor,
+        sessionToken: VCLToken
+    ): Promise<VCLOffers> {
+        const offersResponse = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: generateOffersDescriptor.checkOffersUri,
             headers: {
-                [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${token.value}`,
+                [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${sessionToken.value}`,
                 [HeaderKeys.XVnfProtocolVersion]:
                 HeaderValues.XVnfProtocolVersion,
             },
@@ -31,19 +30,10 @@ export default class GenerateOffersRepositoryImpl
             method: HttpMethod.POST,
             contentType: "application/json",
         });
-        const [error, offersResponse] = result.handleResult();
-        if (error) {
-            return new VCLResult.Error(error);
-        }
         if (offersResponse) {
-            try {
-                return new VCLResult.Success(this.parse(offersResponse, token));
-            } catch (error: any) {
-                return new VCLResult.Error(new VCLError(error));
-            }
+            return this.parse(offersResponse, sessionToken);
         }
-
-        return new VCLResult.Error(new VCLError("Offers did not returned."));
+        throw new VCLError("Offers did not returned.");
     }
 
     parse(offersResponse: Response, sessionToken: VCLToken): VCLOffers {

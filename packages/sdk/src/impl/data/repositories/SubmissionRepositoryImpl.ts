@@ -1,8 +1,6 @@
 import { Dictionary } from "../../../api/VCLTypes";
-import VCLError from "../../../api/entities/error/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLJwt from "../../../api/entities/VCLJwt";
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLSubmission from "../../../api/entities/VCLSubmission";
 import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 import VCLToken from "../../../api/entities/VCLToken";
@@ -16,12 +14,10 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
     async submit(
         submission: VCLSubmission,
         jwt: VCLJwt
-    ): Promise<VCLResult<VCLSubmissionResult>> {
-        const body = submission.generateRequestBody(jwt);
-
-        const result = await this.networkService.sendRequest({
+    ): Promise<VCLSubmissionResult> {
+        const submissionResponse = await this.networkService.sendRequest({
             endpoint: submission.submitUri,
-            body,
+            body: submission.generateRequestBody(jwt),
             method: HttpMethod.POST,
             headers: {
                 [HeaderKeys.XVnfProtocolVersion]:
@@ -30,24 +26,11 @@ export default class SubmissionRepositoryImpl implements SubmissionRepository {
             contentType: "application/json",
             useCaches: false,
         });
-
-        const [error, submissionResponse] = result.handleResult();
-
-        if (submissionResponse) {
-            try {
-                const jsonObj = submissionResponse.payload;
-                const submissionResult = this.parse(
-                    jsonObj,
-                    submission.jti,
-                    submission.submissionId
-                );
-                return new VCLResult.Success(submissionResult);
-            } catch (error: any) {
-                return new VCLResult.Error(new VCLError(error));
-            }
-        }
-
-        return new VCLResult.Error(error!);
+        return this.parse(
+            submissionResponse.payload,
+            submission.jti,
+            submission.submissionId
+        );
     }
 
     private parseExchange(exchangeJsonObj: Dictionary<any>) {

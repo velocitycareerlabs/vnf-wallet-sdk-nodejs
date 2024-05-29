@@ -1,13 +1,16 @@
 import { Dictionary } from "../VCLTypes";
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLJwt from "./VCLJwt";
+import VCLOffers from "./VCLOffers";
 
 export default class VCLFinalizeOffersDescriptor {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
+        public readonly offers: VCLOffers,
         public readonly approvedOfferIds: string[],
         public readonly rejectedOfferIds: string[]
-    ) {}
+    ) {
+    }
 
     get exchangeId() {
         return this.credentialManifest.exchangeId;
@@ -23,10 +26,8 @@ export default class VCLFinalizeOffersDescriptor {
 
     payload: Dictionary<any> = {
         [VCLFinalizeOffersDescriptor.KeyExchangeId]: this.exchangeId,
-        [VCLFinalizeOffersDescriptor.KeyApprovedOfferIds]:
-            this.approvedOfferIds,
-        [VCLFinalizeOffersDescriptor.KeyRejectedOfferIds]:
-            this.rejectedOfferIds,
+        [VCLFinalizeOffersDescriptor.KeyApprovedOfferIds]: this.approvedOfferIds,
+        [VCLFinalizeOffersDescriptor.KeyRejectedOfferIds]: this.rejectedOfferIds,
     };
 
     generateRequestBody(jwt: VCLJwt): Dictionary<any> {

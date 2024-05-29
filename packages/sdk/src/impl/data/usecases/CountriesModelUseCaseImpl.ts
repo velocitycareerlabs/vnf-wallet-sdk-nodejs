@@ -1,12 +1,16 @@
 import VCLCountries from "../../../api/entities/VCLCountries";
-import VCLResult from "../../../api/entities/VCLResult";
 import CountriesRepository from "../../domain/repositories/CountriesRepository";
 import CountriesUseCase from "../../domain/usecases/CountriesModelUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class CountriesUseCaseImpl implements CountriesUseCase {
     constructor(private readonly countriesRepository: CountriesRepository) {}
 
-    getCountries(): Promise<VCLResult<VCLCountries>> {
-        return this.countriesRepository.getCountries();
+    async getCountries(): Promise<VCLCountries> {
+        try {
+            return await this.countriesRepository.getCountries();
+        } catch (error: any) {
+            throw new VCLError(error);
+        }
     }
 }

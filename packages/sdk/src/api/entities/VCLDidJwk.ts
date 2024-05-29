@@ -1,6 +1,6 @@
-import { JWK, base64url, exportJWK } from "jose";
+import { base64url, exportJWK } from "jose";
 import VCLPublicJwk from "./VCLPublicJwk";
-import { KeyObject, KeyPairKeyObjectResult } from "crypto";
+import { KeyPairKeyObjectResult } from "crypto";
 import canonicalize from "canonicalize";
 import { Dictionary } from "../VCLTypes";
 

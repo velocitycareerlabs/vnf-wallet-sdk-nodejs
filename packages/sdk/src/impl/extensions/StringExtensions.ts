@@ -1,6 +1,5 @@
 import { randomBytes } from "crypto";
 import VCLLog from "../utils/VCLLog";
-import { Dictionary } from "../../api/VCLTypes";
 
 String.prototype.getQueryParameters = function (): Map<string, string> {
     const result = new Map<string, string>();
