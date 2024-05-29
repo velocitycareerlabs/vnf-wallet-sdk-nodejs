@@ -43,10 +43,7 @@ describe("CredentialTypesUIFormSchemaUseCase Tests", () => {
             mockedCountries
         );
 
-        const [err, result] = response.handleResult();
-        // Assertions
-        // Assuming `result` is already defined as VCLResult<VCLCredentialTypesUIFormSchema> or similar
-        const addressJsonObj = result?.payload["place"];
+        const addressJsonObj = response?.payload["place"];
         const addressCountryJsonObj =
             addressJsonObj[VCLCredentialTypesUIFormSchema.KeyAddressCountry];
         const addressRegionJsonObj =
@@ -102,9 +99,7 @@ describe("CredentialTypesUIFormSchemaUseCase Tests", () => {
             mockedCountries
         );
 
-        const [err, result] = response.handleResult();
-
-        const addressJsonObj = result?.payload["place"];
+        const addressJsonObj = response?.payload["place"];
         const addressCountryJsonObj =
             addressJsonObj[VCLCredentialTypesUIFormSchema.KeyAddressCountry];
         const addressRegionJsonObj =
@@ -154,9 +149,7 @@ describe("CredentialTypesUIFormSchemaUseCase Tests", () => {
             mockedCountries
         );
 
-        const [err, result] = response.handleResult();
-
-        const addressJsonObj = result?.payload["place"];
+        const addressJsonObj = response?.payload["place"];
         const addressCountryJsonObj =
             addressJsonObj[VCLCredentialTypesUIFormSchema.KeyAddressCountry];
         const addressRegionJsonObj =
@@ -206,9 +199,7 @@ describe("CredentialTypesUIFormSchemaUseCase Tests", () => {
             mockedCountries
         );
 
-        const [err, result] = response.handleResult();
-
-        const addressJsonObj = result?.payload["place"];
+        const addressJsonObj = response?.payload["place"];
         const addressCountryJsonObj =
             addressJsonObj[VCLCredentialTypesUIFormSchema.KeyAddressCountry];
         const addressRegionJsonObj =

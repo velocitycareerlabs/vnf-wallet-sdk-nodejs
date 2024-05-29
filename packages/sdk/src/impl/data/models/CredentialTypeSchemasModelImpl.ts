@@ -1,6 +1,5 @@
 import VCLCredentialTypeSchemas from "../../../api/entities/VCLCredentialTypeSchemas";
 import VCLError from "../../../api/entities/error/VCLError";
-import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypeSchemasModel from "../../domain/models/CredentialTypeSchemasModel";
 import CredentialTypeSchemasUseCase from "../../domain/usecases/CredentialTypeSchemasUseCase";
 import { Nullish } from "../../../api/VCLTypes";
@@ -14,15 +13,7 @@ export default class CredentialTypeSchemasModelImpl
     data: Nullish<VCLCredentialTypeSchemas>;
 
     async initialize(): Promise<VCLError | null> {
-        const result =
-            await this.credentialTypeSchemasUseCase.getCredentialTypeSchemas();
-        const [err, d] = result.handleResult();
-
-        if (err) {
-            return new VCLError(err.message);
-        }
-
-        this.data = result.getData();
+        this.data = await this.credentialTypeSchemasUseCase.getCredentialTypeSchemas();
         return null;
     }
 }

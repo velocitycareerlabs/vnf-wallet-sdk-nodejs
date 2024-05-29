@@ -23,6 +23,29 @@ export default class VCLCredentialManifest {
         return this.iss;
     }
 
+    get aud(): string { return this.retrieveAud() }
+
+    get issuerId(): string {
+        const payload = this.jwt.payload;
+
+        if (!payload) {
+            return "";
+        }
+
+        const issuer = payload[VCLCredentialManifest.KeyIssuer];
+
+        if (typeof issuer === 'string') {
+            return issuer;
+        }
+
+        const issuerMap = payload[VCLCredentialManifest.KeyIssuer] as Record<string, any> | undefined;
+        const issuerId = issuerMap?.[VCLCredentialManifest.KeyId] as string | undefined;
+
+        return issuerId ?? "";
+    }
+
+
+
     get exchangeId(): string {
         return this.jwt.payload[VCLCredentialManifest.KeyExchangeId] ?? "";
     }
@@ -58,6 +81,13 @@ export default class VCLCredentialManifest {
             ] ?? ""
         );
     }
+
+    private retrieveAud(): string {
+        const keyMetadata = this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {};
+        const finalizeOffersUri = (keyMetadata as Record<string, any>)[VCLCredentialManifest.KeyFinalizeOffersUri] ?? "";
+        return finalizeOffersUri.split("/issue/")[0];
+    }
+
 
     // CodingKeys
     static readonly KeyIssuingRequest: string = "issuing_request";

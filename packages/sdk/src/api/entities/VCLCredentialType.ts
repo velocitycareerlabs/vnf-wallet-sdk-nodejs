@@ -3,12 +3,12 @@ import { Dictionary, Nullish } from "../VCLTypes";
 export default class VCLCredentialType {
     constructor(
         public payload: Dictionary<any>,
-        public id: Nullish<string>,
-        public schema: Nullish<string>,
-        public createdAt: Nullish<string>,
-        public schemaName: Nullish<string>,
-        public credentialType: Nullish<string>,
-        public recommended: boolean
+        public id: Nullish<string> = null,
+        public schema: Nullish<string> = null,
+        public createdAt: Nullish<string> = null,
+        public schemaName: Nullish<string> = null,
+        public credentialType: Nullish<string> = null,
+        public recommended: boolean = false
     ) {}
 
     // CodingKeys

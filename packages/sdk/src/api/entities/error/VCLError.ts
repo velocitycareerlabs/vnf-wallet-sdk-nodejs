@@ -1,17 +1,18 @@
 import { Dictionary, Nullish } from "../../VCLTypes";
 import VCLErrorCode from "./VCLErrorCode";
+import VCLStatusCode from "./VCLStatusCode";
 
 export default class VCLError extends Error {
     payload: Nullish<string> = null;
     error: Nullish<string> = null;
     errorCode: string = VCLErrorCode.SdkError.toString();
-    statusCode: Nullish<number> = null;
+    statusCode: Nullish<VCLStatusCode> = null;
 
     constructor(
         error: Nullish<string> = null,
         errorCode: string = VCLErrorCode.SdkError.toString(),
         message: Nullish<string> = null,
-        statusCode: Nullish<number> = null
+        statusCode: Nullish<VCLStatusCode> = null
     ) {
         super(message ?? "");
         this.error = error;
@@ -39,13 +40,12 @@ export default class VCLError extends Error {
         exception: Error,
         statusCode: number | null = null
     ): VCLError {
-        const result = new VCLError(
-            null, 
-            VCLErrorCode.SdkError.toString(), 
-            exception.message, 
+        return new VCLError(
+            null,
+            VCLErrorCode.SdkError.toString(),
+            exception.message,
             statusCode
-            );
-        return result;
+        );
     }
 
     get jsonObject(): Dictionary<any> {

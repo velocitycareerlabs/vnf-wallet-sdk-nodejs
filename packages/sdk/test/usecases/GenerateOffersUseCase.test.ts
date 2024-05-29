@@ -3,7 +3,7 @@ import GenerateOffersRepositoryImpl from "../../src/impl/data/repositories/Gener
 import GenerateOffersUseCaseImpl from "../../src/impl/data/usecases/GenerateOffersUseCaseImpl";
 import NetworkServiceSuccess from "../NetworkServiceSuccess";
 import { GenerateOffersMocks } from "../infrastructure/resources/valid/GenerateOffersMocks";
-import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLToken, VCLVerifiedProfile } from "../../src";
+import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLVerifiedProfile } from "../../src";
 import { VerifiedProfileMocks } from "../infrastructure/resources/valid/VerifiedProfileMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
@@ -38,8 +38,7 @@ describe("GenerateOffersUseCase Tests", () => {
             []
         )
 
-        const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
-        const [error, generatedOffers] = result.handleResult();
+        const generatedOffers = await subject1.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
         expect(generatedOffers?.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonObj);
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
@@ -68,8 +67,7 @@ describe("GenerateOffersUseCase Tests", () => {
             []
         )
 
-        const result = await subject1.generateOffers(CommonMocks.Token, generateOffersDescriptor);
-        const [error, generatedOffers] = result.handleResult();
+        const generatedOffers = await subject1.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
         expect(generatedOffers?.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonArr);
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
@@ -98,8 +96,7 @@ describe("GenerateOffersUseCase Tests", () => {
             []
         )
 
-        const result = await subject2.generateOffers(CommonMocks.Token, generateOffersDescriptor);
-        const [error, generatedOffers] = result.handleResult();
+        const generatedOffers = await subject2.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
         expect(generatedOffers?.payload).toStrictEqual({});
         expect(generatedOffers?.all).toStrictEqual([]);
@@ -127,8 +124,7 @@ describe("GenerateOffersUseCase Tests", () => {
             []
         )
 
-        const result = await subject3.generateOffers(CommonMocks.Token, generateOffersDescriptor);
-        const [error, generatedOffers] = result.handleResult();
+        const generatedOffers = await subject3.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
         expect(generatedOffers?.payload).toStrictEqual([]);
         expect(generatedOffers?.all).toStrictEqual([]);

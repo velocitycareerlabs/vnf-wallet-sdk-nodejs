@@ -1,51 +1,38 @@
 import { Nullish } from "../../../api/VCLTypes";
 import VCLError from "../../../api/entities/error/VCLError";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import VCLToken from "../../../api/entities/VCLToken";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import FinalizeOffersRepository from "../../domain/repositories/FinalizeOffersRepository";
 import { HttpMethod } from "../infrastructure/network/Request";
 import { HeaderKeys, HeaderValues } from "./Urls";
+import VCLJwt from "../../../api/entities/VCLJwt";
 
 export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
-    constructor(private networkService: NetworkService) {}
+    constructor(private networkService: NetworkService) {
+    }
 
     async finalizeOffers(
-        token: VCLToken,
-        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
-    ): Promise<VCLResult<string[]>> {
-        const result = await this.networkService.sendRequest({
+        finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
+        sessionToken: VCLToken
+    ): Promise<VCLJwt[]> {
+        const finalizedOffersResponse = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: finalizeOffersDescriptor.finalizeOffersUri,
             body: finalizeOffersDescriptor.payload,
             headers: {
-                [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${token.value}`,
+                [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${sessionToken.value}`,
                 [HeaderKeys.XVnfProtocolVersion]:
-                    HeaderValues.XVnfProtocolVersion,
+                HeaderValues.XVnfProtocolVersion,
             },
             contentType: "application/json",
             method: HttpMethod.POST,
         });
-        const [error, finalizedOffersResponse] = result.handleResult();
-        if (error) {
-            return new VCLResult.Error(error);
-        }
+        const encodedJwts: Nullish<string[]> = finalizedOffersResponse.payload as Nullish<string[]>;
 
-        try {
-            const encodedJwts: Nullish<string[]> = finalizedOffersResponse!
-                .payload as Nullish<string[]>;
-
-            if (encodedJwts) {
-                return new VCLResult.Success(encodedJwts);
-            }
-            return new VCLResult.Error(
-                new VCLError(
-                    `Failed to parse: ${finalizedOffersResponse!.payload}`
-                )
-            );
-        } catch (error: any) {
-            return new VCLResult.Error(new VCLError(error));
+        if (encodedJwts) {
+            return encodedJwts.map((encodedJwt) => VCLJwt.fromEncodedJwt(encodedJwt));
         }
+        throw new VCLError(`Failed to parse: ${finalizedOffersResponse!.payload}`);
     }
 }

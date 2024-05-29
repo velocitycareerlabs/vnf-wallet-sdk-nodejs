@@ -1,7 +1,8 @@
-import { Nullish, VCLJwt, VCLJwtVerifyService, VCLPublicJwk, VCLResult } from "../../../../src";
+/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
+import { Nullish, VCLJwt, VCLJwtVerifyService, VCLPublicJwk } from "../../../../src";
 
 export class JwtVerifyServiceMock implements VCLJwtVerifyService {
-    verify(jwt: VCLJwt, publicJwk: Nullish<VCLPublicJwk>): Promise<VCLResult<boolean>> {
-        return Promise.resolve(new VCLResult.Success(true));
+    async verify(jwt: VCLJwt, publicJwk: Nullish<VCLPublicJwk>): Promise<boolean> {
+        return true;
     }
 }

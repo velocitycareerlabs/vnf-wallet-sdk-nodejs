@@ -54,9 +54,6 @@ describe("VCLError Tests", () => {
         );
         const errorJsonObject = error.jsonObject;
 
-        console.log("--------------------");
-        console.log(JSON.stringify(errorJsonObject));
-
         expect(errorJsonObject[VCLError.KeyPayload]).toBeFalsy();
         expect(errorJsonObject[VCLError.KeyError]).toBe(ErrorMocks.Error);
         expect(errorJsonObject[VCLError.KeyErrorCode]).toBe(

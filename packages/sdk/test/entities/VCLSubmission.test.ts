@@ -17,7 +17,8 @@ describe("VCLSubmission Tests", () => {
     });
 
     test("testPayload", () => {
-        expect(subject.payload[VCLSubmission.KeyJti]).toBe(subject.jti);
+        const payload = subject.generatePayload()
+        expect(payload[VCLSubmission.KeyJti]).toBe(subject.jti);
     });
 
     test("testPushDelegate", () => {

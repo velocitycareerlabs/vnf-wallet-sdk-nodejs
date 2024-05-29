@@ -1,9 +1,22 @@
 import { Dictionary, Nullish } from "../VCLTypes";
-import VCLServiceType, { serviceTypeFromString } from "./VCLServiceType";
+import VCLServiceType from "./VCLServiceType";
 import VCLServiceTypes from "./VCLServiceTypes";
 
 export default class VCLVerifiedProfile {
-    constructor(public readonly payload: Dictionary<any>) {}
+    public credentialSubject: Nullish<Dictionary<any>>;
+    public name: Nullish<string>;
+    public logo: Nullish<string>;
+    public id: Nullish<string>;
+    public serviceTypes: VCLServiceTypes;
+    constructor(public readonly payload: Dictionary<any>) {
+        this.credentialSubject = this.payload[VCLVerifiedProfile.KeyCredentialSubject];
+        this.name = (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyName] : null);
+        this.logo = (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyLogo] : null);
+        this.id = (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyId] : null);
+        this.serviceTypes = this.retrieveServiceTypes(
+            (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyServiceType] : [])
+        );
+    }
 
     retrieveServiceTypes(serviceCategoriesJsonArr: any[]) {
         const result: VCLServiceType[] = [];
@@ -17,28 +30,6 @@ export default class VCLVerifiedProfile {
             }
         }
         return new VCLServiceTypes(result);
-    }
-
-    get credentialSubject(): Nullish<Dictionary<any>> {
-        return this.payload[VCLVerifiedProfile.KeyCredentialSubject];
-    }
-
-    get name(): Nullish<string> {
-        return this.payload[VCLVerifiedProfile.KeyName];
-    }
-
-    get logo(): Nullish<string> {
-        return this.payload[VCLVerifiedProfile.KeyLogo];
-    }
-
-    get id(): Nullish<string> {
-        return this.payload[VCLVerifiedProfile.KeyId];
-    }
-
-    get serviceTypes() {
-        return this.retrieveServiceTypes(
-            (this.credentialSubject ? this.credentialSubject[VCLVerifiedProfile.KeyServiceType] : [])
-        );
     }
 
     static readonly KeyCredentialSubject = "credentialSubject";

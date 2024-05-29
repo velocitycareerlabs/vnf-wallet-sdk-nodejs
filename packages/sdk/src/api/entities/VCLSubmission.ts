@@ -9,7 +9,6 @@ import VCLDidJwk from "./VCLDidJwk";
 export default class VCLSubmission {
     constructor(
         public readonly submitUri: string,
-        public readonly iss: string,
         public readonly exchangeId: string,
         public readonly presentationDefinitionId: string,
         public readonly verifiableCredentials: VCLVerifiableCredential[],
@@ -23,12 +22,10 @@ export default class VCLSubmission {
     readonly jti = crypto.randomUUID().toString();
     readonly submissionId = crypto.randomUUID().toString();
 
-    get payload() {
-        return this.generatePayload();
-    }
-    public generatePayload(iss?: string) {
+    public generatePayload(iss: Nullish<string> = null) {
         const result: Dictionary<any> = {
             [VCLSubmission.KeyJti]: this.jti,
+            [VCLSubmission.KeyIss]: iss,
             [VCLSubmission.KeyVp]: {
                 [VCLSubmission.KeyType]:
                     VCLSubmission.ValueVerifiablePresentation,
@@ -70,6 +67,7 @@ export default class VCLSubmission {
     }
 
     static readonly KeyJti = "jti";
+    static readonly KeyIss = "iss"
     static readonly KeyId = "id";
     static readonly KeyVp = "vp";
     static readonly KeyDid = "did";

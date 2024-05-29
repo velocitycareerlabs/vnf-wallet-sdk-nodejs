@@ -1,8 +1,8 @@
 import VCLProvider from "./api/VCLProvider";
 import VCLSignatureAlgorithm from "./api/VCLSignatureAlgorithm";
 import VCL from "./api/VCL";
-import VCLInitializationDescriptor from "./api/entities/VCLInitializationDescriptor";
-import VCLCryptoServicesDescriptor from "./api/entities/VCLCryptoServicesDescriptor";
+import VCLInitializationDescriptor from "./api/entities/initialization/VCLInitializationDescriptor";
+import VCLCryptoServicesDescriptor from "./api/entities/initialization/VCLCryptoServicesDescriptor";
 import VCLKeyService from "./api/keys/VCLKeyService";
 import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
@@ -56,7 +56,6 @@ import VCLDidJwk from "./api/entities/VCLDidJwk";
 import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
-import VCLResult from "./api/entities/VCLResult";
 import { Nullish, Dictionary } from "./api/VCLTypes";
 
 export {
@@ -119,7 +118,6 @@ export {
     VCLJwtDescriptor,
     VCLDidJwkDescriptor,
     VCLDidJwk,
-    VCLResult,
     Nullish,
     Dictionary,
 };

@@ -1,28 +1,19 @@
 import VCL from "../api/VCL";
-import VCLEnvironment from "../api/VCLEnvironment";
-import VCLCountries from "../api/entities/VCLCountries";
-import VCLCredentialManifest from "../api/entities/VCLCredentialManifest";
 import VCLCredentialManifestDescriptor from "../api/entities/VCLCredentialManifestDescriptor";
-import VCLCredentialTypeSchemas from "../api/entities/VCLCredentialTypeSchemas";
-import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCredentialTypesUIFormSchema from "../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import VCLDidJwk from "../api/entities/VCLDidJwk";
 import VCLError from "../api/entities/error/VCLError";
-import VCLExchange from "../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../api/entities/VCLExchangeDescriptor";
 import VCLFinalizeOffersDescriptor from "../api/entities/VCLFinalizeOffersDescriptor";
 import VCLGenerateOffersDescriptor from "../api/entities/VCLGenerateOffersDescriptor";
 import VCLIdentificationSubmission from "../api/entities/VCLIdentificationSubmission";
-import VCLInitializationDescriptor from "../api/entities/VCLInitializationDescriptor";
+import VCLInitializationDescriptor from "../api/entities/initialization/VCLInitializationDescriptor";
 import VCLPublicJwk from "../api/entities/VCLPublicJwk";
 import VCLJwt from "../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../api/entities/VCLJwtDescriptor";
-import VCLJwtVerifiableCredentials from "../api/entities/VCLJwtVerifiableCredentials";
 import VCLOffers from "../api/entities/VCLOffers";
-import VCLOrganizations from "../api/entities/VCLOrganizations";
 import VCLOrganizationsSearchDescriptor from "../api/entities/VCLOrganizationsSearchDescriptor";
-import VCLPresentationRequest from "../api/entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "../api/entities/VCLPresentationRequestDescriptor";
 import VCLPresentationSubmission from "../api/entities/VCLPresentationSubmission";
 import VCLServiceType from "../api/entities/VCLServiceType";
@@ -38,12 +29,10 @@ import CredentialTypeSchemasModel from "./domain/models/CredentialTypeSchemasMod
 import CredentialTypesModel from "./domain/models/CredentialTypesModel";
 import InitializationWatcher from "./utils/InitializationWatcher";
 import { ProfileServiceTypeVerifier } from "./utils/ProfileServiceTypeVerifier";
-import PromiseConverter from "./utils/PromiseConverter";
 import VCLLog from "./utils/VCLLog";
 import "./extensions/DateExtensions";
 import "./extensions/StringExtensions";
 import "./extensions/ListExtensions";
-import VCLResult from "../api/entities/VCLResult";
 import VCLErrorCode from "../api/entities/error/VCLErrorCode";
 import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 import JwtServiceUseCase from "./domain/usecases/JwtServiceUseCase";
@@ -148,6 +137,7 @@ export class VCLImpl implements VCL {
                     VclBlocksProvider.provideCredentialTypeSchemasModel(
                         credentialTypes
                     );
+                // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
                 const initializeCredentialTypeSchemasError =
                     await this.credentialTypeSchemasModel.initialize();
 
@@ -228,93 +218,57 @@ export class VCLImpl implements VCL {
             logError("getPresentationRequest::verifiedProfile", err);
             throw err;
         }
-
-        const verifiedProfileResult =
-            await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
-                new VCLVerifiedProfileDescriptor(did),
-                new VCLServiceTypes([VCLServiceType.Inspector])
-            );
-
-        const [error1, verifiedProfile] =
-            verifiedProfileResult.handleResult();
-        if (error1) {
-            console.log(error1);
-            // logError("getPresentationRequest", error);
-            logError("profile verification failed", error1);
-            throw error1;
-        }
-
-        let presentationRequestResult: Nullish<
-            VCLResult<VCLPresentationRequest>
-        >;
-
         try {
-            presentationRequestResult =
-                await this.presentationRequestUseCase.getPresentationRequest(
-                    presentationRequestDescriptor,
-                    verifiedProfile
+            const verifiedProfile =
+                await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
+                    new VCLVerifiedProfileDescriptor(did),
+                    new VCLServiceTypes([VCLServiceType.Inspector])
                 );
+            return await this.presentationRequestUseCase.getPresentationRequest(
+                presentationRequestDescriptor,
+                verifiedProfile
+            );
         } catch (error: any) {
             logError("getPresentationRequest", error);
             throw error;
         }
-
-        const [error2, presentationRequest] =
-            presentationRequestResult.handleResult();
-
-        if (error2) {
-            throw error2;
-        }
-        return presentationRequest!;
     };
 
     submitPresentation = async (
         presentationSubmission: VCLPresentationSubmission
     ) => {
-        const presentationSubmissionSubmission =
-            await this.presentationSubmissionUseCase.submit(
-                presentationSubmission
-            );
-        const [error, presentationSubmissionResult] =
-            presentationSubmissionSubmission.handleResult();
-
-        if (error) {
+        try {
+            return await this.presentationSubmissionUseCase.submit(
+                    presentationSubmission
+                );
+        } catch(error: any) {
             logError("submit presentation", error);
             throw error;
         }
-        return presentationSubmissionResult!;
     };
 
     getExchangeProgress = async (exchangeDescriptor: VCLExchangeDescriptor) => {
-        const exchangeProgressResult =
-            await this.exchangeProgressUseCase.getExchangeProgress(
+        try {
+            return await this.exchangeProgressUseCase.getExchangeProgress(
                 exchangeDescriptor
             );
-
-        const [error, exchangeProgress] =
-            exchangeProgressResult.handleResult();
-        if (error) {
+        } catch (error: any) {
             logError("getExchangeProgress", error);
             throw error;
         }
-
-        return exchangeProgress!;
     };
 
     searchForOrganizations = async (
         organizationsSearchDescriptor: VCLOrganizationsSearchDescriptor
     ) => {
-        const organization =
-            await this.organizationsUseCase.searchForOrganizations(
+        try {
+            return await this.organizationsUseCase.searchForOrganizations(
                 organizationsSearchDescriptor
             );
-        const [error, organizationResult] = organization.handleResult();
-        if (error) {
-            logError("searchForOrganizations", error);
+        } catch (error: any) {
+            logError("getExchangeProgress", error);
             throw error;
         }
-
-        return organizationResult!;
     };
 
     getCredentialManifest = async (
@@ -329,44 +283,33 @@ export class VCLImpl implements VCL {
                 VCLErrorCode.SdkError.toString(),
                 null
             );
-            VCLLog.e(
-                VCLImpl.TAG,
-                "getCredentialManifest.verifiedProfile" +
-                    JSON.stringify(error.jsonObject)
-            );
+            logError('', error);
             throw error;
         }
+        let verifiedProfile: VCLVerifiedProfile;
         try {
-            const verifiedProfileResult =
+            verifiedProfile =
                 await this.profileServiceTypeVerifier.verifyServiceTypeOfVerifiedProfile(
                     new VCLVerifiedProfileDescriptor(did),
                     VCLServiceTypes.fromIssuingType(
                         credentialManifestDescriptor.issuingType
                     )
                 );
-
-            const [err, verifiedProfile] = verifiedProfileResult.handleResult();
-            if (verifiedProfile) {
-                const credentialManifest =
-                    await this.credentialManifestUseCase.getCredentialManifest(
-                        credentialManifestDescriptor,
-                        verifiedProfile
-                    );
-                const [error, credentialManifestResult] =
-                    credentialManifest.handleResult();
-                if (error) {
-                    logError("getCredentialManifest", error);
-                    throw error;
-                }
-                return credentialManifestResult!;
-            } else {
-                throw err;
-            }
         } catch (error: any) {
-            logError("profile verification failed", error);
+            logError(`failed to find verified profile by did ${did}`, error);
+            throw error;
+        }
+        try {
+            return await this.credentialManifestUseCase.getCredentialManifest(
+                credentialManifestDescriptor,
+                verifiedProfile
+            );
+        } catch (error: any) {
+            logError("getCredentialManifest", error);
             throw error;
         }
     };
+
     generateOffers = async (
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
     ) => {
@@ -374,52 +317,48 @@ export class VCLImpl implements VCL {
             generateOffersDescriptor.credentialManifest,
             generateOffersDescriptor.identificationVerifiableCredentials
         );
-
-        const identificationSubmissionResult =
-            await this.identificationUseCase.submit(
-                identificationSubmission,
-            );
-
-        const [error, submission] = identificationSubmissionResult.handleResult();
-        if (error) {
+        let identificationSubmissionResult: VCLSubmissionResult;
+        try {
+            identificationSubmissionResult =
+                await this.identificationUseCase.submit(
+                    identificationSubmission,
+                );
+        } catch (error: any) {
             logError("submit identification", error);
             throw error;
         }
 
-        console.log("Identification submitted success.");
-        console.log(submission);
+        VCLLog.i(VCLImpl.TAG, "Identification submitted success.");
 
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
-            submission!.sessionToken
+            identificationSubmissionResult.sessionToken
         );
     };
 
     checkForOffers(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken
+        sessionToken: VCLToken,
     ): Promise<VCLOffers> {
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
-            token
+            sessionToken
         );
     }
+
     finalizeOffers = async (
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        token: VCLToken
+        sessionToken: VCLToken,
     ) => {
-        const jwtVerifiableCredentials =
-            await this.finalizeOffersUseCase.finalizeOffers(
-                token,
-                finalizeOffersDescriptor
+        try {
+            return await this.finalizeOffersUseCase.finalizeOffers(
+                finalizeOffersDescriptor,
+                sessionToken
             );
-
-        const [error, result] = jwtVerifiableCredentials.handleResult();
-        if (error) {
+        } catch (error: any) {
             logError("finalizeOffers", error);
             throw error;
         }
-        return result!;
     };
 
     async getCredentialTypesUIFormSchema(
@@ -427,19 +366,15 @@ export class VCLImpl implements VCL {
     ): Promise<VCLCredentialTypesUIFormSchema> {
         const countries = this.countriesModel?.data;
         if (countries) {
-            const credentialTypesUIFormSchemaResult =
-                await this.credentialTypesUIFormSchemaUseCase.getCredentialTypesUIFormSchema(
+            try {
+                return await this.credentialTypesUIFormSchemaUseCase.getCredentialTypesUIFormSchema(
                     credentialTypesUIFormSchemaDescriptor,
                     countries
                 );
-
-            const [err, result] =
-                credentialTypesUIFormSchemaResult.handleResult();
-            if (err) {
-                throw err;
+            } catch (error: any) {
+                logError("getCredentialTypesUIFormSchema", error);
+                throw error;
             }
-
-            return result!;
         } else {
             const error = new VCLError(
                 "No countries for getCredentialTypesUIFormSchema"
@@ -452,16 +387,14 @@ export class VCLImpl implements VCL {
     getVerifiedProfile = async (
         verifiedProfileDescriptor: VCLVerifiedProfileDescriptor
     ): Promise<VCLVerifiedProfile> => {
-        const verifiedProfileResult =
-            await this.verifiedProfileUseCase.getVerifiedProfile(
-                verifiedProfileDescriptor
-            );
-        const [error, result] = verifiedProfileResult.handleResult();
-        if (error) {
+        try {
+            return await this.verifiedProfileUseCase.getVerifiedProfile(
+                    verifiedProfileDescriptor
+                );
+        } catch (error: any) {
             logError("getVerifiedProfile", error);
             throw error;
         }
-        return result!;
     };
 
     verifyJwt = async (
@@ -469,18 +402,16 @@ export class VCLImpl implements VCL {
         publicJwk: Nullish<VCLPublicJwk>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ) => {
-        const isVerifiedResult = await this.jwtServiceUseCase.verifyJwt(
-            jwt,
-            publicJwk,
-            remoteCryptoServicesToken
-        );
-
-        const [err, result] = isVerifiedResult.handleResult();
-        if (err) {
-            logError("verifyJwt", err);
-            throw err;
+        try {
+            return await this.jwtServiceUseCase.verifyJwt(
+                jwt,
+                publicJwk,
+                remoteCryptoServicesToken
+            );
+        } catch (error: any) {
+            logError("verifyJwt", error);
+            throw error;
         }
-        return result!;
     };
 
     generateSignedJwt = async (
@@ -489,52 +420,47 @@ export class VCLImpl implements VCL {
         nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ) => {
-        const jwtResult = await this.jwtServiceUseCase.generateSignedJwt(
-            jwtDescriptor,
-            didJwk,
-            nonce,
-            remoteCryptoServicesToken
-        );
-
-        const [err, result] = jwtResult.handleResult();
-        if (err) {
-            logError("generateSignedJwt", err);
-            throw err;
+        try {
+            return await this.jwtServiceUseCase.generateSignedJwt(
+                jwtDescriptor,
+                didJwk,
+                nonce,
+                remoteCryptoServicesToken
+            );
+        } catch (error: any) {
+            logError("generateSignedJwt", error);
+            throw error;
         }
-        return result!;
     };
 
     generateDidJwk = async (didJwkDescriptor: VCLDidJwkDescriptor) => {
-        const didJwkResult = await this.keyServiceUseCase.generateDidJwk(
-            didJwkDescriptor
-        );
-
-        const [err, result] = didJwkResult.handleResult();
-        if (err) {
-            throw err;
+        try {
+            return await this.keyServiceUseCase.generateDidJwk(
+                didJwkDescriptor
+            );
+        } catch (error: any) {
+            logError("generateDidJwk", error);
+            throw error;
         }
-        return result!;
     };
 
     printVersion(): void {
-        throw new Error("Method not implemented.");
+        VCLLog.e('', "Method not implemented.");
     }
 
     private async invokeGenerateOffersUseCase(
         generateOffersDescriptor: VCLGenerateOffersDescriptor,
-        token: VCLToken
+        sessionToken: VCLToken
     ): Promise<VCLOffers> {
-        const vnOffersResult = await this.generateOffersUseCase.generateOffers(
-            token,
-            generateOffersDescriptor
-        );
-
-        const [err, result] = vnOffersResult.handleResult();
-
-        if (err) {
-            throw err;
+        try {
+            return await this.generateOffersUseCase.generateOffers(
+                generateOffersDescriptor,
+                sessionToken
+            );
+        } catch (error: any) {
+            logError("generateOffers", error);
+            throw error;
         }
-        return result!;
     }
 }
 

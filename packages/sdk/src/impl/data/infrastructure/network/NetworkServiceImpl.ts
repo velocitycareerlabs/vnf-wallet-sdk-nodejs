@@ -1,5 +1,4 @@
 import { Nullish } from "../../../../api/VCLTypes";
-import VCLResult from "../../../../api/entities/VCLResult";
 import NetworkService from "../../../domain/infrastructure/network/NetworkService";
 import VCLLog from "../../../utils/VCLLog";
 import Request, { HttpMethod } from "./Request";
@@ -10,7 +9,7 @@ import axios, { AxiosResponse } from "axios";
 export default class NetworkServiceImpl implements NetworkService {
     static TAG = NetworkServiceImpl.name;
 
-    async sendRequestRaw(params: Request): Promise<VCLResult<Response>> {
+    async sendRequestRaw(params: Request): Promise<Response> {
         let handler: () => Nullish<Promise<AxiosResponse<any, any>>> = () => {
             return null;
         };
@@ -39,9 +38,9 @@ export default class NetworkServiceImpl implements NetworkService {
         }
         try {
             const r = await handler();
-            return new VCLResult.Success(new Response(r!.data, r!.status));
+            return new Response(r!.data, r!.status);
         } catch (error: any) {
-            return new VCLResult.Error(error.response?.data ?? error);
+            return error.response?.data ?? error;
         }
     }
 
@@ -52,7 +51,7 @@ export default class NetworkServiceImpl implements NetworkService {
         method: HttpMethod;
         headers: any;
         useCaches: boolean;
-    }): Promise<VCLResult<Response>> {
+    }): Promise<Response> {
         return this.sendRequestRaw(params);
     }
 

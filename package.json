@@ -7,6 +7,11 @@
     "private": true,
     "author": "Andres Olave",
     "license": "Apache 2.0",
+    "scripts": {
+        "lint": "eslint . --ext .js,.ts,.tsx",
+        "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
+        "test": "jest"
+    },
     "engines": {
         "node": ">= 18.0.0"
     },

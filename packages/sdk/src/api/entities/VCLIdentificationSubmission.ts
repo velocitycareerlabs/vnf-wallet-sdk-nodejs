@@ -1,9 +1,6 @@
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLSubmission from "./VCLSubmission";
 import VCLVerifiableCredential from "./VCLVerifiableCredential";
-import { Nullish } from "../VCLTypes";
-import VCLToken from "./VCLToken";
-import VCLPushDelegate from "./VCLPushDelegate";
 
 export default class VCLIdentificationSubmission extends VCLSubmission {
     constructor(
@@ -12,7 +9,6 @@ export default class VCLIdentificationSubmission extends VCLSubmission {
     ) {
         super(
             credentialManifest.submitPresentationUri,
-            credentialManifest.iss,
             credentialManifest.exchangeId,
             credentialManifest.presentationDefinitionId,
             verifiableCredentials,

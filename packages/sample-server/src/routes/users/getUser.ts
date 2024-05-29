@@ -17,7 +17,6 @@ interface getUserRequestInterface {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default async function routes(fastify: FastifyInstance) {
-    const summary = "Get user details";
     fastify.get<getUserRequestInterface>(
         "/:userId",
         {

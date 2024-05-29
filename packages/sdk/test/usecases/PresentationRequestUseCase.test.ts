@@ -37,7 +37,7 @@ describe("PresentationRequestUseCase Tests", () => {
             )
         )
 
-        const result = await subject1.getPresentationRequest(
+        const presentationRequest = await subject1.getPresentationRequest(
             new VCLPresentationRequestDescriptor(
                 DeepLinkMocks.PresentationRequestDeepLinkDevNet,
                 new VCLPushDelegate(
@@ -49,13 +49,11 @@ describe("PresentationRequestUseCase Tests", () => {
             ),
             new VCLVerifiedProfile({})
         );
-        const [error, presentationRequest] = result.handleResult();
-
-        expect(presentationRequest?.jwt).toStrictEqual(PresentationRequestMocks.PresentationRequestJwt);
-        expect(presentationRequest?.pushDelegate?.pushUrl).toBe(pushUrl);
-        expect(presentationRequest?.pushDelegate?.pushToken).toBe(pushToken);
-        expect(presentationRequest?.didJwk).toStrictEqual(DidJwkMocks.DidJwk);
-        expect(presentationRequest?.remoteCryptoServicesToken?.value).toBe('some token');
+        expect(presentationRequest.jwt).toStrictEqual(PresentationRequestMocks.PresentationRequestJwt);
+        expect(presentationRequest.pushDelegate?.pushUrl).toBe(pushUrl);
+        expect(presentationRequest.pushDelegate?.pushToken).toBe(pushToken);
+        expect(presentationRequest.didJwk).toStrictEqual(DidJwkMocks.DidJwk);
+        expect(presentationRequest.remoteCryptoServicesToken?.value).toBe('some token');
 
     });
 
@@ -74,22 +72,22 @@ describe("PresentationRequestUseCase Tests", () => {
                 new JwtVerifyServiceMock()
             )
         )
-
-        const result = await subject2.getPresentationRequest(
-            new VCLPresentationRequestDescriptor(
-                DeepLinkMocks.PresentationRequestDeepLinkDevNet,
-                new VCLPushDelegate(
-                    pushUrl,
-                    pushToken
+        try {
+            // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+            const presentationRequest = await subject2.getPresentationRequest(
+                new VCLPresentationRequestDescriptor(
+                    DeepLinkMocks.PresentationRequestDeepLinkDevNet,
+                    new VCLPushDelegate(
+                        pushUrl,
+                        pushToken
+                    ),
+                    DidJwkMocks.DidJwk,
+                    new VCLToken("some token")
                 ),
-                DidJwkMocks.DidJwk,
-                new VCLToken("some token")
-            ),
-            new VCLVerifiedProfile({})
-        );
-        const [error, presentationRequest] = result.handleResult();
-
-        expect(error?.errorCode).toBe(VCLErrorCode.SdkError);
-        expect(presentationRequest).toBeNull();
+                new VCLVerifiedProfile({})
+            );
+        } catch (error: any) {
+            expect(error.errorCode).toBe(VCLErrorCode.SdkError);
+        }
     });
 });

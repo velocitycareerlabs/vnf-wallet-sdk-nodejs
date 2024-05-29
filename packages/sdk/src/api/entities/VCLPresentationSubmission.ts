@@ -10,7 +10,6 @@ export default class VCLPresentationSubmission extends VCLSubmission {
     ) {
         super(
             presentationRequest.submitPresentationUri,
-            presentationRequest.iss,
             presentationRequest.exchangeId,
             presentationRequest.presentationDefinitionId,
             verifiableCredentials,
@@ -19,7 +18,6 @@ export default class VCLPresentationSubmission extends VCLSubmission {
             presentationRequest.didJwk,
             presentationRequest.remoteCryptoServicesToken
         );
-
         this.progressUri = presentationRequest.progressUri;
     }
 }

@@ -4,20 +4,13 @@ import app from "../src/app";
 import { FastifyInstance } from "fastify";
 
 import { VCLImpl } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/impl/VCLImpl";
-import VCLInitializationDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLInitializationDescriptor";
+import VCLInitializationDescriptor from "packages/sdk/src/api/entities/initialization/VCLInitializationDescriptor";
 import VCLCountries from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCountries";
 import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLEnvironment";
-import VCLCryptoServicesDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCryptoServicesDescriptor";
-import VCLKeyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/keys/VCLKeyService"
-import VCLDidJwk from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwk";
-import VCLDidJwkDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLDidJwkDescriptor";
-import VCLResult from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLResult";
-import VCLPublicJwk from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLPublicJwk";
-import VCLJwtSignService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtSignService";
-import VCLJwtDescriptor from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwtDescriptor";
-import VCLJwt from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLJwt";
-import VCLJwtVerifyService from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/jwt/VCLJwtVerifyService";
-import { Nullish } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLTypes";
+import VCLCryptoServicesDescriptor from "packages/sdk/src/api/entities/initialization/VCLCryptoServicesDescriptor";
+import { JwtSignServiceMock } from "./mocks/jwt/JwtSignServiceMock";
+import { JwtVerifyServiceMock } from "./mocks/jwt/JwtVerifyServiceMock";
+import { KeyServiceMock } from "./mocks/key/KeyServiceMock";
 
 describe("initalization flow", () => {
     let appInstance: FastifyInstance;
@@ -31,14 +24,14 @@ describe("initalization flow", () => {
     });
 
     test("App initialization", async () => {
-        const init = await vcl.initialize(
-            new VCLInitializationDescriptor(VCLEnvironment.DEV, 
-            new VCLCryptoServicesDescriptor(
-                new VCLKeyServiceEmptyImpl(),
-                new VCLJwtSignServiceEmptyImpl(),
-                new VCLJwtVerifyServiceEmptyImpl()
-            )
-        ));
+        await vcl.initialize(
+            new VCLInitializationDescriptor(VCLEnvironment.DEV,
+                new VCLCryptoServicesDescriptor(
+                    new KeyServiceMock(),
+                    new JwtSignServiceMock(),
+                    new JwtVerifyServiceMock()
+                )
+            ));
         console.log(
             "#Credential Types: %s",
             vcl.credentialTypesModel?.data?.all?.length ?? 0
@@ -84,31 +77,3 @@ describe("initalization flow", () => {
         ).toBeTruthy();
     }, 400000);
 });
-
-class VCLKeyServiceEmptyImpl implements VCLKeyService {
-    generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLResult<VCLDidJwk>> {
-        return new Promise<VCLResult<VCLDidJwk>>((resolve, reject) => {
-            resolve(new VCLResult<VCLDidJwk>());
-        });
-    }
-}
-
-class VCLJwtSignServiceEmptyImpl implements VCLJwtSignService {
-    sign(
-        jwtDescriptor: VCLJwtDescriptor,
-        didJwk: VCLDidJwk,
-        nonce: Nullish<string>
-    ): Promise<VCLResult<VCLJwt>> {
-        return new Promise<VCLResult<VCLJwt>>((resolve, reject) => {
-            resolve(new VCLResult<VCLJwt>());
-        });
-    }
-}
-
-class VCLJwtVerifyServiceEmptyImpl implements VCLJwtVerifyService {
-    verify(jwt: VCLJwt, publicJwk: Nullish<VCLPublicJwk>): Promise<VCLResult<boolean>> {
-        return new Promise<VCLResult<boolean>>((resolve, reject) => {
-            resolve(new VCLResult<boolean>());
-        });
-    }
-}

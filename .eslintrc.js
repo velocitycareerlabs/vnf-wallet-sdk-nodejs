@@ -39,19 +39,21 @@ module.exports = {
                 jest: true,
             },
             rules: {
-                'better-mutation/no-mutating-functions': 'off',
-                'better-mutation/no-mutating-methods': 'off',
-                'better-mutation/no-mutation': 'off',
-                'max-nested-callbacks': ['error', 8],
+                '@typescript-eslint/no-unused-vars': 'off',
+                '@typescript-eslint/no-empty-interface': 'off',
+                '@typescript-eslint/no-non-null-assertion': 'off',
+                'no-undef': 'off',
+                '@typescript-eslint/no-explicit-any': 'off',
+                'unused-imports/no-unused-vars': 'error',
             },
         },
     ],
     rules: {
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
-        'no-unused-vars': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
         'no-undef': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
+        'unused-imports/no-unused-vars': 'error',
     }
 };

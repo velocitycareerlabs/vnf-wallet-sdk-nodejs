@@ -2,10 +2,8 @@ import VCLCredentialType from "../../../api/entities/VCLCredentialType";
 import VCLCredentialTypeSchema from "../../../api/entities/VCLCredentialTypeSchema";
 import VCLCredentialTypeSchemas from "../../../api/entities/VCLCredentialTypeSchemas";
 import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
-import VCLResult from "../../../api/entities/VCLResult";
 import CredentialTypeSchemaRepository from "../../domain/repositories/CredentialTypeSchemaRepository";
 import CredentialTypeSchemasUseCase from "../../domain/usecases/CredentialTypeSchemasUseCase";
-import VCLLog from "../../utils/VCLLog";
 
 export default class CredentialTypeSchemasUseCaseImpl
     implements CredentialTypeSchemasUseCase
@@ -17,13 +15,10 @@ export default class CredentialTypeSchemasUseCaseImpl
         private readonly credentialTypes: VCLCredentialTypes
     ) {}
 
-    async getCredentialTypeSchemas(): Promise<
-        VCLResult<VCLCredentialTypeSchemas>
-    > {
+    async getCredentialTypeSchemas(): Promise<VCLCredentialTypeSchemas> {
         const credentialTypeSchemasMap: {
             [key: string]: VCLCredentialTypeSchema;
         } = {};
-        let credentialTypeSchemasMapIsEmpty = true;
 
         const schemaNamesArr: string[] =
             this.credentialTypes.all
@@ -35,18 +30,9 @@ export default class CredentialTypeSchemasUseCaseImpl
                 }) ?? [];
 
         for (const schemaName of schemaNamesArr) {
-            const result =
-                await this.credentialTypeSchemaRepository.getCredentialTypeSchema(
-                    schemaName
-                );
-            if (result && result.getData()) {
-                credentialTypeSchemasMap[schemaName] = result.getData()!;
-                credentialTypeSchemasMapIsEmpty = false;
-            }
+            credentialTypeSchemasMap[schemaName] =
+                await this.credentialTypeSchemaRepository.getCredentialTypeSchema(schemaName);
         }
-
-        return new VCLResult.Success(
-            new VCLCredentialTypeSchemas(credentialTypeSchemasMap)
-        );
+        return new VCLCredentialTypeSchemas(credentialTypeSchemasMap);
     }
 }

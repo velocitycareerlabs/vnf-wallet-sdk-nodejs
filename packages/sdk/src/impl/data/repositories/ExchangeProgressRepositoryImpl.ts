@@ -1,8 +1,6 @@
 import { Dictionary } from "../../../api/VCLTypes";
-import VCLError from "../../../api/entities/error/VCLError";
 import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../../../api/entities/VCLExchangeDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import ExchangeProgressRepository from "../../domain/repositories/ExchangeProgressRepository";
 import { HttpMethod } from "../infrastructure/network/Request";
@@ -15,8 +13,8 @@ export default class ExchangeProgressRepositoryImpl
 
     async getExchangeProgress(
         exchangeDescriptor: VCLExchangeDescriptor
-    ): Promise<VCLResult<VCLExchange>> {
-        const submissionResult = await this.networkService.sendRequest({
+    ): Promise<VCLExchange> {
+        const exchangeProgressResponse = await this.networkService.sendRequest({
             useCaches: false,
             method: HttpMethod.GET,
             endpoint:
@@ -33,20 +31,7 @@ export default class ExchangeProgressRepositoryImpl
             contentType: null,
         });
 
-        const [error, exchangeProgressResponse] =
-            submissionResult.handleResult();
-
-        if (error) {
-            return new VCLResult.Error(error);
-        }
-
-        try {
-            return new VCLResult.Success(
-                this.parseExchange(exchangeProgressResponse?.payload)
-            );
-        } catch (error: any) {
-            return new VCLResult.Error(new VCLError(error));
-        }
+       return this.parseExchange(exchangeProgressResponse.payload)
     }
 
     private parseExchange(exchangeJsonObj: Dictionary<any>) {

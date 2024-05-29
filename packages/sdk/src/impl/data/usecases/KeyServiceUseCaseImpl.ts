@@ -1,14 +1,17 @@
 import VCLDidJwk from "../../../api/entities/VCLDidJwk";
 import VCLDidJwkDescriptor from "../../../api/entities/VCLDidJwkDescriptor";
-import VCLResult from "../../../api/entities/VCLResult";
 import KeyServiceRepository from "../../domain/repositories/KeyServiceRepository";
 import KeyServiceUseCase from "../../domain/usecases/KeyServiceUseCase";
 
 export default class KeyServiceUseCaseImpl implements KeyServiceUseCase {
     constructor(private readonly keyServiceRepository: KeyServiceRepository) {}
-    generateDidJwk(
+    async generateDidJwk(
         didJwkDescriptor: VCLDidJwkDescriptor
-    ): Promise<VCLResult<VCLDidJwk>> {
-        return this.keyServiceRepository.generateDidJwk(didJwkDescriptor);
+    ): Promise<VCLDidJwk> {
+        try {
+            return await this.keyServiceRepository.generateDidJwk(didJwkDescriptor);
+        } catch (error: any) {
+            throw new Error(error);
+        }
     }
 }
