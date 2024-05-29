@@ -3,6 +3,7 @@ import VCLCredentialTypesUIFormSchema from "../../../api/entities/VCLCredentialT
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
 import CredentialTypesUIFormSchemaRepository from "../../domain/repositories/CredentialTypesUIFormSchemaRepository";
 import CredentialTypesUIFormSchemaUseCase from "../../domain/usecases/CredentialTypesUIFormSchemaUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class CredentialTypesUIFormSchemaUseCaseImpl
     implements CredentialTypesUIFormSchemaUseCase
@@ -21,7 +22,7 @@ export default class CredentialTypesUIFormSchemaUseCaseImpl
                 countries
             );
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 }

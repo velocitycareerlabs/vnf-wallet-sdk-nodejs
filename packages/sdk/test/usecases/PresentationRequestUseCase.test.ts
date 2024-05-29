@@ -86,8 +86,9 @@ describe("PresentationRequestUseCase Tests", () => {
                 ),
                 new VCLVerifiedProfile({})
             );
+            expect(true).toBe(false);
         } catch (error: any) {
-            expect(error.errorCode).toBe(VCLErrorCode.SdkError);
+            expect(error.errorCode).toBe(VCLErrorCode.SdkError.toString());
         }
     });
 });

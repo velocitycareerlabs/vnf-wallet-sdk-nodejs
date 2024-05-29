@@ -1,6 +1,7 @@
 import VCLVerifiedProfileDescriptor from "../../../api/entities/VCLVerifiedProfileDescriptor";
 import VerifiedProfileRepository from "../../domain/repositories/VerifiedProfileRepository";
 import VerifiedProfileUseCase from "../../domain/usecases/VerifiedProfileUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class VerifiedProfileUseCaseImpl
     implements VerifiedProfileUseCase {
@@ -13,7 +14,7 @@ export default class VerifiedProfileUseCaseImpl
         try {
             return await this.verifiedProfileRepository.getVerifiedProfile(verifiedProfileDescriptor);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 }

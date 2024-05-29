@@ -2,6 +2,7 @@ import VCLExchange from "../../../api/entities/VCLExchange";
 import VCLExchangeDescriptor from "../../../api/entities/VCLExchangeDescriptor";
 import ExchangeProgressRepository from "../../domain/repositories/ExchangeProgressRepository";
 import ExchangeProgressUseCase from "../../domain/usecases/ExchangeProgressUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class ExchangeProgressUseCaseImpl implements ExchangeProgressUseCase {
     constructor(private exchangeProgressRepository: ExchangeProgressRepository) {
@@ -13,7 +14,7 @@ export default class ExchangeProgressUseCaseImpl implements ExchangeProgressUseC
         try {
             return await this.exchangeProgressRepository.getExchangeProgress(exchangeDescriptor);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 }

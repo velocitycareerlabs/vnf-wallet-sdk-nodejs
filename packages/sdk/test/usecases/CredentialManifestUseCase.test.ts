@@ -83,8 +83,9 @@ describe("CredentialManifestUseCase Tests", () => {
                 ),
                 new VCLVerifiedProfile(JSON.parse(VerifiedProfileMocks.VerifiedProfileIssuerJsonStr1))
             );
+            expect(true).toBe(false);
         } catch (error: any) {
-            expect(error?.errorCode).toBe(VCLErrorCode.SdkError);
+            expect(error?.errorCode).toBe(VCLErrorCode.SdkError.toString());
         }
     });
 });

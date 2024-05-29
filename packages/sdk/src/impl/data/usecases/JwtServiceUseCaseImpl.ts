@@ -6,6 +6,7 @@ import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository
 import JwtServiceUseCase from "../../domain/usecases/JwtServiceUseCase";
 import { Nullish } from "../../../api/VCLTypes";
 import VCLToken from "../../../api/entities/VCLToken";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
     constructor(private readonly jwtServiceRepository: JwtServiceRepository) {}
@@ -18,7 +19,7 @@ export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
         try {
             return await this.jwtServiceRepository.verifyJwt(jwt, publicJwk, remoteCryptoServicesToken);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 

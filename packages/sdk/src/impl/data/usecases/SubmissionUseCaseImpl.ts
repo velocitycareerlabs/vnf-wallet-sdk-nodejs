@@ -4,6 +4,7 @@ import VCLSubmissionResult from "../../../api/entities/VCLSubmissionResult";
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import SubmissionRepository from "../../domain/repositories/SubmissionRepository";
 import SubmissionUseCase from "../../domain/usecases/SubmissionUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class SubmissionUseCaseImpl implements SubmissionUseCase {
     constructor(
@@ -28,7 +29,7 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
             );
             return await this.submissionRepository.submit(submission, jwt);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 }

@@ -39,7 +39,7 @@ export default class PresentationRequestUseCaseImpl
                 ),
             );
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 

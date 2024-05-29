@@ -3,6 +3,7 @@ import VCLOffers from "../../../api/entities/VCLOffers";
 import VCLToken from "../../../api/entities/VCLToken";
 import GenerateOffersRepository from "../../domain/repositories/GenerateOffersRepository";
 import GenerateOffersUseCase from "../../domain/usecases/GenerateOffersUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class GenerateOffersUseCaseImpl
     implements GenerateOffersUseCase
@@ -16,7 +17,7 @@ export default class GenerateOffersUseCaseImpl
         try {
             return await this.generateOffersRepository.generateOffers(generateOffersDescriptor, sessionToken);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 }

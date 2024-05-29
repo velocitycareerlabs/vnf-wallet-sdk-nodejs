@@ -3,7 +3,6 @@ import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypeSchemaRepository from "../../domain/repositories/CredentialTypeSchemaRepository";
 import { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
-import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
 
 export default class CredentialTypeSchemaRepositoryImpl
     implements CredentialTypeSchemaRepository

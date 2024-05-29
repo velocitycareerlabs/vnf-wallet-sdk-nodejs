@@ -5,6 +5,7 @@ import VCLToken from "../../../api/entities/VCLToken";
 import FinalizeOffersRepository from "../../domain/repositories/FinalizeOffersRepository";
 import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository";
 import FinalizeOffersUseCase from "../../domain/usecases/FinalizeOffersUseCase";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class FinalizeOffersUseCaseImpl
     implements FinalizeOffersUseCase {
@@ -38,7 +39,7 @@ export default class FinalizeOffersUseCaseImpl
             }
             return new VCLJwtVerifiableCredentials(passedCredentials, failedCredentials);
         } catch (error: any) {
-            throw new Error(error);
+            throw new VCLError(error);
         }
     }
 

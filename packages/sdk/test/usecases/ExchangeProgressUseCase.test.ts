@@ -2,9 +2,8 @@ import NetworkServiceSuccess from "../NetworkServiceSuccess";
 import ExchangeProgressRepositoryImpl from "../../src/impl/data/repositories/ExchangeProgressRepositoryImpl";
 import ExchangeProgressUseCaseImpl from "../../src/impl/data/usecases/ExchangeProgressUseCaseImpl";
 import { ExchangeProgressMocks } from "../infrastructure/resources/valid/ExchangeProgressMocks";
-import { Dictionary, VCLErrorCode, VCLExchange, VCLExchangeDescriptor, VCLToken } from "../../src";
-import { mock } from "node:test";
-import { beforeAll, expect } from "@jest/globals";
+import { Dictionary, VCLExchange, VCLExchangeDescriptor, VCLToken } from "../../src";
+import { expect } from "@jest/globals";
 
 describe("ExchangeProgressUseCase Tests", () => {
     const subject1 = new ExchangeProgressUseCaseImpl(
@@ -14,7 +13,7 @@ describe("ExchangeProgressUseCase Tests", () => {
     )
     const subject2 = new ExchangeProgressUseCaseImpl(
         new ExchangeProgressRepositoryImpl(
-            new NetworkServiceSuccess({ wrong: 'payload' })
+            new NetworkServiceSuccess('')
         )
     )
     const exchangeDescriptor = {
@@ -30,11 +29,12 @@ describe("ExchangeProgressUseCase Tests", () => {
     });
 
     test("testGetExchangeProgressFailure", async () => {
-        try {
-            await subject1.getExchangeProgress(exchangeDescriptor)
-        } catch (error: any) {
-            expect(error.errorCode).toBe(VCLErrorCode.SdkError.toString())
-        }
+        const exchange = await subject2.getExchangeProgress(exchangeDescriptor)
+
+        expect(exchange.id).toBe(undefined)
+        expect(exchange.type).toBe(undefined)
+        expect(exchange.disclosureComplete).toBe(undefined)
+        expect(exchange.exchangeComplete).toBe(undefined)
     });
 
     const expectedExchange = (exchangeJsonObj: Dictionary<any>): VCLExchange => {
