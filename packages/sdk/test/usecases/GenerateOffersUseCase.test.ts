@@ -44,7 +44,7 @@ describe("GenerateOffersUseCase Tests", () => {
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBe(GenerateOffersMocks.Challenge);
-        expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
+        expect(generatedOffers?.sessionToken).toStrictEqual(CommonMocks.Token);
     });
 
     test("testGenerateOffersJsonArr", async () => {
@@ -73,7 +73,7 @@ describe("GenerateOffersUseCase Tests", () => {
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBeNull()
-        expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
+        expect(generatedOffers?.sessionToken).toStrictEqual(CommonMocks.Token);
     });
 
     test("testGenerateOffersEmptyJsonObj", async () => {
@@ -101,7 +101,7 @@ describe("GenerateOffersUseCase Tests", () => {
         expect(generatedOffers?.payload).toStrictEqual({});
         expect(generatedOffers?.all).toStrictEqual([]);
         expect(generatedOffers?.challenge).toBeNull();
-        expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
+        expect(generatedOffers?.sessionToken).toStrictEqual(CommonMocks.Token);
     });
 
     test("testGenerateOffersEmptyJsonArr", async () => {
@@ -129,6 +129,6 @@ describe("GenerateOffersUseCase Tests", () => {
         expect(generatedOffers?.payload).toStrictEqual([]);
         expect(generatedOffers?.all).toStrictEqual([]);
         expect(generatedOffers?.challenge).toBeNull();
-        expect(generatedOffers?.token).toStrictEqual(CommonMocks.Token);
+        expect(generatedOffers?.sessionToken).toStrictEqual(CommonMocks.Token);
     });
 });

@@ -53,7 +53,7 @@ describe("VCLOffers tests", () => {
 
     const testExpectations = (subject: VCLOffers) => {
         expect(subject.responseCode).toBe(123);
-        expect(subject.token).toStrictEqual(new VCLToken('some token'));
+        expect(subject.sessionToken).toStrictEqual(new VCLToken('some token'));
         expect(subject.all.length).toBe(11);
     }
 })
