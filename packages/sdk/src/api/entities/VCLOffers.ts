@@ -7,7 +7,7 @@ export default class VCLOffers {
         public readonly payload: Dictionary<any>,
         public readonly all: VCLOffer[],
         public readonly responseCode: number,
-        public readonly token: VCLToken,
+        public readonly sessionToken: VCLToken,
         public readonly challenge: Nullish<string> = null
     ) {}
 
