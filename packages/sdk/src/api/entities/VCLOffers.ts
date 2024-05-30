@@ -11,6 +11,49 @@ export default class VCLOffers {
         public readonly challenge: Nullish<string> = null
     ) {}
 
+    static readonly fromPayload = (
+        payload: Dictionary<any>,
+        responseCode: number,
+        sessionToken: VCLToken
+    ): VCLOffers => {
+        if (payload) {
+            if (Array.isArray(payload)) {
+                return new VCLOffers(
+                    payload,
+                    VCLOffers.offersFromJsonArray(payload),
+                    responseCode,
+                    sessionToken
+                );
+            } else {
+                return new VCLOffers(
+                    payload,
+                    VCLOffers.offersFromJsonArray(payload[VCLOffers.CodingKeys.KeyOffers] || []),
+                    responseCode,
+                    sessionToken,
+                    payload[VCLOffers.CodingKeys.KeyChallenge]
+                );
+            }
+        } else {
+            return new VCLOffers(
+                {},
+                [],
+                responseCode,
+                sessionToken
+            );
+        }
+    }
+
+    private static readonly offersFromJsonArray = (offersJsonArray: Dictionary<any>[]): VCLOffer[] => {
+        const allOffers: VCLOffer[] = [];
+        for (let i = 0; i < offersJsonArray.length; i++) {
+            const offerJsonObject = offersJsonArray[i];
+            if (offerJsonObject) {
+                allOffers.push(new VCLOffer(offerJsonObject));
+            }
+        }
+        return allOffers;
+    }
+
     static CodingKeys = {
         KeyOffers: "offers",
         KeyChallenge: "challenge"
