@@ -1,12 +1,11 @@
 import { Dictionary } from "../VCLTypes";
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLJwt from "./VCLJwt";
-import VCLOffers from "./VCLOffers";
 
 export default class VCLFinalizeOffersDescriptor {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
-        public readonly offers: VCLOffers,
+        public readonly challenge: string,
         public readonly approvedOfferIds: string[],
         public readonly rejectedOfferIds: string[]
     ) {

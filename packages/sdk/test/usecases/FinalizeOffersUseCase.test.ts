@@ -71,7 +71,7 @@ describe("FinalizeOffersUseCase Tests", () => {
         )
 
         const verifiableCredentials = await subject1.finalizeOffers(
-            new VCLFinalizeOffersDescriptor(credentialManifestPassed, offers, [], []),
+            new VCLFinalizeOffersDescriptor(credentialManifestPassed, '', [], []),
             new VCLToken('')
         );
 
@@ -92,7 +92,7 @@ describe("FinalizeOffersUseCase Tests", () => {
         )
 
         const verifiableCredentials = await subject2.finalizeOffers(
-            new VCLFinalizeOffersDescriptor(credentialManifestPassed, offers, [], []),
+            new VCLFinalizeOffersDescriptor(credentialManifestPassed, '', [], []),
             new VCLToken('')
         );
 

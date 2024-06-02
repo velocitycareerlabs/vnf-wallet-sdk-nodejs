@@ -3,8 +3,6 @@ import {
     VCLDeepLink,
     VCLFinalizeOffersDescriptor,
     VCLJwt,
-    VCLOffers,
-    VCLToken,
     VCLVerifiedProfile
 } from "../../src";
 import { CredentialManifestMocks } from "../infrastructure/resources/valid/CredentialManifestMocks";
@@ -16,13 +14,6 @@ describe("VCLCredentialManifest Tests", () => {
 
     let subject: VCLFinalizeOffersDescriptor;
 
-    const offers = new VCLOffers(
-        {},
-        [],
-        200,
-        new VCLToken(""),
-        ""
-    )
     const nonceMock = "some nonce"
 
     const approvedOfferIds = ["approvedOfferId1", "approvedOfferId2"]
@@ -39,7 +30,7 @@ describe("VCLCredentialManifest Tests", () => {
             )
         subject = new VCLFinalizeOffersDescriptor(
             credentialManifest,
-            offers,
+            '',
             approvedOfferIds,
             rejectedOfferIds
         )
