@@ -1,8 +1,8 @@
 enum VCLEnvironment {
-    PROD = "prod",
-    STAGING = "staging",
-    QA = "qa",
-    DEV = "dev",
+    Prod = "prod",
+    Staging = "staging",
+    Qa = "qa",
+    Dev = "dev",
 }
 
 export default VCLEnvironment;

@@ -55,5 +55,6 @@ module.exports = {
         'no-undef': 'off',
         '@typescript-eslint/no-explicit-any': 'off',
         'unused-imports/no-unused-vars': 'error',
+        // '@typescript-eslint/no-namespace': 'off',
     }
 };

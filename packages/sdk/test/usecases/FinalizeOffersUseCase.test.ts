@@ -20,6 +20,9 @@ import JwtServiceRepositoryImpl from "../../src/impl/data/repositories/JwtServic
 import { FinalizeOffersRepositoryImpl } from "../../src/impl/data/repositories/FinalizeOffersRepositoryImpl";
 import { CredentialMocks } from "../infrastructure/resources/valid/CredentialMocks";
 import { CredentialManifestMocks } from "../infrastructure/resources/valid/CredentialManifestMocks";
+import CredentialIssuerVerifierImpl from "../../src/impl/data/verifiers/CredentialIssuerVerifierImpl";
+import CredentialDidVerifierImpl from "../../src/impl/data/verifiers/CredentialDidVerifierImpl";
+import CredentialsByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/CredentialsByDeepLinkVerifierImpl";
 
 describe("FinalizeOffersUseCase Tests", () => {
     let subject1: FinalizeOffersUseCase
@@ -67,7 +70,10 @@ describe("FinalizeOffersUseCase Tests", () => {
             new FinalizeOffersRepositoryImpl(
                 new NetworkServiceSuccess(JSON.parse(CredentialMocks.JwtCredentialsFromRegularIssuer))
             ),
-            jwtServiceRepository
+            jwtServiceRepository,
+            new CredentialIssuerVerifierImpl(),
+            new CredentialDidVerifierImpl(),
+            new CredentialsByDeepLinkVerifierImpl()
         )
 
         const verifiableCredentials = await subject1.finalizeOffers(
@@ -88,7 +94,10 @@ describe("FinalizeOffersUseCase Tests", () => {
             new FinalizeOffersRepositoryImpl(
                 new NetworkServiceSuccess(JSON.parse(CredentialMocks.JwtEmptyCredentials))
             ),
-            jwtServiceRepository
+            jwtServiceRepository,
+            new CredentialIssuerVerifierImpl(),
+            new CredentialDidVerifierImpl(),
+            new CredentialsByDeepLinkVerifierImpl()
         )
 
         const verifiableCredentials = await subject2.finalizeOffers(

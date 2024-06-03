@@ -92,7 +92,9 @@ export class VCLImpl implements VCL {
     async initialize(
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>> {
-        GlobalConfig.CurrentEnvironment = initializationDescriptor.environment;
+
+        this.initGlobalConfigurations();
+
         this.initializationDescriptor = initializationDescriptor;
         this.initializationWatcher = new InitializationWatcher(
             VCLImpl.ModelsToInitializeAmount
@@ -154,6 +156,11 @@ export class VCLImpl implements VCL {
                 );
             }
         }
+    }
+
+    private initGlobalConfigurations() {
+        GlobalConfig.CurrentEnvironment = this.initializationDescriptor.environment
+        GlobalConfig.XVnfProtocolVersion = this.initializationDescriptor.xVnfProtocolVersion
     }
 
     private initializeUseCases() {

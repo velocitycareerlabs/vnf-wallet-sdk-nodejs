@@ -1,4 +1,4 @@
-import { Dictionary } from "../VCLTypes";
+import { Dictionary, Nullish } from "../VCLTypes";
 import VCLCredentialManifest from "./VCLCredentialManifest";
 import VCLJwt from "./VCLJwt";
 
@@ -10,17 +10,26 @@ export default class VCLFinalizeOffersDescriptor {
         public readonly rejectedOfferIds: string[]
     ) {
     }
-
-    get exchangeId() {
-        return this.credentialManifest.exchangeId;
+    get didJwk() {
+        return this.credentialManifest.didJwk
     }
-
+    get remoteCryptoServicesToken() {
+        return this.credentialManifest.remoteCryptoServicesToken
+    }
     get finalizeOffersUri() {
         return this.credentialManifest.finalizeOffersUri;
     }
-
     get did() {
         return this.credentialManifest.did;
+    }
+    get issuerId() {
+        return this.credentialManifest.issuerId
+    }
+    get aud() {
+        return this.credentialManifest.aud
+    }
+    get exchangeId() {
+        return this.credentialManifest.exchangeId
     }
 
     payload: Dictionary<any> = {
@@ -29,13 +38,14 @@ export default class VCLFinalizeOffersDescriptor {
         [VCLFinalizeOffersDescriptor.KeyRejectedOfferIds]: this.rejectedOfferIds,
     };
 
-    generateRequestBody(jwt: VCLJwt): Dictionary<any> {
+    generateRequestBody(proof: Nullish<VCLJwt>=null): Dictionary<any> {
         const retVal = this.payload;
-        const proof: any = {};
-        proof[VCLFinalizeOffersDescriptor.KeyProofType] =
-            VCLFinalizeOffersDescriptor.KeyJwt;
-        proof[VCLFinalizeOffersDescriptor.KeyJwt] = jwt.signedJwt.serialize();
-        retVal[VCLFinalizeOffersDescriptor.KeyProof] = proof;
+        const proofJson: any = {};
+        if (proof) {
+            proofJson[VCLFinalizeOffersDescriptor.KeyProofType] = VCLFinalizeOffersDescriptor.KeyJwt;
+            proofJson[VCLFinalizeOffersDescriptor.KeyJwt] = proof.signedJwt.serialize();
+            retVal[VCLFinalizeOffersDescriptor.KeyProof] = proofJson
+        }
         return retVal;
     }
 
