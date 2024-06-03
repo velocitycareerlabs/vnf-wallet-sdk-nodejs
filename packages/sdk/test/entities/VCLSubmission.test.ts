@@ -1,7 +1,7 @@
 import VCLSubmission from "../../src/api/entities/VCLSubmission";
 import VCLPresentationSubmission from "../../src/api/entities/VCLPresentationSubmission";
 import { PresentationSubmissionMocks } from "../infrastructure/resources/valid/PresentationSubmissionMocks";
-import { JwtServiceMocks } from "../infrastructure/resources/valid/JwtServiceMocks";
+import { JwtMocks } from "../infrastructure/resources/valid/JwtMocks";
 import VCLPushDelegate from "../../src/api/entities/VCLPushDelegate";
 
 import "../../src/impl/extensions/StringExtensions";
@@ -32,7 +32,7 @@ describe("VCLSubmission Tests", () => {
 
     test("testRequestBody", () => {
         const requestBodyJsonObj = subject.generateRequestBody(
-            JwtServiceMocks.JWT
+            JwtMocks.JWT
         );
         expect(requestBodyJsonObj[VCLSubmission.KeyExchangeId]).toBe(
             subject.exchangeId
