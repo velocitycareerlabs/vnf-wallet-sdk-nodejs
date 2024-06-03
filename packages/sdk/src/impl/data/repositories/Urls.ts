@@ -4,14 +4,15 @@ import GlobalConfig from "../../GlobalConfig";
 export default class Urls {
     private static get EnvironmentPrefix(): string {
         return {
-            [VCLEnvironment.PROD]: "",
-            [VCLEnvironment.STAGING]: "staging",
-            [VCLEnvironment.QA]: "qa",
-            [VCLEnvironment.DEV]: "dev",
+            [VCLEnvironment.Prod]: "",
+            [VCLEnvironment.Staging]: "staging",
+            [VCLEnvironment.Qa]: "qa",
+            [VCLEnvironment.Dev]: "dev",
         }[GlobalConfig.CurrentEnvironment];
     }
     private static get BaseUrlServices(): string {
         return `https://${Urls.EnvironmentPrefix}registrar.velocitynetwork.foundation`;
+        // return `https://${Urls.EnvironmentPrefix}walletapi.velocitycareerlabs.io`;
     }
 
     static get CredentialTypes(): string {
@@ -49,5 +50,7 @@ export class HeaderKeys {
 }
 
 export class HeaderValues {
-    static readonly XVnfProtocolVersion = "1.0";
+    static get XVnfProtocolVersion() {
+        return GlobalConfig.XVnfProtocolVersion.toString();
+    }
 }

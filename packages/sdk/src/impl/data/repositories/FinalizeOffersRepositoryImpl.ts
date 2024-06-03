@@ -14,12 +14,13 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
 
     async finalizeOffers(
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,
-        sessionToken: VCLToken
+        sessionToken: VCLToken,
+        proof: Nullish<VCLJwt> = null,
     ): Promise<VCLJwt[]> {
         const finalizedOffersResponse = await this.networkService.sendRequest({
             useCaches: false,
             endpoint: finalizeOffersDescriptor.finalizeOffersUri,
-            body: finalizeOffersDescriptor.payload,
+            body: finalizeOffersDescriptor.generateRequestBody(proof),
             headers: {
                 [HeaderKeys.HeaderKeyAuthorization]: `${HeaderKeys.HeaderValuePrefixBearer} ${sessionToken.value}`,
                 [HeaderKeys.XVnfProtocolVersion]:

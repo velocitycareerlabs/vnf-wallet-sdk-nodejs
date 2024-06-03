@@ -4,12 +4,12 @@ import GlobalConfig from "../GlobalConfig";
 export default class VCLLog {
     static readonly format = "%s/%s: %s";
     static v(tag: Nullish<string>, msg: string) {
-        GlobalConfig.isLoggerOn &&
+        GlobalConfig.IsLoggerOn &&
             console.log(this.format, "V", GlobalConfig.LogTagPrefix + tag, msg);
     }
 
     static d(tag: Nullish<string>, msg: string) {
-        GlobalConfig.isLoggerOn &&
+        GlobalConfig.IsLoggerOn &&
             console.debug(
                 this.format,
                 "D",
@@ -19,7 +19,7 @@ export default class VCLLog {
     }
 
     static i(tag: Nullish<string>, msg: string) {
-        GlobalConfig.isLoggerOn &&
+        GlobalConfig.IsLoggerOn &&
             console.info(
                 this.format,
                 "I",
@@ -29,7 +29,7 @@ export default class VCLLog {
     }
 
     static w(tag: Nullish<string>, msg: string) {
-        GlobalConfig.isLoggerOn &&
+        GlobalConfig.IsLoggerOn &&
             console.warn(
                 this.format,
                 "W",
@@ -39,7 +39,7 @@ export default class VCLLog {
     }
 
     static e(tag: Nullish<string>, msg: string) {
-        GlobalConfig.isLoggerOn &&
+        GlobalConfig.IsLoggerOn &&
             console.error(
                 this.format,
                 "E",

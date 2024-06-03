@@ -1,7 +1,5 @@
 import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
 import VCLCryptoServicesDescriptor from "../api/entities/initialization/VCLCryptoServicesDescriptor";
-import VCLJwtSignService from "../api/jwt/VCLJwtSignService";
-import VCLJwtVerifyService from "../api/jwt/VCLJwtVerifyService";
 import NetworkServiceImpl from "./data/infrastructure/network/NetworkServiceImpl";
 import CountriesModelImpl from "./data/models/CountriesModelImpl";
 import CredentialTypeSchemasModelImpl from "./data/models/CredentialTypeSchemasModelImpl";
@@ -51,25 +49,11 @@ import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 import KeyServiceUseCaseImpl from "./data/usecases/KeyServiceUseCaseImpl";
 import KeyServiceRepositoryImpl from "./data/repositories/KeyServiceRepositoryImpl";
+import CredentialIssuerVerifierImpl from "./data/verifiers/CredentialIssuerVerifierImpl";
+import CredentialDidVerifierImpl from "./data/verifiers/CredentialDidVerifierImpl";
+import CredentialsByDeepLinkVerifierImpl from "./data/verifiers/CredentialsByDeepLinkVerifierImpl";
 
 export default class VclBlocksProvider {
-    private static chooseKeyService(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
-    ) {
-        return cryptoServicesDescriptor.keyService;
-    }
-    private static chooseJwtSignService(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
-    ): VCLJwtSignService {
-        return cryptoServicesDescriptor.jwtSignService;
-    }
-
-    private static chooseJwtVerifyService(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
-    ): VCLJwtVerifyService {
-        return cryptoServicesDescriptor.jwtVerifyService;
-    }
-
     static providePresentationRequestUseCase(
         cryptoServicesDescriptor: VCLCryptoServicesDescriptor
     ): PresentationRequestUseCase {
@@ -77,8 +61,8 @@ export default class VclBlocksProvider {
             new PresentationRequestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
             )
         );
     }
@@ -94,8 +78,8 @@ export default class VclBlocksProvider {
     ): JwtServiceUseCase {
         return new JwtServiceUseCaseImpl(
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
             )
         );
     }
@@ -107,8 +91,8 @@ export default class VclBlocksProvider {
             new CredentialManifestRepositoryImpl(new NetworkServiceImpl()),
             new ResolveKidRepositoryImpl(new NetworkServiceImpl()),
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
             )
         );
     }
@@ -121,8 +105,8 @@ export default class VclBlocksProvider {
                 new NetworkServiceImpl()
             ),
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
             )
         );
     }
@@ -139,9 +123,12 @@ export default class VclBlocksProvider {
         return new FinalizeOffersUseCaseImpl(
             new FinalizeOffersRepositoryImpl(new NetworkServiceImpl()),
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
-            )
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
+            ),
+            new CredentialIssuerVerifierImpl(),
+            new CredentialDidVerifierImpl(),
+            new CredentialsByDeepLinkVerifierImpl()
         );
     }
 
@@ -153,8 +140,8 @@ export default class VclBlocksProvider {
                 new NetworkServiceImpl()
             ),
             new JwtServiceRepositoryImpl(
-                this.chooseJwtSignService(cryptoServicesDescriptor),
-                this.chooseJwtVerifyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.jwtSignService,
+                cryptoServicesDescriptor.jwtVerifyService
             )
         );
     }
@@ -213,7 +200,7 @@ export default class VclBlocksProvider {
     ): KeyServiceUseCase {
         return new KeyServiceUseCaseImpl(
             new KeyServiceRepositoryImpl(
-                VclBlocksProvider.chooseKeyService(cryptoServicesDescriptor)
+                cryptoServicesDescriptor.keyService
             )
         );
     }
