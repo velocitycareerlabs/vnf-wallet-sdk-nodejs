@@ -13,7 +13,7 @@ describe('GlobalConfigTest', () => {
         // Set up code here
     });
 
-    it('should validate Dev environment', () => {
+    it('should validate Dev environment', async () => {
         GlobalConfig.CurrentEnvironment = VCLEnvironment.Dev;
         expect(GlobalConfig.IsLoggerOn).toBeTruthy();
 
@@ -24,7 +24,7 @@ describe('GlobalConfigTest', () => {
         expect(GlobalConfig.IsLoggerOn).toBeTruthy();
     });
 
-    it('should validate Qa environment', () => {
+    it('should validate Qa environment', async () => {
         GlobalConfig.CurrentEnvironment = VCLEnvironment.Qa;
         expect(GlobalConfig.IsLoggerOn).toBeTruthy();
 
@@ -35,7 +35,7 @@ describe('GlobalConfigTest', () => {
         expect(GlobalConfig.IsLoggerOn).toBeTruthy();
     });
 
-    it('should validate Staging environment', () => {
+    it('should validate Staging environment', async () => {
         GlobalConfig.CurrentEnvironment = VCLEnvironment.Staging;
         expect(GlobalConfig.IsLoggerOn).toBeFalsy();
 
@@ -46,7 +46,7 @@ describe('GlobalConfigTest', () => {
         expect(GlobalConfig.IsLoggerOn).toBeFalsy();
     });
 
-    it('should validate Prod environment', () => {
+    it('should validate Prod environment', async () => {
         GlobalConfig.CurrentEnvironment = VCLEnvironment.Prod;
         expect(GlobalConfig.IsLoggerOn).toBeFalsy();
 
@@ -57,7 +57,7 @@ describe('GlobalConfigTest', () => {
         expect(GlobalConfig.IsLoggerOn).toBeFalsy();
     });
 
-    it('should validate log tag prefix', () => {
+    it('should validate log tag prefix', async () => {
         expect(GlobalConfig.LogTagPrefix).toBe('VCL ');
     });
 
