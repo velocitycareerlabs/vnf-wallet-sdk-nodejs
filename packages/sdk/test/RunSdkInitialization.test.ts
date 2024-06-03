@@ -5,13 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { VCLCryptoServicesDescriptor, VCLEnvironment, VCLInitializationDescriptor, VCLProvider, VCL } from "../src";
-import VCLXVnfProtocolVersion from "../src/api/VCLXVnfProtocolVersion";
-import { KeyServiceMock } from "./infrastructure/resources/key/KeyServiceMock";
-import { JwtSignServiceMock } from "./infrastructure/resources/jwt/JwtSignServiceMock";
-import { JwtVerifyServiceMock } from "./infrastructure/resources/jwt/JwtVerifyServiceMock";
 import { expect } from "@jest/globals";
 import { VCLImpl } from "../src/impl/VCLImpl";
+import { VCLProvider } from "../src";
 
 describe('GlobalConfigTest', () => {
     it('sdk should be initialized successfully', async () => {
