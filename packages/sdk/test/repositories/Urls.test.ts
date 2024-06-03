@@ -7,8 +7,8 @@
 
 import Urls, { HeaderValues } from "../../src/impl/data/repositories/Urls";
 import GlobalConfig from "../../src/impl/GlobalConfig";
-import { VCLEnvironment } from "../../src";
-import { VCLXVnfProtocolVersion } from "../../src/api/VCLXVnfProtocolVersion";
+import VCLXVnfProtocolVersion from "../../src/api/VCLXVnfProtocolVersion";
+import VCLEnvironment from "../../src/api/VCLEnvironment";
 
 describe('UrlsTest', () => {
 

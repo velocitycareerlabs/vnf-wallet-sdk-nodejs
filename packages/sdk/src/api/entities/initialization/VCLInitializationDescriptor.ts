@@ -1,6 +1,6 @@
 import VCLEnvironment from "../../VCLEnvironment";
 import VCLCryptoServicesDescriptor from "./VCLCryptoServicesDescriptor";
-import { VCLXVnfProtocolVersion } from "../../VCLXVnfProtocolVersion";
+import VCLXVnfProtocolVersion from "../../VCLXVnfProtocolVersion";
 
 export default class VCLInitializationDescriptor {
     constructor(

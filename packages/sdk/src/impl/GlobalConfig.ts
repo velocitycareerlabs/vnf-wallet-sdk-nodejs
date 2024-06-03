@@ -1,5 +1,5 @@
 import VCLEnvironment from "../api/VCLEnvironment";
-import { VCLXVnfProtocolVersion } from "../api/VCLXVnfProtocolVersion";
+import VCLXVnfProtocolVersion from "../api/VCLXVnfProtocolVersion";
 
 export default class GlobalConfig {
     static IsDebugOn = false;
