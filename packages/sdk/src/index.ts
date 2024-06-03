@@ -7,6 +7,7 @@ import VCLKeyService from "./api/keys/VCLKeyService";
 import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
 import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 import VCLEnvironment from "./api/VCLEnvironment";
+import VCLXVnfProtocolVersion from "./api/VCLXVnfProtocolVersion";
 import VCLCountry from "./api/entities/VCLCountry";
 import VCLCountries from "./api/entities/VCLCountries";
 import VCLCountryCodes from "./api/entities/VCLCountries";
@@ -68,6 +69,7 @@ export {
     VCLJwtSignService,
     VCLJwtVerifyService,
     VCLEnvironment,
+    VCLXVnfProtocolVersion,
     VCLStatusCode,
     VCLErrorCode,
     VCLServiceType,
