@@ -93,12 +93,12 @@ export class VCLImpl implements VCL {
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>> {
 
-        this.initGlobalConfigurations();
-
         this.initializationDescriptor = initializationDescriptor;
         this.initializationWatcher = new InitializationWatcher(
             VCLImpl.ModelsToInitializeAmount
         );
+
+        this.initGlobalConfigurations();
 
         const completionHandler = (e?: any) => {
             if (e) return e;
