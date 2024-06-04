@@ -43,7 +43,7 @@ export default class VCLFinalizeOffersDescriptor {
         const proofJson: any = {};
         if (proof) {
             proofJson[VCLFinalizeOffersDescriptor.KeyProofType] = VCLFinalizeOffersDescriptor.KeyJwt;
-            proofJson[VCLFinalizeOffersDescriptor.KeyJwt] = proof.signedJwt.serialize();
+            proofJson[VCLFinalizeOffersDescriptor.KeyJwt] = proof.encodedJwt;
             retVal[VCLFinalizeOffersDescriptor.KeyProof] = proofJson
         }
         return retVal;
