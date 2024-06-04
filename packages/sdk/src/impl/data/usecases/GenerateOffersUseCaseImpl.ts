@@ -17,7 +17,7 @@ export default class GenerateOffersUseCaseImpl
         try {
             return await this.generateOffersRepository.generateOffers(generateOffersDescriptor, sessionToken);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

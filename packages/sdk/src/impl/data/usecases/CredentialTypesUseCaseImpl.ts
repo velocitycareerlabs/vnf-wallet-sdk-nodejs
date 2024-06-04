@@ -11,7 +11,7 @@ export default class CredentialTypesUseCaseImpl
         try {
             return await this.credentialTypes.getCredentialTypes();
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

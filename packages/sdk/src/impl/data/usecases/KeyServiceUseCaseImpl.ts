@@ -12,7 +12,7 @@ export default class KeyServiceUseCaseImpl implements KeyServiceUseCase {
         try {
             return await this.keyServiceRepository.generateDidJwk(didJwkDescriptor);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

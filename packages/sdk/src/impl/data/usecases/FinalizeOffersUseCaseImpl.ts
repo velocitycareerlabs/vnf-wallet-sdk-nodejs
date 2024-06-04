@@ -52,7 +52,7 @@ export default class FinalizeOffersUseCaseImpl implements FinalizeOffersUseCase 
                 )
             }
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 

@@ -29,7 +29,7 @@ export default class SubmissionUseCaseImpl implements SubmissionUseCase {
             );
             return await this.submissionRepository.submit(submission, jwt);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

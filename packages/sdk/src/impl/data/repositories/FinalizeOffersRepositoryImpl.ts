@@ -33,8 +33,9 @@ export class FinalizeOffersRepositoryImpl implements FinalizeOffersRepository {
         const encodedJwtCredArr: Nullish<string[]> = (finalizedOffersResponse.payload as Nullish<string[]>);
         if (encodedJwtCredArr) {
             return encodedJwtCredArr.map((encodedJwtCred) => VCLJwt.fromEncodedJwt(encodedJwtCred));
+        } else if (finalizedOffersResponse.payload instanceof Error) {
+            throw VCLError.fromError(finalizedOffersResponse.payload);
         }
-
         throw new VCLError(`Failed to parse: ${finalizedOffersResponse.payload}`);
     }
 }

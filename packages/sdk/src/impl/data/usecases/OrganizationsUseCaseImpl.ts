@@ -13,7 +13,7 @@ export default class OrganizationsUseCaseImpl implements OrganizationsUseCase {
         try {
             return await this.organizationsRepository.searchForOrganizations(organizationsSearchDescriptor);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

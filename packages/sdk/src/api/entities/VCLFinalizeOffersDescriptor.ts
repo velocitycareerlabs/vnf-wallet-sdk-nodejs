@@ -16,12 +16,6 @@ export default class VCLFinalizeOffersDescriptor {
     get remoteCryptoServicesToken() {
         return this.credentialManifest.remoteCryptoServicesToken
     }
-    get finalizeOffersUri() {
-        return this.credentialManifest.finalizeOffersUri;
-    }
-    get did() {
-        return this.credentialManifest.did;
-    }
     get issuerId() {
         return this.credentialManifest.issuerId
     }
@@ -30,6 +24,12 @@ export default class VCLFinalizeOffersDescriptor {
     }
     get exchangeId() {
         return this.credentialManifest.exchangeId
+    }
+    get finalizeOffersUri() {
+        return this.credentialManifest.finalizeOffersUri;
+    }
+    get serviceTypes() {
+        return this.credentialManifest.verifiedProfile.serviceTypes
     }
 
     payload: Dictionary<any> = {
