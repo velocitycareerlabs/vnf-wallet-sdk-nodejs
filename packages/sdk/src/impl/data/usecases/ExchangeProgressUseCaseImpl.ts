@@ -14,7 +14,7 @@ export default class ExchangeProgressUseCaseImpl implements ExchangeProgressUseC
         try {
             return await this.exchangeProgressRepository.getExchangeProgress(exchangeDescriptor);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

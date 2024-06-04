@@ -22,7 +22,7 @@ export default class CredentialTypesUIFormSchemaUseCaseImpl
                 countries
             );
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

@@ -237,7 +237,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getPresentationRequest", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -250,7 +250,7 @@ export class VCLImpl implements VCL {
                 );
         } catch(error: any) {
             logError("submit presentation", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -261,7 +261,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getExchangeProgress", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -274,7 +274,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getExchangeProgress", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -291,7 +291,7 @@ export class VCLImpl implements VCL {
                 null
             );
             logError('', error);
-            throw error;
+            throw VCLError.fromError(error);
         }
         let verifiedProfile: VCLVerifiedProfile;
         try {
@@ -304,7 +304,7 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError(`failed to find verified profile by did ${did}`, error);
-            throw error;
+            throw VCLError.fromError(error);
         }
         try {
             return await this.credentialManifestUseCase.getCredentialManifest(
@@ -313,7 +313,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getCredentialManifest", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -332,7 +332,7 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError("submit identification", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
 
         VCLLog.i(VCLImpl.TAG, "Identification submitted success.");
@@ -364,7 +364,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("finalizeOffers", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -380,14 +380,14 @@ export class VCLImpl implements VCL {
                 );
             } catch (error: any) {
                 logError("getCredentialTypesUIFormSchema", error);
-                throw error;
+                throw VCLError.fromError(error);
             }
         } else {
             const error = new VCLError(
                 "No countries for getCredentialTypesUIFormSchema"
             );
             logError("getCredentialTypesUIFormSchema", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     }
 
@@ -400,7 +400,7 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError("getVerifiedProfile", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -417,7 +417,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("verifyJwt", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -436,7 +436,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateSignedJwt", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -447,7 +447,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateDidJwk", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     };
 
@@ -466,7 +466,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateOffers", error);
-            throw error;
+            throw VCLError.fromError(error);
         }
     }
 }

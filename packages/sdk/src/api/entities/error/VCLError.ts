@@ -36,14 +36,17 @@ export default class VCLError extends Error {
         return result;
     }
 
-    static fromException(
-        exception: Error,
+    static fromError(
+        error: Error,
         statusCode: number | null = null
     ): VCLError {
+        if (error instanceof VCLError) {
+            return error;
+        }
         return new VCLError(
             null,
             VCLErrorCode.SdkError.toString(),
-            exception.message,
+            error.message,
             statusCode
         );
     }

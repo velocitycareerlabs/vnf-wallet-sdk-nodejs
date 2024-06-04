@@ -10,7 +10,7 @@ export default class CountriesUseCaseImpl implements CountriesUseCase {
         try {
             return await this.countriesRepository.getCountries();
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

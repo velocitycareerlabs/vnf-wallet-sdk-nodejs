@@ -14,7 +14,7 @@ export default class VerifiedProfileUseCaseImpl
         try {
             return await this.verifiedProfileRepository.getVerifiedProfile(verifiedProfileDescriptor);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 }

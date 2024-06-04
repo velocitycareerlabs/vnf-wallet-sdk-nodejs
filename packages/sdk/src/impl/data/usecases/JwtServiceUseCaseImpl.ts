@@ -19,7 +19,7 @@ export default class JwtServiceUseCaseImpl implements JwtServiceUseCase {
         try {
             return await this.jwtServiceRepository.verifyJwt(jwt, publicJwk, remoteCryptoServicesToken);
         } catch (error: any) {
-            throw new VCLError(error);
+            throw VCLError.fromError(error);
         }
     }
 
