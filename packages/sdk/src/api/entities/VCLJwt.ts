@@ -31,7 +31,7 @@ export default class VCLJwt {
     }
 
     get jwk(): Dictionary<any> {
-        return this.header.jwk || JSON.parse("{}")
+        return this.header.jwk || {}
     }
 
     get header(): Dictionary<any> {
