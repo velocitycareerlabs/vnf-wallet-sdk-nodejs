@@ -19,7 +19,7 @@ export default class VCLOffers {
         if (payload) {
             if (Array.isArray(payload)) {
                 return new VCLOffers(
-                    payload,
+                    { [VCLOffers.CodingKeys.KeyOffers]: payload },
                     VCLOffers.offersFromJsonArray(payload),
                     responseCode,
                     sessionToken

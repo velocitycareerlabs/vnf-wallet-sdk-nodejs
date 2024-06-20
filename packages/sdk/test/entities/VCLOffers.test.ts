@@ -24,28 +24,28 @@ describe("VCLOffers tests", () => {
     );
 
     test("VCLOffers from array test", async () => {
-        expect(subject1.payload).toEqual(JSON.parse(OffersMocks.offersJsonArrayStr));
+        expect(subject1.payload[VCLOffers.CodingKeys.KeyOffers]).toStrictEqual(JSON.parse(OffersMocks.offersJsonArrayStr));
         testExpectations(subject1);
         expect(subject1.challenge).toBe(null);
         expect(subject1.all.map((offer) => offer.payload)).toStrictEqual(JSON.parse(OffersMocks.offersJsonArrayStr));
     })
 
     test("VCLOffers from object test", async () => {
-        expect(subject2.payload).toEqual(JSON.parse(OffersMocks.offersJsonObjectStr));
+        expect(subject2.payload).toStrictEqual(JSON.parse(OffersMocks.offersJsonObjectStr));
         testExpectations(subject2);
         expect(subject2.challenge).toBe(OffersMocks.challenge);
         expect(subject2.all.map((offer) => offer.payload)).toStrictEqual(JSON.parse(OffersMocks.offersJsonArrayStr));
     })
 
     test("VCLOffers from emprty array test", async () => {
-        expect(subject3.payload).toEqual(JSON.parse(OffersMocks.offersJsonEmptyArrayStr));
+        expect(subject3.payload[VCLOffers.CodingKeys.KeyOffers]).toStrictEqual(JSON.parse(OffersMocks.offersJsonEmptyArrayStr));
         testExpectations(subject1);
         expect(subject3.challenge).toBe(null);
         expect(subject3.all.map((offer) => offer.payload)).toStrictEqual(JSON.parse(OffersMocks.offersJsonEmptyArrayStr));
     })
 
     test("VCLOffers from empty object test", async () => {
-        expect(subject4.payload).toEqual(JSON.parse(OffersMocks.offersJsonEmptyObjectStr));
+        expect(subject4.payload).toStrictEqual(JSON.parse(OffersMocks.offersJsonEmptyObjectStr));
         testExpectations(subject2);
         expect(subject4.challenge).toBe(OffersMocks.challenge);
         expect(subject4.all.map((offer) => offer.payload)).toStrictEqual(JSON.parse(OffersMocks.offersJsonEmptyArrayStr));
