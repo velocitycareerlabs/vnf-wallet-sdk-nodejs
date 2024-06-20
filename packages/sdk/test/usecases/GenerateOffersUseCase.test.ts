@@ -3,7 +3,7 @@ import GenerateOffersRepositoryImpl from "../../src/impl/data/repositories/Gener
 import GenerateOffersUseCaseImpl from "../../src/impl/data/usecases/GenerateOffersUseCaseImpl";
 import NetworkServiceSuccess from "../NetworkServiceSuccess";
 import { GenerateOffersMocks } from "../infrastructure/resources/valid/GenerateOffersMocks";
-import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLVerifiedProfile } from "../../src";
+import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLOffers, VCLVerifiedProfile } from "../../src";
 import { VerifiedProfileMocks } from "../infrastructure/resources/valid/VerifiedProfileMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
@@ -69,7 +69,7 @@ describe("GenerateOffersUseCase Tests", () => {
 
         const generatedOffers = await subject1.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
-        expect(generatedOffers?.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonArr);
+        expect(generatedOffers?.payload[VCLOffers.CodingKeys.KeyOffers]).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonArr);
         expect(generatedOffers?.all[0]).toStrictEqual(expectedOffer1);
         expect(generatedOffers?.all[1]).toStrictEqual(expectedOffer2);
         expect(generatedOffers?.challenge).toBeNull()
@@ -126,7 +126,7 @@ describe("GenerateOffersUseCase Tests", () => {
 
         const generatedOffers = await subject3.generateOffers(generateOffersDescriptor, CommonMocks.Token);
 
-        expect(generatedOffers?.payload).toStrictEqual([]);
+        expect(generatedOffers?.payload[VCLOffers.CodingKeys.KeyOffers]).toStrictEqual([]);
         expect(generatedOffers?.all).toStrictEqual([]);
         expect(generatedOffers?.challenge).toBeNull();
         expect(generatedOffers?.sessionToken).toStrictEqual(CommonMocks.Token);
