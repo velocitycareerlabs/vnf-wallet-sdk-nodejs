@@ -35,7 +35,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ env.NODE_VERSION }}
+        node-version: ${{ env.NODE_VERSION }}
+          # Set Github Packages Token
+          - name: Set Github Packages Token
+          run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ./apps/${{ inputs.app-path-name }}/.npmrc
       # Install dependencies
       - name: Install dependencies
         run: yarn --frozen-lockfile --pure-lockfile

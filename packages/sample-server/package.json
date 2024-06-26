@@ -3,23 +3,23 @@
     "version": "0.0.1",
     "description": "VNF Wallet Sample Nodejs Server",
     "scripts": {
-        "lint": "eslint . --ext .js,.ts,.tsx",
-        "lint:fix": "eslint --fix --ext .js,.ts,.tsx .",
+        "lint": "eslint . --ext .js,.ts,.tsx,.json",
+        "lint:fix": "eslint --fix --ext .js,.ts,.tsx,.json .",
         "test": "jest",
-        "dev": "NODE_ENV=dev ts-node-dev --log-error --files ./src/server.ts",
-        "build": "tsc -p tsconfig.json",
-        "start": "NODE_ENV=production node dist/server.js"
+        "start": "NODE_ENV=dev ts-node --log-error --files ./src/server.ts",
+        "start:dev": "NODE_ENV=dev ts-node-dev --log-error --files ./src/server.ts"
     },
     "author": "Andres Olave",
     "license": "Apache-2.0",
     "engines": {
-        "node": ">= 18.0.0"
+        "node": ">= 20.0.0"
     },
     "dependencies": {
         "@fastify/autoload": "~5.7.1",
+        "axios": "^1.4.0",
         "env-var": "~7.3.0",
-        "fastify": "~4.15.0",
-        "@velocitycareerlabs/vnf-nodejs-wallet-sdk": "^0.9.10"
+        "fastify": "~4.28.0",
+        "fastify-plugin": "4.5.1"
     },
     "devDependencies": {
         "@jest/globals": "~29.5.0",

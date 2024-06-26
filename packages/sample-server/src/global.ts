@@ -1,4 +1,8 @@
 // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+import { VCLEnvironment } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
+
+export const CurrentEnvironment = VCLEnvironment.Dev
+
 interface String {
     getQueryParameters(): Map<string, string>;
     appendQueryParams(queryParams: string): string;
