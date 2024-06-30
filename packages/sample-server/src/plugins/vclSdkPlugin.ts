@@ -36,7 +36,7 @@ const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
         )
     );
     try {
-        // await vclSdk.initialize(initializationDescriptor);
+        await vclSdk.initialize(initializationDescriptor);
     } catch (e) {
         console.error('Failed to initialize VCL SDK', e);
         throw e;
