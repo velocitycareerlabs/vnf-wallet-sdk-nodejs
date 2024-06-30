@@ -6,7 +6,6 @@
  */
 import { VCLEnvironment } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
-
 const BaseUrl = "mockvendor.velocitycareerlabs.io";
 
 function getServiceBaseUrl(environment: VCLEnvironment): string {

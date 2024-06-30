@@ -6,7 +6,7 @@
  */
 
 import { getCreateDidKeyServiceUrl } from "./urls";
-import { CurrentEnvironment } from "../global";
+import { CurrentEnvironment } from "../../global-config";
 import fetcher from "./fetcher";
 import { Dictionary, VCLDidJwkDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 

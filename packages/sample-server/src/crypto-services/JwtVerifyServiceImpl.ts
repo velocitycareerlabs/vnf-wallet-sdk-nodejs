@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { verifyJwtFetcher } from "../fetchers";
+import { verifyJwtFetcher } from "./fetchers";
 import { VCLPublicJwk, Nullish, VCLJwtVerifyService, VCLJwt } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export class JwtVerifyServiceImpl implements VCLJwtVerifyService {

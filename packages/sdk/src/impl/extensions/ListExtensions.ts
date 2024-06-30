@@ -1,5 +1,3 @@
-export {};
-
 Array.prototype.toJsonArray = function <T>(): T[] {
     const retVal: T[] = [];
     this.forEach((item: T) => {
@@ -7,3 +5,5 @@ Array.prototype.toJsonArray = function <T>(): T[] {
     });
     return retVal;
 };
+
+export {};

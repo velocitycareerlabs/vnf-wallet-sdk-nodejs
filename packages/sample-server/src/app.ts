@@ -3,7 +3,7 @@ import autoload from "@fastify/autoload";
 import path from "path";
 import { userSchema } from "./schemas/user";
 import { errorSchema } from "./schemas/error";
-import vclSdkPlugin from "./plugins/vcl-sdk-plugin";
+import vclSdkPlugin from "./plugins/vclSdkPlugin";
 interface buildOpts extends FastifyServerOptions {}
 
 const build = (opts: buildOpts = {}): FastifyInstance => {
@@ -17,10 +17,7 @@ const build = (opts: buildOpts = {}): FastifyInstance => {
         dir: path.join(__dirname, "routes"),
     });
 
-    app.register(vclSdkPlugin, {
-        fastify: '>=4.0.0',
-        name: 'vcl-sdk-plugin',
-    });;
+    app.register(vclSdkPlugin);
 
     return app;
 };

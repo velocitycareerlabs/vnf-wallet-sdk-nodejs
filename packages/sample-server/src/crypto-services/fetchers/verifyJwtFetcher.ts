@@ -6,7 +6,7 @@
  */
 
 import { getJwtVerifyServiceUrl } from "./urls";
-import { CurrentEnvironment } from "../global";
+import { CurrentEnvironment } from "../../global-config";
 import fetcher from "./fetcher";
 import { VCLPublicJwk, VCLJwt, Nullish, Dictionary } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 

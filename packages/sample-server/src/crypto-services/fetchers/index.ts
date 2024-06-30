@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { verifyJwtFetcher } from './verify-jwt-fetcher';
-import { generateSignedJwtFetcher } from './generate-signed-jwt-fetcher';
-import { generateDidJwkFetcher } from './generate-did-jwk-fetcher';
+import { verifyJwtFetcher } from './verifyJwtFetcher';
+import { generateSignedJwtFetcher } from './generateSignedJwtFetcher';
+import { generateDidJwkFetcher } from './generateDidJwkFetcher';
 
 export {
     verifyJwtFetcher,

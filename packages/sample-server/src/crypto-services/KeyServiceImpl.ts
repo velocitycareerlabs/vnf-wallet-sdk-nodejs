@@ -6,7 +6,7 @@
  */
 
 import { VCLDidJwk, VCLDidJwkDescriptor, VCLKeyService } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
-import { generateDidJwkFetcher } from "../fetchers";
+import { generateDidJwkFetcher } from "./fetchers";
 
 export class KeyServiceImpl implements VCLKeyService {
 

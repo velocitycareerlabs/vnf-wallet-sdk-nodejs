@@ -6,10 +6,9 @@
  */
 
 import { getJwtSignServiceUrl } from "./urls";
-import { CurrentEnvironment } from "../global";
+import { CurrentEnvironment } from "../../global-config";
 import fetcher from "./fetcher";
 import {
-    VCLJwt,
     VCLDidJwk,
     VCLJwtDescriptor,
     Dictionary,
