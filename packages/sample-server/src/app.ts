@@ -1,16 +1,18 @@
 import fastify, { FastifyInstance, FastifyServerOptions } from "fastify";
 import autoload from "@fastify/autoload";
 import path from "path";
-import { userSchema } from "./schemas/user";
-import { errorSchema } from "./schemas/error";
+import { errorSchema } from "./schemas/errorSchema";
 import vclSdkPlugin from "./plugins/vclSdkPlugin";
+import { presentationRequestSchema } from "./schemas/presentationRequestSchema";
+import { deepLinkSchema } from "./schemas/deepLinkSchema";
 interface buildOpts extends FastifyServerOptions {}
 
 const build = (opts: buildOpts = {}): FastifyInstance => {
     const app = fastify(opts);
 
     // add in common schemas
-    app.addSchema(userSchema);
+    app.addSchema(deepLinkSchema);
+    app.addSchema(presentationRequestSchema);
     app.addSchema(errorSchema);
 
     app.register(autoload, {

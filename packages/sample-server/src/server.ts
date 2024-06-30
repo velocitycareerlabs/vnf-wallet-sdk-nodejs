@@ -15,6 +15,7 @@ const devLogger = {
 
 const app: FastifyInstance<Server, IncomingMessage, ServerResponse> = build({
   logger: config.nodeEnv === 'development' ? devLogger : true,
+  pluginTimeout: 0,
 });
 
 app.listen({port: 8080, host: "0.0.0.0"}, (err, address) => {

@@ -12,17 +12,17 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "moduleResolution": "node",
     "sourceMap": true,
     "strict": true,
     "lib": ["ES6", "ES2022"],
+    "target": "ES6",
+    "moduleResolution": "node16",
     "downlevelIteration": true,
-    "target": "ES5",
     "declaration": true,
     "baseUrl": "./",
     "paths": {
       "": ["./src/"]
-    },
+    }
   },
   "include": [
     "./src/**/*"
