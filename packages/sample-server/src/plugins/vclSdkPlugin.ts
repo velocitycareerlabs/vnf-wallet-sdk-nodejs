@@ -41,12 +41,12 @@ const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
         console.error('Failed to initialize VCL SDK', e);
         throw e;
     }
-    fastify
-        .decorate('vclSdk', vclSdk)
-        .decorateRequest('vclSdk', null)
-        .addHook('preValidation', async (req) => {
-            req.vclSdk = fastify.vclSdk;
-        });
+    fastify.decorate('vclSdk', vclSdk)
+    fastify.addHook('preHandler', function (req, reply, done) {
+        req.vclSdk = vclSdk
+        reply.vclSdk = vclSdk
+        done()
+    })
 };
 
 export default vclSdkPlugin;
