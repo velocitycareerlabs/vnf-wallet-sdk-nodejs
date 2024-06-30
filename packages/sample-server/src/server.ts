@@ -18,7 +18,7 @@ const app: FastifyInstance<Server, IncomingMessage, ServerResponse> = build({
   pluginTimeout: 0,
 });
 
-app.listen({port: 8080, host: "0.0.0.0"}, (err, address) => {
+app.listen({port: 5000, host: "0.0.0.0"}, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);

@@ -10,10 +10,9 @@ export async function getPresentationRequest(
     req: FastifyRequest,
     reply: FastifyReply,
 ){
-
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { deepLink } = req.body
+    const deepLink = req.body
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     reply.send(await req.vclSdk.getPresentationRequest(deepLink));
