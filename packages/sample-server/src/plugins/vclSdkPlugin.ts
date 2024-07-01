@@ -5,10 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import {
-    FastifyPluginAsync,
-    FastifyPluginCallback,
-} from "fastify";
+import { FastifyPluginAsync, FastifyPluginCallback } from "fastify";
 import {
     VCLProvider,
     VCLInitializationDescriptor,
@@ -35,25 +32,23 @@ const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
             new JwtVerifyServiceImpl()
         )
     );
+
     try {
         await vclSdk.initialize(initializationDescriptor);
     } catch (e) {
         console.error('Failed to initialize VCL SDK', e);
         throw e;
     }
-    fastify
-        .decorate('vclSdk', vclSdk)
-        .decorateRequest('vclSdk', null)
-        .addHook('preHandler', async (req, reply, done) => {
-            req.vclSdk = fastify.vclSdk
-            reply.vclSdk = fastify.vclSdk
-            done()
-        })
-        .addHook('preValidation', async (req, reply, done) => {
-            req.vclSdk = fastify.vclSdk
-            reply.vclSdk = fastify.vclSdk
-            done()
-        });
+
+    fastify.decorate('vclSdk', vclSdk);
+
+    const setVclSdk = async (req: any, reply: any) => {
+        req.vclSdk = fastify.vclSdk;
+        reply.vclSdk = fastify.vclSdk;
+    };
+
+    fastify.addHook('preHandler', setVclSdk);
+    fastify.addHook('preValidation', setVclSdk);
 };
 
 export default vclSdkPlugin;
