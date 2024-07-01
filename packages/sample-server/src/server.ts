@@ -43,7 +43,7 @@ const initialize = (app) => {
     console.log('VCL SDK initialized successfully');
 
     vclSdk.generateDidJwk(new VCLDidJwkDescriptor()).then((didJwk) => {
-      console.log(`DID JWK generated successfully: ${didJwk}`);
+      console.log(`DID JWK generated successfully: ${JSON.stringify(didJwk)}`);
       app.decorate('vclSdk', vclSdk);
       app.decorate('didJwk', didJwk);
 
