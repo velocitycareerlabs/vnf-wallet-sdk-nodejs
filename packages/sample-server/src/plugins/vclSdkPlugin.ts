@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { FastifyPluginAsync, FastifyPluginCallback } from "fastify";
+import { FastifyPluginAsync, FastifyInstance } from 'fastify';
 import {
     VCLProvider,
     VCLInitializationDescriptor,
@@ -16,11 +16,9 @@ import {
     JwtSignServiceImpl,
     JwtVerifyServiceImpl,
 } from '../crypto-services';
-import { CurrentEnvironment, XVnfProtocolVersion } from "../global-config";
+import { CurrentEnvironment, XVnfProtocolVersion } from '../global-config';
 
-const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
-    fastify
-) => {
+const vclSdkPlugin: FastifyPluginAsync = async (fastify: FastifyInstance) => {
     const vclSdk = VCLProvider.getInstance();
 
     const initializationDescriptor = new VCLInitializationDescriptor(
