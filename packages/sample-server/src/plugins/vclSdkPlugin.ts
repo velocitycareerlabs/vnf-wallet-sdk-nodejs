@@ -22,7 +22,7 @@ import {
 import { CurrentEnvironment, XVnfProtocolVersion } from "../global-config";
 
 const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
-    fastify,
+    fastify
 ) => {
     const vclSdk = VCLProvider.getInstance();
 
@@ -41,12 +41,19 @@ const vclSdkPlugin: FastifyPluginAsync | FastifyPluginCallback = async (
         console.error('Failed to initialize VCL SDK', e);
         throw e;
     }
-    fastify.decorate('vclSdk', vclSdk)
-    fastify.addHook('preHandler', function (req, reply, done) {
-        req.vclSdk = vclSdk
-        reply.vclSdk = vclSdk
-        done()
-    })
+    fastify
+        .decorate('vclSdk', vclSdk)
+        .decorateRequest('vclSdk', null)
+        .addHook('preHandler', async (req, reply, done) => {
+            req.vclSdk = fastify.vclSdk
+            reply.vclSdk = fastify.vclSdk
+            done()
+        })
+        .addHook('preValidation', async (req, reply, done) => {
+            req.vclSdk = fastify.vclSdk
+            reply.vclSdk = fastify.vclSdk
+            done()
+        });
 };
 
 export default vclSdkPlugin;

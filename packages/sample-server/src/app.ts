@@ -15,11 +15,11 @@ const build = (opts: buildOpts = {}): FastifyInstance => {
     app.addSchema(presentationRequestSchema);
     app.addSchema(errorSchema);
 
+    app.register(vclSdkPlugin);
+
     app.register(autoload, {
         dir: path.join(__dirname, "routes"),
     });
-
-    app.register(vclSdkPlugin);
 
     return app;
 };
