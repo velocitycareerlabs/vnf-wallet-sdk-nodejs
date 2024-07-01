@@ -11,11 +11,11 @@ const BaseUrl = "mockvendor.velocitycareerlabs.io";
 function getServiceBaseUrl(environment: VCLEnvironment): string {
     switch (environment) {
         case VCLEnvironment.Dev:
-            return `https://${VCLEnvironment.Dev}.${BaseUrl}`;
+            return `https://${VCLEnvironment.Dev}${BaseUrl}`;
         case VCLEnvironment.Qa:
-            return `https://${VCLEnvironment.Qa}.${BaseUrl}`;
+            return `https://${VCLEnvironment.Qa}${BaseUrl}`;
         case VCLEnvironment.Staging:
-            return `https://${VCLEnvironment.Staging}.${BaseUrl}`;
+            return `https://${VCLEnvironment.Staging}${BaseUrl}`;
         default:
             return `https://${BaseUrl}`;
     }

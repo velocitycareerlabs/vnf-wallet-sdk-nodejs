@@ -2,6 +2,14 @@ import { FastifyInstance } from "fastify";
 import { Server, IncomingMessage, ServerResponse } from "http";
 import { config } from './utils/config';
 import build from "./app";
+import {
+  VCLCryptoServicesDescriptor,
+  VCLInitializationDescriptor,
+  VCLProvider,
+  VCLDidJwkDescriptor,
+} from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
+import { CurrentEnvironment, XVnfProtocolVersion } from "./global-config";
+import { JwtSignServiceImpl, JwtVerifyServiceImpl, KeyServiceImpl } from "./crypto-services";
 
 const devLogger = {
   transport: {
@@ -13,15 +21,56 @@ const devLogger = {
   },
 }
 
-const app: FastifyInstance<Server, IncomingMessage, ServerResponse> = build({
+const app: any = build({
   logger: config.nodeEnv === 'development' ? devLogger : true,
   pluginTimeout: 0,
 });
 
-app.listen({port: 5000, host: "0.0.0.0"}, (err, address) => {
-  if (err) {
-    console.error(err);
-    process.exit(1);
-  }
-  console.log(`Server listening at ${address}`);
-});
+const initialize = (app) => {
+  const vclSdk = VCLProvider.getInstance();
+
+  const initializationDescriptor = new VCLInitializationDescriptor(
+      CurrentEnvironment,
+      XVnfProtocolVersion,
+      new VCLCryptoServicesDescriptor(
+          new KeyServiceImpl(),
+          new JwtSignServiceImpl(),
+          new JwtVerifyServiceImpl()
+      )
+  );
+
+  vclSdk.initialize(initializationDescriptor).then(() => {
+    console.log('VCL SDK initialized successfully');
+
+    vclSdk.generateDidJwk(new VCLDidJwkDescriptor()).then((didJwk) => {
+      console.log(`DID JWK generated successfully: ${didJwk}`);
+      app.decorate('vclSdk', vclSdk);
+      app.decorate('didJwk', didJwk);
+
+      const addHooks = async (req, reply) => {
+        req.vclSdk = app.vclSdk;
+        req.didJwk = app.didJwk;
+        reply.vclSdk = app.vclSdk;
+        reply.didJwk = app.didJwk;
+      };
+      app.addHook('preHandler', addHooks);
+      app.addHook('preValidation', addHooks);
+
+      app.listen({ port: 5000, host: "0.0.0.0" }, (err, address) => {
+        if (err) {
+          console.error(err);
+          process.exit(1);
+        }
+        console.log(`Server listening at ${address}`);
+      });
+    }).catch((e) => {
+      console.error('Failed to generate DID JWK', e);
+      throw e;
+    });
+  }).catch((e) => {
+    console.error('Failed to initialize VCL SDK', e);
+    throw e;
+  });
+}
+
+initialize(app);
