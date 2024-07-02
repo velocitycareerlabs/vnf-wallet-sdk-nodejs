@@ -4,12 +4,13 @@
  * Copyright 2022 Velocity Career Labs inc.
  * SPDX-License-Identifier: Apache-2.0
  */
-import { VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
+
+import { VCLDeepLink, VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export async function getPresentationRequest(req, reply,) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const deepLink = req.body
+    const deepLink = new VCLDeepLink(req.body.value)
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     try {
@@ -23,8 +24,9 @@ export async function getPresentationRequest(req, reply,) {
         reply.send(presentationRequest);
     } catch (e: any) {
         reply.code(500).send({
-            error: "Failed to get presentation request",
-            message: JSON.stringify(e),
+            statusCode: "500",
+            error: e,
+            message: "Failed to get presentation request",
         });
     }
 }

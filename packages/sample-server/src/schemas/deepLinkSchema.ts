@@ -5,16 +5,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { JSONSchema7TypeName } from 'json-schema';
-
 export const deepLinkSchema = {
     $id: "deepLinkSchema",
-    type: "object" as JSONSchema7TypeName,
+    type: "object",
     properties: {
         deepLink: {
-            type: "object" as JSONSchema7TypeName,
+            type: "object",
             properties: {
-                value: { type: "string" as JSONSchema7TypeName },
+                value: { type: "string" },
             },
         },
     },
