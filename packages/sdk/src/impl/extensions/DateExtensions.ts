@@ -1,5 +1,3 @@
-export {};
-
 Date.prototype.addDaysToNow = function (days: number): Date {
     this.setUTCDate(this.getUTCDate() + days);
     return this;
@@ -14,3 +12,5 @@ Date.prototype.equalsTo = function (date: Date): boolean {
     );
     return selfCopy === check;
 };
+
+export {};

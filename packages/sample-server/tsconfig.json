@@ -10,6 +10,11 @@
     "sourceMap": true,
     "strict": true,
     "lib": ["ES6", "ES2022"],
+    "target": "ES2020",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node16",
     "noImplicitAny": false,
   },
   "include": [

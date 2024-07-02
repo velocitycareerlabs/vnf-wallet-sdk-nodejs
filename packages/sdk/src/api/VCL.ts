@@ -24,6 +24,7 @@ import VCLToken from "./entities/VCLToken";
 import VCLVerifiedProfile from "./entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescriptor";
 import { Nullish } from "./VCLTypes";
+import VCLDidJwkDescriptor from "./entities/VCLDidJwkDescriptor";
 
 export default interface VCL {
     initialize(
@@ -84,4 +85,6 @@ export default interface VCL {
         nonce: Nullish<string>,
         remoteCryptoServicesToken: Nullish<VCLToken>
     ): Promise<VCLJwt>;
+
+    generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLDidJwk>;
 }
