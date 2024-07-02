@@ -8,11 +8,7 @@
 import { VCLDeepLink, VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export async function getPresentationRequest(req, reply) {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const deepLink = new VCLDeepLink(req.body.value)
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     try {
         const presentationRequestDescriptor = new VCLPresentationRequestDescriptor(
             deepLink,
