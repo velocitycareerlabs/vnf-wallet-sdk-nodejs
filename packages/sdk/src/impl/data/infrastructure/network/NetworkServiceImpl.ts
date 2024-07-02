@@ -40,7 +40,7 @@ export default class NetworkServiceImpl implements NetworkService {
             const r = await handler();
             return new Response(r!.data, r!.status);
         } catch (error: any) {
-            return error.response?.data ?? error;
+            throw (error.response?.data ?? error);
         }
     }
 
