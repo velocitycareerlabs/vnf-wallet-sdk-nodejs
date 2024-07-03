@@ -5,11 +5,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { VCLDeepLink, VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
+import { VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
+import { deepLinkFromString } from "../utils/Converter";
 
 export async function getPresentationRequest(req, reply) {
     try {
-        const deepLink = new VCLDeepLink(req.body.value)
+        const deepLink = deepLinkFromString(req.body.value)
         const presentationRequestDescriptor = new VCLPresentationRequestDescriptor(
             deepLink,
             null,
@@ -21,8 +22,9 @@ export async function getPresentationRequest(req, reply) {
     } catch (e: any) {
         reply.code(500).send({
             statusCode: "500",
-            error: e,
-            message: "Failed to get presentation request",
+            error: "Failed to get exchange progress",
+            message: e.message ?? e.stack ?? JSON.stringify(e),
+            errorCode: e.errorCode,
         });
     }
 }
