@@ -11,7 +11,8 @@ export default class InitializationWatcher {
         enforceFailure = false
     ): boolean {
         this.initCount++;
-        error && this.errors.push(error);
+        if(error)
+            this.errors.push(error);
         return this.isInitializationComplete(enforceFailure);
     }
 

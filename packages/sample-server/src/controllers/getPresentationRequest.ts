@@ -8,8 +8,8 @@
 import { VCLDeepLink, VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export async function getPresentationRequest(req, reply) {
-    const deepLink = new VCLDeepLink(req.body.value)
     try {
+        const deepLink = new VCLDeepLink(req.body.value)
         const presentationRequestDescriptor = new VCLPresentationRequestDescriptor(
             deepLink,
             null,

@@ -1,5 +1,3 @@
-import { FastifyInstance } from "fastify";
-import { Server, IncomingMessage, ServerResponse } from "http";
 import { config } from './utils/config';
 import build from "./app";
 import {

@@ -30,8 +30,14 @@ export default class CredentialTypeSchemasUseCaseImpl
                 }) ?? [];
 
         for (const schemaName of schemaNamesArr) {
-            credentialTypeSchemasMap[schemaName] =
-                await this.credentialTypeSchemaRepository.getCredentialTypeSchema(schemaName);
+            try {
+                credentialTypeSchemasMap[schemaName] =
+                    await this.credentialTypeSchemaRepository.getCredentialTypeSchema(schemaName);
+            } catch (error: any) {
+                console.error(
+                    `${CredentialTypeSchemasUseCaseImpl.TAG}: Error fetching schema for ${schemaName}: ${error}`
+                );
+            }
         }
         return new VCLCredentialTypeSchemas(credentialTypeSchemasMap);
     }

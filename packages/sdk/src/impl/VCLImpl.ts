@@ -117,13 +117,13 @@ export class VCLImpl implements VCL {
         const initializeCountriesError = await this.countriesModel.initialize();
         this.initializationWatcher.onInitializedModel(initializeCountriesError);
 
-        const initalizeCredentialTypesError =
+        const initializeCredentialTypesError =
             await this.credentialTypesModel.initialize();
 
         if (
-            initalizeCredentialTypesError &&
+            initializeCredentialTypesError &&
             this.initializationWatcher.onInitializedModel(
-                initalizeCredentialTypesError,
+                initializeCredentialTypesError,
                 true
             )
         ) {
@@ -145,7 +145,7 @@ export class VCLImpl implements VCL {
 
                 if (
                     this.initializationWatcher.onInitializedModel(
-                        initalizeCredentialTypesError
+                        initializeCredentialTypesError
                     )
                 ) {
                     return completionHandler();
