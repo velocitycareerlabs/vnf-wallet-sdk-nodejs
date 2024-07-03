@@ -7,5 +7,10 @@
 
 import { getPresentationRequest } from "./getPresentationRequest";
 import { submitPresentation } from "./submitPresentation";
+import { getExchangeProgress } from "./getExchangeProgress";
 
-export { getPresentationRequest, submitPresentation }
+export {
+    getPresentationRequest,
+    submitPresentation,
+    getExchangeProgress
+}
