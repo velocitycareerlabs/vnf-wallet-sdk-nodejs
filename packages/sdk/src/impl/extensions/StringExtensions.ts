@@ -39,4 +39,5 @@ String.prototype.getUrlSubPath = function (
 String.prototype.randomString = function (length: number): string {
     return randomBytes(length).toString("hex");
 };
+
 export {};
