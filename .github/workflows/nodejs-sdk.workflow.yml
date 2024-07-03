@@ -111,7 +111,7 @@ jobs:
         working-directory: ${{ env.SDK_PATH }}
       # Set Github Packages Token
       - name: Set Github Packages Token
-        run: sed -i 's/GITHUB_TOKEN/${{ secrets.GITHUB_TOKEN }}/' .npmrc
+        run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
       # Publish Github Repo
       - name: Publish Github Repo
         if: ${{ env.GLOBAL_ENV == 'prod' || env.GLOBAL_ENV == 'rc' }}
