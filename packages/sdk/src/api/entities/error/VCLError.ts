@@ -46,7 +46,7 @@ export default class VCLError extends Error {
         return new VCLError(
             null,
             VCLErrorCode.SdkError.toString(),
-            error.message,
+            error.message ?? JSON.stringify(error),
             statusCode
         );
     }

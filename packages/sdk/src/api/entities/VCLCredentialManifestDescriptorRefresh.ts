@@ -1,6 +1,6 @@
 import { Nullish } from "../VCLTypes";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
-import VCLIssuingType from "./VCLIssuingType";
+import { VCLIssuingType } from "./VCLIssuingType";
 import VCLService from "./VCLService";
 import VCLDidJwk from "./VCLDidJwk";
 import VCLToken from "./VCLToken";

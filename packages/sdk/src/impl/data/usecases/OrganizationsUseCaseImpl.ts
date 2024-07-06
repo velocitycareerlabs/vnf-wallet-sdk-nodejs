@@ -1,5 +1,7 @@
 import VCLOrganizations from "../../../api/entities/VCLOrganizations";
-import VCLOrganizationsSearchDescriptor from "../../../api/entities/VCLOrganizationsSearchDescriptor";
+import {
+    VCLOrganizationsSearchDescriptor
+} from "../../../api/entities/VCLOrganizationsSearchDescriptor";
 import OrganizationsRepository from "../../domain/repositories/OrganizationsRepository";
 import OrganizationsUseCase from "../../domain/usecases/OrganizationsUseCase";
 import VCLError from "../../../api/entities/error/VCLError";

@@ -13,7 +13,9 @@ import VCLPublicJwk from "../api/entities/VCLPublicJwk";
 import VCLJwt from "../api/entities/VCLJwt";
 import VCLJwtDescriptor from "../api/entities/VCLJwtDescriptor";
 import VCLOffers from "../api/entities/VCLOffers";
-import VCLOrganizationsSearchDescriptor from "../api/entities/VCLOrganizationsSearchDescriptor";
+import {
+    VCLOrganizationsSearchDescriptor
+} from "../api/entities/VCLOrganizationsSearchDescriptor";
 import VCLPresentationRequestDescriptor from "../api/entities/VCLPresentationRequestDescriptor";
 import VCLPresentationSubmission from "../api/entities/VCLPresentationSubmission";
 import VCLServiceType from "../api/entities/VCLServiceType";

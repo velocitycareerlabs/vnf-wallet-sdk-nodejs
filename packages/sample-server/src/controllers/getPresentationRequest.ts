@@ -5,19 +5,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { VCLPresentationRequestDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
-import { deepLinkFromString } from "../utils/Converter";
+import { presentationRequestDescriptorFromJson } from "../utils/Converter";
 
 export async function getPresentationRequest(req, reply) {
     try {
-        const deepLink = deepLinkFromString(req.body.value)
-        const presentationRequestDescriptor = new VCLPresentationRequestDescriptor(
-            deepLink,
-            null,
-            req.didJwk,
-            null
-        )
-        const presentationRequest = await req.vclSdk.getPresentationRequest(presentationRequestDescriptor);
+        const presentationRequest = await req.vclSdk.getPresentationRequest(
+            presentationRequestDescriptorFromJson(req.body, req.didJwk)
+        );
         reply.send(presentationRequest);
     } catch (e: any) {
         reply.code(500).send({

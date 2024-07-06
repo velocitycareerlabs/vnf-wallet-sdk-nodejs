@@ -8,9 +8,17 @@
 import { getPresentationRequest } from "./getPresentationRequest";
 import { submitPresentation } from "./submitPresentation";
 import { getExchangeProgress } from "./getExchangeProgress";
+import { searchForOrganizations } from "./searchForOrganizations";
+import { getCredentialManifest } from "./getCredentialManifest";
+import { generateOffers } from "./generateOffers";
+import { checkForOffers } from "./checkForOffers";
 
 export {
     getPresentationRequest,
     submitPresentation,
-    getExchangeProgress
+    getExchangeProgress,
+    searchForOrganizations,
+    getCredentialManifest,
+    generateOffers,
+    checkForOffers
 }

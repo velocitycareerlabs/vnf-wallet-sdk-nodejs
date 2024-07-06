@@ -1,7 +1,7 @@
 import { Nullish } from "../VCLTypes";
 import VCLServiceTypes from "./VCLServiceTypes";
 
-export default class VCLOrganizationsSearchDescriptor {
+export class VCLOrganizationsSearchDescriptor {
     constructor(
         public readonly filter: Nullish<VCLFilter> = null,
         public readonly page: Nullish<VCLPage> = null,
