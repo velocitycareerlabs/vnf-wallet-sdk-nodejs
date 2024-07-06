@@ -1,6 +1,6 @@
 /* import { CredentialManifestDescriptorMocks } from "path-to-your-mocks"; */
 import VCLCredentialManifestDescriptorByDeepLink from "../../src/api/entities/VCLCredentialManifestDescriptorByDeepLink";
-import VCLIssuingType from "../../src/api/entities/VCLIssuingType";
+import { VCLIssuingType } from "../../src";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
 import "../../src/impl/extensions/StringExtensions";
 import VCLPushDelegate from "../../src/api/entities/VCLPushDelegate";

@@ -1,6 +1,6 @@
 /* { VCLCredentialManifestDescriptorByService, VCLIssuingType, VCLServiceCredentialAgentIssuer } */
 import VCLCredentialManifestDescriptorByService from "../../src/api/entities/VCLCredentialManifestDescriptorByService";
-import VCLIssuingType from "../../src/api/entities/VCLIssuingType";
+import { VCLIssuingType } from "../../src";
 import VCLServiceCredentialAgentIssuer from "../../src/api/entities/VCLServiceCredentialAgentIssuer";
 import "../../src/impl/extensions/StringExtensions";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
