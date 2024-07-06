@@ -1,6 +1,6 @@
-import VCLIssuingType, {
-    issuingTypeFromString,
-} from "../../src/api/entities/VCLIssuingType";
+import {
+    issuingTypeFromString, VCLIssuingType
+} from "../../src";
 
 describe("VCLIssuingType Tests", () => {
     test("testFromExactString", () => {

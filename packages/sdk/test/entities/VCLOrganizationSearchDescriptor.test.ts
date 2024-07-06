@@ -1,6 +1,6 @@
-import VCLOrganizationsSearchDescriptor, {
-    VCLFilter,
-} from "../../src/api/entities/VCLOrganizationsSearchDescriptor";
+import {
+    VCLFilter, VCLOrganizationsSearchDescriptor
+} from "../../src";
 import { OrganizationsDescriptorMocks } from "../infrastructure/resources/valid/OrganizationsDescriptorMocks";
 
 describe("VCLOrganizationsSearchDescriptor Tests", () => {

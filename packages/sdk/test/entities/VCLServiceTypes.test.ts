@@ -1,6 +1,6 @@
 import VCLServiceTypes from "../../src/api/entities/VCLServiceTypes";
 import VCLServiceType from "../../src/api/entities/VCLServiceType";
-import VCLIssuingType from "../../src/api/entities/VCLIssuingType";
+import { VCLIssuingType } from "../../src";
 
 describe("VCLServiceTypes Tests", () => {
     test("testContainsFull", () => {
