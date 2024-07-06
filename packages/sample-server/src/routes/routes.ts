@@ -7,7 +7,11 @@
 import {
     getPresentationRequest,
     submitPresentation,
-    getExchangeProgress
+    getExchangeProgress,
+    searchForOrganizations,
+    getCredentialManifest,
+    generateOffers,
+    checkForOffers
 } from "../controllers";
 
 export default async function routes(fastify) {
@@ -22,5 +26,21 @@ export default async function routes(fastify) {
     fastify.post(
         "/getExchangeProgress",
         getExchangeProgress
+    );
+    fastify.post(
+        "/searchForOrganizations",
+        searchForOrganizations
+    );
+    fastify.post(
+        "/getCredentialManifest",
+        getCredentialManifest
+    );
+    fastify.post(
+        "/generateOffers",
+        generateOffers
+    );
+    fastify.post(
+        "/checkOffers",
+        checkForOffers
     );
 }

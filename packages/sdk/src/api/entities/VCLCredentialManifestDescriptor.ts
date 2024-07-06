@@ -1,5 +1,5 @@
 import { Nullish } from "../VCLTypes";
-import VCLIssuingType from "./VCLIssuingType";
+import { VCLIssuingType } from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLToken from "./VCLToken";
 import VCLDidJwk from "./VCLDidJwk";

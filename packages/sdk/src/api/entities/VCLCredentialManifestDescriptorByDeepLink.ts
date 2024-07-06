@@ -1,7 +1,7 @@
 import { Nullish } from "../VCLTypes";
 import VCLCredentialManifestDescriptor from "./VCLCredentialManifestDescriptor";
 import VCLDeepLink from "./VCLDeepLink";
-import VCLIssuingType from "./VCLIssuingType";
+import { VCLIssuingType } from "./VCLIssuingType";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLDidJwk from "./VCLDidJwk";
 import VCLToken from "./VCLToken";

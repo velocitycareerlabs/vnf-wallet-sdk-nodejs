@@ -1,4 +1,4 @@
-enum VCLIssuingType {
+export enum VCLIssuingType {
     Career = "Career",
     Identity = "Identity",
     Refresh = "Refresh",
@@ -17,4 +17,3 @@ export const issuingTypeFromString = (value: string): VCLIssuingType => {
     }
     return VCLIssuingType.Undefined;
 };
-export default VCLIssuingType;

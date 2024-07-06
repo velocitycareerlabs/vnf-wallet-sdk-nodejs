@@ -34,8 +34,7 @@ import VCLJwtVerifiableCredentials from "./api/entities/VCLJwtVerifiableCredenti
 import VCLOffers from "./api/entities/VCLOffers";
 import VCLOrganization from "./api/entities/VCLOrganization";
 import VCLOrganizations from "./api/entities/VCLOrganizations";
-import VCLOrganizationsSearchDescriptor from "./api/entities/VCLOrganizationsSearchDescriptor";
-import { VCLFilter, VCLPage } from "./api/entities/VCLOrganizationsSearchDescriptor";
+import { VCLOrganizationsSearchDescriptor, VCLFilter, VCLPage } from "./api/entities/VCLOrganizationsSearchDescriptor";
 import VCLPresentationRequest from "./api/entities/VCLPresentationRequest";
 import VCLPresentationSubmission from "./api/entities/VCLPresentationSubmission";
 import VCLPublicJwk from "./api/entities/VCLPublicJwk";
@@ -44,7 +43,7 @@ import VCLService from "./api/entities/VCLService";
 import VCLServiceCredentialAgentIssuer from "./api/entities/VCLServiceCredentialAgentIssuer";
 import VCLServiceType from "./api/entities/VCLServiceType";
 import VCLServiceTypes from "./api/entities/VCLServiceTypes";
-import VCLIssuingType from "./api/entities/VCLIssuingType";
+import { VCLIssuingType, issuingTypeFromString } from "./api/entities/VCLIssuingType";
 import VCLSubmissionResult from "./api/entities/VCLSubmissionResult";
 import VCLToken from "./api/entities/VCLToken";
 import VCLVerifiableCredential from "./api/entities/VCLVerifiableCredential";
@@ -74,6 +73,7 @@ export {
     VCLErrorCode,
     VCLServiceType,
     VCLIssuingType,
+    issuingTypeFromString,
     VCLCountryCodes,
     VCLError,
     VCLCountry,

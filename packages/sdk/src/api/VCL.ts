@@ -15,7 +15,9 @@ import VCLJwtDescriptor from "./entities/VCLJwtDescriptor";
 import VCLJwtVerifiableCredentials from "./entities/VCLJwtVerifiableCredentials";
 import VCLOffers from "./entities/VCLOffers";
 import VCLOrganizations from "./entities/VCLOrganizations";
-import VCLOrganizationsSearchDescriptor from "./entities/VCLOrganizationsSearchDescriptor";
+import {
+    VCLOrganizationsSearchDescriptor
+} from "./entities/VCLOrganizationsSearchDescriptor";
 import VCLPresentationRequest from "./entities/VCLPresentationRequest";
 import VCLPresentationRequestDescriptor from "./entities/VCLPresentationRequestDescriptor";
 import VCLPresentationSubmission from "./entities/VCLPresentationSubmission";

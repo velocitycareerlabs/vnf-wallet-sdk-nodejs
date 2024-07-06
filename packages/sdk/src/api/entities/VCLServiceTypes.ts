@@ -1,4 +1,4 @@
-import VCLIssuingType from "./VCLIssuingType";
+import { VCLIssuingType } from "./VCLIssuingType";
 import VCLServiceType from "./VCLServiceType";
 
 export default class VCLServiceTypes {

@@ -82,13 +82,6 @@ export default class VCLCredentialManifest {
         );
     }
 
-    /*
-    * translate from kotlin to typescript private fun retrieveAud() =
-        ((jwt.payload?.toJSONObject()
-            ?.getOrDefault(CodingKeys.KeyMetadata, HashMap<String, Any>()) as? Map<*, *> )
-            ?.getOrDefault(CodingKeys.KeyFinalizeOffersUri, "") as? String ?: "")
-            .substringBefore("/issue/")
-    * */
     private retrieveAud(): string {
         const keyMetadata = this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {};
         const finalizeOffersUri = (keyMetadata as Dictionary<any>)[VCLCredentialManifest.KeyFinalizeOffersUri] ?? "";
