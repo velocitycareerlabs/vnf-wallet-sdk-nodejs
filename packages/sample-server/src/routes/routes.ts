@@ -11,7 +11,8 @@ import {
     searchForOrganizations,
     getCredentialManifest,
     generateOffers,
-    checkForOffers
+    checkForOffers,
+    finalizeOffers
 } from "../controllers";
 
 export default async function routes(fastify) {
@@ -42,5 +43,9 @@ export default async function routes(fastify) {
     fastify.post(
         "/checkOffers",
         checkForOffers
+    );
+    fastify.post(
+        "/finalizeOffers",
+        finalizeOffers
     );
 }

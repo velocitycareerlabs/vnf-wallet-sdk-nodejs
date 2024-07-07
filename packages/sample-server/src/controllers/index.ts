@@ -12,6 +12,7 @@ import { searchForOrganizations } from "./searchForOrganizations";
 import { getCredentialManifest } from "./getCredentialManifest";
 import { generateOffers } from "./generateOffers";
 import { checkForOffers } from "./checkForOffers";
+import { finalizeOffers } from "./finalizeOffers";
 
 export {
     getPresentationRequest,
@@ -20,5 +21,6 @@ export {
     searchForOrganizations,
     getCredentialManifest,
     generateOffers,
-    checkForOffers
+    checkForOffers,
+    finalizeOffers
 }

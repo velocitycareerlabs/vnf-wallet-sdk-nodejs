@@ -7,7 +7,11 @@
 
 import {
     Dictionary,
+    issuingTypeFromString,
     VCLCredentialManifest,
+    VCLCredentialManifestDescriptor,
+    VCLCredentialManifestDescriptorByDeepLink,
+    VCLCredentialManifestDescriptorByService,
     VCLDeepLink,
     VCLDidJwk,
     VCLExchange,
@@ -19,15 +23,12 @@ import {
     VCLPresentationRequest,
     VCLPresentationRequestDescriptor,
     VCLPresentationSubmission,
+    VCLServiceCredentialAgentIssuer,
     VCLSubmissionResult,
     VCLToken,
     VCLVerifiableCredential,
     VCLVerifiedProfile,
-    VCLCredentialManifestDescriptor,
-    VCLCredentialManifestDescriptorByDeepLink,
-    VCLCredentialManifestDescriptorByService,
-    issuingTypeFromString,
-    VCLServiceCredentialAgentIssuer
+    VCLFinalizeOffersDescriptor
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export const deepLinkFromString = (str: string): VCLDeepLink => {
@@ -97,7 +98,7 @@ const credentialManifestDescriptorByServiceFromJson = (
     json: Dictionary<any>,
     didJwk: VCLDidJwk
 ): VCLCredentialManifestDescriptorByService => {
-    const serviceCredentialAgentIssuer = new VCLCredentialManifestDescriptorByService(
+    return new VCLCredentialManifestDescriptorByService(
         new VCLServiceCredentialAgentIssuer(json.service),
         issuingTypeFromString(json.issuingType),
         json.credentialTypes,
@@ -105,7 +106,6 @@ const credentialManifestDescriptorByServiceFromJson = (
         didJwk,
         null
     );
-    return serviceCredentialAgentIssuer;
 }
 
 export const credentialManifestDescriptorFromJson = (
@@ -138,5 +138,15 @@ export const generateOffersDescriptorFromJson = (json: Dictionary<any>): VCLGene
         json.types,
         null,
         identificationVerifiableCredentials
+    );
+}
+
+export const finalizeOffersDescriptorFromJson = (json: Dictionary<any>): VCLFinalizeOffersDescriptor => {
+    const credentialManifest = credentialManifestFromJson(json.credentialManifest)
+    return new VCLFinalizeOffersDescriptor(
+        credentialManifest,
+        json.challenge,
+        json.approvedOfferIds,
+        json.rejectedOfferIds
     );
 }
