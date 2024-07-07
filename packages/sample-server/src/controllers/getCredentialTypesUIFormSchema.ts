@@ -15,9 +15,9 @@ export async function getCredentialTypesUIFormSchema(req, reply) {
         reply.send(credentialTypesUIFormSchema);
     } catch (e: any) {
         reply.code(500).send({
-            statusCode: "500",
+            statusCode: e.statusCode ?? "500",
             error: "Failed to get credential types UI form schema",
-            message: e.message ?? e.stack ?? JSON.stringify(e),
+            message: e.stack ?? e.message ?? JSON.stringify(e),
             errorCode: e.errorCode,
         });
     }

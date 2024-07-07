@@ -14,7 +14,10 @@ import {
     checkForOffers,
     finalizeOffers,
     getCredentialTypesUIFormSchema,
-    getVerifiedProfile
+    getVerifiedProfile,
+    verifyJwt,
+    generateSignedJwt,
+    generateDidJwk
 } from "../controllers";
 
 export default async function routes(fastify) {
@@ -57,5 +60,17 @@ export default async function routes(fastify) {
     fastify.post(
         "/getVerifiedProfile",
         getVerifiedProfile
+    );
+    fastify.post(
+        "/verifyJwt",
+        verifyJwt
+    );
+    fastify.post(
+        "/generateSignedJwt",
+        generateSignedJwt
+    );
+    fastify.post(
+        "/generateDidJwk",
+        generateDidJwk
     );
 }

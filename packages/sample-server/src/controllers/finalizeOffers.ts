@@ -16,7 +16,7 @@ export async function finalizeOffers(req, reply) {
         reply.send(jwtVerifiableCredentials);
     } catch (e: any) {
         reply.code(500).send({
-            statusCode: "500",
+            statusCode: e.statusCode ?? "500",
             error: "Failed to finalize offers",
             message: e.stack ?? e.message ?? JSON.stringify(e),
             errorCode: e.errorCode,

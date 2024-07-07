@@ -15,6 +15,9 @@ import { checkForOffers } from "./checkForOffers";
 import { finalizeOffers } from "./finalizeOffers";
 import { getCredentialTypesUIFormSchema } from "./getCredentialTypesUIFormSchema";
 import { getVerifiedProfile } from "./getVerifiedProfile";
+import { verifyJwt } from "./verifyJwt";
+import { generateSignedJwt } from "./generateSignedJwt";
+import { generateDidJwk } from "./generateDidJwk";
 
 export {
     getPresentationRequest,
@@ -26,5 +29,8 @@ export {
     checkForOffers,
     finalizeOffers,
     getCredentialTypesUIFormSchema,
-    getVerifiedProfile
+    getVerifiedProfile,
+    verifyJwt,
+    generateSignedJwt,
+    generateDidJwk
 }

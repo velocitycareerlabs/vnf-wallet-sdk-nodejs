@@ -16,9 +16,9 @@ export async function checkForOffers(req, reply) {
         reply.send(offers);
     } catch (e: any) {
         reply.code(500).send({
-            statusCode: "500",
+            statusCode: e.statusCode ?? "500",
             error: "Failed to check offers",
-            message: e.message ?? e.stack ?? JSON.stringify(e),
+            message: e.stack ?? e.message ?? JSON.stringify(e),
             errorCode: e.errorCode,
         });
     }
