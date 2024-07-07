@@ -12,7 +12,9 @@ import {
     getCredentialManifest,
     generateOffers,
     checkForOffers,
-    finalizeOffers
+    finalizeOffers,
+    getCredentialTypesUIFormSchema,
+    getVerifiedProfile
 } from "../controllers";
 
 export default async function routes(fastify) {
@@ -47,5 +49,13 @@ export default async function routes(fastify) {
     fastify.post(
         "/finalizeOffers",
         finalizeOffers
+    );
+    fastify.post(
+        "/getCredentialTypesUIFormSchema",
+        getCredentialTypesUIFormSchema
+    );
+    fastify.post(
+        "/getVerifiedProfile",
+        getVerifiedProfile
     );
 }

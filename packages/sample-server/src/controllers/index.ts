@@ -13,6 +13,8 @@ import { getCredentialManifest } from "./getCredentialManifest";
 import { generateOffers } from "./generateOffers";
 import { checkForOffers } from "./checkForOffers";
 import { finalizeOffers } from "./finalizeOffers";
+import { getCredentialTypesUIFormSchema } from "./getCredentialTypesUIFormSchema";
+import { getVerifiedProfile } from "./getVerifiedProfile";
 
 export {
     getPresentationRequest,
@@ -22,5 +24,7 @@ export {
     getCredentialManifest,
     generateOffers,
     checkForOffers,
-    finalizeOffers
+    finalizeOffers,
+    getCredentialTypesUIFormSchema,
+    getVerifiedProfile
 }

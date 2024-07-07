@@ -28,7 +28,9 @@ import {
     VCLToken,
     VCLVerifiableCredential,
     VCLVerifiedProfile,
-    VCLFinalizeOffersDescriptor
+    VCLFinalizeOffersDescriptor,
+    VCLCredentialTypesUIFormSchemaDescriptor,
+    VCLVerifiedProfileDescriptor
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export const deepLinkFromString = (str: string): VCLDeepLink => {
@@ -149,4 +151,15 @@ export const finalizeOffersDescriptorFromJson = (json: Dictionary<any>): VCLFina
         json.approvedOfferIds,
         json.rejectedOfferIds
     );
+}
+
+export const credentialTypesUIFormSchemaDescriptorFromJson = (json: Dictionary<any>): VCLCredentialTypesUIFormSchemaDescriptor => {
+    return new VCLCredentialTypesUIFormSchemaDescriptor(
+        json.credentialType,
+        json.countryCode
+    );
+}
+
+export function verifiedProfileDescriptorFromJson(json: Dictionary<any>): VCLVerifiedProfileDescriptor {
+    return new VCLVerifiedProfileDescriptor(json.did)
 }

@@ -9,11 +9,11 @@ import { finalizeOffersDescriptorFromJson, tokenFromString } from "../utils/Conv
 
 export async function finalizeOffers(req, reply) {
     try {
-        const offers = await req.vclSdk.finalizeOffers(
+        const jwtVerifiableCredentials = await req.vclSdk.finalizeOffers(
             finalizeOffersDescriptorFromJson(req.body),
             tokenFromString(req.body.sessionToken)
         );
-        reply.send(offers);
+        reply.send(jwtVerifiableCredentials);
     } catch (e: any) {
         reply.code(500).send({
             statusCode: "500",
