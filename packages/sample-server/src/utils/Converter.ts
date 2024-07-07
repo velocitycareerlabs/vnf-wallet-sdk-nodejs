@@ -30,7 +30,10 @@ import {
     VCLVerifiedProfile,
     VCLFinalizeOffersDescriptor,
     VCLCredentialTypesUIFormSchemaDescriptor,
-    VCLVerifiedProfileDescriptor
+    VCLVerifiedProfileDescriptor,
+    VCLPublicJwk,
+    VCLJwtDescriptor,
+    VCLDidJwkDescriptor
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export const deepLinkFromString = (str: string): VCLDeepLink => {
@@ -39,6 +42,18 @@ export const deepLinkFromString = (str: string): VCLDeepLink => {
 
 export const tokenFromString = (str: string): VCLToken => {
     return new VCLToken(str);
+}
+
+export const jwtFromJson = (json: Dictionary<any>): VCLJwt => {
+    return VCLJwt.fromEncodedJwt(json.encodedJwt);
+}
+
+export const publicJwkFromJson = (json: Dictionary<any>): VCLPublicJwk => {
+    return VCLPublicJwk.fromJSON(json);
+}
+
+export const didJwkFromJson = (json: Dictionary<any>): VCLDidJwk => {
+    return VCLDidJwk.fromJSON(json);
 }
 
 export const presentationRequestDescriptorFromJson = (json: Dictionary<any>, didJwk: VCLDidJwk): VCLPresentationRequestDescriptor => {
@@ -55,11 +70,11 @@ export const presentationSubmissionFromJson = (json: Dictionary<any>): VCLPresen
     const presentationRequestJson = json.presentationRequest;
     const verifiableCredentials = json.verifiableCredentials
     const presentationRequest = new VCLPresentationRequest(
-        VCLJwt.fromEncodedJwt(presentationRequestJson.jwt.encodedJwt),
+        jwtFromJson(presentationRequestJson.jwt),
         new VCLVerifiedProfile(presentationRequestJson.verifiedProfile.payload),
         new VCLDeepLink(presentationRequestJson.deepLink.value),
         null,
-        VCLDidJwk.fromJSON(presentationRequestJson.didJwk),
+        didJwkFromJson(presentationRequestJson.didJwk),
         json.remoteCryptoServicesToken ? new VCLToken(json.remoteCryptoServicesToken) : null
     )
     return new VCLPresentationSubmission(
@@ -121,11 +136,11 @@ export const credentialManifestDescriptorFromJson = (
 
 export const credentialManifestFromJson = (json: Dictionary<any>): VCLCredentialManifest => {
     return new VCLCredentialManifest(
-        VCLJwt.fromEncodedJwt(json.jwt.encodedJwt),
+        jwtFromJson(json.jwt),
         json.vendorOriginContext,
         new VCLVerifiedProfile(json.verifiedProfile.payload),
         json.deepLink ? new VCLDeepLink(json.deepLink.value) : null,
-        VCLDidJwk.fromJSON(json.didJwk),
+        didJwkFromJson(json.didJwk),
         json.remoteCryptoServicesToken ? new VCLToken(json.remoteCryptoServicesToken) : null
 
     );
@@ -162,4 +177,12 @@ export const credentialTypesUIFormSchemaDescriptorFromJson = (json: Dictionary<a
 
 export function verifiedProfileDescriptorFromJson(json: Dictionary<any>): VCLVerifiedProfileDescriptor {
     return new VCLVerifiedProfileDescriptor(json.did)
+}
+
+export const jwtDescriptorFromJson = (json: Dictionary<any>): VCLJwtDescriptor => {
+    return new VCLJwtDescriptor(json.payload, json.jti, json.iss, json.aud);
+}
+
+export const didJwkDescriptorFromJson = (json: Dictionary<any>): VCLDidJwkDescriptor => {
+    return new VCLDidJwkDescriptor(json.signatureAlgorithm, null);
 }
