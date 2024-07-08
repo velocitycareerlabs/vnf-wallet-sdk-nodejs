@@ -5,6 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { getCountries } from "./GetCountries";
+import { getCredentialTypes } from "./GetCredentialTypes";
+import { getCredentialTypeSchemas } from "./GetCredentialTypeSchemas";
 import { getPresentationRequest } from "./GetPresentationRequest";
 import { submitPresentation } from "./SubmitPresentation";
 import { getExchangeProgress } from "./GetExchangeProgress";
@@ -20,6 +23,9 @@ import { generateSignedJwt } from "./GenerateSignedJwt";
 import { generateDidJwk } from "./GenerateDidJwk";
 
 export {
+    getCountries,
+    getCredentialTypes,
+    getCredentialTypeSchemas,
     getPresentationRequest,
     submitPresentation,
     getExchangeProgress,

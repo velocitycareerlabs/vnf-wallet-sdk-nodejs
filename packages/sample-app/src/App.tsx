@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import MeinScreen from "./MeinScreen";
+import MeinScreen from "./screens/MeinScreen";
 
 function App() {
   return (

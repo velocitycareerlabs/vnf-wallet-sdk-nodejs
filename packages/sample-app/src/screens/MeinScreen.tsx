@@ -6,15 +6,20 @@
  */
 
 import React from 'react';
+import {
+    getCountriesRepository,
+    getCredentialTypeSchemasRepository,
+    getCredentialTypesRepository
+} from "../repositories";
 
-const getCountries = () => {
-    alert(`You clicked on getCountries`);
+const getCountries = async () => {
+    console.log(await getCountriesRepository());
 };
-const getCredentialTypes = () => {
-    alert(`You clicked on getCredentialTypes`);
+const getCredentialTypes = async () => {
+    console.log(await getCredentialTypesRepository());
 };
-const getCredentialTypeUISchemas = () => {
-    alert(`You clicked on getCredentialTypeUISchemas`);
+const getCredentialTypeSchemas = async () => {
+    console.log(await getCredentialTypeSchemasRepository());
 };
 const getPresentationRequest = () => {
     alert(`You clicked on getPresentationRequest`);
@@ -48,7 +53,7 @@ const MeinScreen: React.FC = () => {
     const menuItems = {
         'Get Countries': getCountries,
         'Get Credential Types': getCredentialTypes,
-        'Get Credential Type UI Schemas': getCredentialTypeUISchemas,
+        'Get Credential Type Schemas': getCredentialTypeSchemas,
         'Disclosing Credentials (aka Inspection)': getPresentationRequest,
         'Receiving Credentials (aka Issuing) By Deeplink': getCredentialManifestByDeepLink,
         'Receiving Credentials (aka Issuing) By Services': getOrganizationsThenCredentialManifestByService,

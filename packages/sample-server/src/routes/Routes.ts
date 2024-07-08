@@ -4,7 +4,11 @@
  * Copyright 2022 Velocity Career Labs inc.
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import {
+    getCountries,
+    getCredentialTypes,
+    getCredentialTypeSchemas,
     getPresentationRequest,
     submitPresentation,
     getExchangeProgress,
@@ -17,10 +21,23 @@ import {
     getVerifiedProfile,
     verifyJwt,
     generateSignedJwt,
-    generateDidJwk
+    generateDidJwk,
+
 } from "../controllers";
 
 export default async function routes(fastify) {
+    fastify.get(
+        "/getCountries",
+        getCountries
+    );
+    fastify.get(
+        "/getCredentialTypes",
+        getCredentialTypes
+    );
+    fastify.get(
+        "/getCredentialTypeSchemas",
+        getCredentialTypeSchemas
+    );
     fastify.post(
         "/getPresentationRequest",
         getPresentationRequest
