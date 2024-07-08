@@ -1,4 +1,7 @@
 import VCL from "../api/VCL";
+import VCLCountries from "../api/entities/VCLCountries";
+import VCLCredentialTypes from "../api/entities/VCLCredentialTypes";
+import VCLCredentialTypeSchemas from "../api/entities/VCLCredentialTypeSchemas";
 import VCLCredentialManifestDescriptor from "../api/entities/VCLCredentialManifestDescriptor";
 import VCLCredentialTypesUIFormSchema from "../api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
@@ -50,6 +53,7 @@ import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialType
 import VCLDidJwkDescriptor from "../api/entities/VCLDidJwkDescriptor";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 import { Nullish } from "../api/VCLTypes";
+
 export class VCLImpl implements VCL {
     static TAG = VCLImpl.name;
 
@@ -214,6 +218,19 @@ export class VCLImpl implements VCL {
             this.initializationDescriptor.cryptoServicesDescriptor
         );
     }
+
+    get countries(): Nullish<VCLCountries> {
+        return this.countriesModel?.data;
+    }
+
+    get credentialTypes(): Nullish<VCLCredentialTypes> {
+        return this.credentialTypesModel?.data;
+    }
+
+    get credentialTypeSchemas(): Nullish<VCLCredentialTypeSchemas> {
+        return this.credentialTypeSchemasModel?.data;
+    }
+
     getPresentationRequest = async (
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
     ) => {

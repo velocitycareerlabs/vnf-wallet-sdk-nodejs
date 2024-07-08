@@ -27,11 +27,20 @@ import VCLVerifiedProfile from "./entities/VCLVerifiedProfile";
 import VCLVerifiedProfileDescriptor from "./entities/VCLVerifiedProfileDescriptor";
 import { Nullish } from "./VCLTypes";
 import VCLDidJwkDescriptor from "./entities/VCLDidJwkDescriptor";
+import VCLCountries from "./entities/VCLCountries";
+import VCLCredentialTypes from "./entities/VCLCredentialTypes";
+import VCLCredentialTypeSchemas from "./entities/VCLCredentialTypeSchemas";
 
 export default interface VCL {
     initialize(
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>>;
+
+    get countries(): Nullish<VCLCountries>;
+
+    get credentialTypes(): Nullish<VCLCredentialTypes>;
+
+    get credentialTypeSchemas(): Nullish<VCLCredentialTypeSchemas>;
 
     getPresentationRequest(
         presentationRequestDescriptor: VCLPresentationRequestDescriptor
