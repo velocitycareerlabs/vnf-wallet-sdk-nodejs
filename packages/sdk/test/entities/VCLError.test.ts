@@ -1,8 +1,5 @@
 import VCLError from "../../src/api/entities/error/VCLError";
 import { ErrorMocks } from "../infrastructure/resources/valid/ErrorMocks";
-import "../../src/impl/extensions/StringExtensions";
-import "../../src/impl/extensions/ListExtensions";
-import "../../src/impl/extensions/DateExtensions";
 
 describe("VCLError Tests", () => {
     test("testErrorFromPayload", () => {

@@ -1,7 +1,6 @@
 import VCLCredentialManifestDescriptorRefresh from "../../src/api/entities/VCLCredentialManifestDescriptorRefresh";
 import VCLService from "../../src/api/entities/VCLService";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
-import "../../src/impl/extensions/StringExtensions";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLCredentialManifestDescriptorRefresh Tests", () => {

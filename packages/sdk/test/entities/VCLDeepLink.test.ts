@@ -1,8 +1,5 @@
 import VCLDeepLink from "../../src/api/entities/VCLDeepLink";
 import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
-import "../../src/impl/extensions/StringExtensions";
-import "../../src/impl/extensions/ListExtensions";
-import "../../src/impl/extensions/DateExtensions";
 
 describe("VCLDeepLink Tests", () => {
     test("testOpenidInitiateIssuance", () => {

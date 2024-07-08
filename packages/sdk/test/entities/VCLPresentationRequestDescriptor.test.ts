@@ -1,8 +1,5 @@
 import VCLPresentationRequestDescriptor from "../../src/api/entities/VCLPresentationRequestDescriptor";
 import { PresentationRequestDescriptorMocks } from "../infrastructure/resources/valid/PresentationRequestDescriptorMocks";
-import "../../src/impl/extensions/StringExtensions";
-import "../../src/impl/extensions/ListExtensions";
-import "../../src/impl/extensions/DateExtensions";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
 describe("VCLPresentationRequestDescriptor Tests", () => {

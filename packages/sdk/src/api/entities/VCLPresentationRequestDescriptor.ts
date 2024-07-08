@@ -3,6 +3,7 @@ import VCLDeepLink from "./VCLDeepLink";
 import VCLPushDelegate from "./VCLPushDelegate";
 import VCLToken from "./VCLToken";
 import VCLDidJwk from "./VCLDidJwk";
+import { appendQueryParamsToString } from "../../impl/utils/HelperFunctions";
 
 export default class VCLPresentationRequestDescriptor {
     constructor(
@@ -15,7 +16,7 @@ export default class VCLPresentationRequestDescriptor {
     get endpoint() {
         const queryParams = this.generateQueryParams();
         if (queryParams) {
-            return this.deepLink.requestUri?.appendQueryParams(queryParams);
+            return appendQueryParamsToString(this.deepLink.requestUri, queryParams);
         }
         return this.deepLink.requestUri;
     }

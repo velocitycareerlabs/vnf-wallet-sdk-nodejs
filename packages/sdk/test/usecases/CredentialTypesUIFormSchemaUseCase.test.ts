@@ -6,10 +6,6 @@ import { CredentialTypesUIFormSchemaMocks } from "../infrastructure/resources/va
 import NetworkServiceSuccess from "../../test/NetworkServiceSuccess";
 import VCLCredentialTypesUIFormSchema from "../../src/api/entities/VCLCredentialTypesUIFormSchema";
 import VCLCredentialTypesUIFormSchemaDescriptor from "../../src/api/entities/VCLCredentialTypesUIFormSchemaDescriptor";
-
-import "../../src/impl/extensions/StringExtensions";
-import "../../src/impl/extensions/DateExtensions";
-import "../../src/impl/extensions/ListExtensions";
 import VCLCountry from "../../src/api/entities/VCLCountry";
 import VCLRegions from "../../src/api/entities/VCLRegions";
 import VCLRegion from "../../src/api/entities/VCLRegion";
