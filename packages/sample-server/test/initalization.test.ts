@@ -1,6 +1,6 @@
 "use strict";
 import { describe, expect, test, beforeAll, afterAll } from "@jest/globals";
-import app from "../src/app";
+import app from "../src/App";
 import { FastifyInstance } from "fastify";
 
 import { VCLImpl } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/impl/VCLImpl";

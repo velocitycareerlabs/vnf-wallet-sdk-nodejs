@@ -1,7 +1,7 @@
 import fastify, { FastifyInstance, FastifyServerOptions } from "fastify";
 import autoload from "@fastify/autoload";
 import path from "path";
-import { errorSchema } from "./schemas/errorSchema";
+import { errorSchema } from "./schemas/ErrorSchema";
 interface buildOpts extends FastifyServerOptions {}
 
 const build = (opts: buildOpts = {}): FastifyInstance => {

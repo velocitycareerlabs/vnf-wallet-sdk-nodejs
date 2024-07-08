@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getJwtSignServiceUrl } from "./urls";
-import { CurrentEnvironment } from "../../global-config";
-import fetcher from "./fetcher";
+import { getJwtSignServiceUrl } from "./Urls";
+import { CurrentEnvironment } from "../../GlobalConfig";
+import fetcher from "./Fetcher";
 import {
     VCLDidJwk,
     VCLJwtDescriptor,
