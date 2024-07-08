@@ -1,12 +1,12 @@
-import { config } from './utils/config';
-import build from "./app";
+import { config } from './utils/Config';
+import build from "./App";
 import {
   VCLCryptoServicesDescriptor,
   VCLInitializationDescriptor,
   VCLProvider,
   VCLDidJwkDescriptor,
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
-import { CurrentEnvironment, XVnfProtocolVersion } from "./global-config";
+import { CurrentEnvironment, XVnfProtocolVersion } from "./GlobalConfig";
 import { JwtSignServiceImpl, JwtVerifyServiceImpl, KeyServiceImpl } from "./crypto-services";
 
 const devLogger = {

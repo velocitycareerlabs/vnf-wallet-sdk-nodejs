@@ -5,9 +5,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getCreateDidKeyServiceUrl } from "./urls";
-import { CurrentEnvironment } from "../../global-config";
-import fetcher from "./fetcher";
+import { getCreateDidKeyServiceUrl } from "./Urls";
+import { CurrentEnvironment } from "../../GlobalConfig";
+import fetcher from "./Fetcher";
 import { Dictionary, VCLDidJwkDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export async function generateDidJwkFetcher(didJwkDescriptor: VCLDidJwkDescriptor): Promise<Dictionary<any>> {

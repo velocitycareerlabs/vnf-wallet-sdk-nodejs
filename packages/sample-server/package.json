@@ -6,8 +6,8 @@
         "lint": "eslint . --ext .js,.ts,.tsx,.json",
         "lint:fix": "eslint --fix --ext .js,.ts,.tsx,.json .",
         "test": "jest",
-        "start": "NODE_ENV=dev ts-node --log-error --files ./src/server.ts",
-        "start:dev": "NODE_ENV=dev ts-node-dev --log-error --files ./src/server.ts"
+        "start": "NODE_ENV=dev ts-node --log-error --files src/Server.ts",
+        "start:dev": "NODE_ENV=dev ts-node-dev --log-error --files src/Server.ts"
     },
     "author": "Andres Olave",
     "license": "Apache-2.0",

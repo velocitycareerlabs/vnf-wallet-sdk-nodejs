@@ -5,19 +5,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getPresentationRequest } from "./getPresentationRequest";
-import { submitPresentation } from "./submitPresentation";
-import { getExchangeProgress } from "./getExchangeProgress";
-import { searchForOrganizations } from "./searchForOrganizations";
-import { getCredentialManifest } from "./getCredentialManifest";
-import { generateOffers } from "./generateOffers";
-import { checkForOffers } from "./checkForOffers";
-import { finalizeOffers } from "./finalizeOffers";
-import { getCredentialTypesUIFormSchema } from "./getCredentialTypesUIFormSchema";
-import { getVerifiedProfile } from "./getVerifiedProfile";
-import { verifyJwt } from "./verifyJwt";
-import { generateSignedJwt } from "./generateSignedJwt";
-import { generateDidJwk } from "./generateDidJwk";
+import { getPresentationRequest } from "./GetPresentationRequest";
+import { submitPresentation } from "./SubmitPresentation";
+import { getExchangeProgress } from "./GetExchangeProgress";
+import { searchForOrganizations } from "./SearchForOrganizations";
+import { getCredentialManifest } from "./GetCredentialManifest";
+import { generateOffers } from "./GenerateOffers";
+import { checkForOffers } from "./CheckForOffers";
+import { finalizeOffers } from "./FinalizeOffers";
+import { getCredentialTypesUIFormSchema } from "./GetCredentialTypesUIFormSchema";
+import { getVerifiedProfile } from "./GetVerifiedProfile";
+import { verifyJwt } from "./VerifyJwt";
+import { generateSignedJwt } from "./GenerateSignedJwt";
+import { generateDidJwk } from "./GenerateDidJwk";
 
 export {
     getPresentationRequest,
