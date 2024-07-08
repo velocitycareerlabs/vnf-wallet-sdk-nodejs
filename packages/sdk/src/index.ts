@@ -1,11 +1,11 @@
 import VCLProvider from "./api/VCLProvider";
 import VCLSignatureAlgorithm from "./api/VCLSignatureAlgorithm";
-import VCL from "./api/VCL";
+import type VCL from "./api/VCL";
 import VCLInitializationDescriptor from "./api/entities/initialization/VCLInitializationDescriptor";
 import VCLCryptoServicesDescriptor from "./api/entities/initialization/VCLCryptoServicesDescriptor";
-import VCLKeyService from "./api/keys/VCLKeyService";
-import VCLJwtSignService from "./api/jwt/VCLJwtSignService";
-import VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
+import type VCLKeyService from "./api/keys/VCLKeyService";
+import type VCLJwtSignService from "./api/jwt/VCLJwtSignService";
+import type VCLJwtVerifyService from "./api/jwt/VCLJwtVerifyService";
 import VCLEnvironment from "./api/VCLEnvironment";
 import VCLXVnfProtocolVersion from "./api/VCLXVnfProtocolVersion";
 import VCLCountry from "./api/entities/VCLCountry";
@@ -56,17 +56,22 @@ import VCLDidJwk from "./api/entities/VCLDidJwk";
 import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
-import { Nullish, Dictionary } from "./api/VCLTypes";
+import type { Nullish, Dictionary } from "./api/VCLTypes";
+
+export type {
+    VCL,
+    VCLKeyService,
+    VCLJwtSignService,
+    VCLJwtVerifyService,
+    Nullish,
+    Dictionary,
+};
 
 export {
     VCLProvider,
     VCLSignatureAlgorithm,
-    VCL,
     VCLInitializationDescriptor,
     VCLCryptoServicesDescriptor,
-    VCLKeyService,
-    VCLJwtSignService,
-    VCLJwtVerifyService,
     VCLEnvironment,
     VCLXVnfProtocolVersion,
     VCLStatusCode,
@@ -120,6 +125,4 @@ export {
     VCLJwtDescriptor,
     VCLDidJwkDescriptor,
     VCLDidJwk,
-    Nullish,
-    Dictionary,
 };
