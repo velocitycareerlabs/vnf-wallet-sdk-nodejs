@@ -4,8 +4,6 @@ import { PresentationSubmissionMocks } from "../infrastructure/resources/valid/P
 import { JwtMocks } from "../infrastructure/resources/valid/JwtMocks";
 import VCLPushDelegate from "../../src/api/entities/VCLPushDelegate";
 
-import "../../src/impl/extensions/StringExtensions";
-
 describe("VCLSubmission Tests", () => {
     let subject: VCLSubmission;
 

@@ -1,5 +1,9 @@
-import "../../impl/extensions/StringExtensions";
 import { Nullish } from "../VCLTypes";
+import {
+    appendQueryParamsToString,
+    getQueryParamsFromString,
+    getUrlSubPathFromString
+} from "../../impl/utils/HelperFunctions";
 
 export default class VCLDeepLink {
     public requestUri: Nullish<string>;
@@ -18,7 +22,7 @@ export default class VCLDeepLink {
         return (
             this.retrieveQueryParam(VCLDeepLink.KeyIssuerDid) ??
             this.retrieveQueryParam(VCLDeepLink.KeyInspectorDid) ??
-            this.requestUri?.getUrlSubPath(VCLDeepLink.KeyDidPrefix) // fallback for old agents
+            getUrlSubPathFromString(this.requestUri, VCLDeepLink.KeyDidPrefix) // fallback for old agents
         );
     }
 
@@ -30,7 +34,7 @@ export default class VCLDeepLink {
         uriKey: string,
         asSubParams = false
     ): Nullish<string> {
-        const queryParams = this.value.getQueryParameters();
+        const queryParams = getQueryParamsFromString(this.value);
         const uri = queryParams.get(uriKey);
         if (uri) {
             const queryItems = [...queryParams.entries()]
@@ -40,7 +44,7 @@ export default class VCLDeepLink {
             if (queryItems.length > 0) {
                 return asSubParams
                     ? `${uri}&${queryItems}`
-                    : uri.appendQueryParams(queryItems);
+                    : appendQueryParamsToString(uri, queryItems);
             }
 
             return uri;
@@ -50,7 +54,7 @@ export default class VCLDeepLink {
     }
 
     retrieveQueryParam(key: string): Nullish<string> {
-        return decodeURIComponent(this.value).getQueryParameters()?.get(key);
+        return getQueryParamsFromString(decodeURIComponent(this.value))?.get(key);
     }
 
     // CodingKeys

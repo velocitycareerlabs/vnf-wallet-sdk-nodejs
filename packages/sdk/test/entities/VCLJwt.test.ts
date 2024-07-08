@@ -1,5 +1,4 @@
 import VCLJwt from "../../src/api/entities/VCLJwt";
-import "../../src/impl/extensions/StringExtensions";
 
 const jwtWtithKidStr =
 "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InNvbWVfa2lkIn0.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.lGqyFj2RpmostxLvCcMFym9kWM0bzQcty9a81EdzrhM"

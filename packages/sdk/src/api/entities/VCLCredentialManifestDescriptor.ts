@@ -4,6 +4,7 @@ import VCLPushDelegate from "./VCLPushDelegate";
 import VCLToken from "./VCLToken";
 import VCLDidJwk from "./VCLDidJwk";
 import VCLDeepLink from "./VCLDeepLink";
+import { appendQueryParamsToString, getUrlSubPathFromString } from "../../impl/utils/HelperFunctions";
 
 export default class VCLCredentialManifestDescriptor {
     readonly did: Nullish<string>;
@@ -18,9 +19,7 @@ export default class VCLCredentialManifestDescriptor {
         public readonly didJwk: VCLDidJwk,
         public readonly remoteCryptoServicesToken: Nullish<VCLToken> = null,
     ) {
-        this.did = uri?.getUrlSubPath(
-            VCLCredentialManifestDescriptor.KeyDidPrefix
-        );
+        this.did = getUrlSubPathFromString(uri, VCLCredentialManifestDescriptor.KeyDidPrefix);
     }
 
     get endpoint(): Nullish<string> {
@@ -28,7 +27,7 @@ export default class VCLCredentialManifestDescriptor {
         if (!params) {
             return this.uri;
         }
-        return this.uri?.appendQueryParams(params);
+        return appendQueryParamsToString(this.uri, params);
     }
 
     generateQueryParams(): Nullish<string> {
