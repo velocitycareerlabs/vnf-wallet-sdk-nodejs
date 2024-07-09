@@ -15,10 +15,10 @@ export default class VCLError extends Error {
         statusCode: Nullish<VCLStatusCode> = null
     ) {
         super(message ?? "");
-        this.payload = JSON.stringify(this.generatePayload());
         this.error = error;
         this.errorCode = errorCode;
         this.statusCode = statusCode;
+        this.payload = JSON.stringify(this.generatePayload());
 
         this.name = "VCLError";
         Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
@@ -43,7 +43,7 @@ export default class VCLError extends Error {
     ): VCLError {
         if (error instanceof VCLError) {
             return error;
-        };
+        }
         return new VCLError(
             error.error,
             error.errorCode,
