@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
+/* eslint-disable */
 import { Nullish, VCLJwtSignService } from "../../../../src";
 import VCLJwtDescriptor from "../../../../src/api/entities/VCLJwtDescriptor";
 import VCLDidJwk from "../../../../src/api/entities/VCLDidJwk";

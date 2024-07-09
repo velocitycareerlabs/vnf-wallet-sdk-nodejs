@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
+/* eslint-disable */
 import { VCLKeyService } from "../../../../src";
 import VCLDidJwkDescriptor from "../../../../src/api/entities/VCLDidJwkDescriptor";
 import VCLDidJwk from "../../../../src/api/entities/VCLDidJwk";

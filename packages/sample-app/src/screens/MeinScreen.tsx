@@ -7,62 +7,82 @@
 
 import React from 'react';
 import {
-    getCountriesRepository,
-    getCredentialTypeSchemasRepository,
-    getCredentialTypesRepository
+    getCountries,
+    getCredentialTypeSchemas,
+    getCredentialTypes,
+    getPresentationRequest
 } from "../repositories";
+import { Constants } from "./Constants";
 
-const getCountries = async () => {
-    console.log(await getCountriesRepository());
+const onGetCountries = () => {
+    getCountries().then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
-const getCredentialTypes = async () => {
-    console.log(await getCredentialTypesRepository());
+const onGetCredentialTypes = () => {
+    getCredentialTypes().then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
-const getCredentialTypeSchemas = async () => {
-    console.log(await getCredentialTypeSchemasRepository());
+const onGetCredentialTypeSchemas = () => {
+    getCredentialTypeSchemas().then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
-const getPresentationRequest = () => {
-    alert(`You clicked on getPresentationRequest`);
+const onGetPresentationRequest = () => {
+    getPresentationRequest(Constants.PresentationRequestDeepLinkStrDev)
+        .then((presentationRequest) => {
+        console.log(presentationRequest);
+    })
+        .catch((error) => {
+        console.log(error);
+    });
 };
-const getCredentialManifestByDeepLink = () => {
+const gonGetCredentialManifestByDeepLink = () => {
     alert(`You clicked on getCredentialManifestByDeepLink`);
 };
-const getOrganizationsThenCredentialManifestByService = () => {
+const onGetOrganizationsThenCredentialManifestByService = () => {
     alert(`You clicked on getOrganizationsThenCredentialManifestByService`);
 };
-const getCredentialTypesUIFormSchema = () => {
+const onGetCredentialTypesUIFormSchema = () => {
     alert(`You clicked on getCredentialTypesUIFormSchema`);
 };
-const refreshCredentials = () => {
+const onRefreshCredentials = () => {
     alert(`You clicked on refreshCredentials`);
 };
-const getVerifiedProfile = () => {
+const onGetVerifiedProfile = () => {
     alert(`You clicked on getVerifiedProfile`);
 };
-const verifyJwt = () => {
+const onVerifyJwt = () => {
     alert(`You clicked on verifyJwt`);
 };
-const generateSignedJwt = () => {
+const onGenerateSignedJwt = () => {
     alert(`You clicked on generateSignedJwt`);
 };
-const generateDidJwk = () => {
+const onGenerateDidJwk = () => {
     alert(`You clicked on generateDidJwk`);
 };
 
 const MeinScreen: React.FC = () => {
     const menuItems = {
-        'Get Countries': getCountries,
-        'Get Credential Types': getCredentialTypes,
-        'Get Credential Type Schemas': getCredentialTypeSchemas,
-        'Disclosing Credentials (aka Inspection)': getPresentationRequest,
-        'Receiving Credentials (aka Issuing) By Deeplink': getCredentialManifestByDeepLink,
-        'Receiving Credentials (aka Issuing) By Services': getOrganizationsThenCredentialManifestByService,
-        'Self Reporting Credentials (aka Self Attested)': getCredentialTypesUIFormSchema,
-        'Refresh Credentials': refreshCredentials,
-        'Get Verified Profile': getVerifiedProfile,
-        'Verify JWT': verifyJwt,
-        'Generate Signed JWT': generateSignedJwt,
-        'Generate DID:JWK': generateDidJwk,
+        'Get Countries': onGetCountries,
+        'Get Credential Types': onGetCredentialTypes,
+        'Get Credential Type Schemas': onGetCredentialTypeSchemas,
+        'Disclosing Credentials (aka Inspection)': onGetPresentationRequest,
+        'Receiving Credentials (aka Issuing) By Deeplink': gonGetCredentialManifestByDeepLink,
+        'Receiving Credentials (aka Issuing) By Services': onGetOrganizationsThenCredentialManifestByService,
+        'Self Reporting Credentials (aka Self Attested)': onGetCredentialTypesUIFormSchema,
+        'Refresh Credentials': onRefreshCredentials,
+        'Get Verified Profile': onGetVerifiedProfile,
+        'Verify JWT': onVerifyJwt,
+        'Generate Signed JWT': onGenerateSignedJwt,
+        'Generate DID:JWK': onGenerateDidJwk,
     };
 
     return (

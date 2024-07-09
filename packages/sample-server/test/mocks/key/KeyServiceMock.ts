@@ -1,6 +1,5 @@
-/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
-
-import { VCLDidJwk, VCLDidJwkDescriptor, VCLKeyService } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
+/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars */
+import { VCLDidJwk, VCLDidJwkDescriptor, VCLKeyService } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import { DidJwkMocks } from "../DidJwkMocks";
 
 export class KeyServiceMock implements VCLKeyService {

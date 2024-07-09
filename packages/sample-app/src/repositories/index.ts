@@ -5,12 +5,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { getCountriesRepository } from "./GetCountriesRepository";
-import { getCredentialTypesRepository } from "./GetCredentialTypesRepository";
-import { getCredentialTypeSchemasRepository } from "./getCredentialTypeSchemasRepository";
+import { getCountries } from "./CountriesRepository";
+import { getCredentialTypes } from "./CredentialTypesRepository";
+import { getCredentialTypeSchemas } from "./CredentialTypeSchemasRepository";
+import { getPresentationRequest } from "./PresentationRequestRepository";
 
 export {
-    getCountriesRepository,
-    getCredentialTypesRepository,
-    getCredentialTypeSchemasRepository
+    getCountries,
+    getCredentialTypes,
+    getCredentialTypeSchemas,
+    getPresentationRequest
 };

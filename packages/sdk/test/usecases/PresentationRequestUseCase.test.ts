@@ -57,7 +57,7 @@ describe("PresentationRequestUseCase Tests", () => {
 
     });
 
-    test("testGetPresentationRequestSuccess", async () => {
+    test("testGetPresentationRequestError", async () => {
         const pushUrl = "push_url"
         const pushToken = "push_token"
         subject2 = new PresentationRequestUseCaseImpl(
@@ -73,8 +73,7 @@ describe("PresentationRequestUseCase Tests", () => {
             )
         )
         try {
-            // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
-            const presentationRequest = await subject2.getPresentationRequest(
+            await subject2.getPresentationRequest(
                 new VCLPresentationRequestDescriptor(
                     DeepLinkMocks.PresentationRequestDeepLinkDevNet,
                     new VCLPushDelegate(

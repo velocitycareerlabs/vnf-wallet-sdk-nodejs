@@ -9,7 +9,7 @@ import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffers
 import CredentialIssuerVerifier from "../../domain/verifiers/CredentialIssuerVerifier";
 
 export default class CredentialIssuerVerifierImpl implements CredentialIssuerVerifier {
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     async verifyCredentials(jwtCredentials: VCLJwt[], finalizeOffersDescriptor: VCLFinalizeOffersDescriptor,): Promise<boolean> {
         return true;
     }

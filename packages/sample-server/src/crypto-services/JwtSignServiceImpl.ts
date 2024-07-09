@@ -20,7 +20,7 @@ export class JwtSignServiceImpl implements VCLJwtSignService {
       jwtDescriptor: VCLJwtDescriptor,
       didJwk: VCLDidJwk,
       nonce: Nullish<string>,
-      // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+      // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
       remoteCryptoServicesToken: Nullish<VCLToken>
   ): Promise<VCLJwt> {
     try {

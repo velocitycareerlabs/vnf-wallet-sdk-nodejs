@@ -9,7 +9,7 @@ import CredentialsByDeepLinkVerifier from "../../domain/verifiers/CredentialsByD
 import VCLJwt from "../../../api/entities/VCLJwt";
 
 export default class CredentialsByDeepLinkVerifierImpl implements CredentialsByDeepLinkVerifier {
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     async verifyCredentials(jwtCredentials: VCLJwt[], deepLink: VCLDeepLink,): Promise<boolean> {
         return true;
     }

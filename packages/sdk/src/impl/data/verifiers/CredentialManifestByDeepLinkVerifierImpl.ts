@@ -9,7 +9,7 @@ import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import CredentialManifestByDeepLinkVerifier from "../../domain/verifiers/CredentialManifestByDeepLinkVerifier";
 
 export default class CredentialManifestByDeepLinkVerifierImpl implements CredentialManifestByDeepLinkVerifier {
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     async verifyCredentialManifest(credentialManifest: VCLCredentialManifest, deepLink: VCLDeepLink,): Promise<boolean> {
         return true;
     }

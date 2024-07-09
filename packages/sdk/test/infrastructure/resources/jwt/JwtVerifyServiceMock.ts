@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
+/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars */
 import { Nullish, VCLJwt, VCLJwtVerifyService, VCLPublicJwk } from "../../../../src";
 
 export class JwtVerifyServiceMock implements VCLJwtVerifyService {
