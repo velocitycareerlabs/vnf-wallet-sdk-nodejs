@@ -8,6 +8,7 @@ import {
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import { CurrentEnvironment, XVnfProtocolVersion } from "./GlobalConfig";
 import { JwtSignServiceImpl, JwtVerifyServiceImpl, KeyServiceImpl } from "./crypto-services";
+import cors from '@fastify/cors';
 
 const devLogger = {
   transport: {
@@ -53,12 +54,13 @@ const initialize = (app) => {
       };
       app.addHook('preHandler', addHooks);
       app.addHook('preValidation', addHooks);
-      app.addHook('onSend', (request, reply, payload, done) => {
-        reply.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-        reply.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        reply.header('Access-Control-Allow-Headers', 'Content-Type');
-        done();
-      });
+      // app.addHook('onSend', (request, reply, payload, done) => {
+      //   reply.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      //   reply.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+      //   reply.header('Access-Control-Allow-Headers', 'Content-Type');
+      //   done();
+      // });
+      app.register(cors);
 
       app.listen({ port: 5000, host: "0.0.0.0" }, (err, address) => {
         if (err) {

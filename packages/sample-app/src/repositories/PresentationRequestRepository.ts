@@ -12,7 +12,7 @@ export const getPresentationRequest = async (deepLink: string): Promise<Dictiona
     const config = {
         url: Urls.getPresentationRequest,
         method: 'POST',
-        body: { "value": deepLink },
+        data: { "value": deepLink },
     };
     return await fetcher(config);
 }
