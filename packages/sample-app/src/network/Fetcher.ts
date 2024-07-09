@@ -14,7 +14,6 @@ interface FetcherConfig<T> extends AxiosRequestConfig {
 async function fetcher<T, R>(config: FetcherConfig<T>): Promise<R> {
     const axiosConfig: AxiosRequestConfig = {
         ...config,
-        url: `${config.url}`,
     };
 
     try {
