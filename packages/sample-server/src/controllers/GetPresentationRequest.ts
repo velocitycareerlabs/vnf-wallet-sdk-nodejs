@@ -14,11 +14,6 @@ export async function getPresentationRequest(req, reply) {
         );
         reply.send(presentationRequest);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to get exchange progress",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }

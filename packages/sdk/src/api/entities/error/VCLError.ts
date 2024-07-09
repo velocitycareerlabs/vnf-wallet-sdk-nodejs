@@ -15,6 +15,7 @@ export default class VCLError extends Error {
         statusCode: Nullish<VCLStatusCode> = null
     ) {
         super(message ?? "");
+        this.payload = JSON.stringify(this.generatePayload());
         this.error = error;
         this.errorCode = errorCode;
         this.statusCode = statusCode;
@@ -37,17 +38,17 @@ export default class VCLError extends Error {
     }
 
     static fromError(
-        error: Error,
+        error: any,
         statusCode: number | null = null
     ): VCLError {
         if (error instanceof VCLError) {
             return error;
-        }
+        };
         return new VCLError(
-            null,
-            VCLErrorCode.SdkError.toString(),
-            error.message ?? JSON.stringify(error),
-            statusCode
+            error.error,
+            error.errorCode,
+            error.message,
+            error.statusCode ?? statusCode,
         );
     }
 
@@ -56,6 +57,15 @@ export default class VCLError extends Error {
             [VCLError.KeyPayload]: this.payload,
             [VCLError.KeyError]: this.error,
             [VCLError.KeyErrorCode]: (this.errorCode || VCLErrorCode.SdkError.toString()),
+            [VCLError.KeyMessage]: this.message,
+            [VCLError.KeyStatusCode]: this.statusCode,
+        };
+    }
+
+    private generatePayload(): Dictionary<any> {
+        return {
+            [VCLError.KeyError]: this.error,
+            [VCLError.KeyErrorCode]: this.errorCode,
             [VCLError.KeyMessage]: this.message,
             [VCLError.KeyStatusCode]: this.statusCode,
         };

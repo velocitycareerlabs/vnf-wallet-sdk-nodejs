@@ -19,11 +19,6 @@ export async function getExchangeProgress (req, reply) {
         const exchangeProgress = await req.vclSdk.getExchangeProgress(exchangeProgressDescriptor);
         reply.send(exchangeProgress);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to get exchange progress",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }
