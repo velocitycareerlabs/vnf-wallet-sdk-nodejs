@@ -142,9 +142,7 @@ export class VCLImpl implements VCL {
                     VclBlocksProvider.provideCredentialTypeSchemasModel(
                         credentialTypes
                     );
-                // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
-                const initializeCredentialTypeSchemasError =
-                    await this.credentialTypeSchemasModel.initialize();
+                await this.credentialTypeSchemasModel.initialize();
 
                 if (
                     this.initializationWatcher.onInitializedModel(

@@ -9,7 +9,7 @@ import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import OffersByDeepLinkVerifier from "../../domain/verifiers/OffersByDeepLinkVerifier";
 
 export default class OffersByDeepLinkVerifierImpl implements OffersByDeepLinkVerifier {
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     async verifyOffers(offers: VCLOffers, deepLink: VCLDeepLink,): Promise<boolean> {
         return true;
     }

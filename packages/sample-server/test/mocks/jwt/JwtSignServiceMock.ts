@@ -1,4 +1,4 @@
-/* eslint-disable unused-imports/no-unused-vars,no-unused-vars */
+/* eslint-disable unused-imports/no-unused-vars,no-unused-vars,@typescript-eslint/no-unused-vars */
 
 import {
     Nullish,
@@ -6,7 +6,7 @@ import {
     VCLJwtDescriptor,
     VCLJwtSignService,
     VCLToken
-} from "@velocitycareerlabs/vnf-nodejs-wallet-sdk";
+} from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export class JwtSignServiceMock implements VCLJwtSignService {
     constructor(readonly successValue: Nullish<string> = null) {}

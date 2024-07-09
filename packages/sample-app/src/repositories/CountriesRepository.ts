@@ -8,9 +8,9 @@ import { Dictionary } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import Urls from "../network/Urls";
 import fetcher from "../network/Fetcher";
 
-export const getCredentialTypesRepository = async (): Promise<Dictionary<any>> => {
+export const getCountries = async (): Promise<Dictionary<any>> => {
     const config = {
-        url: Urls.getCredentialTypes,
+        url: Urls.getCountries,
         method: 'GET',
     };
     return await fetcher(config);

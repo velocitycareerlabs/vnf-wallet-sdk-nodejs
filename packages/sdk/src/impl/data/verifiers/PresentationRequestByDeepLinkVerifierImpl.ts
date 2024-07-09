@@ -9,7 +9,7 @@ import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import PresentationRequestByDeepLinkVerifier from "../../domain/verifiers/PresentationRequestByDeepLinkVerifier";
 
 export default class PresentationRequestByDeepLinkVerifierImpl implements PresentationRequestByDeepLinkVerifier{
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
+    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars,@typescript-eslint/no-unused-vars
     async verifyPresentationRequest(presentationRequest: VCLPresentationRequest, deepLink: VCLDeepLink): Promise<boolean> {
         return true;
     }
