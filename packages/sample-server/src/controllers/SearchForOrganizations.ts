@@ -14,11 +14,6 @@ export async function searchForOrganizations(req, reply) {
         );
         reply.send(organizations);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to search for organizations",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }

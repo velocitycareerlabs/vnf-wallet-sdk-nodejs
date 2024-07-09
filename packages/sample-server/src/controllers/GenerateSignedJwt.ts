@@ -16,11 +16,6 @@ export async function generateSignedJwt(req, reply) {
         );
         reply.send(jwt);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to verify jwt",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }

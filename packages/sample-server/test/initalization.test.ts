@@ -1,13 +1,15 @@
-"use strict";
-import { describe, expect, test, beforeAll, afterAll } from "@jest/globals";
+import { afterAll, beforeAll, describe, expect, test } from "@jest/globals";
 import app from "../src/App";
 import { FastifyInstance } from "fastify";
 
 import { VCLImpl } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/impl/VCLImpl";
-import VCLInitializationDescriptor from "packages/sdk/src/api/entities/initialization/VCLInitializationDescriptor";
+import {
+    VCLCryptoServicesDescriptor,
+    VCLInitializationDescriptor,
+    VCLXVnfProtocolVersion
+} from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import VCLCountries from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/entities/VCLCountries";
 import VCLEnvironment from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src/api/VCLEnvironment";
-import VCLCryptoServicesDescriptor from "packages/sdk/src/api/entities/initialization/VCLCryptoServicesDescriptor";
 import { JwtSignServiceMock } from "./mocks/jwt/JwtSignServiceMock";
 import { JwtVerifyServiceMock } from "./mocks/jwt/JwtVerifyServiceMock";
 import { KeyServiceMock } from "./mocks/key/KeyServiceMock";
@@ -25,7 +27,9 @@ describe("initalization flow", () => {
 
     test("App initialization", async () => {
         await vcl.initialize(
-            new VCLInitializationDescriptor(VCLEnvironment.DEV,
+            new VCLInitializationDescriptor(
+                VCLEnvironment.Dev,
+                VCLXVnfProtocolVersion.XVnfProtocolVersion2,
                 new VCLCryptoServicesDescriptor(
                     new KeyServiceMock(),
                     new JwtSignServiceMock(),

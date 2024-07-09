@@ -20,7 +20,6 @@ describe("VCLError Tests", () => {
             ErrorMocks.StatusCode
         );
 
-        expect(error.payload).toBeNull();
         expect(error.error).toBe(ErrorMocks.Error);
         expect(error.errorCode).toBe(ErrorMocks.ErrorCode);
         expect(error.message).toBe(ErrorMocks.Message);
@@ -51,14 +50,19 @@ describe("VCLError Tests", () => {
         );
         const errorJsonObject = error.jsonObject;
 
-        expect(errorJsonObject[VCLError.KeyPayload]).toBeFalsy();
         expect(errorJsonObject[VCLError.KeyError]).toBe(ErrorMocks.Error);
-        expect(errorJsonObject[VCLError.KeyErrorCode]).toBe(
-            ErrorMocks.ErrorCode
-        );
+        expect(errorJsonObject[VCLError.KeyErrorCode]).toBe(ErrorMocks.ErrorCode);
         expect(errorJsonObject[VCLError.KeyMessage]).toBe(ErrorMocks.Message);
-        expect(errorJsonObject[VCLError.KeyStatusCode]).toBe(
-            ErrorMocks.StatusCode
-        );
+        expect(errorJsonObject[VCLError.KeyStatusCode]).toBe(ErrorMocks.StatusCode);
+    });
+
+    test("testErrorFromSomeError", () => {
+        const error = VCLError.fromError(ErrorMocks.SomeErrorJson);
+
+        expect(JSON.parse(error.payload ?? "{}")).toStrictEqual(ErrorMocks.SomeErrorJson);
+        expect(error.error).toBe(ErrorMocks.SomeErrorJson['error']);
+        expect(error.errorCode).toBe(ErrorMocks.SomeErrorJson['errorCode']);
+        expect(error.message).toBe(ErrorMocks.SomeErrorJson['message']);
+        expect(error.statusCode).toBe(ErrorMocks.SomeErrorJson['statusCode']);
     });
 });

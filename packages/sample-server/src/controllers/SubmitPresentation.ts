@@ -12,11 +12,6 @@ export async function submitPresentation(req, reply) {
         const submissionResult = await req.vclSdk.submitPresentation(presentationSubmissionFromJson(req.body));
         reply.send(submissionResult);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to get exchange progress",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }

@@ -11,11 +11,6 @@ export async function generateDidJwk(req, reply) {
         const didJwk = await req.vclSdk.generateDidJwk(didJwkDescriptorFromJson(req.body));
         reply.send(didJwk);
     } catch (e: any) {
-        reply.code(500).send({
-            statusCode: e.statusCode ?? "500",
-            error: "Failed to generate did jwk",
-            message: e.stack ?? e.message ?? JSON.stringify(e),
-            errorCode: e.errorCode,
-        });
+        reply.code(e.statusCode ?? 500).send(e)
     }
 }
