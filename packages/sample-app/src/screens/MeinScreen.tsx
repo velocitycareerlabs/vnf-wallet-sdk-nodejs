@@ -10,9 +10,11 @@ import {
     getCountries,
     getCredentialTypeSchemas,
     getCredentialTypes,
-    getPresentationRequest
+    getPresentationRequest,
+    submitPresentation, getCredentialManifest
 } from "../repositories";
 import { Constants } from "./Constants";
+import { Dictionary } from "../Types";
 
 const onGetCountries = () => {
     getCountries().then((response) => {
@@ -38,14 +40,36 @@ const onGetCredentialTypeSchemas = () => {
 const onGetPresentationRequest = () => {
     getPresentationRequest(Constants.PresentationRequestDeepLinkStrDev)
         .then((presentationRequest) => {
-        console.log(presentationRequest);
+        console.log("Presentation Request received: ", presentationRequest);
+            onSubmitPresentation(presentationRequest);
     })
         .catch((error) => {
         console.log(error);
     });
 };
+
+const onSubmitPresentation = (presentationRequest: Dictionary<any>) => {
+    submitPresentation({
+            'verifiableCredentials': Constants.PresentationSelectionsList,
+            'presentationRequest': presentationRequest
+        }
+    ).then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+const onGetCredentialManifestByDeepLink = () => {
+    getCredentialManifest(Constants.CredentialManifestDeepLinkStrDev).then((credentialManifest) => {
+        console.log(credentialManifest);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
 const gonGetCredentialManifestByDeepLink = () => {
-    alert(`You clicked on getCredentialManifestByDeepLink`);
+    onGetCredentialManifestByDeepLink()
 };
 const onGetOrganizationsThenCredentialManifestByService = () => {
     alert(`You clicked on getOrganizationsThenCredentialManifestByService`);
