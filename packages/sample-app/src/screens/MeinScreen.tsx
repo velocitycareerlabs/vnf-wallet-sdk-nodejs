@@ -11,36 +11,59 @@ import {
     getCredentialTypeSchemas,
     getCredentialTypes,
     getPresentationRequest,
-    submitPresentation, getCredentialManifest
+    submitPresentation,
+    getCredentialManifestByDeepLink,
+    getCredentialManifestByService,
+    generateOffers,
+    searchForOrganizations,
+    generateDidJwk, finalizeOffers, checkOffers
 } from "../repositories";
 import { Constants } from "./Constants";
 import { Dictionary } from "../Types";
+import { getApprovedRejectedOfferIdsMock } from "../utils/Utils";
+
+let didJwk: Dictionary<any>;
+const initialization = async () => {
+    if (!didJwk) {
+        didJwk = await generateDidJwk({
+            signatureAlgorithm: "P-256",
+            remoteCryptoServicesToken: null
+        });
+    }
+    console.log('didJwk: ', didJwk);
+};
+
+// @ts-ignore
+await initialization();
 
 const onGetCountries = () => {
-    getCountries().then((response) => {
-        console.log(response);
+    getCountries().then((countries) => {
+        console.log('countries: ', countries);
     }).catch((error) => {
         console.log(error);
     });
 };
+
 const onGetCredentialTypes = () => {
-    getCredentialTypes().then((response) => {
-        console.log(response);
+    getCredentialTypes().then((credentialTypes) => {
+        console.log('credential types: ', credentialTypes);
     }).catch((error) => {
         console.log(error);
     });
 };
+
 const onGetCredentialTypeSchemas = () => {
-    getCredentialTypeSchemas().then((response) => {
-        console.log(response);
+    getCredentialTypeSchemas().then((credentialTypeSchemas) => {
+        console.log('credential typeSchemas: ', credentialTypeSchemas);
     }).catch((error) => {
         console.log(error);
     });
 };
+
 const onGetPresentationRequest = () => {
-    getPresentationRequest(Constants.PresentationRequestDeepLinkStrDev)
+    getPresentationRequest({value: Constants.PresentationRequestDeepLinkStrDev} )
         .then((presentationRequest) => {
-        console.log("Presentation Request received: ", presentationRequest);
+        console.log('presentation request: ', presentationRequest);
             onSubmitPresentation(presentationRequest);
     })
         .catch((error) => {
@@ -50,30 +73,87 @@ const onGetPresentationRequest = () => {
 
 const onSubmitPresentation = (presentationRequest: Dictionary<any>) => {
     submitPresentation({
-            'verifiableCredentials': Constants.PresentationSelectionsList,
-            'presentationRequest': presentationRequest
+            verifiableCredentials: Constants.PresentationSelectionsList,
+            presentationRequest: presentationRequest
         }
-    ).then((response) => {
-        console.log(response);
+    ).then((submissionResult) => {
+        console.log('submission result: ', submissionResult);
     }).catch((error) => {
         console.log(error);
     });
-}
+};
 
 const onGetCredentialManifestByDeepLink = () => {
-    getCredentialManifest(Constants.CredentialManifestDeepLinkStrDev).then((credentialManifest) => {
-        console.log(credentialManifest);
+    getCredentialManifestByDeepLink(
+        { value: Constants.CredentialManifestDeepLinkStrDev }
+    ).then((credentialManifest) => {
+        console.log('credential manifest: ', credentialManifest);
+        onGenerateOffers(credentialManifest);
+    }).catch((error) => {
+        console.log(error);
+    });
+};
+
+const onGetOrganizationsThenCredentialManifestByService = () => {
+    searchForOrganizations({
+        filter: { 'did': Constants.DidDev }
+    }).then((organizations) => {
+        console.log('organizations: ', organizations);
+        const serviceCredentialAgentIssuer = organizations.all[0].payload.service[0];
+        getCredentialManifestByService({
+            service: serviceCredentialAgentIssuer,
+            issuingType: 'Career',
+            credentialTypes: [serviceCredentialAgentIssuer.type], // Can come from any where
+            didJwk: didJwk
+        }).then((credentialManifest) => {
+            console.log('credential manifest: ', credentialManifest);
+            onGenerateOffers(credentialManifest);
+        }).catch((error) => {
+            console.log(error);
+        });
     }).catch((error) => {
         console.log(error);
     });
 }
 
-const gonGetCredentialManifestByDeepLink = () => {
-    onGetCredentialManifestByDeepLink()
+const onGenerateOffers = (credentialManifest: Dictionary<any>) => {
+    const generateOffersDescriptor = {
+        credentialManifest: credentialManifest,
+        types: Constants.CredentialTypes,
+        identificationVerifiableCredentials: Constants.IdentificationList
+    }
+    generateOffers(generateOffersDescriptor).then((offers) => {
+        console.log('generate offers: ', offers);
+        onCheckOffers(generateOffersDescriptor, offers.sessionToken)
+    }).catch((error) => {
+        console.log(error);
+    })
 };
-const onGetOrganizationsThenCredentialManifestByService = () => {
-    alert(`You clicked on getOrganizationsThenCredentialManifestByService`);
-};
+
+const onCheckOffers = (generateOffersDescriptor: Dictionary<any>, sessionToken: Dictionary<any>) => {
+    checkOffers(generateOffersDescriptor, sessionToken).then((offers) => {
+        console.log('check offers: ', offers);
+        onFinalizeOffers(generateOffersDescriptor.credentialManifest, offers);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
+const onFinalizeOffers = (credentialManifest: Dictionary<any>, offers: Dictionary<any>) => {
+    const approvedRejectedOfferIds = getApprovedRejectedOfferIdsMock(offers)
+    const finalizeOffersDescriptor = {
+        credentialManifest: credentialManifest,
+        challenge: offers.challenge,
+        approvedOfferIds: approvedRejectedOfferIds[0],
+        rejectedOfferIds: approvedRejectedOfferIds[1]
+    }
+    finalizeOffers(finalizeOffersDescriptor, offers.sessionToken).then((credentials) => {
+        console.log('credentials: ', credentials);
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
 const onGetCredentialTypesUIFormSchema = () => {
     alert(`You clicked on getCredentialTypesUIFormSchema`);
 };
@@ -99,7 +179,7 @@ const MeinScreen: React.FC = () => {
         'Get Credential Types': onGetCredentialTypes,
         'Get Credential Type Schemas': onGetCredentialTypeSchemas,
         'Disclosing Credentials (aka Inspection)': onGetPresentationRequest,
-        'Receiving Credentials (aka Issuing) By Deeplink': gonGetCredentialManifestByDeepLink,
+        'Receiving Credentials (aka Issuing) By Deeplink': onGetCredentialManifestByDeepLink,
         'Receiving Credentials (aka Issuing) By Services': onGetOrganizationsThenCredentialManifestByService,
         'Self Reporting Credentials (aka Self Attested)': onGetCredentialTypesUIFormSchema,
         'Refresh Credentials': onRefreshCredentials,

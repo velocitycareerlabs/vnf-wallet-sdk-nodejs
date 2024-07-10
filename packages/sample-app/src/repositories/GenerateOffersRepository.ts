@@ -4,17 +4,17 @@
  * Copyright 2022 Velocity Career Labs inc.
  * SPDX-License-Identifier: Apache-2.0
  */
+import { Dictionary } from "../Types";
 import Urls from "../network/Urls";
 import fetcher from "../network/Fetcher";
-import { Dictionary } from "../Types";
 
-export const getCredentialManifestByDeepLink = async (
-    deepLink: Dictionary<any>
+export const generateOffers = async (
+    generateOffersDescriptor: Dictionary<any>
 ): Promise<Dictionary<any>> => {
     const config = {
-        url: Urls.getCredentialManifest,
+        url: Urls.generateOffers,
         method: 'POST',
-        data: deepLink,
+        data: { generateOffersDescriptor },
     };
     return await fetcher(config);
 }

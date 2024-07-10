@@ -10,7 +10,13 @@ import { getCredentialTypes } from "./CredentialTypesRepository";
 import { getCredentialTypeSchemas } from "./CredentialTypeSchemasRepository";
 import { getPresentationRequest } from "./PresentationRequestRepository";
 import { submitPresentation } from "./SubmitPresentationRepository";
-import { getCredentialManifest } from "./GetCredentialManifestByDeepLinkRepository";
+import { getCredentialManifestByDeepLink } from "./GetCredentialManifestByDeepLinkRepository";
+import { getCredentialManifestByService } from "./GetCredentialManifestByServiceRepository";
+import { generateOffers } from "./GenerateOffersRepository";
+import { checkOffers } from "./CheckForOffersRepository";
+import { finalizeOffers } from "./FinalizeOffersRepository";
+import { searchForOrganizations } from "./SearchForOrganizationsRepository";
+import { generateDidJwk } from "./GenerateDidJwkRepository";
 
 export {
     getCountries,
@@ -18,5 +24,11 @@ export {
     getCredentialTypeSchemas,
     getPresentationRequest,
     submitPresentation,
-    getCredentialManifest
+    getCredentialManifestByDeepLink,
+    getCredentialManifestByService,
+    generateOffers,
+    finalizeOffers,
+    checkOffers,
+    searchForOrganizations,
+    generateDidJwk
 };

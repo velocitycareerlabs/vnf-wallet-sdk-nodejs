@@ -10,8 +10,8 @@ import { finalizeOffersDescriptorFromJson, tokenFromString } from "../utils/Conv
 export async function finalizeOffers(req, reply) {
     try {
         const jwtVerifiableCredentials = await req.vclSdk.finalizeOffers(
-            finalizeOffersDescriptorFromJson(req.body),
-            tokenFromString(req.body.sessionToken)
+            finalizeOffersDescriptorFromJson(req.body.finalizeOffersDescriptor),
+            tokenFromString(req.body.sessionToken.value)
         );
         reply.send(jwtVerifiableCredentials);
     } catch (e: any) {

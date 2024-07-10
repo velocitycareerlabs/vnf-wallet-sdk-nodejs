@@ -8,7 +8,9 @@ import { Dictionary } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import Urls from "../network/Urls";
 import fetcher from "../network/Fetcher";
 
-export const submitPresentation = async (presentationSubmission: Dictionary<any>): Promise<Dictionary<any>> => {
+export const submitPresentation = async (
+    presentationSubmission: Dictionary<any>
+): Promise<Dictionary<any>> => {
     const config = {
         url: Urls.submitPresentation,
         method: 'POST',

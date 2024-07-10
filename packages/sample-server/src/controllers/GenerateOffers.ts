@@ -9,7 +9,7 @@ import { generateOffersDescriptorFromJson } from "../utils/Converter";
 export async function generateOffers(req, reply) {
     try {
         const offers = await req.vclSdk.generateOffers(
-            generateOffersDescriptorFromJson(req.body),
+            generateOffersDescriptorFromJson(req.body.generateOffersDescriptor),
         );
         reply.send(offers);
     } catch (e: any) {
