@@ -10,7 +10,7 @@ import { generateOffersDescriptorFromJson, tokenFromString } from "../utils/Conv
 export async function checkForOffers(req, reply) {
     try {
         const offers = await req.vclSdk.checkForOffers(
-            generateOffersDescriptorFromJson(req.body),
+            generateOffersDescriptorFromJson(req.body.generateOffersDescriptor),
             tokenFromString(req.body.sessionToken.value)
         );
         reply.send(offers);

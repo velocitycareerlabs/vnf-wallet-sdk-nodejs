@@ -1,20 +1,21 @@
 /**
- * Created by Michael Avoyan on 09/07/2024.
+ * Created by Michael Avoyan on 10/07/2024.
  *
  * Copyright 2022 Velocity Career Labs inc.
  * SPDX-License-Identifier: Apache-2.0
  */
+import { Dictionary } from "../Types";
 import Urls from "../network/Urls";
 import fetcher from "../network/Fetcher";
-import { Dictionary } from "../Types";
 
-export const getCredentialManifestByDeepLink = async (
-    deepLink: Dictionary<any>
+export const checkOffers = async (
+    generateOffersDescriptor: Dictionary<any>,
+    sessionToken: Dictionary<any>,
 ): Promise<Dictionary<any>> => {
     const config = {
-        url: Urls.getCredentialManifest,
+        url: Urls.checkOffers,
         method: 'POST',
-        data: deepLink,
+        data: { generateOffersDescriptor, sessionToken }
     };
     return await fetcher(config);
 }

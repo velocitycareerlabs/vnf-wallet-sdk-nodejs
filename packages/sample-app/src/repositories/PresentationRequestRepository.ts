@@ -8,11 +8,13 @@ import { Dictionary } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 import fetcher from "../network/Fetcher";
 import Urls from "../network/Urls";
 
-export const getPresentationRequest = async (deepLink: string): Promise<Dictionary<any>> => {
+export const getPresentationRequest = async (
+    deepLink: Dictionary<any>
+): Promise<Dictionary<any>> => {
     const config = {
         url: Urls.getPresentationRequest,
         method: 'POST',
-        data: { "value": deepLink },
+        data: deepLink,
     };
     return await fetcher(config);
 }
