@@ -14,15 +14,11 @@ export async function verifyJwtFetcher(jwt: VCLJwt, publicJwk: Nullish<VCLPublic
     const config = {
         url: getJwtVerifyServiceUrl(CurrentEnvironment),
         method: 'POST',
-        data: generatePayloadToVerify(jwt, publicJwk),
+        data: {
+            jwt: jwt.encodedJwt,
+            publicKey: publicJwk?.valueJson || {}
+        }
     };
     return fetcher(config);
-}
-
-function generatePayloadToVerify(jwt: VCLJwt, publicJwk: Nullish<VCLPublicJwk>): Record<string, any> {
-    const retVal: Record<string, any> = {};
-    retVal['jwt'] = jwt.encodedJwt;
-    retVal['publicKey'] = publicJwk?.valueJson || {};
-    return retVal;
 }
 
