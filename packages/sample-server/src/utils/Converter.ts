@@ -36,28 +36,28 @@ import {
     VCLDidJwkDescriptor
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
-export const deepLinkFromString = (str: string): VCLDeepLink => {
-    return new VCLDeepLink(str);
+export const deepLinkFrom = (deepLink: any): VCLDeepLink => {
+    return new VCLDeepLink(deepLink.value ?? deepLink);
 }
 
-export const tokenFromString = (str: string): VCLToken => {
-    return new VCLToken(str);
+export const tokenFrom = (token: any): VCLToken => {
+    return new VCLToken(token.value ?? token);
 }
 
 export const jwtFromJson = (json: Dictionary<any>): VCLJwt => {
     return VCLJwt.fromEncodedJwt(json.encodedJwt);
 }
 
-export const publicJwkFromJson = (json: Dictionary<any>): VCLPublicJwk => {
+export const publicJwkFrom = (json: Dictionary<any>): VCLPublicJwk => {
     return VCLPublicJwk.fromJSON(json);
 }
 
-export const didJwkFromJson = (json: Dictionary<any>): VCLDidJwk => {
+export const didJwkFrom = (json: Dictionary<any>): VCLDidJwk => {
     return VCLDidJwk.fromJSON(json);
 }
 
-export const presentationRequestDescriptorFromJson = (json: Dictionary<any>, didJwk: VCLDidJwk): VCLPresentationRequestDescriptor => {
-    const deepLink = deepLinkFromString(json.value)
+export const presentationRequestDescriptorFrom = (json: Dictionary<any>, didJwk: VCLDidJwk): VCLPresentationRequestDescriptor => {
+    const deepLink = deepLinkFrom(json)
     return new VCLPresentationRequestDescriptor(
         deepLink,
         null,
@@ -66,7 +66,7 @@ export const presentationRequestDescriptorFromJson = (json: Dictionary<any>, did
     )
 }
 
-export const presentationSubmissionFromJson = (json: Dictionary<any>): VCLPresentationSubmission => {
+export const presentationSubmissionFrom = (json: Dictionary<any>): VCLPresentationSubmission => {
     const presentationRequestJson = json.presentationRequest;
     const verifiableCredentials = json.verifiableCredentials
     const presentationRequest = new VCLPresentationRequest(
@@ -74,7 +74,7 @@ export const presentationSubmissionFromJson = (json: Dictionary<any>): VCLPresen
         new VCLVerifiedProfile(presentationRequestJson.verifiedProfile.payload),
         new VCLDeepLink(presentationRequestJson.deepLink.value),
         null,
-        didJwkFromJson(presentationRequestJson.didJwk),
+        didJwkFrom(presentationRequestJson.didJwk),
         json.remoteCryptoServicesToken ? new VCLToken(json.remoteCryptoServicesToken) : null
     )
     return new VCLPresentationSubmission(
@@ -83,35 +83,35 @@ export const presentationSubmissionFromJson = (json: Dictionary<any>): VCLPresen
     );
 }
 
-export const submissionResultFromJson = (json: Dictionary<any>): VCLSubmissionResult => {
+export const submissionResultFrom = (json: Dictionary<any>): VCLSubmissionResult => {
     const submissionResultJson = json;
     return new VCLSubmissionResult(
-        tokenFromString(submissionResultJson.sessionToken.value),
+        tokenFrom(submissionResultJson.sessionToken.value),
         new VCLExchange(submissionResultJson.exchange),
         submissionResultJson.jti,
         submissionResultJson.submissionId
     );
 }
 
-export const organizationsSearchDescriptorFromJson = (json: Dictionary<any>): VCLOrganizationsSearchDescriptor => {
+export const organizationsSearchDescriptorFrom = (json: Dictionary<any>): VCLOrganizationsSearchDescriptor => {
     return new VCLOrganizationsSearchDescriptor(
         new VCLFilter(json.filter.did, null, null),
     );
 }
 
-const credentialManifestDescriptorByDeepLinkFromJson = (
+const credentialManifestDescriptorByDeepLinkFrom = (
     json: Dictionary<any>,
     didJwk: VCLDidJwk
 ): VCLCredentialManifestDescriptorByDeepLink => {
     return new VCLCredentialManifestDescriptorByDeepLink(
-        deepLinkFromString(json.value),
+        deepLinkFrom(json),
         VCLIssuingType.Career,
         null,
         didJwk,
     );
 }
 
-const credentialManifestDescriptorByServiceFromJson = (
+const credentialManifestDescriptorByServiceFrom = (
     json: Dictionary<any>,
     didJwk: VCLDidJwk
 ): VCLCredentialManifestDescriptorByService => {
@@ -125,29 +125,29 @@ const credentialManifestDescriptorByServiceFromJson = (
     );
 }
 
-export const credentialManifestDescriptorFromJson = (
+export const credentialManifestDescriptorFrom = (
     json: Dictionary<any>,
     didJwk: VCLDidJwk
 ): VCLCredentialManifestDescriptor => {
     return json.value ? // deep link
-        credentialManifestDescriptorByDeepLinkFromJson(json, didJwk) :
-        credentialManifestDescriptorByServiceFromJson(json, didJwk)
+        credentialManifestDescriptorByDeepLinkFrom(json, didJwk) :
+        credentialManifestDescriptorByServiceFrom(json, didJwk)
 }
 
-export const credentialManifestFromJson = (json: Dictionary<any>): VCLCredentialManifest => {
+export const credentialManifestFrom = (json: Dictionary<any>): VCLCredentialManifest => {
     return new VCLCredentialManifest(
         jwtFromJson(json.jwt),
         json.vendorOriginContext,
         new VCLVerifiedProfile(json.verifiedProfile.payload),
         json.deepLink ? new VCLDeepLink(json.deepLink.value) : null,
-        didJwkFromJson(json.didJwk),
+        didJwkFrom(json.didJwk),
         json.remoteCryptoServicesToken ? new VCLToken(json.remoteCryptoServicesToken) : null
 
     );
 }
 
-export const generateOffersDescriptorFromJson = (json: Dictionary<any>): VCLGenerateOffersDescriptor => {
-    const credentialManifest = credentialManifestFromJson(json.credentialManifest)
+export const generateOffersDescriptorFrom = (json: Dictionary<any>): VCLGenerateOffersDescriptor => {
+    const credentialManifest = credentialManifestFrom(json.credentialManifest)
     const identificationVerifiableCredentials =
         json.identificationVerifiableCredentials.map((vc: Dictionary<any>) => VCLVerifiableCredential.fromJSON(vc))
     return new VCLGenerateOffersDescriptor(
@@ -158,8 +158,8 @@ export const generateOffersDescriptorFromJson = (json: Dictionary<any>): VCLGene
     );
 }
 
-export const finalizeOffersDescriptorFromJson = (json: Dictionary<any>): VCLFinalizeOffersDescriptor => {
-    const credentialManifest = credentialManifestFromJson(json.credentialManifest)
+export const finalizeOffersDescriptorFrom = (json: Dictionary<any>): VCLFinalizeOffersDescriptor => {
+    const credentialManifest = credentialManifestFrom(json.credentialManifest)
     return new VCLFinalizeOffersDescriptor(
         credentialManifest,
         json.challenge,
@@ -168,21 +168,21 @@ export const finalizeOffersDescriptorFromJson = (json: Dictionary<any>): VCLFina
     );
 }
 
-export const credentialTypesUIFormSchemaDescriptorFromJson = (json: Dictionary<any>): VCLCredentialTypesUIFormSchemaDescriptor => {
+export const credentialTypesUIFormSchemaDescriptorFrom = (json: Dictionary<any>): VCLCredentialTypesUIFormSchemaDescriptor => {
     return new VCLCredentialTypesUIFormSchemaDescriptor(
         json.credentialType,
         json.countryCode
     );
 }
 
-export function verifiedProfileDescriptorFromJson(json: Dictionary<any>): VCLVerifiedProfileDescriptor {
+export const verifiedProfileDescriptorFrom = (json: Dictionary<any>): VCLVerifiedProfileDescriptor => {
     return new VCLVerifiedProfileDescriptor(json.did)
 }
 
-export const jwtDescriptorFromJson = (json: Dictionary<any>): VCLJwtDescriptor => {
+export const jwtDescriptorFrom = (json: Dictionary<any>): VCLJwtDescriptor => {
     return new VCLJwtDescriptor(json.payload, json.jti, json.iss, json.aud);
 }
 
-export const didJwkDescriptorFromJson = (json: Dictionary<any>): VCLDidJwkDescriptor => {
+export const didJwkDescriptorFrom = (json: Dictionary<any>): VCLDidJwkDescriptor => {
     return new VCLDidJwkDescriptor(json.signatureAlgorithm, null);
 }

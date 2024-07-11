@@ -14,7 +14,7 @@ export const generateOffers = async (
     const config = {
         url: Urls.generateOffers,
         method: 'POST',
-        data: { generateOffersDescriptor },
+        data: generateOffersDescriptor
     };
     return await fetcher(config);
 }
