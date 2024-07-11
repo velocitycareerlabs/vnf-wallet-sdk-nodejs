@@ -20,18 +20,10 @@ export class JwtSignServiceImpl implements VCLJwtSignService {
       jwtDescriptor: VCLJwtDescriptor,
       didJwk: VCLDidJwk,
       nonce: Nullish<string>,
-      // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+      // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
       remoteCryptoServicesToken: Nullish<VCLToken>
   ): Promise<VCLJwt> {
-    try {
-      const jwtJson = await generateSignedJwtFetcher(jwtDescriptor, didJwk, nonce);
-      return new Promise((resolve) => {
-        resolve(VCLJwt.fromEncodedJwt(jwtJson['compactJwt'] as string));
-      });
-    } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject(e);
-      });
-    }
+    const jwtJson = await generateSignedJwtFetcher(jwtDescriptor, didJwk, nonce);
+    return VCLJwt.fromEncodedJwt(jwtJson['compactJwt'] as string)
   }
 }

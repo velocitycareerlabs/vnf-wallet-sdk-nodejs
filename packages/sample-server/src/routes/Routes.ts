@@ -77,7 +77,9 @@ export default async function routes(fastify) {
         "/getCredentialManifest",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.getCredentialManifest(credentialManifestDescriptorFromJson(req.body, req.didJwk))
+                await req.vclSdk.getCredentialManifest(
+                    credentialManifestDescriptorFromJson(req.body, req.didJwk)
+                )
             )
         }
     );
