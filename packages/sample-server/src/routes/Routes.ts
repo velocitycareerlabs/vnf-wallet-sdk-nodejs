@@ -16,7 +16,8 @@ import {
     jwtFromJson,
     organizationsSearchDescriptorFrom,
     presentationRequestDescriptorFrom,
-    presentationSubmissionFrom, publicJwkFrom,
+    presentationSubmissionFrom,
+    publicJwkFrom,
     submissionResultFrom,
     tokenFrom,
     verifiedProfileDescriptorFrom
@@ -83,7 +84,7 @@ export default async function routes(fastify) {
         async (req, reply) => {
             reply.send(
                 await req.vclSdk.getCredentialManifest(
-                    credentialManifestDescriptorFrom(req.body, req.didJwk)
+                    credentialManifestDescriptorFrom(req.body)
                 )
             )
         }

@@ -49,7 +49,7 @@ export abstract class Constants {
         'https://devagent.velocitycareerlabs.io/api/holder/v0.6/org/did:ion:EiApMLdMb4NPb8sae9-hXGHP79W1gisApVSE80USPEbtJA/issue/get-credential-manifest';
 
     static readonly IssuingServiceJsonStr =
-        '{"id":"did:ion:EiApMLdMb4NPb8sae9-hXGHP79W1gisApVSE80USPEbtJA#credential-agent-issuer-1","type":"VelocityCredentialAgentIssuer_v1.0","credentialTypes":["Course","EducationDegree","Badge"],"serviceEndpoint":"$IssuingServiceEndPoint"}';
+        `{"id":"did:ion:EiApMLdMb4NPb8sae9-hXGHP79W1gisApVSE80USPEbtJA#credential-agent-issuer-1","type":"VelocityCredentialAgentIssuer_v1.0","credentialTypes":["Course","EducationDegree","Badge"],"serviceEndpoint":"${Constants.IssuingServiceEndPoint}"}`;
 
     static readonly PresentationSelectionsList = [
         { inputDescriptor: 'PhoneV1.0', jwtVc: Constants.AdamSmithPhoneJwt },
@@ -120,7 +120,7 @@ export abstract class Constants {
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksiLCJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJzZWNwMjU2azEiLCJ4IjoiQ1JFNzc0WV8ydkctdTZka2UwSmQzYVhrd1R4WkE2TV96cDZ2TkR0Vmt5NCIsInkiOiJZLWhIdS1FSXlHSGFRRTdmamxZVVlBZ2lVanFqZFc2VXlIaHI2OVFZTS04IiwidXNlIjoic2lnIn19.eyJwMSI6InYxIiwicDIiOiJ2MTIiLCJuYmYiOjE2OTQ0MzUyMjAsImp0aSI6Ijk4YTc4MGFmLTIyZGYtNGU3ZC1iYTZjLTBmYjE0Njk2Zjg0NSIsImlzcyI6ImlzczEyMyIsInN1YiI6IlpHNXQwT1ZrT08iLCJpYXQiOjE2OTQ0MzUyMjB9.kaEGDsRFjFylIAQ1DDX0GQyWBD1y5rG7WNpFZbrL1DFPrfFgDrydXXOCaBbr8TN81kPrbkscsHUuioY-tGCxMw',
     };
 
-    static readonly SomeJwkPublic = {
+    static readonly SomePublicJwk = {
         valueStr:
             '{ "kty": "EC", "crv": "secp256k1", "x": "CRE774Y_2vG-u6dke0Jd3aXkwTxZA6M_zp6vNDtVky4", "y": "Y-hHu-EIyGHaQE7fjlYUYAgiUjqjdW6UyHhr69QYM-8", "use": "sig" }',
     };

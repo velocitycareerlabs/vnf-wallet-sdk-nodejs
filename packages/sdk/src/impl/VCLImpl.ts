@@ -304,7 +304,7 @@ export class VCLImpl implements VCL {
                 VCLErrorCode.SdkError.toString(),
                 null
             );
-            logError('', error);
+            logError(`credentialManifestDescriptor.did doesn't exist`, error);
             throw VCLError.fromError(error);
         }
         let verifiedProfile: VCLVerifiedProfile;
