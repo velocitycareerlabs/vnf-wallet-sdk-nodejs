@@ -6,88 +6,157 @@
  */
 
 import {
-    getCountries,
-    getCredentialTypes,
-    getCredentialTypeSchemas,
-    getPresentationRequest,
-    submitPresentation,
-    getExchangeProgress,
-    searchForOrganizations,
-    getCredentialManifest,
-    generateOffers,
-    checkForOffers,
-    finalizeOffers,
-    getCredentialTypesUIFormSchema,
-    getVerifiedProfile,
-    verifyJwt,
-    generateSignedJwt,
-    generateDidJwk,
-
-} from "../controllers";
+    credentialManifestDescriptorFromJson,
+    credentialTypesUIFormSchemaDescriptorFromJson, didJwkDescriptorFromJson, didJwkFromJson,
+    finalizeOffersDescriptorFromJson,
+    generateOffersDescriptorFromJson, jwtDescriptorFromJson, jwtFromJson,
+    organizationsSearchDescriptorFromJson,
+    presentationRequestDescriptorFromJson,
+    presentationSubmissionFromJson, publicJwkFromJson,
+    submissionResultFromJson,
+    tokenFromString, verifiedProfileDescriptorFromJson
+} from "../utils/Converter";
+import { VCLExchangeDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export default async function routes(fastify) {
     fastify.get(
         "/getCountries",
-        getCountries
+        (req, reply) => {
+            reply.send(req.vclSdk.countries);
+        }
     );
     fastify.get(
         "/getCredentialTypes",
-        getCredentialTypes
+        (req, reply) => {
+            reply.send(req.vclSdk.credentialTypes);
+        }
     );
     fastify.get(
         "/getCredentialTypeSchemas",
-        getCredentialTypeSchemas
+        (req, reply) => {
+            reply.send(req.vclSdk.credentialTypeSchemas);
+        }
     );
     fastify.post(
         "/getPresentationRequest",
-        getPresentationRequest
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.getPresentationRequest(presentationRequestDescriptorFromJson(req.body, req.didJwk))
+            );
+        }
     );
     fastify.post(
         "/submitPresentation",
-        submitPresentation
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.submitPresentation(presentationSubmissionFromJson(req.body))
+            );
+        }
     );
     fastify.post(
         "/getExchangeProgress",
-        getExchangeProgress
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.getExchangeProgress(
+                    new VCLExchangeDescriptor(
+                        presentationSubmissionFromJson(req.body.presentationSubmission),
+                        submissionResultFromJson(req.body.submissionResult)
+                    )
+                ));
+        }
     );
     fastify.post(
         "/searchForOrganizations",
-        searchForOrganizations
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.searchForOrganizations(organizationsSearchDescriptorFromJson(req.body))
+            );
+        }
     );
     fastify.post(
         "/getCredentialManifest",
-        getCredentialManifest
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.getCredentialManifest(credentialManifestDescriptorFromJson(req.body, req.didJwk))
+            )
+        }
     );
     fastify.post(
         "/generateOffers",
-        generateOffers
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.generateOffers(generateOffersDescriptorFromJson(req.body))
+            );
+        }
     );
     fastify.post(
         "/checkOffers",
-        checkForOffers
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.checkForOffers(
+                    generateOffersDescriptorFromJson(req.body),
+                    tokenFromString(req.body.sessionToken.value)
+                )
+            );
+        }
     );
     fastify.post(
         "/finalizeOffers",
-        finalizeOffers
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.finalizeOffers(
+                    finalizeOffersDescriptorFromJson(req.body),
+                    tokenFromString(req.body.sessionToken.value)
+                )
+            );
+        }
     );
     fastify.post(
         "/getCredentialTypesUIFormSchema",
-        getCredentialTypesUIFormSchema
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.getCredentialTypesUIFormSchema(credentialTypesUIFormSchemaDescriptorFromJson(req.body))
+            );
+        }
     );
     fastify.post(
         "/getVerifiedProfile",
-        getVerifiedProfile
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.getVerifiedProfile(verifiedProfileDescriptorFromJson(req.body))
+            );
+        }
     );
     fastify.post(
         "/verifyJwt",
-        verifyJwt
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.verifyJwt(
+                    jwtFromJson(req.body.jwt),
+                    publicJwkFromJson(req.body.publicJwk),
+                    tokenFromString(req.body.remoteCryptoServicesToken)
+                )
+            );
+        }
     );
     fastify.post(
         "/generateSignedJwt",
-        generateSignedJwt
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.generateSignedJwt(
+                    jwtDescriptorFromJson(req.body.jwtDescriptor),
+                    didJwkFromJson(req.body.didJwk),
+                    tokenFromString(req.body.remoteCryptoServicesToken)
+                )
+            );
+        }
     );
     fastify.post(
         "/generateDidJwk",
-        generateDidJwk
+        async (req, reply) => {
+            reply.send(
+                await req.vclSdk.generateDidJwk(didJwkDescriptorFromJson(req.body))
+            );
+        }
     );
 }
