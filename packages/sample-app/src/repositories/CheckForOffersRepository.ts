@@ -15,7 +15,7 @@ export const checkOffers = async (
     const config = {
         url: Urls.checkOffers,
         method: 'POST',
-        data: { generateOffersDescriptor, sessionToken }
+        data: { ...generateOffersDescriptor, sessionToken }
     };
     return await fetcher(config);
 }

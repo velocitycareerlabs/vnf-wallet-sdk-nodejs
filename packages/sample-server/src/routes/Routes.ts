@@ -6,15 +6,20 @@
  */
 
 import {
-    credentialManifestDescriptorFromJson,
-    credentialTypesUIFormSchemaDescriptorFromJson, didJwkDescriptorFromJson, didJwkFromJson,
-    finalizeOffersDescriptorFromJson,
-    generateOffersDescriptorFromJson, jwtDescriptorFromJson, jwtFromJson,
-    organizationsSearchDescriptorFromJson,
-    presentationRequestDescriptorFromJson,
-    presentationSubmissionFromJson, publicJwkFromJson,
-    submissionResultFromJson,
-    tokenFromString, verifiedProfileDescriptorFromJson
+    credentialManifestDescriptorFrom,
+    credentialTypesUIFormSchemaDescriptorFrom,
+    didJwkDescriptorFrom,
+    didJwkFrom,
+    finalizeOffersDescriptorFrom,
+    generateOffersDescriptorFrom,
+    jwtDescriptorFrom,
+    jwtFromJson,
+    organizationsSearchDescriptorFrom,
+    presentationRequestDescriptorFrom,
+    presentationSubmissionFrom, publicJwkFrom,
+    submissionResultFrom,
+    tokenFrom,
+    verifiedProfileDescriptorFrom
 } from "../utils/Converter";
 import { VCLExchangeDescriptor } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
@@ -41,7 +46,7 @@ export default async function routes(fastify) {
         "/getPresentationRequest",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.getPresentationRequest(presentationRequestDescriptorFromJson(req.body, req.didJwk))
+                await req.vclSdk.getPresentationRequest(presentationRequestDescriptorFrom(req.body, req.didJwk))
             );
         }
     );
@@ -49,7 +54,7 @@ export default async function routes(fastify) {
         "/submitPresentation",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.submitPresentation(presentationSubmissionFromJson(req.body))
+                await req.vclSdk.submitPresentation(presentationSubmissionFrom(req.body))
             );
         }
     );
@@ -59,8 +64,8 @@ export default async function routes(fastify) {
             reply.send(
                 await req.vclSdk.getExchangeProgress(
                     new VCLExchangeDescriptor(
-                        presentationSubmissionFromJson(req.body.presentationSubmission),
-                        submissionResultFromJson(req.body.submissionResult)
+                        presentationSubmissionFrom(req.body.presentationSubmission),
+                        submissionResultFrom(req.body.submissionResult)
                     )
                 ));
         }
@@ -69,7 +74,7 @@ export default async function routes(fastify) {
         "/searchForOrganizations",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.searchForOrganizations(organizationsSearchDescriptorFromJson(req.body))
+                await req.vclSdk.searchForOrganizations(organizationsSearchDescriptorFrom(req.body))
             );
         }
     );
@@ -78,7 +83,7 @@ export default async function routes(fastify) {
         async (req, reply) => {
             reply.send(
                 await req.vclSdk.getCredentialManifest(
-                    credentialManifestDescriptorFromJson(req.body, req.didJwk)
+                    credentialManifestDescriptorFrom(req.body, req.didJwk)
                 )
             )
         }
@@ -87,7 +92,7 @@ export default async function routes(fastify) {
         "/generateOffers",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.generateOffers(generateOffersDescriptorFromJson(req.body))
+                await req.vclSdk.generateOffers(generateOffersDescriptorFrom(req.body))
             );
         }
     );
@@ -96,8 +101,8 @@ export default async function routes(fastify) {
         async (req, reply) => {
             reply.send(
                 await req.vclSdk.checkForOffers(
-                    generateOffersDescriptorFromJson(req.body),
-                    tokenFromString(req.body.sessionToken.value)
+                    generateOffersDescriptorFrom(req.body),
+                    tokenFrom(req.body.sessionToken)
                 )
             );
         }
@@ -107,8 +112,8 @@ export default async function routes(fastify) {
         async (req, reply) => {
             reply.send(
                 await req.vclSdk.finalizeOffers(
-                    finalizeOffersDescriptorFromJson(req.body),
-                    tokenFromString(req.body.sessionToken.value)
+                    finalizeOffersDescriptorFrom(req.body.finalizeOffersDescriptor),
+                    tokenFrom(req.body.sessionToken)
                 )
             );
         }
@@ -117,7 +122,7 @@ export default async function routes(fastify) {
         "/getCredentialTypesUIFormSchema",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.getCredentialTypesUIFormSchema(credentialTypesUIFormSchemaDescriptorFromJson(req.body))
+                await req.vclSdk.getCredentialTypesUIFormSchema(credentialTypesUIFormSchemaDescriptorFrom(req.body))
             );
         }
     );
@@ -125,7 +130,7 @@ export default async function routes(fastify) {
         "/getVerifiedProfile",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.getVerifiedProfile(verifiedProfileDescriptorFromJson(req.body))
+                await req.vclSdk.getVerifiedProfile(verifiedProfileDescriptorFrom(req.body))
             );
         }
     );
@@ -135,8 +140,8 @@ export default async function routes(fastify) {
             reply.send(
                 await req.vclSdk.verifyJwt(
                     jwtFromJson(req.body.jwt),
-                    publicJwkFromJson(req.body.publicJwk),
-                    tokenFromString(req.body.remoteCryptoServicesToken)
+                    publicJwkFrom(req.body.publicJwk),
+                    tokenFrom(req.body.remoteCryptoServicesToken)
                 )
             );
         }
@@ -146,9 +151,9 @@ export default async function routes(fastify) {
         async (req, reply) => {
             reply.send(
                 await req.vclSdk.generateSignedJwt(
-                    jwtDescriptorFromJson(req.body.jwtDescriptor),
-                    didJwkFromJson(req.body.didJwk),
-                    tokenFromString(req.body.remoteCryptoServicesToken)
+                    jwtDescriptorFrom(req.body.jwtDescriptor),
+                    didJwkFrom(req.body.didJwk),
+                    tokenFrom(req.body.remoteCryptoServicesToken)
                 )
             );
         }
@@ -157,7 +162,7 @@ export default async function routes(fastify) {
         "/generateDidJwk",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.generateDidJwk(didJwkDescriptorFromJson(req.body))
+                await req.vclSdk.generateDidJwk(didJwkDescriptorFrom(req.body))
             );
         }
     );
