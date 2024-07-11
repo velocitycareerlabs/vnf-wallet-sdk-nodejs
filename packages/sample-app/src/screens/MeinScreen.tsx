@@ -16,7 +16,14 @@ import {
     getCredentialManifestByService,
     generateOffers,
     searchForOrganizations,
-    generateDidJwk, finalizeOffers, checkOffers
+    generateDidJwk,
+    finalizeOffers,
+    checkOffers,
+    getCredentialTypesUIFormSchema,
+    getCredentialManifestToRefreshCredentials,
+    getVerifiedProfile,
+    verifyJwt,
+    generateSignedJwt
 } from "../repositories";
 import { Constants } from "./Constants";
 import { Dictionary } from "../Types";
@@ -103,7 +110,7 @@ const onGetOrganizationsThenCredentialManifestByService = () => {
         getCredentialManifestByService({
             service: serviceCredentialAgentIssuer,
             issuingType: 'Career',
-            credentialTypes: [serviceCredentialAgentIssuer.type], // Can come from any where
+            credentialTypes: [serviceCredentialAgentIssuer.type], // Can come from anywhere
             didJwk: didJwk
         }).then((credentialManifest) => {
             console.log('credential manifest: ', credentialManifest);
@@ -155,22 +162,69 @@ const onFinalizeOffers = (credentialManifest: Dictionary<any>, offers: Dictionar
 }
 
 const onGetCredentialTypesUIFormSchema = () => {
-    alert(`You clicked on getCredentialTypesUIFormSchema`);
+    getCredentialTypesUIFormSchema({
+        credentialType: "ResidentPermitV1.0",
+        countryCode: "US"
+    }).then((credentialTypesUIFormSchema) => {
+        console.log('credential types UI form schema: ', credentialTypesUIFormSchema);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
+
 const onRefreshCredentials = () => {
-    alert(`You clicked on refreshCredentials`);
+    getCredentialManifestToRefreshCredentials({
+        service: JSON.parse(Constants.IssuingServiceJsonStr),
+        credentialIds: Constants.CredentialIdsToRefresh,
+        didJwk: didJwk
+    }).then((credentialManifest) => {
+        console.log('credential manifest to refresh credentials: ', credentialManifest);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
+
 const onGetVerifiedProfile = () => {
-    alert(`You clicked on getVerifiedProfile`);
+    getVerifiedProfile({
+        did: Constants.DidDev
+    }).then((verifiedProfile) => {
+        console.log('verified profile: ', verifiedProfile);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
+
 const onVerifyJwt = () => {
-    alert(`You clicked on verifyJwt`);
+    verifyJwt(Constants.SomeJwt, Constants.SomePublicJwk).then((isVerified) => {
+        console.log('is verified: ', isVerified);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
 const onGenerateSignedJwt = () => {
-    alert(`You clicked on generateSignedJwt`);
+    generateSignedJwt({
+            payload: Constants.SomePayload,
+            iss: "iss123",
+            jti: "jti123"
+        },
+        didJwk
+    ).then((signedJwt) => {
+        console.log('signed jwt: ', signedJwt);
+    }).catch((error) => {
+        console.log(error);
+    });
 };
+
 const onGenerateDidJwk = () => {
-    alert(`You clicked on generateDidJwk`);
+    generateDidJwk({
+        signatureAlgorithm: "P-256",
+        remoteCryptoServicesToken: null
+    }).then((newDidJwk) => {
+        console.log('new didJwk: ',  newDidJwk);
+        didJwk = newDidJwk;
+    }).catch((error) => {
+        console.log(error);
+    });
 };
 
 const MeinScreen: React.FC = () => {
