@@ -13,15 +13,7 @@ export class JwtVerifyServiceImpl implements VCLJwtVerifyService {
       jwt: VCLJwt,
       publicJwk: Nullish<VCLPublicJwk>,
   ): Promise<boolean> {
-    try {
-      const verificationJson = await verifyJwtFetcher(jwt, publicJwk);
-      return new Promise((resolve) => {
-        resolve(verificationJson['verified'] as boolean || false);
-      });
-    } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject(e);
-      });
-    }
+    const verificationJson = await verifyJwtFetcher(jwt, publicJwk);
+    return verificationJson['verified'] as boolean || false
   }
 }

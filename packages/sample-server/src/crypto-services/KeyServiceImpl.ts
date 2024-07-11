@@ -9,19 +9,7 @@ import { VCLDidJwk, VCLDidJwkDescriptor, VCLKeyService } from "@velocitycareerla
 import { generateDidJwkFetcher } from "./fetchers";
 
 export class KeyServiceImpl implements VCLKeyService {
-
   async generateDidJwk(didJwkDescriptor: VCLDidJwkDescriptor): Promise<VCLDidJwk> {
-    try {
-      const didJwkJson = await generateDidJwkFetcher(
-          didJwkDescriptor,
-      );
-      return new Promise((resolve) => {
-        resolve(VCLDidJwk.fromJSON(didJwkJson));
-      });
-    } catch (e) {
-      return new Promise((resolve, reject) => {
-        reject(e);
-      });
-    }
+    return VCLDidJwk.fromJSON(await generateDidJwkFetcher(didJwkDescriptor));
   }
 }
