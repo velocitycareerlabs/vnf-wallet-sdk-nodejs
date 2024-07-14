@@ -9,12 +9,13 @@ import fetcher from "../network/Fetcher";
 import Urls from "../network/Urls";
 
 export const getPresentationRequest = async (
-    deepLink: Dictionary<any>
+    deepLink: Dictionary<any>,
+    didJwk: Dictionary<any>
 ): Promise<Dictionary<any>> => {
     const config = {
         url: Urls.getPresentationRequest,
         method: 'POST',
-        data: deepLink,
+        data: { deepLink, didJwk }
     };
     return await fetcher(config);
 }

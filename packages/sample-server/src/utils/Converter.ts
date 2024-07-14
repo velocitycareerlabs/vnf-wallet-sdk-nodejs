@@ -8,33 +8,34 @@
 import {
     Dictionary,
     issuingTypeFromString,
+    Nullish,
     VCLCredentialManifest,
     VCLCredentialManifestDescriptor,
     VCLCredentialManifestDescriptorByDeepLink,
     VCLCredentialManifestDescriptorByService,
     VCLCredentialManifestDescriptorRefresh,
+    VCLCredentialTypesUIFormSchemaDescriptor,
     VCLDeepLink,
     VCLDidJwk,
+    VCLDidJwkDescriptor,
     VCLExchange,
     VCLFilter,
+    VCLFinalizeOffersDescriptor,
     VCLGenerateOffersDescriptor,
     VCLIssuingType,
     VCLJwt,
+    VCLJwtDescriptor,
     VCLOrganizationsSearchDescriptor,
     VCLPresentationRequest,
     VCLPresentationRequestDescriptor,
     VCLPresentationSubmission,
+    VCLPublicJwk,
     VCLServiceCredentialAgentIssuer,
     VCLSubmissionResult,
     VCLToken,
     VCLVerifiableCredential,
     VCLVerifiedProfile,
-    VCLFinalizeOffersDescriptor,
-    VCLCredentialTypesUIFormSchemaDescriptor,
-    VCLVerifiedProfileDescriptor,
-    VCLPublicJwk,
-    VCLJwtDescriptor,
-    VCLDidJwkDescriptor, Nullish
+    VCLVerifiedProfileDescriptor
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
 export const deepLinkFrom = (deepLink: any): VCLDeepLink => {
@@ -58,8 +59,9 @@ export const didJwkFrom = (json: Dictionary<any>): VCLDidJwk => {
     return VCLDidJwk.fromJSON(json);
 }
 
-export const presentationRequestDescriptorFrom = (json: Dictionary<any>, didJwk: VCLDidJwk): VCLPresentationRequestDescriptor => {
-    const deepLink = deepLinkFrom(json)
+export const presentationRequestDescriptorFrom = (json: Dictionary<any>): VCLPresentationRequestDescriptor => {
+    const deepLink = deepLinkFrom(json.deepLink);
+    const didJwk = didJwkFrom(json.didJwk);
     return new VCLPresentationRequestDescriptor(
         deepLink,
         null,
@@ -134,7 +136,7 @@ const credentialManifestDescriptorRefreshFrom = (json: Dictionary<any>): VCLCred
 export const credentialManifestDescriptorFrom = (json: Dictionary<any>): VCLCredentialManifestDescriptor => {
     return json.credentialIds ? credentialManifestDescriptorRefreshFrom(json) : (
         json.service ? credentialManifestDescriptorByServiceFrom(json) : credentialManifestDescriptorByDeepLinkFrom(json)
-    )
+    );
 }
 
 export const credentialManifestFrom = (json: Dictionary<any>): VCLCredentialManifest => {
