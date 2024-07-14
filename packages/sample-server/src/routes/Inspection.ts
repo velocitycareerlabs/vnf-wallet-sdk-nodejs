@@ -16,7 +16,7 @@ export default async function inspectionRoutes(fastify) {
         "/getPresentationRequest",
         async (req, reply) => {
             reply.send(
-                await req.vclSdk.getPresentationRequest(presentationRequestDescriptorFrom(req.body, req.didJwk))
+                await req.vclSdk.getPresentationRequest(presentationRequestDescriptorFrom(req.body))
             );
         }
     );

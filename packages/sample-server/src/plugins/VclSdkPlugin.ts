@@ -6,7 +6,7 @@
  */
 import fastifyPlugin from "fastify-plugin";
 import {
-    VCLCryptoServicesDescriptor, VCLDidJwkDescriptor,
+    VCLCryptoServicesDescriptor,
     VCLInitializationDescriptor,
     VCLProvider
 } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
@@ -29,22 +29,12 @@ const vclSdkPlugin = async (fastify) => {
     try {
         await vclSdk.initialize(initializationDescriptor)
         console.log('VCL SDK initialized successfully');
-        try {
-            const didJwk = await vclSdk.generateDidJwk(new VCLDidJwkDescriptor())
-            console.log(`DID JWK generated successfully: ${JSON.stringify(didJwk)}`);
-            fastify.decorate('vclSdk', vclSdk);
-            fastify.decorate('didJwk', didJwk);
-            const addHooks = async (req, reply) => {
-                req.vclSdk = vclSdk;
-                req.didJwk = didJwk;
-                reply.vclSdk = vclSdk;
-                reply.didJwk = didJwk;
-            };
-            fastify.addHook('preHandler', addHooks);
-        } catch (e) {
-            console.error('Failed to generate DID JWK', e);
-            throw e;
-        }
+        fastify.decorate('vclSdk', vclSdk);
+        const addHooks = async (req, reply) => {
+            req.vclSdk = vclSdk;
+            reply.vclSdk = vclSdk;
+        };
+        fastify.addHook('preHandler', addHooks);
     } catch (e) {
         console.error('Failed to initialize VCL SDK', e);
         throw e;

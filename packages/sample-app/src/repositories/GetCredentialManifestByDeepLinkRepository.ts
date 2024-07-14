@@ -9,12 +9,13 @@ import fetcher from "../network/Fetcher";
 import { Dictionary } from "../Types";
 
 export const getCredentialManifestByDeepLink = async (
-    deepLink: Dictionary<any>
+    deepLink: Dictionary<any>,
+    didJwk: Dictionary<any>
 ): Promise<Dictionary<any>> => {
     const config = {
         url: Urls.getCredentialManifest,
         method: 'POST',
-        data: deepLink,
+        data: { deepLink, didJwk }
     };
     return await fetcher(config);
 }

@@ -37,7 +37,7 @@ const initialization = async () => {
             remoteCryptoServicesToken: null
         });
     }
-    console.log('didJwk: ', didJwk);
+    console.log('didJwk: ', didJwk); // Should be managed by the consumer
 };
 
 // @ts-ignore
@@ -68,7 +68,10 @@ const onGetCredentialTypeSchemas = () => {
 };
 
 const onGetPresentationRequest = () => {
-    getPresentationRequest({value: Constants.PresentationRequestDeepLinkStrDev} )
+    getPresentationRequest(
+        {value: Constants.PresentationRequestDeepLinkStrDev},
+        didJwk
+    )
         .then((presentationRequest) => {
         console.log('presentation request: ', presentationRequest);
             onSubmitPresentation(presentationRequest);
@@ -92,7 +95,8 @@ const onSubmitPresentation = (presentationRequest: Dictionary<any>) => {
 
 const onGetCredentialManifestByDeepLink = () => {
     getCredentialManifestByDeepLink(
-        { value: Constants.CredentialManifestDeepLinkStrDev }
+        { value: Constants.CredentialManifestDeepLinkStrDev },
+        didJwk
     ).then((credentialManifest) => {
         console.log('credential manifest: ', credentialManifest);
         onGenerateOffers(credentialManifest);
