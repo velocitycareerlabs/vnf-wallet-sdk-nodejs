@@ -25,7 +25,7 @@ import {
     verifyJwt,
     generateSignedJwt
 } from "../repositories";
-import { Constants } from "./Constants";
+import { Constants } from "../Constants";
 import { Dictionary } from "../Types";
 import { getApprovedRejectedOfferIdsMock } from "../utils/Utils";
 
