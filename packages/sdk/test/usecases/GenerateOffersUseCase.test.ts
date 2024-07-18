@@ -9,6 +9,7 @@ import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
 import { expect } from "@jest/globals";
 import { VCLOffer } from "../../src/api/entities/VCLOffer";
+import OffersByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/OffersByDeepLinkVerifierImpl";
 
 describe("GenerateOffersUseCase Tests", () => {
     let subject1: GenerateOffersUseCase
@@ -22,7 +23,8 @@ describe("GenerateOffersUseCase Tests", () => {
         subject1 = new GenerateOffersUseCaseImpl(
             new GenerateOffersRepositoryImpl(
                 new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersJsonObj)
-            )
+            ),
+            new OffersByDeepLinkVerifierImpl()
         )
 
         const generateOffersDescriptor = new VCLGenerateOffersDescriptor(
@@ -51,7 +53,8 @@ describe("GenerateOffersUseCase Tests", () => {
         subject1 = new GenerateOffersUseCaseImpl(
             new GenerateOffersRepositoryImpl(
                 new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersJsonArr)
-            )
+            ),
+            new OffersByDeepLinkVerifierImpl()
         )
 
         const generateOffersDescriptor = new VCLGenerateOffersDescriptor(
@@ -80,7 +83,8 @@ describe("GenerateOffersUseCase Tests", () => {
         subject2 = new GenerateOffersUseCaseImpl(
             new GenerateOffersRepositoryImpl(
                 new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersEmptyJsonObj)
-            )
+            ),
+            new OffersByDeepLinkVerifierImpl()
         )
 
         const generateOffersDescriptor = new VCLGenerateOffersDescriptor(
@@ -108,7 +112,8 @@ describe("GenerateOffersUseCase Tests", () => {
         subject3 = new GenerateOffersUseCaseImpl(
             new GenerateOffersRepositoryImpl(
                 new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersEmptyJsonArr)
-            )
+            ),
+            new OffersByDeepLinkVerifierImpl()
         )
 
         const generateOffersDescriptor = new VCLGenerateOffersDescriptor(

@@ -16,6 +16,8 @@ import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
 import { VerifiedProfileMocks } from "../infrastructure/resources/valid/VerifiedProfileMocks";
 import { expect } from "@jest/globals";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
+import CredentialManifestByDeepLinkVerifierImpl
+    from "../../src/impl/data/verifiers/CredentialManifestByDeepLinkVerifierImpl";
 
 describe("CredentialManifestUseCase Tests", () => {
 
@@ -33,7 +35,8 @@ describe("CredentialManifestUseCase Tests", () => {
             new JwtServiceRepositoryImpl(
                 new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
-            )
+            ),
+            new CredentialManifestByDeepLinkVerifierImpl()
         );
 
         try {
@@ -70,7 +73,8 @@ describe("CredentialManifestUseCase Tests", () => {
             new JwtServiceRepositoryImpl(
                 new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
-            )
+            ),
+            new CredentialManifestByDeepLinkVerifierImpl()
         );
 
         try {

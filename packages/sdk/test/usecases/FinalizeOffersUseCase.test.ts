@@ -23,6 +23,8 @@ import { CredentialManifestMocks } from "../infrastructure/resources/valid/Crede
 import CredentialIssuerVerifierImpl from "../../src/impl/data/verifiers/CredentialIssuerVerifierImpl";
 import CredentialDidVerifierImpl from "../../src/impl/data/verifiers/CredentialDidVerifierImpl";
 import CredentialsByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/CredentialsByDeepLinkVerifierImpl";
+import OffersByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/OffersByDeepLinkVerifierImpl";
+import { JsonLdMocks } from "../infrastructure/resources/valid/JsonLdMocks";
 
 describe("FinalizeOffersUseCase Tests", () => {
     let subject1: FinalizeOffersUseCase
@@ -58,6 +60,7 @@ describe("FinalizeOffersUseCase Tests", () => {
             new GenerateOffersRepositoryImpl(
                 new NetworkServiceSuccess(GenerateOffersMocks.GeneratedOffersJsonObj)
             ),
+            new OffersByDeepLinkVerifierImpl()
         ).generateOffers(generateOffersDescriptor, new VCLToken(''))
         expect(offers.payload).toStrictEqual(GenerateOffersMocks.GeneratedOffersJsonObj);
         expect(offers.all[0].payload).toStrictEqual(JSON.parse(GenerateOffersMocks.Offer1));
@@ -71,7 +74,9 @@ describe("FinalizeOffersUseCase Tests", () => {
                 new NetworkServiceSuccess(JSON.parse(CredentialMocks.JwtCredentialsFromRegularIssuer))
             ),
             jwtServiceRepository,
-            new CredentialIssuerVerifierImpl(),
+            new CredentialIssuerVerifierImpl(
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+            ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
         )
@@ -95,7 +100,9 @@ describe("FinalizeOffersUseCase Tests", () => {
                 new NetworkServiceSuccess(JSON.parse(CredentialMocks.JwtEmptyCredentials))
             ),
             jwtServiceRepository,
-            new CredentialIssuerVerifierImpl(),
+            new CredentialIssuerVerifierImpl(
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+            ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
         )

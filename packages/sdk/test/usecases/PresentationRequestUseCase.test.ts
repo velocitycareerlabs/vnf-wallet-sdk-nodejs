@@ -16,6 +16,8 @@ import {
 import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import PresentationRequestUseCase from "../../src/impl/domain/usecases/PresentationRequestUseCase";
+import PresentationRequestByDeepLinkVerifierImpl
+    from "../../src/impl/data/verifiers/PresentationRequestByDeepLinkVerifierImpl";
 
 describe("PresentationRequestUseCase Tests", () => {
     let subject1: PresentationRequestUseCase
@@ -34,7 +36,8 @@ describe("PresentationRequestUseCase Tests", () => {
             new JwtServiceRepositoryImpl(
                 new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
-            )
+            ),
+            new PresentationRequestByDeepLinkVerifierImpl()
         )
 
         const presentationRequest = await subject1.getPresentationRequest(
@@ -70,7 +73,8 @@ describe("PresentationRequestUseCase Tests", () => {
             new JwtServiceRepositoryImpl(
                 new JwtSignServiceMock(''),
                 new JwtVerifyServiceMock()
-            )
+            ),
+            new PresentationRequestByDeepLinkVerifierImpl()
         )
         try {
             await subject2.getPresentationRequest(
