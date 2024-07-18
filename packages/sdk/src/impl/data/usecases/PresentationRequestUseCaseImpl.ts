@@ -8,13 +8,15 @@ import PresentationRequestRepository from "../../domain/repositories/Presentatio
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
 import PresentationRequestUseCase from "../../domain/usecases/PresentationRequestUseCase";
 import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
+import PresentationRequestByDeepLinkVerifier from "../../domain/verifiers/PresentationRequestByDeepLinkVerifier";
 
 export default class PresentationRequestUseCaseImpl
     implements PresentationRequestUseCase {
     constructor(
         private presentationRequestRepository: PresentationRequestRepository,
         private resolveKidRepository: ResolveKidRepository,
-        private jwtServiceRepository: JwtServiceRepository
+        private jwtServiceRepository: JwtServiceRepository,
+        private presentationRequestByDeepLinkVerifier: PresentationRequestByDeepLinkVerifier
     ) {
     }
 
@@ -62,6 +64,9 @@ export default class PresentationRequestUseCaseImpl
             presentationRequest.jwt,
             publicJwk,
             presentationRequest.remoteCryptoServicesToken
+        ) && await this.presentationRequestByDeepLinkVerifier.verifyPresentationRequest(
+            presentationRequest,
+            presentationRequest.deepLink
         );
         return this.onVerificationSuccess(isVerified, presentationRequest);
     }

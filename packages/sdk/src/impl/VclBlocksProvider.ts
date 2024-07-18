@@ -52,6 +52,9 @@ import KeyServiceRepositoryImpl from "./data/repositories/KeyServiceRepositoryIm
 import CredentialIssuerVerifierImpl from "./data/verifiers/CredentialIssuerVerifierImpl";
 import CredentialDidVerifierImpl from "./data/verifiers/CredentialDidVerifierImpl";
 import CredentialsByDeepLinkVerifierImpl from "./data/verifiers/CredentialsByDeepLinkVerifierImpl";
+import CredentialManifestByDeepLinkVerifierImpl from "./data/verifiers/CredentialManifestByDeepLinkVerifierImpl";
+import OffersByDeepLinkVerifierImpl from "./data/verifiers/OffersByDeepLinkVerifierImpl";
+import PresentationRequestByDeepLinkVerifierImpl from "./data/verifiers/PresentationRequestByDeepLinkVerifierImpl";
 
 export default class VclBlocksProvider {
     static providePresentationRequestUseCase(
@@ -63,7 +66,8 @@ export default class VclBlocksProvider {
             new JwtServiceRepositoryImpl(
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
-            )
+            ),
+            new PresentationRequestByDeepLinkVerifierImpl()
         );
     }
 
@@ -93,7 +97,8 @@ export default class VclBlocksProvider {
             new JwtServiceRepositoryImpl(
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
-            )
+            ),
+            new CredentialManifestByDeepLinkVerifierImpl()
         );
     }
 
@@ -113,7 +118,8 @@ export default class VclBlocksProvider {
 
     static provideGenerateOffersUseCase(): GenerateOffersUseCase {
         return new GenerateOffersUseCaseImpl(
-            new GenerateOffersRepositoryImpl(new NetworkServiceImpl())
+            new GenerateOffersRepositoryImpl(new NetworkServiceImpl()),
+            new OffersByDeepLinkVerifierImpl()
         );
     }
 
@@ -126,7 +132,7 @@ export default class VclBlocksProvider {
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
             ),
-            new CredentialIssuerVerifierImpl(),
+            new CredentialIssuerVerifierImpl(new NetworkServiceImpl()),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
         );

@@ -28,6 +28,9 @@ import {
 import { Constants } from "../Constants";
 import { Dictionary } from "../Types";
 import { getApprovedRejectedOfferIdsMock } from "../utils/Utils";
+import Environment from "../Environment";
+
+const environment = Environment.Staging;
 
 let didJwk: Dictionary<any>;
 const initialization = async () => {
@@ -68,8 +71,10 @@ const onGetCredentialTypeSchemas = () => {
 };
 
 const onGetPresentationRequest = () => {
+    const  deepLinkValue =
+        environment === Environment.Dev.valueOf() ? Constants.PresentationRequestDeepLinkStrDev : Constants.PresentationRequestDeepLinkStrStaging;
     getPresentationRequest(
-        {value: Constants.PresentationRequestDeepLinkStrDev},
+        { value: deepLinkValue },
         didJwk
     )
         .then((presentationRequest) => {
@@ -83,7 +88,7 @@ const onGetPresentationRequest = () => {
 
 const onSubmitPresentation = (presentationRequest: Dictionary<any>) => {
     submitPresentation({
-            verifiableCredentials: Constants.PresentationSelectionsList,
+            verifiableCredentials: Constants.getIdentificationList(environment),
             presentationRequest: presentationRequest
         }
     ).then((submissionResult) => {
@@ -94,8 +99,10 @@ const onSubmitPresentation = (presentationRequest: Dictionary<any>) => {
 };
 
 const onGetCredentialManifestByDeepLink = () => {
+    const deepLinkValue =
+        environment === Environment.Dev.valueOf() ? Constants.CredentialManifestDeepLinkStrDev : Constants.CredentialManifestDeepLinkStrStaging;
     getCredentialManifestByDeepLink(
-        { value: Constants.CredentialManifestDeepLinkStrDev },
+        { value: deepLinkValue },
         didJwk
     ).then((credentialManifest) => {
         console.log('credential manifest: ', credentialManifest);
@@ -107,7 +114,7 @@ const onGetCredentialManifestByDeepLink = () => {
 
 const onGetOrganizationsThenCredentialManifestByService = () => {
     searchForOrganizations({
-        filter: { 'did': Constants.DidDev }
+        filter: { 'did': (environment === Environment.Dev.valueOf() ? Constants.IssuerDidDev : Constants.IssuerDidStaging) }
     }).then((organizations) => {
         console.log('organizations: ', organizations);
         const serviceCredentialAgentIssuer = organizations.all[0].payload.service[0];
@@ -131,7 +138,7 @@ const onGenerateOffers = (credentialManifest: Dictionary<any>) => {
     const generateOffersDescriptor = {
         credentialManifest: credentialManifest,
         types: Constants.CredentialTypes,
-        identificationVerifiableCredentials: Constants.IdentificationList
+        identificationVerifiableCredentials: Constants.getIdentificationList(environment),
     }
     generateOffers(generateOffersDescriptor).then((offers) => {
         console.log('generate offers: ', offers);
@@ -179,7 +186,7 @@ const onGetCredentialTypesUIFormSchema = () => {
 const onRefreshCredentials = () => {
     getCredentialManifestToRefreshCredentials({
         service: JSON.parse(Constants.IssuingServiceJsonStr),
-        credentialIds: Constants.CredentialIdsToRefresh,
+        credentialIds: Constants.getCredentialIdsToRefresh(environment),
         didJwk: didJwk
     }).then((credentialManifest) => {
         console.log('credential manifest to refresh credentials: ', credentialManifest);
@@ -189,9 +196,9 @@ const onRefreshCredentials = () => {
 };
 
 const onGetVerifiedProfile = () => {
-    getVerifiedProfile({
-        did: Constants.DidDev
-    }).then((verifiedProfile) => {
+    getVerifiedProfile(
+        Constants.getVerifiedProfileDescriptor(environment)
+    ).then((verifiedProfile) => {
         console.log('verified profile: ', verifiedProfile);
     }).catch((error) => {
         console.log(error);

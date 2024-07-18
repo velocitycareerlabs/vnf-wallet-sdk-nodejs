@@ -348,9 +348,6 @@ export class VCLImpl implements VCL {
             logError("submit identification", error);
             throw VCLError.fromError(error);
         }
-
-        VCLLog.i(VCLImpl.TAG, "Identification submitted success.");
-
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
             identificationSubmissionResult.sessionToken
@@ -486,5 +483,5 @@ export class VCLImpl implements VCL {
 }
 
 const logError = (message = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${error}`);
+    VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
 };

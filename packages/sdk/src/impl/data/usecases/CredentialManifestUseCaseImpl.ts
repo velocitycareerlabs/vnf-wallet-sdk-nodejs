@@ -8,15 +8,17 @@ import JwtServiceRepository from "../../domain/repositories/JwtServiceRepository
 import ResolveKidRepository from "../../domain/repositories/ResolveKidRepository";
 import CredentialManifestUseCase from "../../domain/usecases/CredentialManifestUseCase";
 import VCLVerifiedProfile from "../../../api/entities/VCLVerifiedProfile";
+import CredentialManifestByDeepLinkVerifier from "../../domain/verifiers/CredentialManifestByDeepLinkVerifier";
+import VCLLog from "../../utils/VCLLog";
 
 export default class CredentialManifestUseCaseImpl
     implements CredentialManifestUseCase {
     constructor(
         private readonly credentialManifestRepository: CredentialManifestRepository,
         private readonly resolveKidRepository: ResolveKidRepository,
-        private readonly jwtServiceRepository: JwtServiceRepository
-    ) {
-    }
+        private readonly jwtServiceRepository: JwtServiceRepository,
+        private readonly credentialManifestByDeepLinkVerifier: CredentialManifestByDeepLinkVerifier
+) { }
 
     async getCredentialManifest(
         credentialManifestDescriptor: VCLCredentialManifestDescriptor,
@@ -40,8 +42,15 @@ export default class CredentialManifestUseCaseImpl
     async onGetCredentialManifestSuccess(
         credentialManifest: VCLCredentialManifest
     ): Promise<VCLCredentialManifest> {
-        // TODO: Here we should verify the credential manifest in future
-        // credentialManifestByDeepLinkVerifier.verifyCredentialManifest(credentialManifest, deepLink) {
+        if (credentialManifest.deepLink == null) {
+            const isVerified = await this.credentialManifestByDeepLinkVerifier.verifyCredentialManifest(
+                credentialManifest,
+                credentialManifest.deepLink!
+            )
+            VCLLog.d("", `Credential manifest deep link verification result: ${isVerified}`)
+        } else {
+            VCLLog.d("", "Deep link was not provided => nothing to verify")
+        }
         return this.onCredentialManifestDidVerificationSuccess(credentialManifest);
     }
 
