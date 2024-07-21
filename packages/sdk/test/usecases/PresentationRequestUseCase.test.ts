@@ -16,8 +16,7 @@ import {
 import { DeepLinkMocks } from "../infrastructure/resources/valid/DeepLinkMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import PresentationRequestUseCase from "../../src/impl/domain/usecases/PresentationRequestUseCase";
-import PresentationRequestByDeepLinkVerifierImpl
-    from "../../src/impl/data/verifiers/PresentationRequestByDeepLinkVerifierImpl";
+import { PresentationRequestByDeepLinkVerifierImpl } from "../../src/impl/data/verifiers";
 
 describe("PresentationRequestUseCase Tests", () => {
     let subject1: PresentationRequestUseCase

@@ -49,12 +49,14 @@ import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 import KeyServiceUseCaseImpl from "./data/usecases/KeyServiceUseCaseImpl";
 import KeyServiceRepositoryImpl from "./data/repositories/KeyServiceRepositoryImpl";
-import CredentialIssuerVerifierImpl from "./data/verifiers/CredentialIssuerVerifierImpl";
-import CredentialDidVerifierImpl from "./data/verifiers/CredentialDidVerifierImpl";
-import CredentialsByDeepLinkVerifierImpl from "./data/verifiers/CredentialsByDeepLinkVerifierImpl";
-import CredentialManifestByDeepLinkVerifierImpl from "./data/verifiers/CredentialManifestByDeepLinkVerifierImpl";
-import OffersByDeepLinkVerifierImpl from "./data/verifiers/OffersByDeepLinkVerifierImpl";
-import PresentationRequestByDeepLinkVerifierImpl from "./data/verifiers/PresentationRequestByDeepLinkVerifierImpl";
+import {
+    CredentialDidVerifierImpl,
+    CredentialIssuerVerifierImpl,
+    CredentialManifestByDeepLinkVerifierImpl,
+    CredentialsByDeepLinkVerifierImpl,
+    OffersByDeepLinkVerifierImpl,
+    PresentationRequestByDeepLinkVerifierImpl
+} from "./data/verifiers";
 
 export default class VclBlocksProvider {
     static providePresentationRequestUseCase(

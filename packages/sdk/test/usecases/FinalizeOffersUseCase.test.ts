@@ -18,16 +18,17 @@ import FinalizeOffersUseCaseImpl from "../../src/impl/data/usecases/FinalizeOffe
 import { FinalizeOffersRepositoryImpl } from "../../src/impl/data/repositories/FinalizeOffersRepositoryImpl";
 import { CredentialMocks } from "../infrastructure/resources/valid/CredentialMocks";
 import { CredentialManifestMocks } from "../infrastructure/resources/valid/CredentialManifestMocks";
-import CredentialIssuerVerifierImpl from "../../src/impl/data/verifiers/CredentialIssuerVerifierImpl";
-import CredentialDidVerifierImpl from "../../src/impl/data/verifiers/CredentialDidVerifierImpl";
-import CredentialsByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/CredentialsByDeepLinkVerifierImpl";
-import OffersByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/OffersByDeepLinkVerifierImpl";
 import { JsonLdMocks } from "../infrastructure/resources/valid/JsonLdMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
 import JwtServiceRepositoryImpl from "../../src/impl/data/repositories/JwtServiceRepositoryImpl";
 import { JwtVerifyServiceMock } from "../infrastructure/resources/jwt/JwtVerifyServiceMock";
 import { JwtSignServiceMock } from "../infrastructure/resources/jwt/JwtSignServiceMock";
 import VCLErrorCode from "../../src/api/entities/error/VCLErrorCode";
+import {
+    CredentialDidVerifierImpl, CredentialIssuerVerifierEmptyImpl,
+    CredentialIssuerVerifierImpl,
+    CredentialsByDeepLinkVerifierImpl, OffersByDeepLinkVerifierImpl
+} from "../../src/impl/data/verifiers";
 
 describe("FinalizeOffersUseCase Tests", () => {
     let subject1: FinalizeOffersUseCase

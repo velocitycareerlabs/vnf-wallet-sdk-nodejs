@@ -8,7 +8,7 @@ import { VerifiedProfileMocks } from "../infrastructure/resources/valid/Verified
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
 import { expect } from "@jest/globals";
-import OffersByDeepLinkVerifierImpl from "../../src/impl/data/verifiers/OffersByDeepLinkVerifierImpl";
+import { OffersByDeepLinkVerifierImpl } from "../../src/impl/data/verifiers";
 
 describe('GenerateOffersUseCaseTest', () => {
     let subject1: GenerateOffersUseCase;
