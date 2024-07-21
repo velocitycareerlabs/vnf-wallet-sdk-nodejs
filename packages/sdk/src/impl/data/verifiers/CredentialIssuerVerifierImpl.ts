@@ -28,7 +28,7 @@ export default class CredentialIssuerVerifierImpl implements CredentialIssuerVer
             //)
             return await verifyByCredentialType(
                 {
-                    credential: jwtCredential.payload,
+                    credential: jwtCredential.payload.vc,
                     organizationVerifiedProfile: verifiedProfile,
                     credentialTypeMetadata: credentialTypeMetadata,
                     jsonldContext: jsonldContext

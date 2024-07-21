@@ -2,6 +2,7 @@ enum VCLErrorCode {
     // Initialization
     RemoteServicesUrlsNotFount = "remote_services_urls_not_found",
     InjectedServicesNotFount = "injected_services_not_found",
+
     // Credential issuer verification error codes:
     CredentialTypeNotRegistered = "credential_type_not_registered",
     IssuerRequiresIdentityPermission = "issuer_requires_identity_permission",
@@ -9,6 +10,7 @@ enum VCLErrorCode {
     InvalidCredentialSubjectType = "invalid_credential_subject_type",
     InvalidCredentialSubjectContext = "invalid_credential_subject_context",
     IssuerUnexpectedPermissionFailure = "issuer_unexpected_permission_failure",
+
     // DID consistent with the Deep Link
     MismatchedRequestIssuerDid = "mismatched_request_issuer_did",
     MismatchedOfferIssuerDid = "mismatched_offer_issuer_did",
