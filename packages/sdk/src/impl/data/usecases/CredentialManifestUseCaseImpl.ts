@@ -24,19 +24,23 @@ export default class CredentialManifestUseCaseImpl
         credentialManifestDescriptor: VCLCredentialManifestDescriptor,
         verifiedProfile: VCLVerifiedProfile
     ): Promise<VCLCredentialManifest> {
-        const jwtStr = await this.credentialManifestRepository.getCredentialManifest(
-            credentialManifestDescriptor
-        );
-        return this.onGetCredentialManifestSuccess(
-            new VCLCredentialManifest(
-                VCLJwt.fromEncodedJwt(jwtStr!),
-                credentialManifestDescriptor.vendorOriginContext,
-                verifiedProfile,
-                credentialManifestDescriptor.deepLink,
-                credentialManifestDescriptor.didJwk,
-                credentialManifestDescriptor.remoteCryptoServicesToken
-            )
-        );
+        try {
+            const jwtStr = await this.credentialManifestRepository.getCredentialManifest(
+                credentialManifestDescriptor
+            );
+            return this.onGetCredentialManifestSuccess(
+                new VCLCredentialManifest(
+                    VCLJwt.fromEncodedJwt(jwtStr!),
+                    credentialManifestDescriptor.vendorOriginContext,
+                    verifiedProfile,
+                    credentialManifestDescriptor.deepLink,
+                    credentialManifestDescriptor.didJwk,
+                    credentialManifestDescriptor.remoteCryptoServicesToken
+                )
+            );
+        } catch (error: any) {
+            throw VCLError.fromError(error);
+        }
     }
 
     async onGetCredentialManifestSuccess(
