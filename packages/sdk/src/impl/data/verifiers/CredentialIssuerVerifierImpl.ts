@@ -23,13 +23,10 @@ export default class CredentialIssuerVerifierImpl implements CredentialIssuerVer
             // const issuerVc = this.getCredentialIssuerId(jwtCredential)
             const jsonldContext = await loadJsonldContext(jwtCredential.payload.vc, this.networkService);
             const credentialTypeMetadata = this.getCredentialType(jwtCredential);
-            const verifiedProfile = // this.removeNotaryPermission(
-                finalizeOffersDescriptor.credentialManifest.verifiedProfile
-            //)
             return await verifyByCredentialType(
                 {
                     credential: jwtCredential.payload.vc,
-                    organizationVerifiedProfile: verifiedProfile,
+                    organizationVerifiedProfile: finalizeOffersDescriptor.credentialManifest.verifiedProfile,
                     credentialTypeMetadata: credentialTypeMetadata,
                     jsonldContext: jsonldContext
                 },
