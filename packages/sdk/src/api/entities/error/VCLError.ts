@@ -46,10 +46,20 @@ export default class VCLError extends Error {
         }
         return new VCLError(
             error.error,
-            error.errorCode,
+            VCLError.findErrorCode(error),
             error.message,
             error.statusCode ?? statusCode,
         );
+    }
+
+    private static findErrorCode(error: any): string {
+        if (error.errorCode) {
+            return error.errorCode;
+        }
+        if (Object.values(VCLErrorCode).includes(error.message)) {
+            return error.message;
+        }
+        return VCLErrorCode.SdkError;
     }
 
     get jsonObject(): Dictionary<any> {

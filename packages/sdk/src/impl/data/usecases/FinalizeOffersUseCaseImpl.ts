@@ -40,13 +40,13 @@ export default class FinalizeOffersUseCaseImpl implements FinalizeOffersUseCase 
                     finalizeOffersDescriptor.challenge,
                     finalizeOffersDescriptor.remoteCryptoServicesToken
                 );
-                return this.finalizeOffersInvoke(
+                return await this.finalizeOffersInvoke(
                     finalizeOffersDescriptor,
                     sessionToken,
                     proof
                 )
             } else {
-                return this.finalizeOffersInvoke(
+                return await this.finalizeOffersInvoke(
                     finalizeOffersDescriptor,
                     sessionToken
                 )
