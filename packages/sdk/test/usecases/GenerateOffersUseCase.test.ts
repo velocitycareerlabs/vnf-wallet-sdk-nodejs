@@ -3,7 +3,7 @@ import GenerateOffersRepositoryImpl from "../../src/impl/data/repositories/Gener
 import GenerateOffersUseCaseImpl from "../../src/impl/data/usecases/GenerateOffersUseCaseImpl";
 import NetworkServiceSuccess from "../NetworkServiceSuccess";
 import { GenerateOffersMocks } from "../infrastructure/resources/valid/GenerateOffersMocks";
-import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLOffers, VCLToken, VCLVerifiedProfile } from "../../src";
+import { VCLCredentialManifest, VCLGenerateOffersDescriptor, VCLVerifiedProfile } from "../../src";
 import { VerifiedProfileMocks } from "../infrastructure/resources/valid/VerifiedProfileMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 import { CommonMocks } from "../infrastructure/resources/CommonMocks";
