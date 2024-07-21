@@ -35,7 +35,7 @@ export const loadJsonldContext = async (
                 useCaches: false,
                 contentType: Request.ContentTypeApplicationJson,
             });
-            return response.payload;
+            return JSON.parse(response.payload);
         } catch (error) {
             VCLLog.e("Failed to load JSON-LD context", JSON.stringify(error));
             return null; // Return null or an appropriate default value on error
@@ -43,12 +43,12 @@ export const loadJsonldContext = async (
     });
 
     const jsonldContexts = await Promise.all(jsonldContextPromises);
-    const validContexts = jsonldContexts.filter(context => context !== null);
-    if (validContexts.length === 0) {
-        VCLLog.e("No valid JSON-LD contexts were loaded", "");
-        // Handle the case where no valid contexts were loaded
-    }
+    const validContexts = jsonldContexts.map(context => {
+        if (context !== null) {
+            return context['@context'];
+        }
+    });
 
     VCLLog.i("Loaded JSON-LD contexts", JSON.stringify({ extractedContext, validContexts }));
-    return merge({}, ...validContexts); // Merge all valid contexts into a single object
+    return validContexts
 };

@@ -45,7 +45,7 @@ export default class CredentialIssuerVerifierImpl implements CredentialIssuerVer
         if (vc) {
             const type = vc['type'];
             if (type && type.length > 0) {
-                return type[0];
+                return type;
             }
         }
         return null;
