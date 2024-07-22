@@ -6,9 +6,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import CredentialIssuerVerifier from "../../domain/verifiers/CredentialIssuerVerifier";
-import { VCLJwt, VCLFinalizeOffersDescriptor } from "src/index";
+import VCLJwt from "../../../api/entities/VCLJwt";
+import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
 
-export default class CredentialIssuerVerifierImpl implements CredentialIssuerVerifier {
+export default class CredentialIssuerVerifierEmptyImpl implements CredentialIssuerVerifier {
     async verifyCredentials(jwtCredentials: VCLJwt[], finalizeOffersDescriptor: VCLFinalizeOffersDescriptor): Promise<boolean> {
         return true;
     }

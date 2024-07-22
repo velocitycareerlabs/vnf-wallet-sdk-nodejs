@@ -25,10 +25,11 @@ import { JwtVerifyServiceMock } from "../infrastructure/resources/jwt/JwtVerifyS
 import { JwtSignServiceMock } from "../infrastructure/resources/jwt/JwtSignServiceMock";
 import VCLErrorCode from "../../src/api/entities/error/VCLErrorCode";
 import {
-    CredentialDidVerifierImpl, CredentialIssuerVerifierEmptyImpl,
+    CredentialDidVerifierImpl,
     CredentialIssuerVerifierImpl,
     CredentialsByDeepLinkVerifierImpl, OffersByDeepLinkVerifierImpl
 } from "../../src/impl/data/verifiers";
+import { CredentialTypesModelMock } from "../infrastructure/resources/valid/CredentialTypesModelMock";
 
 describe("FinalizeOffersUseCase Tests", () => {
     let subject1: FinalizeOffersUseCase
@@ -110,7 +111,8 @@ describe("FinalizeOffersUseCase Tests", () => {
             ),
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld)
+                new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl(),
@@ -140,7 +142,8 @@ describe("FinalizeOffersUseCase Tests", () => {
             ),
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld)
+                new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
@@ -170,7 +173,8 @@ describe("FinalizeOffersUseCase Tests", () => {
             ),
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld)
+                new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
@@ -190,7 +194,8 @@ describe("FinalizeOffersUseCase Tests", () => {
             ),
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld)
+                new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
+                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()

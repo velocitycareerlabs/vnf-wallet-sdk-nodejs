@@ -45,19 +45,21 @@ export default class VCLError extends Error {
             return error;
         }
         return new VCLError(
-            error.error,
+            error ? JSON.stringify(error) : null,
             VCLError.findErrorCode(error),
-            error.message,
-            error.statusCode ?? statusCode,
+            error ? error.message : null,
+            error ? (error.statusCode ?? statusCode) : statusCode,
         );
     }
 
     private static findErrorCode(error: any): string {
-        if (error.errorCode) {
-            return error.errorCode;
-        }
-        if (Object.values(VCLErrorCode).includes(error.message)) {
-            return error.message;
+        if (error) {
+            if (error.errorCode) {
+                return error.errorCode;
+            }
+            if (Object.values(VCLErrorCode).includes(error.message)) {
+                return error.message;
+            }
         }
         return VCLErrorCode.SdkError;
     }

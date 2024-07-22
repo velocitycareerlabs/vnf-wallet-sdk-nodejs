@@ -4,30 +4,31 @@
  * Copyright 2022 Velocity Career Labs inc.
  * SPDX-License-Identifier: Apache-2.0
  */
-import { Dictionary, Nullish } from "../../../api/VCLTypes";
 import VCLJwt from "../../../api/entities/VCLJwt";
 import VCLFinalizeOffersDescriptor from "../../../api/entities/VCLFinalizeOffersDescriptor";
 import CredentialIssuerVerifier from "../../domain/verifiers/CredentialIssuerVerifier";
 import { loadJsonldContext } from "../../utils/LoadJsonldContext";
 import { verifyByCredentialType } from "@velocitycareerlabs/vc-checks";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
+import CredentialTypesModel from "../../domain/models/CredentialTypesModel";
 
 export default class CredentialIssuerVerifierImpl implements CredentialIssuerVerifier {
-    constructor(private networkService: NetworkService)
+    constructor(
+        private credentialTypesModel: CredentialTypesModel,
+        private networkService: NetworkService
+    )
     {}
     async verifyCredentials(
         jwtCredentials: VCLJwt[],
         finalizeOffersDescriptor: VCLFinalizeOffersDescriptor
     ): Promise<boolean> {
         const verifiedPromises = jwtCredentials.map(async (jwtCredential) => {
-            // const issuerVc = this.getCredentialIssuerId(jwtCredential)
             const jsonldContext = await loadJsonldContext(jwtCredential.payload.vc, this.networkService);
-            const credentialTypeMetadata = this.getCredentialType(jwtCredential);
             return await verifyByCredentialType(
                 {
                     credential: jwtCredential.payload.vc,
-                    organizationVerifiedProfile: finalizeOffersDescriptor.credentialManifest.verifiedProfile,
-                    credentialTypeMetadata: credentialTypeMetadata,
+                    organizationVerifiedProfile: finalizeOffersDescriptor.credentialManifest.verifiedProfile.payload,
+                    credentialTypeMetadata: this.credentialTypesModel.data?.payload,
                     jsonldContext: jsonldContext
                 },
                 {
@@ -39,38 +40,4 @@ export default class CredentialIssuerVerifierImpl implements CredentialIssuerVer
         const verified = await Promise.all(verifiedPromises);
         return verified.every((v) => v);
     }
-
-    getCredentialType(jwtCredential: VCLJwt): Nullish<string> {
-        const vc = jwtCredential.payload['vc'] as Dictionary<any>;
-        if (vc) {
-            const type = vc['type'];
-            if (type && type.length > 0) {
-                return type;
-            }
-        }
-        return null;
-    }
-
-
-    getCredentialIssuerId(jwtCredential: VCLJwt): Nullish<string> {
-        const vc = jwtCredential.payload?.vc
-        if (vc) {
-            const issuer = vc.issuer;
-            if (typeof issuer === 'string') {
-                return issuer;
-            } else if (typeof issuer === 'object' && issuer !== null) {
-                return issuer.id as string | null;
-            }
-        }
-        return null;
-    }
-
-    // /**
-    //  * For tests purposes only
-    //  */
-    // removeNotaryPermission(verifiedProfile: Dictionary<any>): Dictionary<any> {
-    //     verifiedProfile.payload.credentialSubject =
-    //         verifiedProfile.payload.credentialSubject.permittedVelocityServiceCategory = ["Issuer"];
-    //     return verifiedProfile;
-    // }
 }

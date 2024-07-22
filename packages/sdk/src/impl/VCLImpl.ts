@@ -192,7 +192,9 @@ export class VCLImpl implements VCL {
             VclBlocksProvider.provideGenerateOffersUseCase();
         this.finalizeOffersUseCase =
             VclBlocksProvider.provideFinalizeOffersUseCase(
-                this.initializationDescriptor.cryptoServicesDescriptor
+                this.credentialTypesModel!, // should be always initialized
+                this.initializationDescriptor.cryptoServicesDescriptor,
+                GlobalConfig.IsDirectIssuerOn
             );
         this.presentationSubmissionUseCase =
             VclBlocksProvider.providePresentationSubmissionUseCase(
