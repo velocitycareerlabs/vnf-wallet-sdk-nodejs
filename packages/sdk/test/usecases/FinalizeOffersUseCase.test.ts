@@ -112,7 +112,7 @@ describe("FinalizeOffersUseCase Tests", () => {
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
                 new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+                new NetworkServiceSuccess(JSON.parse(JsonLdMocks.Layer1v10Jsonld)),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl(),
@@ -143,7 +143,7 @@ describe("FinalizeOffersUseCase Tests", () => {
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
                 new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+                new NetworkServiceSuccess(JSON.parse(JsonLdMocks.Layer1v10Jsonld)),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
@@ -174,7 +174,7 @@ describe("FinalizeOffersUseCase Tests", () => {
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
                 new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+                new NetworkServiceSuccess(JSON.parse(JsonLdMocks.Layer1v10Jsonld)),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
@@ -195,7 +195,7 @@ describe("FinalizeOffersUseCase Tests", () => {
             jwtServiceRepository,
             new CredentialIssuerVerifierImpl(
                 new CredentialTypesModelMock(CredentialTypesModelMock.IssuerCategoryRegularIssuer),
-                new NetworkServiceSuccess(JsonLdMocks.Layer1v10Jsonld),
+                new NetworkServiceSuccess(JSON.parse(JsonLdMocks.Layer1v10Jsonld)),
             ),
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()

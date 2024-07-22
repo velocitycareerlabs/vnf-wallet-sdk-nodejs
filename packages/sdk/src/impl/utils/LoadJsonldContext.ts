@@ -26,7 +26,9 @@ export const loadJsonldContext = async (
             ? issuerVcPayload.credentialSubject['@context']
             : [issuerVcPayload.credentialSubject['@context']];
 
-        const jsonldContextPromises = extractedContexts.map(async (jsonldContextUrl: string) => {
+        const jsonldContextPromises = extractedContexts
+            .flat() // TODO: Remove after BE bug is fixed
+            .map(async (jsonldContextUrl: string) => {
             try {
                 const response = await networkService.sendRequest({
                     endpoint: jsonldContextUrl,
@@ -38,19 +40,21 @@ export const loadJsonldContext = async (
                     useCaches: true, // Consider enabling caching
                     contentType: Request.ContentTypeApplicationJson,
                 });
-                return JSON.parse(response.payload)
+                return response.payload
             } catch (error) {
                 VCLLog.e(`Failed to load JSON-LD context from ${jsonldContextUrl}`, JSON.stringify(error));
                 return null;
             }
         });
 
-        const jsonldContexts = await Promise.all(jsonldContextPromises);
-        const validContexts = jsonldContexts.filter(context => context !== null);
+        const contexts = await Promise.all(jsonldContextPromises);
+        const validContexts: any[] = contexts.filter(context => context !== null);
 
         if (validContexts.length > 0)
             return validContexts[0]
-        throw new VCLError('context not found', VCLErrorCode.InvalidCredentialSubjectContext);
+        else
+            throw new VCLError('context not found', VCLErrorCode.InvalidCredentialSubjectContext);
+
     } else if (!issuerVcPayload.credentialSubject) {
         throw new VCLError('credentialSubject is NULL', VCLErrorCode.InvalidCredentialSubjectType);
     } else {

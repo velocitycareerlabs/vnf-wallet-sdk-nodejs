@@ -6,6 +6,6 @@
  */
 import { VCLEnvironment, VCLXVnfProtocolVersion } from "@velocitycareerlabs/vnf-nodejs-wallet-sdk/src";
 
-export const CurrentEnvironment = VCLEnvironment.Staging;
+export const CurrentEnvironment = VCLEnvironment.Dev;
 
 export const XVnfProtocolVersion = VCLXVnfProtocolVersion.XVnfProtocolVersion2;
