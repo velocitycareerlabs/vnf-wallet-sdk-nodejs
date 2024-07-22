@@ -38,8 +38,7 @@ export const loadJsonldContext = async (
                     useCaches: true, // Consider enabling caching
                     contentType: Request.ContentTypeApplicationJson,
                 });
-                const parsedResponse = JSON.parse(response.payload);
-                return parsedResponse && parsedResponse['@context'] ? parsedResponse['@context'] : null;
+                return JSON.parse(response.payload)
             } catch (error) {
                 VCLLog.e(`Failed to load JSON-LD context from ${jsonldContextUrl}`, JSON.stringify(error));
                 return null;
@@ -49,8 +48,9 @@ export const loadJsonldContext = async (
         const jsonldContexts = await Promise.all(jsonldContextPromises);
         const validContexts = jsonldContexts.filter(context => context !== null);
 
-        VCLLog.i("Loaded JSON-LD contexts", JSON.stringify({ extractedContext, validContexts }));
-        return validContexts;
+        if (validContexts.length > 0)
+            return validContexts[0]
+        throw new VCLError('context not found', VCLErrorCode.InvalidCredentialSubjectContext);
     } else if (!issuerVcPayload.credentialSubject) {
         throw new VCLError('credentialSubject is NULL', VCLErrorCode.InvalidCredentialSubjectType);
     } else {
