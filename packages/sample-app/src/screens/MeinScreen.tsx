@@ -29,8 +29,9 @@ import { Constants } from "../Constants";
 import { Dictionary } from "../Types";
 import { getApprovedRejectedOfferIdsMock } from "../utils/Utils";
 import Environment from "../Environment";
+import { CurrentEnvironment } from "../GlobalConfig";
 
-const environment = Environment.Staging;
+const environment = CurrentEnvironment;
 
 let didJwk: Dictionary<any>;
 const initialization = async () => {
