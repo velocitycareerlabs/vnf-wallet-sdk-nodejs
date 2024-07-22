@@ -45,7 +45,7 @@ export default class VCLError extends Error {
             return error;
         }
         return new VCLError(
-            error ? JSON.stringify(error) : null,
+            error ? (error.error ? error.error : JSON.stringify(error)) : null,
             VCLError.findErrorCode(error),
             error ? error.message : null,
             error ? (error.statusCode ?? statusCode) : statusCode,
