@@ -22,11 +22,11 @@ export const loadJsonldContext = async (
     networkService: NetworkService
 ): Promise<any> => {
     if (issuerVcPayload.credentialSubject && issuerVcPayload.credentialSubject['@context']) {
-        const extractedContext = isArray(issuerVcPayload.credentialSubject['@context'])
+        const extractedContexts = isArray(issuerVcPayload.credentialSubject['@context'])
             ? issuerVcPayload.credentialSubject['@context']
             : [issuerVcPayload.credentialSubject['@context']];
 
-        const jsonldContextPromises = extractedContext.map(async (jsonldContextUrl: string) => {
+        const jsonldContextPromises = extractedContexts.map(async (jsonldContextUrl: string) => {
             try {
                 const response = await networkService.sendRequest({
                     endpoint: jsonldContextUrl,
