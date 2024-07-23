@@ -7,10 +7,19 @@
 import VCLOffers from "../../../api/entities/VCLOffers";
 import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import OffersByDeepLinkVerifier from "../../domain/verifiers/OffersByDeepLinkVerifier";
+import VCLErrorCode from "../../../api/entities/error/VCLErrorCode";
+import VCLError from "../../../api/entities/error/VCLError";
+import VCLLog from "../../utils/VCLLog";
 
 export default class OffersByDeepLinkVerifierImpl implements OffersByDeepLinkVerifier {
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
     async verifyOffers(offers: VCLOffers, deepLink: VCLDeepLink,): Promise<boolean> {
-        return true;
+        const mismatchedOffer = offers.all.find(offer => offer.issuerId !== deepLink.did);
+
+        if (mismatchedOffer) {
+            VCLLog.e('', `mismatched offer: ${mismatchedOffer.payload} \ndeepLink: ${deepLink.value}`);
+            throw new VCLError(null, VCLErrorCode.MismatchedOfferIssuerDid);
+        } else {
+            return true;
+        }
     }
 }

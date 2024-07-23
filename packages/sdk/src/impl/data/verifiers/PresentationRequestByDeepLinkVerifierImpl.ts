@@ -7,10 +7,20 @@
 import VCLPresentationRequest from "../../../api/entities/VCLPresentationRequest";
 import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import PresentationRequestByDeepLinkVerifier from "../../domain/verifiers/PresentationRequestByDeepLinkVerifier";
+import VCLLog from "../../utils/VCLLog";
+import VCLErrorCode from "../../../api/entities/error/VCLErrorCode";
+import VCLError from "../../../api/entities/error/VCLError";
 
 export default class PresentationRequestByDeepLinkVerifierImpl implements PresentationRequestByDeepLinkVerifier{
-    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars,@typescript-eslint/no-unused-vars
-    async verifyPresentationRequest(presentationRequest: VCLPresentationRequest, deepLink: VCLDeepLink): Promise<boolean> {
-        return true;
+    async verifyPresentationRequest(
+        presentationRequest: VCLPresentationRequest,
+        deepLink: VCLDeepLink
+    ): Promise<boolean> {
+        if (presentationRequest.iss === deepLink.did) {
+            return true;
+        } else {
+            VCLLog.e('', `presentation request: ${presentationRequest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
+            throw new VCLError(null, VCLErrorCode.MismatchedPresentationRequestInspectorDid);
+        }
     }
 }

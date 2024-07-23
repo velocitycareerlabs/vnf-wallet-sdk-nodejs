@@ -91,7 +91,6 @@ export class VCLImpl implements VCL {
         VCLImpl.ModelsToInitializeAmount
     );
 
-    // TODO: figure out a way to convert to promise
     async initialize(
         initializationDescriptor: VCLInitializationDescriptor
     ): Promise<Nullish<VCLError>> {
@@ -193,7 +192,9 @@ export class VCLImpl implements VCL {
             VclBlocksProvider.provideGenerateOffersUseCase();
         this.finalizeOffersUseCase =
             VclBlocksProvider.provideFinalizeOffersUseCase(
-                this.initializationDescriptor.cryptoServicesDescriptor
+                this.credentialTypesModel!, // should be always initialized
+                this.initializationDescriptor.cryptoServicesDescriptor,
+                GlobalConfig.IsDirectIssuerOn
             );
         this.presentationSubmissionUseCase =
             VclBlocksProvider.providePresentationSubmissionUseCase(
@@ -251,7 +252,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getPresentationRequest", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -264,7 +265,7 @@ export class VCLImpl implements VCL {
                 );
         } catch(error: any) {
             logError("submit presentation", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -275,7 +276,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getExchangeProgress", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -288,7 +289,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getExchangeProgress", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -305,7 +306,7 @@ export class VCLImpl implements VCL {
                 null
             );
             logError(`credentialManifestDescriptor.did doesn't exist`, error);
-            throw VCLError.fromError(error);
+            throw error;
         }
         let verifiedProfile: VCLVerifiedProfile;
         try {
@@ -318,7 +319,7 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError(`failed to find verified profile by did ${did}`, error);
-            throw VCLError.fromError(error);
+            throw error;
         }
         try {
             return await this.credentialManifestUseCase.getCredentialManifest(
@@ -327,7 +328,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("getCredentialManifest", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -346,11 +347,8 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError("submit identification", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
-
-        VCLLog.i(VCLImpl.TAG, "Identification submitted success.");
-
         return this.invokeGenerateOffersUseCase(
             generateOffersDescriptor,
             identificationSubmissionResult.sessionToken
@@ -378,7 +376,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("finalizeOffers", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -394,14 +392,14 @@ export class VCLImpl implements VCL {
                 );
             } catch (error: any) {
                 logError("getCredentialTypesUIFormSchema", error);
-                throw VCLError.fromError(error);
+                throw error;
             }
         } else {
             const error = new VCLError(
                 "No countries for getCredentialTypesUIFormSchema"
             );
             logError("getCredentialTypesUIFormSchema", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     }
 
@@ -414,7 +412,7 @@ export class VCLImpl implements VCL {
                 );
         } catch (error: any) {
             logError("getVerifiedProfile", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -431,7 +429,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("verifyJwt", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -450,7 +448,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateSignedJwt", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -461,7 +459,7 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateDidJwk", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     };
 
@@ -480,11 +478,11 @@ export class VCLImpl implements VCL {
             );
         } catch (error: any) {
             logError("generateOffers", error);
-            throw VCLError.fromError(error);
+            throw error;
         }
     }
 }
 
 const logError = (message = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${error}`);
+    VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
 };

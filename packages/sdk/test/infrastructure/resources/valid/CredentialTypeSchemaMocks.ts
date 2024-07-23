@@ -67,7 +67,7 @@ export class CredentialTypeSchemaMocks {
         issuerCategory: "RegularIssuer"
     };
 
-    static readonly CredentialTypes = new VCLCredentialTypes(
+    static readonly CredentialTypes = VCLCredentialTypes.fromPayload(
         [CredentialTypeSchemaMocks.CredentialType]
     );
 }

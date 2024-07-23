@@ -49,9 +49,40 @@ export default class VCLJwt {
     get signature(): string {
         return this.signedJwt.signature;
     }
+
+    get iss(): Nullish<string> {
+        return this.payload[CodingKeys.KeyIss];
+    }
+
+    get aud(): Nullish<string> {
+        return this.payload[CodingKeys.KeyAud];
+    }
+
+    get sub(): Nullish<string> {
+        return this.payload[CodingKeys.KeySub];
+    }
+
+    get jti(): Nullish<string> {
+        return this.payload[CodingKeys.KeyJti];
+    }
+
+    get iat(): Nullish<string> {
+        return this.payload[CodingKeys.KeyIat];
+    }
+
+    get nbf(): Nullish<string> {
+        return this.payload[CodingKeys.KeyNbf];
+    }
+
+    get exp(): Nullish<string> {
+        return this.payload[CodingKeys.KeyExp];
+    }
+
+    get nonce(): Nullish<string> {
+        return this.payload[CodingKeys.KeyNonce];
+    }
 }
 
-// TODO: implement
 export class SignedJWT {
     constructor(
         public readonly header: string,
@@ -75,3 +106,27 @@ export class SignedJWT {
         return items.join(".");
     }
 }
+
+class CodingKeys {
+    static readonly KeyTyp = "typ";
+    static readonly KeyAlg = "alg";
+    static readonly KeyKid = "kid";
+    static readonly KeyJwk = "jwk";
+
+    static readonly KeyX = "x";
+    static readonly KeyY = "y";
+
+    static readonly KeyHeader = "header";
+    static readonly KeyPayload = "payload";
+    static readonly KeySignature = "signature";
+
+    static readonly KeyIss = "iss";
+    static readonly KeyAud = "aud";
+    static readonly KeySub = "sub";
+    static readonly KeyJti = "jti";
+    static readonly KeyIat = "iat";
+    static readonly KeyNbf = "nbf";
+    static readonly KeyExp = "exp";
+    static readonly KeyNonce = "nonce";
+}
+

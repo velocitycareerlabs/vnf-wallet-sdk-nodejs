@@ -7,10 +7,20 @@
 import VCLCredentialManifest from "../../../api/entities/VCLCredentialManifest";
 import VCLDeepLink from "../../../api/entities/VCLDeepLink";
 import CredentialManifestByDeepLinkVerifier from "../../domain/verifiers/CredentialManifestByDeepLinkVerifier";
+import VCLLog from "../../utils/VCLLog";
+import VCLError from "../../../api/entities/error/VCLError";
+import VCLErrorCode from "../../../api/entities/error/VCLErrorCode";
 
 export default class CredentialManifestByDeepLinkVerifierImpl implements CredentialManifestByDeepLinkVerifier {
-    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars,unused-imports/no-unused-vars
-    async verifyCredentialManifest(credentialManifest: VCLCredentialManifest, deepLink: VCLDeepLink,): Promise<boolean> {
-        return true;
+    async verifyCredentialManifest(
+        credentialManifest: VCLCredentialManifest,
+        deepLink: VCLDeepLink
+    ): Promise<boolean> {
+        if (credentialManifest.issuerId === deepLink.did) {
+            return true;
+        } else {
+            VCLLog.e("", `credential manifest: ${credentialManifest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
+            throw new VCLError(null, VCLErrorCode.MismatchedRequestIssuerDid);
+        }
     }
 }

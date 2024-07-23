@@ -1,10 +1,8 @@
-import VCLCredentialType from "../../../api/entities/VCLCredentialType";
 import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
 import NetworkService from "../../domain/infrastructure/network/NetworkService";
 import CredentialTypesRepository from "../../domain/repositories/CredentialTypesRepository";
 import Request, { HttpMethod } from "../infrastructure/network/Request";
 import Urls, { HeaderKeys, HeaderValues } from "./Urls";
-import { Dictionary } from "../../../api/VCLTypes";
 
 export default class CredentialTypesRepositoryImpl
     implements CredentialTypesRepository {
@@ -30,20 +28,6 @@ export default class CredentialTypesRepositoryImpl
             useCaches: true,
             body: null,
         });
-        return new VCLCredentialTypes(
-            (credentialTypesResponse.payload as Dictionary<any>[]).map(
-                (item: Dictionary<any>) => {
-                    return new VCLCredentialType(
-                        item,
-                        item[VCLCredentialType.KeyId],
-                        item[VCLCredentialType.KeySchema],
-                        item[VCLCredentialType.KeyCreatedAt],
-                        item[VCLCredentialType.KeySchemaName],
-                        item[VCLCredentialType.KeyCredentialType],
-                        item[VCLCredentialType.KeyRecommended]
-                    );
-                }
-            )
-        )
+        return VCLCredentialTypes.fromPayload(credentialTypesResponse.payload)
     }
 }

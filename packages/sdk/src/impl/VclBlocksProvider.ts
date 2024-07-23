@@ -49,9 +49,16 @@ import VerifiedProfileUseCase from "./domain/usecases/VerifiedProfileUseCase";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 import KeyServiceUseCaseImpl from "./data/usecases/KeyServiceUseCaseImpl";
 import KeyServiceRepositoryImpl from "./data/repositories/KeyServiceRepositoryImpl";
-import CredentialIssuerVerifierImpl from "./data/verifiers/CredentialIssuerVerifierImpl";
-import CredentialDidVerifierImpl from "./data/verifiers/CredentialDidVerifierImpl";
-import CredentialsByDeepLinkVerifierImpl from "./data/verifiers/CredentialsByDeepLinkVerifierImpl";
+import {
+    CredentialDidVerifierImpl, 
+    CredentialIssuerVerifierEmptyImpl,
+    CredentialIssuerVerifierImpl,
+    CredentialManifestByDeepLinkVerifierImpl,
+    CredentialsByDeepLinkVerifierImpl,
+    OffersByDeepLinkVerifierImpl,
+    PresentationRequestByDeepLinkVerifierImpl
+} from "./data/verifiers";
+import CredentialIssuerVerifier from "./domain/verifiers/CredentialIssuerVerifier";
 
 export default class VclBlocksProvider {
     static providePresentationRequestUseCase(
@@ -63,7 +70,8 @@ export default class VclBlocksProvider {
             new JwtServiceRepositoryImpl(
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
-            )
+            ),
+            new PresentationRequestByDeepLinkVerifierImpl()
         );
     }
 
@@ -93,7 +101,8 @@ export default class VclBlocksProvider {
             new JwtServiceRepositoryImpl(
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
-            )
+            ),
+            new CredentialManifestByDeepLinkVerifierImpl()
         );
     }
 
@@ -113,20 +122,31 @@ export default class VclBlocksProvider {
 
     static provideGenerateOffersUseCase(): GenerateOffersUseCase {
         return new GenerateOffersUseCaseImpl(
-            new GenerateOffersRepositoryImpl(new NetworkServiceImpl())
+            new GenerateOffersRepositoryImpl(new NetworkServiceImpl()),
+            new OffersByDeepLinkVerifierImpl()
         );
     }
 
     static provideFinalizeOffersUseCase(
-        cryptoServicesDescriptor: VCLCryptoServicesDescriptor
+        credentialTypesModel: CredentialTypesModel,
+        cryptoServicesDescriptor: VCLCryptoServicesDescriptor,
+        isDirectIssuerCheckOn
     ): FinalizeOffersUseCase {
+        let credentialIssuerVerifier: CredentialIssuerVerifier =
+            new CredentialIssuerVerifierEmptyImpl()
+        if (isDirectIssuerCheckOn) {
+            credentialIssuerVerifier = new CredentialIssuerVerifierImpl(
+                credentialTypesModel,
+                new NetworkServiceImpl()
+            )
+        }
         return new FinalizeOffersUseCaseImpl(
             new FinalizeOffersRepositoryImpl(new NetworkServiceImpl()),
             new JwtServiceRepositoryImpl(
                 cryptoServicesDescriptor.jwtSignService,
                 cryptoServicesDescriptor.jwtVerifyService
             ),
-            new CredentialIssuerVerifierImpl(),
+            credentialIssuerVerifier,
             new CredentialDidVerifierImpl(),
             new CredentialsByDeepLinkVerifierImpl()
         );

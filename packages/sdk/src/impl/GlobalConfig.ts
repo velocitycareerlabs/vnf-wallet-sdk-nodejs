@@ -10,4 +10,5 @@ export default class GlobalConfig {
     static get IsLoggerOn() {
         return (this.CurrentEnvironment != VCLEnvironment.Staging && this.CurrentEnvironment != VCLEnvironment.Prod) || this.IsDebugOn;
     }
+    static IsDirectIssuerOn = true;
 }
