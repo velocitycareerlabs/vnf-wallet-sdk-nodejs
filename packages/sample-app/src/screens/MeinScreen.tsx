@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useState } from "react";
 import {
     getCountries,
     getCredentialTypeSchemas,
@@ -115,7 +115,7 @@ const onGetCredentialManifestByDeepLink = () => {
 
 const onGetOrganizationsThenCredentialManifestByService = () => {
     searchForOrganizations(
-        environment === Environment.Dev ?
+        environment === Environment.Dev.valueOf() ?
             Constants.OrganizationsSearchDescriptorByDidDev :
             Constants.OrganizationsSearchDescriptorByDidStaging
     ).then((organizations) => {
@@ -257,12 +257,27 @@ const MeinScreen: React.FC = () => {
         'Generate DID:JWK': onGenerateDidJwk,
     };
 
+    const disabledMenuItemStyle = {
+        color: 'grey',
+        cursor: 'not-allowed',
+    };
+
+    const handleClick = (key: string, value: () => void) => {
+        if (key !== 'Refresh Credentials') {
+            value();
+        }
+    };
+
     return (
         <div>
             <h1>Sample App</h1>
             <ul>
                 {Object.entries(menuItems).map(([key, value]) => (
-                    <li key={key} onClick={value}>
+                    <li
+                        key={key}
+                        onClick={() => handleClick(key, value)}
+                        style={key === 'Refresh Credentials' ? disabledMenuItemStyle : {}}
+                    >
                         {key}
                     </li>
                 ))}
