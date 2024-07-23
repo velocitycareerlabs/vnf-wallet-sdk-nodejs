@@ -5,6 +5,7 @@ import { JwtMocks } from "./JwtMocks";
 import VCLVerifiableCredential from "../../../../src/api/entities/VCLVerifiableCredential";
 import VCLVerifiedProfile from "../../../../src/api/entities/VCLVerifiedProfile";
 import { DidJwkMocks } from "./DidJwkMocks";
+import VCLDeepLink from "../../../../src/api/entities/VCLDeepLink";
 
 class PresentationSubmissionMocks {
     static PushDelegate = new VCLPushDelegate(

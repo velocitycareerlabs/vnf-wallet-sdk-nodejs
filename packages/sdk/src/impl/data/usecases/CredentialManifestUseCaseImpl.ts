@@ -28,16 +28,20 @@ export default class CredentialManifestUseCaseImpl
             const jwtStr = await this.credentialManifestRepository.getCredentialManifest(
                 credentialManifestDescriptor
             );
-            return this.onGetCredentialManifestSuccess(
-                new VCLCredentialManifest(
-                    VCLJwt.fromEncodedJwt(jwtStr!),
-                    credentialManifestDescriptor.vendorOriginContext,
-                    verifiedProfile,
-                    credentialManifestDescriptor.deepLink,
-                    credentialManifestDescriptor.didJwk,
-                    credentialManifestDescriptor.remoteCryptoServicesToken
-                )
-            );
+            if (jwtStr) {
+                return this.onGetCredentialManifestSuccess(
+                    new VCLCredentialManifest(
+                        VCLJwt.fromEncodedJwt(jwtStr!),
+                        credentialManifestDescriptor.vendorOriginContext,
+                        verifiedProfile,
+                        credentialManifestDescriptor.deepLink,
+                        credentialManifestDescriptor.didJwk,
+                        credentialManifestDescriptor.remoteCryptoServicesToken
+                    )
+                );
+            } else {
+                throw new VCLError("Empty jwtStr");
+            }
         } catch (error: any) {
             throw VCLError.fromError(error);
         }
