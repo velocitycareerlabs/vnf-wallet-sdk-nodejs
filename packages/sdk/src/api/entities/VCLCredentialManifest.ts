@@ -52,33 +52,25 @@ export default class VCLCredentialManifest {
 
     get presentationDefinitionId(): string {
         return (
-            (this.jwt.payload[
-                VCLCredentialManifest.KeyPresentationDefinitionId
-            ] ?? {})[VCLCredentialManifest.KeyId] ?? ""
+            (this.jwt.payload[VCLCredentialManifest.KeyPresentationDefinitionId] ?? {})[VCLCredentialManifest.KeyId] ?? ""
         );
     }
 
     get finalizeOffersUri(): string {
         return (
-            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[
-                VCLCredentialManifest.KeyFinalizeOffersUri
-            ] ?? ""
+            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[VCLCredentialManifest.KeyFinalizeOffersUri] ?? ""
         );
     }
 
     get checkOffersUri(): string {
         return (
-            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[
-                VCLCredentialManifest.KeyCheckOffersUri
-            ] ?? ""
+            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[VCLCredentialManifest.KeyCheckOffersUri] ?? ""
         );
     }
 
     get submitPresentationUri(): string {
         return (
-            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[
-                VCLCredentialManifest.KeySubmitIdentificationUri
-            ] ?? ""
+            (this.jwt.payload[VCLCredentialManifest.KeyMetadata] ?? {})[VCLCredentialManifest.KeySubmitIdentificationUri] ?? ""
         );
     }
 

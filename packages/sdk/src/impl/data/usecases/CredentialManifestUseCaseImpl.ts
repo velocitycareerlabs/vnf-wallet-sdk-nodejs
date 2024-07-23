@@ -46,7 +46,7 @@ export default class CredentialManifestUseCaseImpl
     async onGetCredentialManifestSuccess(
         credentialManifest: VCLCredentialManifest
     ): Promise<VCLCredentialManifest> {
-        if (credentialManifest.deepLink == null) {
+        if (credentialManifest.deepLink !== null) {
             const isVerified = await this.credentialManifestByDeepLinkVerifier.verifyCredentialManifest(
                 credentialManifest,
                 credentialManifest.deepLink!

@@ -27,7 +27,6 @@ export const loadJsonldContext = async (
             : [issuerVcPayload.credentialSubject['@context']];
 
         const jsonldContextPromises = extractedContexts
-            .flat() // TODO: Remove after BE bug is fixed
             .map(async (jsonldContextUrl: string) => {
             try {
                 const response = await networkService.sendRequest({
@@ -37,7 +36,7 @@ export const loadJsonldContext = async (
                     headers: {
                         [HeaderKeys.XVnfProtocolVersion]: HeaderValues.XVnfProtocolVersion,
                     },
-                    useCaches: true, // Consider enabling caching
+                    useCaches: true,
                     contentType: Request.ContentTypeApplicationJson,
                 });
                 return response.payload

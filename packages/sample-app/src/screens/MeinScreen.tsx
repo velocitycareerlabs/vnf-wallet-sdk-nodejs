@@ -114,15 +114,17 @@ const onGetCredentialManifestByDeepLink = () => {
 };
 
 const onGetOrganizationsThenCredentialManifestByService = () => {
-    searchForOrganizations({
-        filter: { 'did': (environment === Environment.Dev.valueOf() ? Constants.IssuerDidDev : Constants.IssuerDidStaging) }
-    }).then((organizations) => {
+    searchForOrganizations(
+        environment === Environment.Dev ?
+            Constants.OrganizationsSearchDescriptorByDidDev :
+            Constants.OrganizationsSearchDescriptorByDidStaging
+    ).then((organizations) => {
         console.log('organizations: ', organizations);
         const serviceCredentialAgentIssuer = organizations.all[0].payload.service[0];
         getCredentialManifestByService({
             service: serviceCredentialAgentIssuer,
             issuingType: 'Career',
-            credentialTypes: [serviceCredentialAgentIssuer.type], // Can come from anywhere
+            credentialTypes: serviceCredentialAgentIssuer.credentialTypes, // Can come from anywhere
             didJwk: didJwk
         }).then((credentialManifest) => {
             console.log('credential manifest: ', credentialManifest);

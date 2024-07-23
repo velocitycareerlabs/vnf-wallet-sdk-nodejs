@@ -83,16 +83,11 @@ export abstract class Constants {
             query: 'Bank',
         };
 
-    // University of Massachusetts Amherst
-    static readonly IssuerDidDev =
-        'did:ion:EiApMLdMb4NPb8sae9-hXGHP79W1gisApVSE80USPEbtJA';
-
-    static readonly IssuerDidStaging =
-        'did:ion:EiC8GZpBYJXt5UhqxZJbixJyMjrGw0yw8yFN6HjaM1ogSw';
+    static readonly IssuerDidDev = "did:ion:EiApMLdMb4NPb8sae9-hXGHP79W1gisApVSE80USPEbtJA"
+    static readonly IssuerDidStaging = "did:ion:EiByBvq95tfmhl41DOxJeaa26HjSxAUoz908PITFwMRDNA"
 
     static readonly OrganizationsSearchDescriptorByDidDev =
         { filter: { did: Constants.IssuerDidDev } };
-
     static readonly OrganizationsSearchDescriptorByDidStaging =
         { filter: { did: Constants.IssuerDidStaging } };
 
