@@ -5,7 +5,7 @@ import VCLJwt from "./VCLJwt";
 export default class VCLFinalizeOffersDescriptor {
     constructor(
         public readonly credentialManifest: VCLCredentialManifest,
-        public readonly challenge: string,
+        public readonly challenge: Nullish<string>,
         public readonly approvedOfferIds: string[],
         public readonly rejectedOfferIds: string[]
     ) {
