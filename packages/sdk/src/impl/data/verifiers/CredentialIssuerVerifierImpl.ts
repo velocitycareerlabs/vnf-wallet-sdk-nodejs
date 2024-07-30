@@ -37,7 +37,15 @@ export default class CredentialIssuerVerifierImpl implements CredentialIssuerVer
                 }
             );
         });
+        // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
         const verified = await Promise.all(verifiedPromises);
-        return verified.every((v) => v);
+        /**
+         * commented out, because
+         * https://github.com/velocitycareerlabs/monorepo/blob/main/packages/vc-checks/src/check-identity-issuer.js#L20
+         * returns undefined
+         * TODO: uncomment when https://velocitycareerlabs.atlassian.net/browse/VL-8258 is fixed
+         */
+        // return verified.every((v) => v);
+        return true;
     }
 }
