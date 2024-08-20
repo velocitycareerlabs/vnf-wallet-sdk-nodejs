@@ -56,6 +56,7 @@ export class ProfileServiceTypeVerifier {
             throw new VCLError(
                 null,
                 VCLErrorCode.SdkError.toString(),
+                null,
                 this.toJsonString(
                     verifiedProfile.name,
                     `Wrong service type - expected: ${expectedServiceTypes.all}, found: ${verifiedProfile.serviceTypes.all}`
