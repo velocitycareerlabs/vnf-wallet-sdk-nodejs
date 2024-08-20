@@ -5,20 +5,23 @@ import VCLStatusCode from "./VCLStatusCode";
 export default class VCLError extends Error {
     payload: Nullish<string> = null;
     error: Nullish<string> = null;
+    requestId: Nullish<string> = null;
     errorCode: string = VCLErrorCode.SdkError.toString();
     statusCode: Nullish<VCLStatusCode> = null;
 
     constructor(
         error: Nullish<string> = null,
         errorCode: string = VCLErrorCode.SdkError.toString(),
+        requestId: Nullish<string> = null,
         message: Nullish<string> = null,
         statusCode: Nullish<VCLStatusCode> = null
     ) {
         super(message ?? "");
         this.error = error;
         this.errorCode = errorCode;
+        this.requestId = requestId;
         this.statusCode = statusCode;
-        this.payload = JSON.stringify(this.generatePayload());
+        this.payload = JSON.stringify(this.jsonObject);
 
         this.name = "VCLError";
         Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
@@ -26,29 +29,35 @@ export default class VCLError extends Error {
 
     static fromPayload(payload: string): VCLError {
         const payloadJson = JSON.parse(payload);
+        return VCLError.fromJson(payloadJson);
+    }
+
+    static fromJson(payloadJson: Dictionary<any>): VCLError {
         const result = new VCLError(
             payloadJson?.[VCLError.KeyError] || null,
             payloadJson?.[VCLError.KeyErrorCode] || VCLErrorCode.SdkError.toString(),
+            payloadJson?.[VCLError.KeyRequestId] || null,
             payloadJson?.[VCLError.KeyMessage] || null,
             payloadJson?.[VCLError.KeyStatusCode] || null
         );
-        result.payload = payload;
+        result.payload = JSON.stringify(payloadJson);
 
         return result;
     }
 
     static fromError(
-        error: any,
+        error: Error | VCLError,
         statusCode: number | null = null
     ): VCLError {
         if (error instanceof VCLError) {
             return error;
         }
         return new VCLError(
-            error ? (error.error ? error.error : JSON.stringify(error)) : null,
+            JSON.stringify(error),
             VCLError.findErrorCode(error),
-            error ? error.message : null,
-            error ? (error.statusCode ?? statusCode) : statusCode,
+            null,
+            error.message,
+            statusCode
         );
     }
 
@@ -68,16 +77,8 @@ export default class VCLError extends Error {
         return {
             [VCLError.KeyPayload]: this.payload,
             [VCLError.KeyError]: this.error,
+            [VCLError.KeyRequestId]: this.requestId,
             [VCLError.KeyErrorCode]: (this.errorCode || VCLErrorCode.SdkError.toString()),
-            [VCLError.KeyMessage]: this.message,
-            [VCLError.KeyStatusCode]: this.statusCode,
-        };
-    }
-
-    private generatePayload(): Dictionary<any> {
-        return {
-            [VCLError.KeyError]: this.error,
-            [VCLError.KeyErrorCode]: this.errorCode,
             [VCLError.KeyMessage]: this.message,
             [VCLError.KeyStatusCode]: this.statusCode,
         };
@@ -86,6 +87,7 @@ export default class VCLError extends Error {
     static readonly KeyPayload: string = "payload";
     static readonly KeyError: string = "error";
     static readonly KeyErrorCode: string = "errorCode";
+    static readonly KeyRequestId: string = "requestId"
     static readonly KeyMessage: string = "message";
     static readonly KeyStatusCode: string = "statusCode";
 }

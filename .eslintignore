@@ -1,0 +1,14 @@
+node_modules/**
+packages/sdk/node_modules/**
+packages/sample-server/node_modules/**
+packages/sdk/dist/**
+dist/**
+babel.config.js
+setupJestAfterEnv.js
+.yarn/*
+package.json
+packages/sdk/package.json
+packages/sample-server/package.json
+packages/sample-app/package.json
+packages/sample-app/tsconfig.json
+packages/sample-app/public/*
