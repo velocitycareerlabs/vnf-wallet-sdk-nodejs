@@ -2,7 +2,7 @@
   "compilerOptions": {
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "module": "commonjs",
+    "module": "Node16",
     "esModuleInterop": true,
     "preserveConstEnums": true,
     "removeComments": true,
