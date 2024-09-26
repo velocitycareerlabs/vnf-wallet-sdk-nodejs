@@ -13,10 +13,10 @@
         "test": "jest"
     },
     "engines": {
-        "node": ">= 18.0.0"
+        "node": ">= 20.0.0"
     },
     "devDependencies": {
-        "@types/babel__core": "^7.20.1",
+        "@types/babel__core": "^7.20.5",
         "lerna": "^6.6.1"
     },
     "workspaces": [
