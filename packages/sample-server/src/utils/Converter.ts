@@ -30,7 +30,7 @@ import {
     VCLPresentationRequestDescriptor,
     VCLPresentationSubmission,
     VCLPublicJwk,
-    VCLServiceCredentialAgentIssuer,
+    VCLService,
     VCLSubmissionResult,
     VCLToken,
     VCLVerifiableCredential,
@@ -115,7 +115,7 @@ const credentialManifestDescriptorByDeepLinkFrom = (json: Dictionary<any>): VCLC
 
 const credentialManifestDescriptorByServiceFrom = (json: Dictionary<any>): VCLCredentialManifestDescriptorByService => {
     return new VCLCredentialManifestDescriptorByService(
-        new VCLServiceCredentialAgentIssuer(json.service),
+        new VCLService(json.service),
         issuingTypeFromString(json.issuingType),
         json.credentialTypes,
         null,

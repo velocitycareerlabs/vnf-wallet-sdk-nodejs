@@ -40,7 +40,6 @@ import VCLPresentationSubmission from "./api/entities/VCLPresentationSubmission"
 import VCLPublicJwk from "./api/entities/VCLPublicJwk";
 import VCLPushDelegate from "./api/entities/VCLPushDelegate";
 import VCLService from "./api/entities/VCLService";
-import VCLServiceCredentialAgentIssuer from "./api/entities/VCLServiceCredentialAgentIssuer";
 import VCLServiceType from "./api/entities/VCLServiceType";
 import VCLServiceTypes from "./api/entities/VCLServiceTypes";
 import { VCLIssuingType, issuingTypeFromString } from "./api/entities/VCLIssuingType";
@@ -115,7 +114,6 @@ export {
     VCLPublicJwk,
     VCLPushDelegate,
     VCLService,
-    VCLServiceCredentialAgentIssuer,
     VCLSubmissionResult,
     VCLToken,
     VCLVerifiableCredential,

@@ -1,16 +1,16 @@
 import { Dictionary } from "../VCLTypes";
-import VCLServiceCredentialAgentIssuer from "./VCLServiceCredentialAgentIssuer";
+import VCLService from "./VCLService";
 
 export default class VCLOrganization {
     TAG = VCLOrganization.name;
 
-    get serviceCredentialAgentIssuers(): VCLServiceCredentialAgentIssuer[] {
+    get serviceCredentialAgentIssuers(): VCLService[] {
         return this.parseServiceCredentialAgentIssuers();
     }
     constructor(public readonly payload: Dictionary<any>) {}
 
-    private parseServiceCredentialAgentIssuers(): VCLServiceCredentialAgentIssuer[] {
-        const result: VCLServiceCredentialAgentIssuer[] = [];
+    private parseServiceCredentialAgentIssuers(): VCLService[] {
+        const result: VCLService[] = [];
 
         try {
             const serviceJsonArr = (this.payload[VCLOrganization.KeyService] ??
@@ -19,7 +19,7 @@ export default class VCLOrganization {
                 for (const i in serviceJsonArr) {
                     const it = serviceJsonArr[i];
                     if (it) {
-                        result.push(new VCLServiceCredentialAgentIssuer(it));
+                        result.push(new VCLService(it));
                     }
                 }
             }
