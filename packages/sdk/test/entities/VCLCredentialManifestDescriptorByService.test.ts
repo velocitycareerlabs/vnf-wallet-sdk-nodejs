@@ -1,6 +1,6 @@
 import VCLCredentialManifestDescriptorByService from "../../src/api/entities/VCLCredentialManifestDescriptorByService";
 import { VCLIssuingType } from "../../src";
-import VCLServiceCredentialAgentIssuer from "../../src/api/entities/VCLServiceCredentialAgentIssuer";
+import VCLService from "../../src/api/entities/VCLService";
 import { CredentialManifestDescriptorMocks } from "../infrastructure/resources/valid/CredentialManifestDescriptorMocks";
 import { DidJwkMocks } from "../infrastructure/resources/valid/DidJwkMocks";
 
@@ -8,7 +8,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     let subject: VCLCredentialManifestDescriptorByService;
 
     test("testCredentialManifestDescriptorByServiceWithFullInput1Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
         subject = new VCLCredentialManifestDescriptorByService(
@@ -39,7 +39,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     });
 
     test("testCredentialManifestDescriptorByServiceWithFullInput2Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
         subject = new VCLCredentialManifestDescriptorByService(
@@ -70,7 +70,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     });
 
     test("testCredentialManifestDescriptorByServiceWithPartialInput3Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
         subject = new VCLCredentialManifestDescriptorByService(
@@ -97,7 +97,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     });
 
     test("testCredentialManifestDescriptorByServiceWithPartialInput4Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(
                 CredentialManifestDescriptorMocks.IssuingServiceWithParamJsonStr
             )
@@ -118,7 +118,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     });
 
     test("testCredentialManifestDescriptorByServiceWithPartialInput5Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(
                 CredentialManifestDescriptorMocks.IssuingServiceWithParamJsonStr
             )
@@ -139,7 +139,7 @@ describe("VCLCredentialManifestDescriptorByService Tests", () => {
     });
 
     test("testCredentialManifestDescriptorByServiceWithPartialInput6Success", () => {
-        const service = new VCLServiceCredentialAgentIssuer(
+        const service = new VCLService(
             JSON.parse(CredentialManifestDescriptorMocks.IssuingServiceJsonStr)
         );
         subject = new VCLCredentialManifestDescriptorByService(
