@@ -17,7 +17,7 @@
     },
     "devDependencies": {
         "@types/babel__core": "^7.20.5",
-        "lerna": "^6.6.1"
+        "lerna": "^8.0.0"
     },
     "workspaces": [
         "packages/*"
