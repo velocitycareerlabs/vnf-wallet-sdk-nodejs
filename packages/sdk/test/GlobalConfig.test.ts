@@ -57,10 +57,6 @@ describe('GlobalConfigTest', () => {
         expect(GlobalConfig.IsLoggerOn).toBeFalsy();
     });
 
-    it('should validate log tag prefix', async () => {
-        expect(GlobalConfig.LogTagPrefix).toBe('VCL ');
-    });
-
     afterEach(() => {
         // Tear down code here
     });

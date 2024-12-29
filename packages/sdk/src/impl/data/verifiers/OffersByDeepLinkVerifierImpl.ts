@@ -16,7 +16,7 @@ export default class OffersByDeepLinkVerifierImpl implements OffersByDeepLinkVer
         const mismatchedOffer = offers.all.find(offer => offer.issuerId !== deepLink.did);
 
         if (mismatchedOffer) {
-            VCLLog.e('', `mismatched offer: ${mismatchedOffer.payload} \ndeepLink: ${deepLink.value}`);
+            VCLLog.error(`mismatched offer: ${mismatchedOffer.payload} \ndeepLink: ${deepLink.value}`);
             throw new VCLError(null, VCLErrorCode.MismatchedOfferIssuerDid);
         } else {
             return true;

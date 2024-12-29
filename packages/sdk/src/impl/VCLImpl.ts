@@ -50,10 +50,10 @@ import CredentialTypesUIFormSchemaUseCase from "./domain/usecases/CredentialType
 import VCLDidJwkDescriptor from "../api/entities/VCLDidJwkDescriptor";
 import KeyServiceUseCase from "./domain/usecases/KeyServiceUseCase";
 import { Nullish } from "../api/VCLTypes";
+import fs from 'fs';
+import path from 'path';
 
 export class VCLImpl implements VCL {
-    static TAG = VCLImpl.name;
-
     static readonly ModelsToInitializeAmount = 3;
 
     credentialTypesModel: Nullish<CredentialTypesModel>;
@@ -101,6 +101,8 @@ export class VCLImpl implements VCL {
         );
 
         this.initGlobalConfigurations();
+
+        this.printVersion();
 
         const completionHandler = (e?: any) => {
             if (e) return e;
@@ -464,7 +466,9 @@ export class VCLImpl implements VCL {
     };
 
     printVersion(): void {
-        VCLLog.e('', "Method not implemented.");
+        const packageJsonPath = path.resolve(__dirname, '../../package.json');
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
+        VCLLog.log(`SDK version: ${packageJson.version}`);
     }
 
     private async invokeGenerateOffersUseCase(
@@ -484,5 +488,5 @@ export class VCLImpl implements VCL {
 }
 
 const logError = (message = "", error: VCLError) => {
-    VCLLog.e(VCLImpl.TAG, `${message}: ${JSON.stringify(error)}`);
+    VCLLog.error(message, error);
 };

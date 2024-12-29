@@ -19,7 +19,7 @@ export default class CredentialManifestByDeepLinkVerifierImpl implements Credent
         if (credentialManifest.issuerId === deepLink.did) {
             return true;
         } else {
-            VCLLog.e("", `credential manifest: ${credentialManifest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
+            VCLLog.error(`credential manifest: ${credentialManifest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
             throw new VCLError(null, VCLErrorCode.MismatchedRequestIssuerDid);
         }
     }

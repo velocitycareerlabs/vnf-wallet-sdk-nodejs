@@ -20,7 +20,7 @@ export default class VCLJwt {
                 )
             );
         } catch (e) {
-            VCLLog.e("VCLJwt", JSON.stringify(e));
+            VCLLog.error("VCLJwt", e);
         }
         return item;
     }

@@ -5,12 +5,11 @@ import VCLCredentialTypes from "../../../api/entities/VCLCredentialTypes";
 import CredentialTypeSchemaRepository from "../../domain/repositories/CredentialTypeSchemaRepository";
 import CredentialTypeSchemasUseCase from "../../domain/usecases/CredentialTypeSchemasUseCase";
 import VCLError from "../../../api/entities/error/VCLError";
+import VCLLog from "../../utils/VCLLog";
 
 export default class CredentialTypeSchemasUseCaseImpl
     implements CredentialTypeSchemasUseCase
 {
-    private static readonly TAG = CredentialTypeSchemasUseCaseImpl.name;
-
     constructor(
         private readonly credentialTypeSchemaRepository: CredentialTypeSchemaRepository,
         private readonly credentialTypes: VCLCredentialTypes
@@ -36,9 +35,7 @@ export default class CredentialTypeSchemasUseCaseImpl
                     credentialTypeSchemasMap[schemaName] =
                         await this.credentialTypeSchemaRepository.getCredentialTypeSchema(schemaName);
                 } catch (error: any) {
-                    console.error(
-                        `${CredentialTypeSchemasUseCaseImpl.TAG}: Error fetching schema for ${schemaName}: ${error}`
-                    );
+                    VCLLog.error(`Error fetching schema for ${schemaName}`, error);
                 }
             }
             return new VCLCredentialTypeSchemas(credentialTypeSchemasMap);
