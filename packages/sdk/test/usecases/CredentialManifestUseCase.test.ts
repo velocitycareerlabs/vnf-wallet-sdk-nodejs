@@ -56,7 +56,6 @@ describe("CredentialManifestUseCase Tests", () => {
             expect(credentialManifest?.didJwk).toStrictEqual(DidJwkMocks.DidJwk);
             expect(credentialManifest?.remoteCryptoServicesToken?.value).toBe("some token");
         } catch (error) {
-            console.log(error);
             expect(error).toBeNull();
         }
     });

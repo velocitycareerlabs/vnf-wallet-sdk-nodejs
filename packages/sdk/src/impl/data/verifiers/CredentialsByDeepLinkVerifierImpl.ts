@@ -19,7 +19,7 @@ export default class CredentialsByDeepLinkVerifierImpl implements CredentialsByD
         const mismatchedCredential = jwtCredentials.find(credential => credential.iss !== deepLink.did);
 
         if (mismatchedCredential) {
-            VCLLog.e('', `mismatched credential: ${mismatchedCredential.encodedJwt} \ndeepLink: ${deepLink.value}`);
+            VCLLog.error(`mismatched credential: ${mismatchedCredential.encodedJwt} \ndeepLink: ${deepLink.value}`);
             throw new VCLError(null, VCLErrorCode.MismatchedCredentialIssuerDid);
         } else {
             return true;

@@ -21,7 +21,7 @@ async function fetcher<T, R>(config: FetcherConfig<T>): Promise<R> {
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            console.error('Axios error:', error.message);
+            console.error('Axios error:', error);
             throw error;
         } else {
             console.error('Unexpected error:', error);

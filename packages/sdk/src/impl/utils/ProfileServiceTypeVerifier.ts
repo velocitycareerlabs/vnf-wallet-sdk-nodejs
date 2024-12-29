@@ -6,6 +6,7 @@ import VCLVerifiedProfileDescriptor from "../../api/entities/VCLVerifiedProfileD
 import VerifiedProfileUseCase from "../domain/usecases/VerifiedProfileUseCase";
 import VCLErrorCode from "../../api/entities/error/VCLErrorCode";
 import { Dictionary, Nullish } from "../../api/VCLTypes";
+import VCLLog from "./VCLLog";
 
 export class ProfileServiceTypeVerifier {
     constructor(
@@ -36,7 +37,7 @@ export class ProfileServiceTypeVerifier {
             }
             return JSON.stringify(jsonObject);
         } catch (e) {
-            console.error(e);
+            VCLLog.error(e);
         }
         return `${profileName} ${message}`;
     }

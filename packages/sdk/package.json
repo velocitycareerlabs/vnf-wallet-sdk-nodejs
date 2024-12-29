@@ -18,10 +18,11 @@
         "node": ">= 20.0.0"
     },
     "dependencies": {
-        "@velocitycareerlabs/vc-checks": "1.23.0",
-        "canonicalize": "~2.0.0",
-        "jose": "~5.9.3",
-        "lodash": "~4.17.21"
+        "@types/lodash": "^4.17.13",
+        "@velocitycareerlabs/vc-checks": "1.23.1",
+        "canonicalize": "^2.0.0",
+        "jose": "^5.9.6",
+        "lodash": "^4.17.21"
     },
     "devDependencies": {
         "@jest/globals": "~29.7.0",

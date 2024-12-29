@@ -19,7 +19,7 @@ export default class PresentationRequestByDeepLinkVerifierImpl implements Presen
         if (presentationRequest.iss === deepLink.did) {
             return true;
         } else {
-            VCLLog.e('', `presentation request: ${presentationRequest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
+            VCLLog.error(`presentation request: ${presentationRequest.jwt.encodedJwt} \ndeepLink: ${deepLink.value}`);
             throw new VCLError(null, VCLErrorCode.MismatchedPresentationRequestInspectorDid);
         }
     }

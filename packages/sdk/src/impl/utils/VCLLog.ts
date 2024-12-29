@@ -1,50 +1,33 @@
-import { Nullish } from "../../api/VCLTypes";
 import GlobalConfig from "../GlobalConfig";
 
 export default class VCLLog {
-    static readonly format = "%s/%s: %s";
-    static v(tag: Nullish<string>, msg: string) {
+    static log(...params: any) {
         GlobalConfig.IsLoggerOn &&
-            console.log(this.format, "V", GlobalConfig.LogTagPrefix + tag, msg);
+            console.log(VCLLog.flatStringify(params));
     }
 
-    static d(tag: Nullish<string>, msg: string) {
+    static debug(...params: any) {
         GlobalConfig.IsLoggerOn &&
-            console.debug(
-                this.format,
-                "D",
-                GlobalConfig.LogTagPrefix + tag,
-                msg
-            );
+            console.debug(VCLLog.flatStringify(params));
     }
 
-    static i(tag: Nullish<string>, msg: string) {
+    static info(...params: any) {
         GlobalConfig.IsLoggerOn &&
-            console.info(
-                this.format,
-                "I",
-                GlobalConfig.LogTagPrefix + tag,
-                msg
-            );
+            console.info(VCLLog.flatStringify(params));
     }
 
-    static w(tag: Nullish<string>, msg: string) {
+    static warn(...params: any) {
         GlobalConfig.IsLoggerOn &&
-            console.warn(
-                this.format,
-                "W",
-                GlobalConfig.LogTagPrefix + tag,
-                msg
-            );
+            console.warn(VCLLog.flatStringify(params));
     }
 
-    static e(tag: Nullish<string>, msg: string) {
-        GlobalConfig.IsLoggerOn &&
-            console.error(
-                this.format,
-                "E",
-                GlobalConfig.LogTagPrefix + tag,
-                msg
-            );
+    static error(...params: any) {
+        // always log errors
+        // tslint:disable-next-line:no-console
+            console.error(VCLLog.flatStringify(params));
+    }
+
+    private static flatStringify(obj: any): string {
+        return JSON.stringify(obj).replace(/[\r\n]+/g, ' ');
     }
 }

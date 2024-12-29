@@ -22,7 +22,7 @@ export const getQueryParamsFromString = (srcStr: string): Map<string, string> =>
             result.set(key, value);
         }
     } catch (error) {
-        VCLLog.e('', JSON.stringify(error));
+        VCLLog.error(error);
     }
 
     return result;

@@ -7,8 +7,6 @@ import axios, { AxiosResponse } from "axios";
 // TODO: implement response caching
 
 export default class NetworkServiceImpl implements NetworkService {
-    static TAG = NetworkServiceImpl.name;
-
     async sendRequestRaw(params: Request): Promise<Response> {
         let handler: () => Nullish<Promise<AxiosResponse<any, any>>> = () => {
             return null;
@@ -61,9 +59,6 @@ export default class NetworkServiceImpl implements NetworkService {
         const bodyLog = request.body
             ? `\nRequest Body: ${JSON.stringify(request.body)}`
             : "\n";
-        VCLLog.d(
-            NetworkServiceImpl.TAG,
-            `${methodLog}${endpointLog}${bodyLog}`
-        );
+        VCLLog.debug(`${methodLog}${endpointLog}${bodyLog}`);
     }
 }

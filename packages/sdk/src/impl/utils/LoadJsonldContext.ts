@@ -41,7 +41,7 @@ export const loadJsonldContext = async (
                 });
                 return response.payload
             } catch (error) {
-                VCLLog.e(`Failed to load JSON-LD context from ${jsonldContextUrl}`, JSON.stringify(error));
+                VCLLog.error(`Failed to load JSON-LD context from ${jsonldContextUrl}`, error);
                 return null;
             }
         });

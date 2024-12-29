@@ -1,5 +1,6 @@
 import { Dictionary } from "../VCLTypes";
 import VCLService from "./VCLService";
+import VCLLog from "../../impl/utils/VCLLog";
 
 export default class VCLOrganization {
     TAG = VCLOrganization.name;
@@ -24,8 +25,7 @@ export default class VCLOrganization {
                 }
             }
         } catch (error) {
-            // TODO: add log
-            console.log("Error while parsing service credential agent issuers");
+            VCLLog.log("Error while parsing service credential agent issuers", error);
         }
 
         return result;
