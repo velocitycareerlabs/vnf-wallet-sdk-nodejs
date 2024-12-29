@@ -3375,7 +3375,7 @@
 
 "@velocitycareerlabs/crypto@1.23.1":
   version "1.23.1"
-  resolved "https://npm.pkg.github.com/download/@velocitycareerlabs/crypto/1.23.1/c5cd85d67cc1196bfb6b00fb9ea4a87c03ca313b#c5cd85d67cc1196bfb6b00fb9ea4a87c03ca313b"
+  resolved "https://registry.yarnpkg.com/@velocitycareerlabs/crypto/-/crypto-1.23.1.tgz#c5cd85d67cc1196bfb6b00fb9ea4a87c03ca313b"
   integrity sha512-FjRWag20eVIgM2ReJYOLl/KqfYQsjOLqOh0AJ8o0Q9qSGtGkDW3DSKKaujSO1ZkcvirVD0OcnEdMXOqt+BMGmg==
   dependencies:
     "@trust/keyto" "~2.0.0-alpha1"
@@ -3388,7 +3388,7 @@
 
 "@velocitycareerlabs/jwt@1.23.1":
   version "1.23.1"
-  resolved "https://npm.pkg.github.com/download/@velocitycareerlabs/jwt/1.23.1/e86a107787b80bfd0566c2848089a2b371889f9b#e86a107787b80bfd0566c2848089a2b371889f9b"
+  resolved "https://registry.yarnpkg.com/@velocitycareerlabs/jwt/-/jwt-1.23.1.tgz#e86a107787b80bfd0566c2848089a2b371889f9b"
   integrity sha512-1qNd8JVguKlbbGj2AxWFwRgjReoFLn4+pg4MdvHhunRE07aRuFix/+5TC/och8vCFR3fOQ2kjJwWr62tS+0C0Q==
   dependencies:
     "@trust/keyto" "~2.0.0-alpha1"
@@ -3399,7 +3399,7 @@
 
 "@velocitycareerlabs/organizations-registry@1.23.1":
   version "1.23.1"
-  resolved "https://npm.pkg.github.com/download/@velocitycareerlabs/organizations-registry/1.23.1/8c6ac03f910bce3fff70b4a362d13c693b9735ab#8c6ac03f910bce3fff70b4a362d13c693b9735ab"
+  resolved "https://registry.yarnpkg.com/@velocitycareerlabs/organizations-registry/-/organizations-registry-1.23.1.tgz#8c6ac03f910bce3fff70b4a362d13c693b9735ab"
   integrity sha512-2RlBmMouyci/vcOlPHZOSZQba0dUjpU7FZiQkVUczxlc22lw4SGZS+g57ehMuRVJ0K4pnGa3tL51R6eyv8W4TA==
   dependencies:
     "@decentralized-identity/ion-tools" "1.1.4"
@@ -3410,12 +3410,12 @@
 
 "@velocitycareerlabs/test-regexes@1.23.1":
   version "1.23.1"
-  resolved "https://npm.pkg.github.com/download/@velocitycareerlabs/test-regexes/1.23.1/4bf42cea4a151e28325117572469283301b10da1#4bf42cea4a151e28325117572469283301b10da1"
+  resolved "https://registry.yarnpkg.com/@velocitycareerlabs/test-regexes/-/test-regexes-1.23.1.tgz#4bf42cea4a151e28325117572469283301b10da1"
   integrity sha512-DbG2MaQdP22fAgJvAFp1yqaZkz2ykyKFaSAqvU5QK4CqAMpc5HcmB2mM2e53MxiuTscx7//KMdswcFgAqzu9Yg==
 
 "@velocitycareerlabs/vc-checks@1.23.1":
   version "1.23.1"
-  resolved "https://npm.pkg.github.com/download/@velocitycareerlabs/vc-checks/1.23.1/ad6e06f3ff6736e3068f95ea60e5dbb717570631#ad6e06f3ff6736e3068f95ea60e5dbb717570631"
+  resolved "https://registry.yarnpkg.com/@velocitycareerlabs/vc-checks/-/vc-checks-1.23.1.tgz#ad6e06f3ff6736e3068f95ea60e5dbb717570631"
   integrity sha512-A5+qxn6HEpCrIZcqEOMfEZSxdkRjIxhB1RHTTFYQyT13ptNy1+JLuJ23S025CAd7vQzg63bob5sC+uWC8LcTXg==
   dependencies:
     "@velocitycareerlabs/jwt" "1.23.1"
