@@ -1,9 +1,20 @@
 {
   "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "dom",
+      "es6",
+      "ES2022",
+      "dom.iterable",
+      "esnext"
+    ],
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "Node16",
-    "esModuleInterop": true,
     "preserveConstEnums": true,
     "removeComments": true,
     "rootDir": "src",
@@ -13,18 +24,8 @@
     "resolveJsonModule": true,
     "noImplicitAny": false,
     "sourceMap": true,
-    "strict": true,
-    "target": "ES6",
-    "moduleResolution": "node16",
     "downlevelIteration": true,
     "declaration": true,
-    "lib": [
-      "ES6",
-      "ES2022",
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
