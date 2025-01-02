@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "module": "Node16",
+    "esModuleInterop": true,
     "preserveConstEnums": true,
     "removeComments": true,
     "rootDir": "src",
