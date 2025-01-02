@@ -22,6 +22,7 @@ const initialize = (app) => {
       app.register(vclSdkPlugin)
       app.register(cors);
 
+    // eslint-disable-next-line unused-imports/no-unused-vars,no-unused-vars
       app.listen({ port: 5000, host: "0.0.0.0" }, (err, address) => {
         if (err) {
           console.error(err);

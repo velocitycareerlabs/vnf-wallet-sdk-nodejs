@@ -8,8 +8,6 @@
     "react-scripts": "^5.0.1"
   },
   "devDependencies": {
-    "@babel/plugin-syntax-flow": "^7.26.0",
-    "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
