@@ -118,21 +118,12 @@ describe("FinalizeOffersUseCase Tests", () => {
             new CredentialsByDeepLinkVerifierImpl(),
         );
 
-        const finalizeOffers =
+        try {
             await subject1.finalizeOffers(finalizeOffersDescriptorFailed, new VCLToken(""));
-
-        expect(finalizeOffers.failedCredentials.length).toBe(credentialsAmount);
-        expect(
-            finalizeOffers.failedCredentials.some(cred =>
-                cred.encodedJwt === CredentialMocks.JwtCredentialEducationDegreeRegistrationFromRegularIssuer
-            )
-        ).toBe(true);
-        expect(
-            finalizeOffers.failedCredentials.some(cred =>
-                cred.encodedJwt === CredentialMocks.JwtCredentialEmploymentPastFromRegularIssuer
-            )
-        ).toBe(true);
-        expect(finalizeOffers.passedCredentials.length).toBe(0);
+            expect(true).toBe(false);
+        } catch (error: any) {
+            expect(error.errorCode).toBe(VCLErrorCode.IssuerRequiresNotaryPermission);
+        }
     });
 
     test('testPassedCredentials', async () => {

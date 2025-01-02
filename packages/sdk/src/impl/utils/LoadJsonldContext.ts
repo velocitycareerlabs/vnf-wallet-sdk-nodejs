@@ -21,11 +21,8 @@ export const loadJsonldContext = async (
     issuerVcPayload: Dictionary<any>, // Consider defining a more specific type
     networkService: NetworkService
 ): Promise<any> => {
-    if (issuerVcPayload.credentialSubject && issuerVcPayload.credentialSubject['@context']) {
-        const extractedContexts = isArray(issuerVcPayload.credentialSubject['@context'])
-            ? issuerVcPayload.credentialSubject['@context']
-            : [issuerVcPayload.credentialSubject['@context']];
-
+    const extractedContexts = extractContexts(issuerVcPayload) || extractContexts(issuerVcPayload.credentialSubject);
+    if (extractedContexts) {
         const jsonldContextPromises = extractedContexts
             .map(async (jsonldContextUrl: string) => {
             try {
@@ -60,3 +57,10 @@ export const loadJsonldContext = async (
         throw new VCLError('credentialSubject[@context] is NULL', VCLErrorCode.InvalidCredentialSubjectContext);
     }
 };
+
+const extractContexts = (payload: Dictionary<any>): string[] | null => {
+    if (payload && payload['@context']) {
+        return isArray(payload['@context']) ? payload['@context'] : [payload['@context']];
+    }
+    return null;
+}
