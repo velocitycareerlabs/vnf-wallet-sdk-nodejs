@@ -1,13 +1,7 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": [
-      "dom",
-      "es6",
-      "ES2022",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "es6"],
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
