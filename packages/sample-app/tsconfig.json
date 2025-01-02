@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "es6"],
     "strict": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -20,6 +19,13 @@
     "sourceMap": true,
     "downlevelIteration": true,
     "declaration": true,
+    "lib": [
+      "ES6",
+      "ES2022",
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
