@@ -55,6 +55,7 @@ import VCLDidJwk from "./api/entities/VCLDidJwk";
 import VCLError from "./api/entities/error/VCLError";
 import VCLStatusCode from "./api/entities/error/VCLStatusCode";
 import VCLErrorCode from "./api/entities/error/VCLErrorCode";
+import VCLLogService from "./api/entities/initialization/VCLLogService";
 import type { Nullish, Dictionary } from "./api/VCLTypes";
 
 export type {
@@ -64,6 +65,7 @@ export type {
     VCLJwtVerifyService,
     Nullish,
     Dictionary,
+    VCLLogService
 };
 
 export {
@@ -107,7 +109,7 @@ export {
     VCLOrganization,
     VCLOrganizations,
     VCLOrganizationsSearchDescriptor,
-    VCLFilter, 
+    VCLFilter,
     VCLPage,
     VCLPresentationRequest,
     VCLPresentationSubmission,

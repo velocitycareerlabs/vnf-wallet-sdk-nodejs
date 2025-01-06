@@ -163,6 +163,7 @@ export class VCLImpl implements VCL {
     private initGlobalConfigurations() {
         GlobalConfig.CurrentEnvironment = this.initializationDescriptor.environment
         GlobalConfig.XVnfProtocolVersion = this.initializationDescriptor.xVnfProtocolVersion
+        GlobalConfig.LoggerService = this.initializationDescriptor.loggerService
     }
 
     private initializeUseCases() {
@@ -468,7 +469,7 @@ export class VCLImpl implements VCL {
     printVersion(): void {
         const packageJsonPath = path.resolve(__dirname, '../../package.json');
         const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-        VCLLog.log(`SDK version: ${packageJson.version}`);
+        VCLLog.info(`SDK version: ${packageJson.version}`);
     }
 
     private async invokeGenerateOffersUseCase(
