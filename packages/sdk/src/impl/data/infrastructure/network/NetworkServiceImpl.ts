@@ -42,23 +42,12 @@ export default class NetworkServiceImpl implements NetworkService {
         }
     }
 
-    async sendRequest(params: {
-        endpoint: string;
-        body: Nullish<any>;
-        contentType: Nullish<string>;
-        method: HttpMethod;
-        headers: any;
-        useCaches: boolean;
-    }): Promise<Response> {
+    async sendRequest(params: Request): Promise<Response> {
+        // this.logRequest(params);
         return this.sendRequestRaw(params);
     }
 
     logRequest(request: Request) {
-        const methodLog = `Request Method: ${request.method}`;
-        const endpointLog = `\nRequest Endpoint: ${request.endpoint}`;
-        const bodyLog = request.body
-            ? `\nRequest Body: ${JSON.stringify(request.body)}`
-            : "\n";
-        VCLLog.debug(`${methodLog}${endpointLog}${bodyLog}`);
+        VCLLog.debug('Request', request);
     }
 }

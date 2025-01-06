@@ -25,7 +25,7 @@ export default class VCLOrganization {
                 }
             }
         } catch (error) {
-            VCLLog.log("Error while parsing service credential agent issuers", error);
+            VCLLog.error("Error while parsing service credential agent issuers", error);
         }
 
         return result;

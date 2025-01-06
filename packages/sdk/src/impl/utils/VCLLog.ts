@@ -1,33 +1,29 @@
 import GlobalConfig from "../GlobalConfig";
+import VCLLogService from "../../api/entities/initialization/VCLLogService";
+import pino from "pino";
 
 export default class VCLLog {
-    static log(...params: any) {
-        GlobalConfig.IsLoggerOn &&
-            console.log(VCLLog.flatStringify(params));
+
+    private static _LoggerService: VCLLogService = pino();
+    static get LoggerService(): VCLLogService {
+        return this._LoggerService;
+    }
+    static set LoggerService(value: VCLLogService) {
+        this._LoggerService = value;
     }
 
-    static debug(...params: any) {
-        GlobalConfig.IsLoggerOn &&
-            console.debug(VCLLog.flatStringify(params));
+    static info(...params: any): void {
+        GlobalConfig.IsLoggerOn && this.LoggerService.info(params);
     }
-
-    static info(...params: any) {
-        GlobalConfig.IsLoggerOn &&
-            console.info(VCLLog.flatStringify(params));
+    static debug(...params: any): void {
+        GlobalConfig.IsLoggerOn && this.LoggerService.debug(params);
     }
-
-    static warn(...params: any) {
-        GlobalConfig.IsLoggerOn &&
-            console.warn(VCLLog.flatStringify(params));
+    static warn(...params: any): void {
+        GlobalConfig.IsLoggerOn && this.LoggerService.warn(params);
     }
-
-    static error(...params: any) {
+    static error(...params: any): void {
         // always log errors
         // tslint:disable-next-line:no-console
-            console.error(VCLLog.flatStringify(params));
-    }
-
-    private static flatStringify(obj: any): string {
-        return JSON.stringify(obj).replace(/[\r\n]+/g, ' ');
+        this.LoggerService.error(params);
     }
 }
