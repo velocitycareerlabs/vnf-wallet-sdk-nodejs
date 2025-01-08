@@ -9,6 +9,6 @@ export default class VCLInitializationDescriptor {
         public readonly environment: VCLEnvironment = VCLEnvironment.Prod,
         public readonly xVnfProtocolVersion: VCLXVnfProtocolVersion = VCLXVnfProtocolVersion.XVnfProtocolVersion1,
         public readonly cryptoServicesDescriptor: VCLCryptoServicesDescriptor,
-        public readonly loggerService: VCLLogService = pino()
+        public readonly logService: VCLLogService = pino()
     ) {}
 }

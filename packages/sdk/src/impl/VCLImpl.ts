@@ -163,7 +163,7 @@ export class VCLImpl implements VCL {
     private initGlobalConfigurations() {
         GlobalConfig.CurrentEnvironment = this.initializationDescriptor.environment
         GlobalConfig.XVnfProtocolVersion = this.initializationDescriptor.xVnfProtocolVersion
-        GlobalConfig.LoggerService = this.initializationDescriptor.loggerService
+        GlobalConfig.logService = this.initializationDescriptor.logService
     }
 
     private initializeUseCases() {

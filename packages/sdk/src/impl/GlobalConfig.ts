@@ -36,7 +36,7 @@ export default class GlobalConfig {
         this._IsDirectIssuerOn = value;
     }
 
-    public static set LoggerService(value: VCLLogService) {
+    public static set logService(value: VCLLogService) {
         VCLLog.LoggerService = value;
     }
 
