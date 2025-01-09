@@ -1,5 +1,5 @@
 import GlobalConfig from "../GlobalConfig";
-import VCLLogService from "../../api/entities/initialization/VCLLogService";
+import VCLLogService, { LogFn } from "../../api/entities/initialization/VCLLogService";
 import pino from "pino";
 
 export default class VCLLog {
@@ -11,14 +11,14 @@ export default class VCLLog {
     static set LoggerService(value: VCLLogService) {
         this._LoggerService = value;
     }
-    static error(...params: any): void {
+    static error: LogFn = (obj: any, msg?: string, ...args: any[]) => {
         // always log errors
-        this.LoggerService.error(params);
+        this.LoggerService.error(obj, msg, ...args);
     }
-    static warn(...params: any): void {
-        GlobalConfig.IsLoggerOn && this.LoggerService.warn(params);
+    static warn: LogFn = (obj: any, msg?: string, ...args: any[]) => {
+        GlobalConfig.IsLoggerOn && this.LoggerService.warn(obj, msg, ...args);
     }
-    static info(...params: any): void {
-        GlobalConfig.IsLoggerOn && this.LoggerService.info(params);
+    static info: LogFn = (obj: any, msg?: string, ...args: any[]) => {
+        GlobalConfig.IsLoggerOn && this.LoggerService.info(obj, msg, ...args);
     }
 }
