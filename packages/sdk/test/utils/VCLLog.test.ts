@@ -29,36 +29,36 @@ describe('VCLLog', () => {
 
     describe('error()', () => {
         it('should always call LoggerService.error', () => {
-            VCLLog.error('Error message');
+            VCLLog.error({error: 'obj'}, 'Error message', 'arg1', 'arg2');
             expect(mockLoggerService.error).toHaveBeenCalledTimes(1);
-            expect(mockLoggerService.error).toHaveBeenCalledWith(['Error message']);
+            expect(mockLoggerService.error).toHaveBeenCalledWith({error: 'obj'}, 'Error message', 'arg1', 'arg2');
         });
     });
 
     describe('warn()', () => {
         it('should call LoggerService.warn if IsLoggerOn is true', () => {
-            VCLLog.warn('Warn message');
+            VCLLog.warn({warn: 'obj'}, 'Warn message', 'arg1', 'arg2');
             expect(mockLoggerService.warn).toHaveBeenCalledTimes(1);
-            expect(mockLoggerService.warn).toHaveBeenCalledWith(['Warn message']);
+            expect(mockLoggerService.warn).toHaveBeenCalledWith({warn: 'obj'}, 'Warn message', 'arg1', 'arg2');
         });
 
         it('should not call LoggerService.warn if IsLoggerOn is false', () => {
             GlobalConfig.IsDebugOn = false;
-            VCLLog.warn('Warn message');
+            VCLLog.warn({warn: 'obj'}, 'Warn message', 'arg1', 'arg2');
             expect(mockLoggerService.warn).not.toHaveBeenCalled();
         });
     });
 
     describe('info()', () => {
         it('should call LoggerService.info if IsLoggerOn is true', () => {
-            VCLLog.info('Info message');
+            VCLLog.info({info: 'obj'}, 'Info message', 'arg1', 'arg2');
             expect(mockLoggerService.info).toHaveBeenCalledTimes(1);
-            expect(mockLoggerService.info).toHaveBeenCalledWith(['Info message']);
+            expect(mockLoggerService.info).toHaveBeenCalledWith({info: 'obj'}, 'Info message', 'arg1', 'arg2');
         });
 
         it('should not call LoggerService.info if IsLoggerOn is false', () => {
             GlobalConfig.IsDebugOn = false;
-            VCLLog.info('Info message');
+            VCLLog.info({info: 'obj'}, 'Info message', 'arg1', 'arg2');
             expect(mockLoggerService.info).not.toHaveBeenCalled();
         });
     });

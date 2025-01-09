@@ -31,7 +31,7 @@ export default interface VCLLogService {
     info: LogFn;
 }
 
-interface LogFn {
+export interface LogFn {
     <T extends object>(obj: T, msg?: string, ...args: any[]): void;
     (obj: unknown, msg?: string, ...args: any[]): void;
     (msg: string, ...args: any[]): void;
