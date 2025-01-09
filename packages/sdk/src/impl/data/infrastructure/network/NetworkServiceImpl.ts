@@ -48,6 +48,6 @@ export default class NetworkServiceImpl implements NetworkService {
     }
 
     logRequest(request: Request) {
-        VCLLog.debug('Request', request);
+        VCLLog.info('Request', request);
     }
 }

@@ -11,19 +11,14 @@ export default class VCLLog {
     static set LoggerService(value: VCLLogService) {
         this._LoggerService = value;
     }
-
-    static info(...params: any): void {
-        GlobalConfig.IsLoggerOn && this.LoggerService.info(params);
-    }
-    static debug(...params: any): void {
-        GlobalConfig.IsLoggerOn && this.LoggerService.debug(params);
+    static error(...params: any): void {
+        // always log errors
+        this.LoggerService.error(params);
     }
     static warn(...params: any): void {
         GlobalConfig.IsLoggerOn && this.LoggerService.warn(params);
     }
-    static error(...params: any): void {
-        // always log errors
-        // tslint:disable-next-line:no-console
-        this.LoggerService.error(params);
+    static info(...params: any): void {
+        GlobalConfig.IsLoggerOn && this.LoggerService.info(params);
     }
 }
