@@ -1,6 +1,6 @@
 import VCLEnvironment from "../api/VCLEnvironment";
 import VCLXVnfProtocolVersion from "../api/VCLXVnfProtocolVersion";
-import VCLLogService from "../api/entities/initialization/VCLLogService";
+import { VCLLogService } from "../api/entities/initialization/VCLLogService";
 import VCLLog from "./utils/VCLLog";
 
 export default class GlobalConfig {
