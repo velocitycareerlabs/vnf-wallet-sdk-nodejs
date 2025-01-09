@@ -1,5 +1,5 @@
 import GlobalConfig from "../GlobalConfig";
-import VCLLogService, { LogFn } from "../../api/entities/initialization/VCLLogService";
+import { VCLLogService, LogFn } from "../../api/entities/initialization/VCLLogService";
 import pino from "pino";
 
 export default class VCLLog {

@@ -1,7 +1,7 @@
 import VCLEnvironment from "../../VCLEnvironment";
 import VCLCryptoServicesDescriptor from "./VCLCryptoServicesDescriptor";
 import VCLXVnfProtocolVersion from "../../VCLXVnfProtocolVersion";
-import VCLLogService from "./VCLLogService";
+import { VCLLogService } from "./VCLLogService";
 import pino from "pino";
 
 export default class VCLInitializationDescriptor {
