@@ -55,9 +55,9 @@ export default class CredentialManifestUseCaseImpl
                 credentialManifest,
                 credentialManifest.deepLink!
             )
-            VCLLog.debug(`Credential manifest deep link verification result: ${isVerified}`)
+            VCLLog.info(`Credential manifest deep link verification result: ${isVerified}`)
         } else {
-            VCLLog.debug("Deep link was not provided => nothing to verify")
+            VCLLog.info("Deep link was not provided => nothing to verify")
         }
         return this.onCredentialManifestDidVerificationSuccess(credentialManifest);
     }

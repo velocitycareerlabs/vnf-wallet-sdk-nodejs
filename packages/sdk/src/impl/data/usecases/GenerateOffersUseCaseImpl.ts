@@ -36,9 +36,9 @@ export default class GenerateOffersUseCaseImpl
                 offers,
                 generateOffersDescriptor.credentialManifest.deepLink
             )
-            VCLLog.debug(`Offers deep link verification result: ${isVerified}`)
+            VCLLog.info(`Offers deep link verification result: ${isVerified}`)
         } else {
-            VCLLog.debug("Deep link was not provided => nothing to verify")
+            VCLLog.info("Deep link was not provided => nothing to verify")
         }
         return offers;
     }
