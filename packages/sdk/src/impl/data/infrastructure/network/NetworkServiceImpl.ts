@@ -43,11 +43,11 @@ export default class NetworkServiceImpl implements NetworkService {
     }
 
     async sendRequest(params: Request): Promise<Response> {
-        // this.logRequest(params);
+        this.logRequest(params);
         return this.sendRequestRaw(params);
     }
 
     logRequest(request: Request) {
-        VCLLog.info('Request', request);
+        VCLLog.info(request, 'Network request');
     }
 }

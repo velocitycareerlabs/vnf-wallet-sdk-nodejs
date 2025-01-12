@@ -20,7 +20,7 @@ export default class VCLJwt {
                 )
             );
         } catch (e) {
-            VCLLog.error("VCLJwt", e);
+            VCLLog.error(e);
         }
         return item;
     }

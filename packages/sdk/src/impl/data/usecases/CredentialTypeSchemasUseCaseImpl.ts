@@ -35,7 +35,7 @@ export default class CredentialTypeSchemasUseCaseImpl
                     credentialTypeSchemasMap[schemaName] =
                         await this.credentialTypeSchemaRepository.getCredentialTypeSchema(schemaName);
                 } catch (error: any) {
-                    VCLLog.error(`Error fetching schema for ${schemaName}`, error);
+                    VCLLog.error(error, `Error fetching schema for ${schemaName}`);
                 }
             }
             return new VCLCredentialTypeSchemas(credentialTypeSchemasMap);

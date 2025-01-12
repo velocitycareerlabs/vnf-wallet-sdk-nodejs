@@ -489,5 +489,5 @@ export class VCLImpl implements VCL {
 }
 
 const logError = (message = "", error: VCLError) => {
-    VCLLog.error(message, error);
+    VCLLog.error(error, message);
 };
