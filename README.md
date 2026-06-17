@@ -1,3 +1,11 @@
+> # ⚠️ This repository has moved — archived & read-only
+>
+> The maintained Node.js Wallet SDK now lives in **[LFDT-Verii/core](https://github.com/LFDT-Verii/core)**, under `packages/vnf-wallet-sdk-nodejs`.
+>
+> This repository is a **stale fork** kept for historical reference only. It predates the unified error taxonomy (and other current functionality) and is no longer maintained. Please file all issues, pull requests, and new work against **[LFDT-Verii/core](https://github.com/LFDT-Verii/core)**.
+
+---
+
 ## VNF Wallet SDK NodeJs
 
 This is a simple, opinionated monorepo for the SDK
